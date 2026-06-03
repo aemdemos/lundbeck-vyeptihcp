@@ -33,8 +33,9 @@ main .columns h3 {
 }
 
 main .columns > div > div {
-  border-left: 3px solid var(--link-color);
+  border-left: 30px solid var(--link-color);
   padding-left: 1.25rem;
+  color: var(--primary-cta-color);
 }
 
 /* Compiled from blocks/form/th-northera-form.css */
