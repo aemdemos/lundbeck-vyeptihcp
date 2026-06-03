@@ -1,0 +1,9 @@
+main .carousel .carousel-slide-indicators button {
+  background-color: var(--primary-cta-color);
+  opacity: 0.45;
+}
+
+main .carousel .carousel-slide-indicators button.selected {
+  background-color: var(--primary-cta-color);
+  opacity: 1;
+}

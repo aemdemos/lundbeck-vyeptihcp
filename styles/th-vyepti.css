@@ -1,0 +1,45 @@
+/* Theme overrides for vyepti. Auto-generated from block-level th-vyepti-<blockname>.css sources — do not edit; regenerated on commit. */
+
+/* Compiled from blocks/accordion/th-vyepti-accordion.css */
+
+main .accordion > ul > li {
+  border-color: var(--primary-cta-color);
+}
+
+main .accordion .accordion-item-label {
+  color: var(--heading-color);
+}
+
+/* Compiled from blocks/carousel/th-vyepti-carousel.css */
+
+main .carousel .carousel-slide-indicators button {
+  background-color: var(--primary-cta-color);
+  opacity: 0.45;
+}
+
+main .carousel .carousel-slide-indicators button.selected {
+  background-color: var(--primary-cta-color);
+  opacity: 1;
+}
+
+/* Compiled from blocks/columns/th-vyepti-columns.css */
+
+main .columns > div {
+  gap: 2rem;
+}
+
+main .columns h2,
+main .columns h3 {
+  color: var(--heading-color);
+}
+
+/* Compiled from blocks/hero/th-vyepti-hero.css */
+
+main .hero h1 {
+  color: var(--background-color);
+  text-shadow: 0 2px 8px rgb(0 0 0 / 35%);
+}
+
+main .hero .button {
+  background-color: var(--primary-cta-color);
+}

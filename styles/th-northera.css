@@ -1,0 +1,44 @@
+/* Theme overrides for northera. Auto-generated from block-level th-northera-<blockname>.css sources — do not edit; regenerated on commit. */
+
+/* Compiled from blocks/cards/th-northera-cards.css */
+
+main .cards > ul > li {
+  border-color: var(--link-color);
+  border-radius: 8px;
+}
+
+main .cards .cards-card-body h3 {
+  color: var(--heading-color);
+}
+
+/* Compiled from blocks/carousel/th-northera-carousel.css */
+
+main .carousel .carousel-slide-indicators button {
+  background-color: var(--link-color);
+}
+
+main .carousel .carousel-slide-indicators button.selected {
+  background-color: var(--primary-cta-color);
+}
+
+/* Compiled from blocks/form/th-northera-form.css */
+
+main .form form input,
+main .form form textarea,
+main .form form select {
+  border-color: var(--link-color);
+}
+
+main .form form button {
+  background-color: var(--primary-cta-color);
+}
+
+/* Compiled from blocks/header/th-northera-header.css */
+
+header .nav-brand img {
+  max-height: 48px;
+}
+
+header nav .nav-sections a:hover {
+  color: var(--link-hover-color);
+}

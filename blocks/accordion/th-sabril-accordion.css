@@ -1,0 +1,11 @@
+main .accordion > ul > li {
+  border-color: #6b2d5c;
+}
+
+main .accordion .accordion-item-label {
+  color: #6b2d5c;
+}
+
+main .accordion .accordion-item-label:hover {
+  color: #3d1640;
+}

@@ -1,0 +1,8 @@
+main .columns > div {
+  gap: 2rem;
+}
+
+main .columns h2,
+main .columns h3 {
+  color: var(--heading-color);
+}

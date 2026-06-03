@@ -1,0 +1,9 @@
+main .form form input,
+main .form form textarea,
+main .form form select {
+  border-color: var(--link-color);
+}
+
+main .form form button {
+  background-color: var(--primary-cta-color);
+}

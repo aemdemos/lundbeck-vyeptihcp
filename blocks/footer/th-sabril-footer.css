@@ -1,0 +1,8 @@
+footer.footer {
+  background-color: #3d1640;
+  color: var(--background-color);
+}
+
+footer.footer a {
+  color: var(--background-color);
+}

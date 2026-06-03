@@ -1,0 +1,7 @@
+main .accordion > ul > li {
+  border-color: var(--primary-cta-color);
+}
+
+main .accordion .accordion-item-label {
+  color: var(--heading-color);
+}

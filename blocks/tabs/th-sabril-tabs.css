@@ -1,0 +1,8 @@
+main .tabs .tabs-list button[aria-selected='true'] {
+  border-bottom-color: #6b2d5c;
+  color: #6b2d5c;
+}
+
+main .tabs .tabs-panel {
+  border-top: 2px solid #6b2d5c;
+}

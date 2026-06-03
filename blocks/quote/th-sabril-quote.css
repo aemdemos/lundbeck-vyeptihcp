@@ -1,0 +1,9 @@
+main .quote blockquote {
+  border-left: 4px solid #6b2d5c;
+  padding-left: 1.5rem;
+}
+
+main .quote blockquote p {
+  font-style: italic;
+  color: var(--dark-color);
+}

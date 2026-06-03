@@ -1,0 +1,7 @@
+header .nav-brand img {
+  max-height: 48px;
+}
+
+header nav .nav-sections a:hover {
+  color: var(--link-hover-color);
+}

@@ -1,0 +1,8 @@
+main .cards > ul > li {
+  border-color: var(--link-color);
+  border-radius: 8px;
+}
+
+main .cards .cards-card-body h3 {
+  color: var(--heading-color);
+}

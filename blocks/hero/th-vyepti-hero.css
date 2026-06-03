@@ -1,0 +1,8 @@
+main .hero h1 {
+  color: var(--background-color);
+  text-shadow: 0 2px 8px rgb(0 0 0 / 35%);
+}
+
+main .hero .button {
+  background-color: var(--primary-cta-color);
+}

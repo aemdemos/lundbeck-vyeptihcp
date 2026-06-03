@@ -1,0 +1,60 @@
+/* Theme overrides for sabril. Auto-generated from block-level th-sabril-<blockname>.css sources — do not edit; regenerated on commit. */
+
+/* Compiled from blocks/accordion/th-sabril-accordion.css */
+
+main .accordion > ul > li {
+  border-color: #6b2d5c;
+}
+
+main .accordion .accordion-item-label {
+  color: #6b2d5c;
+}
+
+main .accordion .accordion-item-label:hover {
+  color: #3d1640;
+}
+
+/* Compiled from blocks/cards/th-sabril-cards.css */
+
+main .cards > ul > li {
+  border-color: #6b2d5c;
+  border-radius: 4px;
+}
+
+main .cards .cards-card-body h3 {
+  color: #6b2d5c;
+}
+
+/* Compiled from blocks/footer/th-sabril-footer.css */
+
+footer.footer {
+  background-color: #3d1640;
+  color: var(--background-color);
+}
+
+footer.footer a {
+  color: var(--background-color);
+}
+
+/* Compiled from blocks/quote/th-sabril-quote.css */
+
+main .quote blockquote {
+  border-left: 4px solid #6b2d5c;
+  padding-left: 1.5rem;
+}
+
+main .quote blockquote p {
+  font-style: italic;
+  color: var(--dark-color);
+}
+
+/* Compiled from blocks/tabs/th-sabril-tabs.css */
+
+main .tabs .tabs-list button[aria-selected='true'] {
+  border-bottom-color: #6b2d5c;
+  color: #6b2d5c;
+}
+
+main .tabs .tabs-panel {
+  border-top: 2px solid #6b2d5c;
+}
