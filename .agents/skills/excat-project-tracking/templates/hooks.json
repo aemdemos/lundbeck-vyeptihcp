@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": ".cursor/hooks/excat-session-start.sh"
+      }
+    ],
+    "stop": [
+      {
+        "command": ".cursor/hooks/excat-session-close-reminder.sh",
+        "loop_limit": 1
+      }
+    ]
+  }
+}

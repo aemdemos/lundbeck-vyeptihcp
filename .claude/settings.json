@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "command": "bash .claude/hooks/excat-session-start.sh",
+        "timeout": 5000
+      }
+    ],
+    "Stop": [
+      {
+        "command": "bash .claude/hooks/excat-session-close-reminder.sh",
+        "timeout": 5000
+      }
+    ]
+  }
+}
