@@ -18,3 +18,20 @@ if (modifiedPartials.length > 0) {
   console.log(output);
   await run('git add component-models.json component-definition.json component-filters.json');
 }
+
+const THEME_PARTIAL = /^blocks\/[^/]+\/th-([a-z0-9-]+)-[a-z0-9-]+\.css$/i;
+const modifiedThemePartials = modifiedFiles.filter((file) => file.match(THEME_PARTIAL));
+if (modifiedThemePartials.length > 0) {
+  const sites = [...new Set(
+    modifiedThemePartials.map((file) => file.match(THEME_PARTIAL)[1].toLowerCase()),
+  )];
+  const output = await run(`npm run build:themes -- ${sites.join(' ')} --silent`);
+  console.log(output);
+  const pathsLine = output.trim().split('\n').find((line) => line.startsWith('THEME_PATHS:'));
+  if (pathsLine) {
+    const paths = pathsLine.replace('THEME_PATHS:', '').trim();
+    if (paths) {
+      await run(`git add ${paths}`);
+    }
+  }
+}

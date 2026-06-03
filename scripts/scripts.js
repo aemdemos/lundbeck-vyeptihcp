@@ -459,6 +459,25 @@ async function loadThemeSpreadSheetConfig() {
 */
 
 /**
+ * WIP: Loads site-specific theme CSS based on the first URL path segment
+ * (e.g. /vyepti/page → styles/th-vyepti.css).
+ * Revision needed: replace with metadata- or config-driven theme selection once finalized.
+ */
+async function loadSiteThemeCSS() {
+  const [segment] = window.location.pathname.split('/').filter(Boolean);
+  if (!segment || !/^[a-z][a-z0-9-]*$/i.test(segment)) return;
+  const reserved = new Set(['tools', '404']);
+  if (reserved.has(segment.toLowerCase())) return;
+
+  const href = `${window.hlx.codeBasePath}/styles/th-${segment.toLowerCase()}.css`;
+  try {
+    await loadCSS(href);
+  } catch {
+    // No theme bundle for this path — expected for non-site routes
+  }
+}
+
+/**
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
  */
@@ -491,6 +510,7 @@ async function loadLazy(doc) {
 
   const main = doc.querySelector('main');
   await loadSections(main);
+  await loadSiteThemeCSS();
 
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
