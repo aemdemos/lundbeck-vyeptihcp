@@ -1,0 +1,69 @@
+name: Inject parent issue number into child issue body
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  add-parent-reference:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Add parent issue number to body
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const issueNumber = issue.number;
+
+            // Skip if this is already processed.
+            const marker = '<!-- parent-issue-injected -->';
+            if ((issue.body || '').includes(marker)) {
+              core.info('Parent reference already injected. Skipping.');
+              return;
+            }
+
+            let parentNumber;
+            try {
+              const parentResponse = await github.request(
+                'GET /repos/{owner}/{repo}/issues/{issue_number}/parent',
+                {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issueNumber,
+                  headers: {
+                    accept: 'application/vnd.github+json',
+                  },
+                }
+              );
+
+              parentNumber = parentResponse.data.number;
+            } catch (error) {
+              // 404 usually means this issue is not a sub-issue.
+              if (error.status === 404) {
+                core.info(`Issue #${issueNumber} has no parent. Nothing to inject.`);
+                return;
+              }
+
+              throw error;
+            }
+
+            const currentBody = issue.body || '';
+            const injectedBody = [
+              marker,
+              `Parent issue: #${parentNumber}`,
+              '',
+              currentBody,
+            ].join('\n');
+
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: injectedBody,
+            });
+
+            core.info(`Updated issue #${issueNumber} with parent #${parentNumber}.`);
