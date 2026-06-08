@@ -19,10 +19,9 @@ Fixes #IssueID
 
 - 
 
-
 ## Test URLs and instructions -- There can be more than 1 set
 
 > If applicable, also describe how the PR reviewer can verify your expected changes, including anything that should NOT change.
 
-- Before: https://main--ise-boilerplate--aemdemos.aem.page/
-- After: https://BranchName--ise-boilerplate--aemdemos.aem.page/
+- Before: https://main--lundbeck-vyeptihcp--aemdemos.aem.page/
+- After: https://<branch>--lundbeck-vyeptihcp--aemdemos.aem.page/
