@@ -24,4 +24,4 @@ Fixes #IssueID
 > If applicable, also describe how the PR reviewer can verify your expected changes, including anything that should NOT change.
 
 - Before: https://main--lundbeck-vyeptihcp--aemdemos.aem.page/
-- After: https://<branch>--lundbeck-vyeptihcp--aemdemos.aem.page/
+- After: https://{branch}--lundbeck-vyeptihcp--aemdemos.aem.page/
