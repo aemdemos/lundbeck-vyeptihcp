@@ -166,12 +166,28 @@
                   "selector": "div:nth-child(1)>picture>img[src]"
                 },
                 {
+                  "name": "backgroundImage2",
+                  "selector": "div:nth-child(2)>picture>img[src]"
+                },
+                {
+                  "name": "backgroundImage3",
+                  "selector": "div:nth-child(3)>picture>img[src]"
+                },
+                {
+                  "name": "backgroundImage4",
+                  "selector": "div:nth-child(4)>picture>img[src]"
+                },
+                {
+                  "name": "backgroundImage5",
+                  "selector": "div:nth-child(5)>picture>img[src]"
+                },
+                {
                   "name": "backgroundImageAlt",
                   "selector": "div:nth-child(1)>picture>img[alt]"
                 },
                 {
                   "name": "content",
-                  "selector": "div:nth-child(2)"
+                  "selector": "div:nth-child(6)"
                 }
               ]
             }
@@ -296,6 +312,52 @@
                 {
                   "name": "searchUrlText",
                   "selector": "div>div>p>a"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Section Title",
+          "id": "section-title",
+          "model": "section-title",
+          "plugins": {
+            "da": {
+              "unsafeHTML": "<div class=\"section-title\"><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div>",
+              "rows": 8,
+              "columns": 1,
+              "fields": [
+                {
+                  "name": "title",
+                  "selector": "div:nth-child(1)>div"
+                },
+                {
+                  "name": "titleType",
+                  "selector": "div:nth-child(2)>div"
+                },
+                {
+                  "name": "title-size",
+                  "selector": "div:nth-child(3)>div"
+                },
+                {
+                  "name": "alignment",
+                  "selector": "div:nth-child(4)>div"
+                },
+                {
+                  "name": "classes",
+                  "selector": "div:nth-child(5)>div"
+                },
+                {
+                  "name": "subtitle",
+                  "selector": "div:nth-child(6)>div"
+                },
+                {
+                  "name": "subtitleType",
+                  "selector": "div:nth-child(7)>div"
+                },
+                {
+                  "name": "subtitle-size",
+                  "selector": "div:nth-child(8)>div"
                 }
               ]
             }

@@ -1,3 +1,5 @@
+playwright.config.js
+tests/a11y/
 helix-importer-ui
 tools/**/*
 *.min.js

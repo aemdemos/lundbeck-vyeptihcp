@@ -19,6 +19,12 @@ export default function decorate(block) {
     moveInstrumentation(img, optimizedPic.querySelector('img'));
     img.closest('picture').replaceWith(optimizedPic);
   });
+
+  const cardCount = ul.children.length;
+  if (cardCount === 2 || cardCount === 3) {
+    block.classList.add(`cards-${cardCount}-cols`);
+  }
+
   block.textContent = '';
   block.append(ul);
 }
