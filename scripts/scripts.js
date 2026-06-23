@@ -1,4 +1,7 @@
 import {
+  buildBlock,
+  decorateBlock,
+  loadBlock,
   loadHeader,
   loadFooter,
   decorateIcons,
@@ -13,7 +16,6 @@ import {
   toClassName,
   loadScript,
 } from './aem.js';
-
 /** Max sections/children to process (CWE-770). */
 const MAX_SECTIONS = 100;
 const MAX_SECTION_CHILDREN = 200;
@@ -138,6 +140,18 @@ function autolinkModals(doc) {
 }
 
 /**
+ * Autoblocks injected during loadLazy (non-critical, not authored in DA).
+ */
+async function buildLazyAutoBlocks() {
+  if (!document.querySelector('.back-to-top')) {
+    const block = buildBlock('back-to-top', '');
+    document.body.append(block);
+    decorateBlock(block);
+    await loadBlock(block);
+  }
+}
+
+/**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
@@ -190,8 +204,9 @@ export function decorateButtons(main) {
     const p = a.closest('p');
     const text = a.textContent.trim();
 
-    // quick structural checks
-    if (a.querySelector('img') || p.textContent.trim() !== text) return;
+    // quick structural checks — skip links wrapping a real content image, but
+    // allow decorated icons (e.g. :search: → span.icon > img) inside buttons.
+    if (a.querySelector('img:not(.icon img)') || p.textContent.trim() !== text) return;
 
     // skip URL display links
     try {
@@ -222,7 +237,7 @@ export function decorateButtons(main) {
 /* === SECTIONS === */
 
 /** Metadata keys consumed by {@link applySectionBackgroundDecorations} (not mirrored as data-*). */
-const SECTION_BACKGROUND_META_KEYS = new Set(['background-color', 'background-image']);
+const SECTION_BACKGROUND_META_KEYS = new Set(['background', 'background-color', 'background-image']);
 
 /**
  * Rejects values that could break out of a single CSS declaration when set via inline style.
@@ -264,17 +279,24 @@ function metaStringValue(value) {
 
 /**
  * Sets inline background-color and optionally prepends a decorative .bg-image layer.
- * Keys match section model fields and {@link readBlockConfig}: `background-color`, `background-image`.
+ * Reads from the section-metadata config (local/plain delivery) or, when absent, from the
+ * `data-background-*` attributes that DA delivery sets directly on the section element.
+ * Keys match section model fields and {@link readBlockConfig}: `background`, `background-color`, `background-image`.
  * @param {HTMLElement} section
- * @param {Record<string, unknown>} meta
+ * @param {Record<string, unknown>} [meta]
  */
-function applySectionBackgroundDecorations(section, meta) {
-  const color = metaStringValue(meta['background-color']).trim();
+function applySectionBackgroundDecorations(section, meta = {}) {
+  const color = (metaStringValue(meta['background-color'])
+    || metaStringValue(meta.background)
+    || section.dataset.backgroundColor
+    || section.dataset.background
+    || '').trim();
   if (color && isSafeBackgroundColorValue(color)) {
     section.style.setProperty('background-color', color);
   }
 
-  const imageUrl = metaStringValue(meta['background-image']).trim();
+  const imageUrl = (metaStringValue(meta['background-image'])
+    || section.dataset.backgroundImage || '').trim();
   if (!imageUrl || !isAllowedBackgroundImageUrl(imageUrl)) return;
 
   const bg = document.createElement('div');
@@ -329,7 +351,8 @@ export function decorateSections(main) {
     section.setAttribute('data-section-status', 'initialized');
     section.style.display = 'none';
 
-    // Process section metadata
+    // Process section metadata. Local/plain delivery ships a div.section-metadata table;
+    // DA delivery instead converts it into data-* attributes on the section itself.
     const sectionMeta = section.querySelector('div.section-metadata');
     if (sectionMeta) {
       const meta = readBlockConfig(sectionMeta);
@@ -347,11 +370,329 @@ export function decorateSections(main) {
       });
       applySectionBackgroundDecorations(section, meta);
       sectionMeta.parentNode.remove();
+    } else {
+      applySectionBackgroundDecorations(section);
     }
   }
 }
 
 /* === END SECTIONS === */
+
+/** Max lists / items to process for icon bullets (CWE-770). */
+const MAX_ICON_BULLET_LISTS = 50;
+const MAX_ICON_BULLET_ITEMS = 100;
+const MAX_COLON_ICON_TEXT_NODES = 200;
+
+/** Safe icon name from colon notation (e.g. :search:, :mic-30-desktop:). */
+const COLON_ICON_NAME = /^[a-z0-9-]+$/;
+
+/**
+ * Replaces :icon-name: text with <span class="icon icon-name"> when the pipeline
+ * did not (e.g. icon SVG added in code but content not re-published).
+ * @param {Element} element Container element
+ */
+export function decorateColonIcons(element) {
+  const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+  const textNodes = [];
+  let node = walker.nextNode();
+  let count = 0;
+
+  while (node && count < MAX_COLON_ICON_TEXT_NODES) {
+    if (node.textContent.includes(':')
+      && !node.parentElement?.closest('script, style, .icon')) {
+      textNodes.push(node);
+      count += 1;
+    }
+    node = walker.nextNode();
+  }
+
+  textNodes.forEach((textNode) => {
+    const { textContent } = textNode;
+    const parts = textContent.split(/:([a-z0-9-]+):/i);
+    if (parts.length < 3) return;
+
+    const fragment = document.createDocumentFragment();
+    parts.forEach((part, index) => {
+      if (index % 2 === 0) {
+        if (part) fragment.append(document.createTextNode(part));
+      } else if (COLON_ICON_NAME.test(part)) {
+        const span = document.createElement('span');
+        span.className = `icon icon-${part.toLowerCase()}`;
+        fragment.append(span);
+      } else {
+        fragment.append(document.createTextNode(`:${part}:`));
+      }
+    });
+    textNode.replaceWith(fragment);
+  });
+}
+
+/**
+ * Returns the leading icon in a list item, searching recursively through
+ * leading strong/em/a wrappers at any depth (e.g. em > strong > span.icon).
+ * @param {HTMLLIElement} li List item element
+ * @returns {HTMLSpanElement|null}
+ */
+function getLeadingListIcon(li) {
+  function findIcon(container) {
+    let node = container.firstChild;
+    while (node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        if (node.textContent.trim()) return null;
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        if (node.matches('span.icon')) return node;
+        if (node.matches('strong, em, a')) return findIcon(node);
+        return null;
+      } else {
+        return null;
+      }
+      node = node.nextSibling;
+    }
+    return null;
+  }
+  return findIcon(li);
+}
+
+/**
+ * Turns list items that start with an icon into icon-bullet lists.
+ * Run after {@link decorateIcons}. Scoped to lists that match the icon-bullet pattern.
+ * @param {Element} element Container element
+ */
+export function iconsToBullets(element) {
+  const lists = [...element.querySelectorAll(
+    'ul:has(> li > .icon, > li > :is(strong, em, a) > .icon, > li > :is(strong, em) > :is(strong, em) > .icon)',
+  )].slice(0, MAX_ICON_BULLET_LISTS);
+
+  lists.forEach((ul) => {
+    const items = [...ul.querySelectorAll(':scope > li')].slice(0, MAX_ICON_BULLET_ITEMS);
+    let decorated = 0;
+
+    items.forEach((li) => {
+      const icon = getLeadingListIcon(li);
+      if (!icon) return;
+
+      icon.classList.add('icon-bullet');
+      li.classList.add('icon-bullet-item');
+      const img = icon.querySelector('img');
+      if (img) {
+        img.loading = 'eager';
+        img.width = 24;
+        img.height = 24;
+      }
+
+      // Ensure icon is a direct child of li (extracts it from strong/em/a wrappers)
+      if (icon.parentElement !== li) {
+        li.insertBefore(icon, li.firstChild);
+      }
+
+      // Wrap all remaining siblings in a single span so flex gap only applies once
+      const after = [];
+      let sibling = icon.nextSibling;
+      while (sibling) {
+        after.push(sibling);
+        sibling = sibling.nextSibling;
+      }
+      if (after.length > 0) {
+        const textSpan = document.createElement('span');
+        textSpan.className = 'icon-bullet-text';
+        after.forEach((n) => textSpan.append(n));
+        li.append(textSpan);
+      }
+
+      decorated += 1;
+    });
+
+    if (decorated > 0 && decorated === items.length) {
+      ul.classList.add('icon-bullets');
+    }
+  });
+}
+
+/**
+ * Decorates icons and applies icon-bullet styling to qualifying lists.
+ * @param {Element} element Container element
+ * @param {string} [prefix] Optional prefix for icon src
+ */
+export function decorateIconsAndBullets(element, prefix = '') {
+  decorateColonIcons(element);
+  decorateIcons(element, prefix);
+  iconsToBullets(element);
+}
+
+/* === SPAN TAGS ===
+ * Bracket syntax: [[class1,class2]text] → <span class="class1 class2">text</span>
+ * Only alphanumeric, hyphen, and underscore are allowed in class names.
+ * Malformed patterns (empty class list, invalid chars) are left unchanged.
+ */
+
+function parseClasses(raw) {
+  const names = raw.split(',').map((c) => c.trim());
+  if (names.some((c) => !c || !/^[a-zA-Z0-9_-]+$/.test(c))) return [];
+  return names;
+}
+
+function parseSplitClasses(raw) {
+  const names = raw.split(',').map((c) => c.trim());
+  if (names.some((c) => !c || !/^[a-z0-9-]+$/.test(c))) return [];
+  return names;
+}
+
+const SPLIT_INLINE_TAGS = new Set(['STRONG', 'EM', 'A', 'BR']);
+
+// eslint-disable-next-line sonarjs/slow-regex
+const SPLIT_OPEN_RE = /\[\[([a-z0-9,-]+)\]\s*$/;
+
+// eslint-disable-next-line sonarjs/slow-regex
+const BRACKET_RE = /\[\[[^\]]+\]([^\]]*)\]/g;
+
+function applySplitBoundaryPass(el) {
+  const children = [...el.childNodes];
+
+  for (let i = 0; i < children.length - 2; i += 1) {
+    const prev = children.at(i);
+    const mid = children.at(i + 1);
+    const next = children.at(i + 2);
+
+    const isPrevText = prev.nodeType === Node.TEXT_NODE;
+    // eslint-disable-next-line secure-coding/detect-object-injection
+    const isMidInline = mid.nodeType === Node.ELEMENT_NODE && SPLIT_INLINE_TAGS.has(mid.nodeName);
+    const isNextText = next.nodeType === Node.TEXT_NODE;
+
+    if (isPrevText && isMidInline && isNextText) {
+      // Pattern A: "prefix[[classes]" <inline>content</inline> "]suffix"
+      const openMatch = prev.nodeValue.match(SPLIT_OPEN_RE);
+      const classes = openMatch ? parseSplitClasses(openMatch[1]) : [];
+      const closeMatch = openMatch && classes.length ? next.nodeValue.match(/^\s*\]/) : null;
+      if (closeMatch) {
+        const span = document.createElement('span');
+        span.className = classes.join(' ');
+        span.appendChild(mid);
+        el.insertBefore(span, next);
+        prev.nodeValue = prev.nodeValue.slice(0, -openMatch[0].length);
+        next.nodeValue = next.nodeValue.slice(closeMatch[0].length);
+      }
+    } else if (!isPrevText && mid.nodeType === Node.TEXT_NODE && !isNextText && next.children.length === 0) {
+      // Pattern B: <inline>prefix[[</inline> "classes" <inline>]content]</inline>
+      // eslint-disable-next-line secure-coding/detect-object-injection
+      const isPrevInline = prev.nodeType === Node.ELEMENT_NODE && SPLIT_INLINE_TAGS.has(prev.nodeName);
+      // eslint-disable-next-line secure-coding/detect-object-injection
+      const isNextInline = next.nodeType === Node.ELEMENT_NODE && SPLIT_INLINE_TAGS.has(next.nodeName);
+      const openerText = prev.textContent;
+      const closerText = next.textContent;
+      const classes = parseSplitClasses(mid.nodeValue);
+      if (isPrevInline && isNextInline && openerText.endsWith('[[') && classes.length
+        && closerText.startsWith(']') && closerText.endsWith(']')) {
+        const insertRef = next.nextSibling;
+        const span = document.createElement('span');
+        span.className = classes.join(' ');
+        next.textContent = closerText.slice(1, -1);
+        span.appendChild(next);
+        el.insertBefore(span, insertRef);
+        if (openerText === '[[') el.removeChild(prev);
+        else prev.textContent = openerText.slice(0, -2);
+        el.removeChild(mid);
+      }
+    }
+  }
+}
+
+export function applySpanTags(text) {
+  // eslint-disable-next-line sonarjs/slow-regex
+  return text.replace(/\[\[([^\]]+)\]([^\]]*)\]/g, (match, raw, content) => {
+    const classes = parseClasses(raw);
+    if (!classes.length) return match;
+    // eslint-disable-next-line secure-coding/no-improper-sanitization
+    const safe = content
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+    return `<span class="${classes.join(' ')}">${safe}</span>`;
+  });
+}
+
+function replaceTextNode(textNode) {
+  const text = textNode.nodeValue;
+  const frag = document.createDocumentFragment();
+  let lastIndex = 0;
+  let match;
+
+  // eslint-disable-next-line sonarjs/slow-regex
+  const re = /\[\[([^\]]+)\]([^\]]*)\]/g;
+
+  // eslint-disable-next-line no-cond-assign
+  while ((match = re.exec(text)) !== null) {
+    const [full, raw, content] = match;
+    const classes = parseClasses(raw);
+
+    if (match.index > lastIndex) {
+      frag.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+    }
+
+    if (!classes.length) {
+      frag.appendChild(document.createTextNode(full));
+    } else {
+      const span = document.createElement('span');
+      span.className = classes.join(' ');
+      span.textContent = content;
+      frag.appendChild(span);
+    }
+
+    lastIndex = match.index + full.length;
+  }
+
+  if (lastIndex === 0) return;
+
+  if (lastIndex < text.length) {
+    frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+  }
+
+  textNode.parentNode.replaceChild(frag, textNode);
+}
+
+function cleanAttributes(element) {
+  element.querySelectorAll('a').forEach((a) => {
+    if (a.hasAttribute('title')) {
+      const cleaned = a.getAttribute('title').replace(BRACKET_RE, '$1');
+      if (cleaned !== a.getAttribute('title')) a.setAttribute('title', cleaned);
+    }
+    if (a.hasAttribute('aria-label')) {
+      const cleaned = a.getAttribute('aria-label')
+        .replace(BRACKET_RE, (_, content) => content)
+        .replace(/\s+/g, ' ')
+        .trim();
+      if (cleaned !== a.getAttribute('aria-label')) a.setAttribute('aria-label', cleaned);
+    }
+  });
+
+  element.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach((heading) => {
+    if (!heading.id) return;
+    const slug = heading.textContent
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '');
+    if (slug !== heading.id) heading.id = slug;
+  });
+}
+
+export function decorateSpanTags(element) {
+  element.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li').forEach((el) => {
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    let node = walker.nextNode();
+    while (node) {
+      if (node.nodeValue.includes('[[')) nodes.push(node);
+      node = walker.nextNode();
+    }
+    nodes.forEach(replaceTextNode);
+    applySplitBoundaryPass(el);
+  });
+
+  cleanAttributes(element);
+}
+
+/* === END SPAN TAGS === */
 
 /**
  * Decorates the main element.
@@ -360,12 +701,13 @@ export function decorateSections(main) {
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
   // hopefully forward compatible button decoration
-  decorateIcons(main);
+  decorateIconsAndBullets(main);
   buildAutoBlocks(main);
   decorateSections(main);
   decorateBlocks(main);
   decorateButtons(main);
   a11yLinks(main);
+  decorateSpanTags(main);
 }
 
 /**
@@ -524,9 +866,16 @@ async function loadLazy(doc) {
 
   loadHeader(doc.querySelector('header'));
   loadFooter(doc.querySelector('footer'));
+  await buildLazyAutoBlocks();
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
+
+  const entranceModal = getMetadata('entrance-modal');
+  if (entranceModal) {
+    import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`)
+      .then(({ openModal }) => openModal(entranceModal));
+  }
 }
 
 /**
