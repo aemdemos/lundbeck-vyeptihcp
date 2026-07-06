@@ -21,7 +21,9 @@ Before using the aem-block-collection, we recommand you to go through the docume
 npm i
 ```
 
-Linting and security
+## Linting
+July 3 2026: This has been updated to use ESLint 10, with patch files to retrofit the Xwalk plugin.
+
 This project is using StyleLint and ESLint for Javascript. Our ESLint configuration includes 3 popular and reputable Javascript code quality and security plugins:
 
 - SonarSource eslint-plugin-sonarjs, a code quality analyzer for JavaScript and TypeScript within the Sonar ecosystem (https://github.com/SonarSource/SonarJS/blob/master/packages/jsts/src/rules/README.md#eslint-rules)
@@ -42,3 +44,15 @@ npm run lint
 1. Install the [AEM CLI](https://github.com/adobe/helix-cli): `npm install -g @adobe/aem-cli`
 1. Start AEM Proxy: `aem up` (opens your browser at `http://localhost:3000`)
 1. Open the `ise-boilerplate` directory in your favorite IDE and start coding :)
+
+This is a test change
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for release history.
+
+## Security Rules/Skills
+
+- Adobe security automatically added .cursor/rules/security-global and security-lang, and seems to scan to check they are in place.
+- Much of this ruleset (SQL, XXE, SSRF, server-side sessions, API versioning) targets backend/server code, while this repo is explicitly client-side-only with no runtime deps or backend.
+- Since other agents (Claude, Codex) can't use Cursor rules, 

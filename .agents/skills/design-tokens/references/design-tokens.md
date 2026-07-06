@@ -2,31 +2,130 @@
 
 ## Overview
 
-EDS projects use CSS custom properties (design tokens) to maintain visual consistency across blocks. Each block defines its own token file that centralizes all customizable values — colors, typography, spacing, borders, effects. This makes it easy to re-skin blocks by changing token values without touching structural CSS.
+EDS projects use CSS custom properties (design tokens) to maintain visual consistency and enable
+re-skinning. The system is **two-tier**:
+
+- **Tier 1 — global semantic tokens** in `styles/styles.css` `:root`. The single surface a
+  customer or theme overrides. Holds the brand palette, type scale, and shared scales (spacing,
+  border, radius, motion, focus ring) plus semantic color aliases (`--color-action`,
+  `--color-surface`, …).
+- **Tier 2 — component tokens** in each `blocks/{name}/{name}-tokens.css`. These give a block its
+  own override points but **reference Tier 1** for any brand or dimensional value, e.g.
+  `--cards-grid-gap: var(--spacing-m)`. Literals appear only for genuinely block-unique structural
+  values (a grid min-width, an aspect ratio).
+
+A theme — or a customer's branding — is therefore just an alternate set of Tier 1 *values*.
+Because component tokens reference up the chain, re-skinning touches the global layer, not the
+17+ block files. This is what keeps Adobe defaults from "polluting" downstream styling: replace
+the semantic layer and every block follows.
+
+## The `@boilerplate` marker (blanket migration scaffolding)
+
+**Every line of every CSS rule in the boilerplate carries a trailing `/* @boilerplate */`** — every
+declaration and every selector / at-rule opening line. The whole boilerplate is a throwaway starting
+point: its values, and even its selectors and class names, will very likely have nothing to do with
+the customer's CSS. The marker is a blunt, per-line stamp meaning **"this line is still untouched
+boilerplate — not yet reviewed against the customer."**
+
+It is **scaffolding, not permanent metadata.** There is exactly one tag — no `@brand`/`@structural`
+classification, no descriptions (those describe the demo site, which the customer doesn't care
+about). It exists only to stop a half-finished migration from looking identical to a finished one,
+and it deletes itself as the work progresses.
+
+```css
+.cards > ul { /* @boilerplate */
+  gap: var(--cards-grid-gap); /* @boilerplate */
+}
+```
+
+### Resolution: remove, don't flip
+
+As you apply the customer's styling, every line is either rewritten or consciously kept — and
+**either way you delete its marker.** "Resolve" a line means one of:
+
+1. **Edit** it to match the customer, then delete its marker, or
+2. **Consciously keep** it (it already suits the customer), then delete its marker, or
+3. **Delete** the rule/declaration if the customer's design has no use for it.
+
+Never flip the marker to anything — just remove it. Completion is binary and self-evident: **no
+`@boilerplate` markers remain.** At that point the files are plain CSS again, with normal selectors
+and comments, and it's ordinary frontend development from there on. Audit remaining work at any time:
+
+```sh
+# Anchored on the marker token so prose mentions aren't counted:
+grep -rn '/\* @boilerplate' styles/ blocks/        # every line still untouched
+grep -rc '/\* @boilerplate' styles/ blocks/        # per-file remaining count (progress per block)
+```
+
+### Coverage and the one exception
+
+Mark **every** declaration line and **every** selector / at-rule opening line (`.foo { /* … */`,
+`@media … { /* … */`, `@font-face { /* … */`). The only things left unmarked are lines that aren't a
+rule line and can't carry a stamp cleanly:
+
+- bare closing braces (`}`), blank lines, and standalone comment lines;
+- the `@import url('./{block}-tokens.css')` line — this is the permanent token-wiring kept for every
+  customer (architecture, not a value to resolve), so it is intentionally left unmarked;
+- intermediate selectors in a multi-line selector list (`.a,` / `.b {`) — the marker lands on the
+  brace line;
+- the tail of a **multi-line value** (e.g. a `grid-template:` spanning several lines) — a comment on
+  a value's continuation line breaks `declaration-empty-line-before`, so that one declaration goes
+  unmarked. Rare and harmless.
+
+This is applied mechanically across the whole repo; re-running the stamp is idempotent (already-marked
+lines are skipped).
+
+### Enforcement: the PostToolUse hook
+
+A Claude Code hook (`.claude/hooks/check-boilerplate-markers.mjs`, wired in `.claude/settings.json`)
+runs after every CSS `Edit`/`MultiEdit`. It enforces the rule that is mechanically detectable:
+**when you edit a line, its marker must be gone.** It diffs the edit's before/after text and, for any
+changed or new line that still carries `/* @boilerplate */`, surfaces it back to the agent
+mid-session (exit 2) with a reminder to delete the marker. Consciously-kept lines are a human
+judgement the hook can't see, so removing *their* markers stays manual; whole-file writes aren't
+diffed. It's a local-dev assistant, not a hard gate — it raises the floor and keeps the signal at the
+exact line being edited.
+
+**Mode gate.** This enforcement is for *customer migrations*, not for authoring the boilerplate
+itself. The hook checks the git origin: in the `aemdemos/ise-boilerplate` source repo an edit that
+keeps its marker is legitimate (tokenizing, tuning a default — the value is still boilerplate), so
+the hook stays **silent**. In any other repo (a customer clone) it runs normally. So maintainers can
+edit the source boilerplate freely without stripping markers, while every migration gets full
+enforcement.
+
+## Token-vs-not policy
+
+Not everything is a token. Pure layout mechanics stay as literals — `100%`, `0`, `1fr`, `auto`,
+`50%`, `none`, `repeat(...)`, `vw`/`ch` units, and `display`/`position`/`flex` keywords. Anything
+brand-expressive or dimensional (colors, spacing, radius, border width/color, durations, font
+sizes, paddings/margins, ratios) **must** be a token. If you find yourself hardcoding such a value
+in structural CSS, promote it to a component token that references a Tier 1 token.
 
 ## Architecture
 
 ```
+styles/styles.css                   # Tier 1: global semantic tokens (:root)
 blocks/
 └── {blockname}/
     ├── {blockname}.js              # Decoration logic
-    ├── {blockname}.css             # Structural styles (uses tokens)
-    ├── {blockname}-tokens.css      # Design tokens (all customizable values)
+    ├── {blockname}.css             # Structural styles (uses tokens only)
+    ├── {blockname}-tokens.css      # Tier 2: component tokens (reference Tier 1)
     └── {blockname}-measurements.txt # Figma measurements reference (optional)
 ```
 
 The token file is imported at the top of the block's CSS:
 
 ```css
-/* cards-teaser.css */
-@import url('./cards-teaser-tokens.css');
+/* cards.css */
+@import url('./cards-tokens.css');
 
-main .cards-teaser {
-  max-width: var(--cards-teaser-max-width);
-  background: var(--cards-teaser-background);
-  /* ... structural layout using token values ... */
+.cards > ul {
+  gap: var(--cards-grid-gap);            /* component token → var(--spacing-m) */
 }
 ```
+
+> Keep Tier 1 inside `styles.css` itself — do **not** split it into an `@import`ed stylesheet, as
+> that adds a render-blocking request and risks the PageSpeed-100 requirement.
 
 ## Token Naming Convention
 
@@ -46,9 +145,58 @@ Examples:
 --cards-teaser-card-border-radius     /* Sub-element + property */
 ```
 
+## Global semantic tokens (Tier 1)
+
+Defined in `styles/styles.css` `:root`. Component tokens reference these:
+
+```css
+/* borders */
+--border-width-s: 1px;            /* @boilerplate */
+--border-color: #dadada;          /* @boilerplate */
+--border-radius-s: 4px;           /* @boilerplate */
+
+/* focus ring */
+--focus-ring-width: 2px;          /* @boilerplate */
+--focus-ring-offset: 2px;         /* @boilerplate */
+--focus-ring-color: var(--link-color); /* @boilerplate */
+
+/* semantic color aliases (still marked — every line is, until reviewed) */
+--color-surface: var(--background-color); /* @boilerplate */
+--color-action: var(--link-color); /* @boilerplate */
+```
+
+Alongside the pre-existing brand palette (`--background-color`, `--text-color`, `--link-color`, …),
+font families, and heading/body size scales. When a new component needs a brand or dimensional
+value that no Tier 1 token covers, add the semantic token to Tier 1 first, then reference it.
+
+## Worked examples (the exemplar blocks)
+
+`blocks/cards` and `blocks/form` are the reference implementations of the two-tier pattern — copy
+their structure when converting other blocks.
+
+```css
+/* cards-tokens.css — every line marked until reviewed against the customer */
+:root { /* @boilerplate */
+  --cards-grid-min-width: 257px; /* @boilerplate */
+  --cards-grid-gap: var(--spacing-m); /* @boilerplate */
+  --cards-card-border-width: var(--border-width-s); /* @boilerplate */
+  --cards-card-border-color: var(--border-color); /* @boilerplate */
+  --cards-card-background: var(--color-surface); /* @boilerplate */
+  --cards-card-body-margin: var(--spacing-s); /* @boilerplate */
+  --cards-image-aspect-ratio: 4 / 3; /* @boilerplate */
+  --cards-image-object-fit: cover; /* @boilerplate */
+}
+```
+
+`form` additionally shows interactive/semantic colors: `--form-input-border-color: var(--dark-color)`,
+`--form-toggle-on-background: var(--color-action)`, and focus handled via the global
+`--focus-ring-*` tokens — so `form.css` contains no raw brand or dimensional literals.
+
 ## Token Categories
 
-Every block token file should cover these categories:
+Every block token file should cover these categories. The literal values below are **illustrative
+of each category** — in real block files, brand/dimensional values reference Tier 1 (e.g.
+`--{block}-gap: var(--spacing-s)`) rather than hardcoding:
 
 ### 1. Layout & Dimensions
 
@@ -331,6 +479,11 @@ With a standard vertical rhythm:
 
 ## Tips
 
+- **Reference Tier 1, don't duplicate it** — a component token's value should be `var(--semantic)`
+  for any brand/dimensional value; reach for a literal only when the value is genuinely unique to
+  the block
+- **Every rule line carries `/* @boilerplate */`** until reviewed; on resolution (edit or conscious
+  keep), delete the marker — never flip it — so `grep '@boilerplate'` reports what is still untouched
 - **Token files contain only `:root` declarations** — no selectors, no structural CSS
 - **One token file per block** — keeps customization isolated
 - **All visual values come from tokens** — if you're hardcoding a color or size in the structural CSS, it should be a token
