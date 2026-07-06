@@ -1,9 +1,10 @@
 import { moveInstrumentation, getBlockId } from '../../scripts/scripts.js';
+import { buildPictureContentFromImageCell } from '../../scripts/utils.js';
 import { createSliderControls, initSlider, showSlide } from '../../scripts/slider.js';
 
 export { showSlide };
 
-function createSlide(row, slideIndex, carouselId) {
+function createSlide(row, slideIndex, carouselId, isTestimonial) {
   const slide = document.createElement('li');
   slide.dataset.slideIndex = slideIndex;
   slide.setAttribute('id', `carousel-${carouselId}-slide-${slideIndex}`);
@@ -11,6 +12,20 @@ function createSlide(row, slideIndex, carouselId) {
 
   row.querySelectorAll(':scope > div').forEach((column, colIdx) => {
     column.classList.add(`carousel-slide-${colIdx === 0 ? 'image' : 'content'}`);
+    if (isTestimonial && colIdx === 0) {
+      const eager = slideIndex === 0;
+      const firstImg = column.querySelector('picture > img');
+      column.replaceChildren(
+        buildPictureContentFromImageCell(column, {
+          eagerSingle: eager,
+          eagerArtDirection: eager,
+        }),
+      );
+      const newImg = column.querySelector('picture > img');
+      if (firstImg && newImg) {
+        moveInstrumentation(firstImg, newImg);
+      }
+    }
     slide.append(column);
   });
 
@@ -29,6 +44,7 @@ export default async function decorate(block) {
   block.setAttribute('role', 'region');
   block.setAttribute('aria-roledescription', 'Carousel');
 
+  const isTestimonial = block.classList.contains('testimonial');
   const rows = block.querySelectorAll(':scope > div');
   const isSingleSlide = rows.length < 2;
 
@@ -48,7 +64,7 @@ export default async function decorate(block) {
   }
 
   rows.forEach((row, idx) => {
-    const slide = createSlide(row, idx, blockId);
+    const slide = createSlide(row, idx, blockId, isTestimonial);
     moveInstrumentation(row, slide);
     slidesWrapper.append(slide);
     row.remove();

@@ -13,3 +13,7 @@ localhost-key.pem
 .cursor
 Trace*.json
 .migration/*
+
+# Playwright / a11y test artifacts
+playwright-report/
+test-results/

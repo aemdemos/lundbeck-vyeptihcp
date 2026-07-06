@@ -1,64 +1,64 @@
 @import url('./embed-tokens.css');
 
-.embed {
-  width: unset;
-  text-align: center;
-  max-width: var(--embed-max-width);
-  margin: var(--embed-margin);
+.embed { /* @boilerplate */
+  width: unset; /* @boilerplate */
+  text-align: center; /* @boilerplate */
+  max-width: var(--embed-max-width); /* @boilerplate */
+  margin: var(--embed-margin); /* @boilerplate */
 }
 
-.embed > div {
-  display: flex;
-  justify-content: center;
+.embed > div { /* @boilerplate */
+  display: flex; /* @boilerplate */
+  justify-content: center; /* @boilerplate */
 }
 
-.embed.embed-twitter .twitter-tweet-rendered {
-  margin-left: auto;
-  margin-right: auto;
+.embed.embed-twitter .twitter-tweet-rendered { /* @boilerplate */
+  margin-left: auto; /* @boilerplate */
+  margin-right: auto; /* @boilerplate */
 }
 
-.embed .embed-placeholder {
-  width: 100%;
-  aspect-ratio: var(--embed-placeholder-aspect-ratio);
-  position: relative;
+.embed .embed-placeholder { /* @boilerplate */
+  width: 100%; /* @boilerplate */
+  aspect-ratio: var(--embed-placeholder-aspect-ratio); /* @boilerplate */
+  position: relative; /* @boilerplate */
 }
 
-.embed .embed-placeholder > * {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  inset: 0;
+.embed .embed-placeholder > * { /* @boilerplate */
+  display: flex; /* @boilerplate */
+  align-items: center; /* @boilerplate */
+  justify-content: center; /* @boilerplate */
+  position: absolute; /* @boilerplate */
+  inset: 0; /* @boilerplate */
 }
 
-.embed .embed-placeholder picture img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.embed .embed-placeholder picture img { /* @boilerplate */
+  width: 100%; /* @boilerplate */
+  height: 100%; /* @boilerplate */
+  object-fit: cover; /* @boilerplate */
 }
 
-.embed .embed-placeholder-play button {
-  box-sizing: border-box;
-  position: relative;
-  display: block;
-  transform: scale(3);
-  width: var(--embed-placeholder-play-size);
-  height: var(--embed-placeholder-play-size);
-  border: 2px solid;
-  border-radius: var(--embed-placeholder-play-border-radius);
-  padding: 0;
+.embed .embed-placeholder-play button { /* @boilerplate */
+  box-sizing: border-box; /* @boilerplate */
+  position: relative; /* @boilerplate */
+  display: block; /* @boilerplate */
+  transform: scale(3); /* @boilerplate */
+  width: var(--embed-placeholder-play-size); /* @boilerplate */
+  height: var(--embed-placeholder-play-size); /* @boilerplate */
+  border: var(--embed-placeholder-play-border-width) solid; /* @boilerplate */
+  border-radius: var(--embed-placeholder-play-border-radius); /* @boilerplate */
+  padding: 0; /* @boilerplate */
 }
 
-.embed .embed-placeholder-play button::before {
-  content: "";
-  display: block;
-  box-sizing: border-box;
-  position: absolute;
-  width: 0;
-  height: var(--embed-placeholder-play-triangle-height);
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-left: var(--embed-placeholder-play-triangle-width) solid;
-  top: 4px;
-  left: 7px;
+.embed .embed-placeholder-play button::before { /* @boilerplate */
+  content: ""; /* @boilerplate */
+  display: block; /* @boilerplate */
+  box-sizing: border-box; /* @boilerplate */
+  position: absolute; /* @boilerplate */
+  width: 0; /* @boilerplate */
+  height: var(--embed-placeholder-play-triangle-height); /* @boilerplate */
+  border-top: 5px solid transparent; /* @boilerplate */
+  border-bottom: 5px solid transparent; /* @boilerplate */
+  border-left: var(--embed-placeholder-play-triangle-width) solid; /* @boilerplate */
+  top: 4px; /* @boilerplate */
+  left: 7px; /* @boilerplate */
 }

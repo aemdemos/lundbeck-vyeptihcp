@@ -1,6 +1,9 @@
 import { getBlockId } from '../../scripts/scripts.js';
+import { decorateCellClass } from '../../scripts/utils.js';
 
 export default function decorate(block) {
+  decorateCellClass(block);
+
   const blockId = getBlockId('columns');
   block.setAttribute('id', blockId);
   block.setAttribute('aria-label', `columns-${blockId}`);

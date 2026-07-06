@@ -3,13 +3,17 @@ import { showSlide } from './slider.js';
 import {
   decorateBlock,
   decorateBlocks,
-  decorateIcons,
   loadBlock,
   loadScript,
   loadSections,
 } from './aem.js';
 import { decorateRichtext } from './editor-support-rte.js';
-import { decorateMain, decorateSections, decorateButtons } from './scripts.js';
+import {
+  decorateMain,
+  decorateSections,
+  decorateButtons,
+  decorateIconsAndBullets,
+} from './scripts.js';
 
 function getState(block) {
   if (block.matches('.accordion')) {
@@ -94,7 +98,7 @@ async function applyChanges(event) {
         newBlock.style.display = 'none';
         block.insertAdjacentElement('afterend', newBlock);
         decorateButtons(newBlock);
-        decorateIcons(newBlock);
+        decorateIconsAndBullets(newBlock);
         decorateBlock(newBlock);
         decorateRichtext(newBlock);
         await loadBlock(newBlock);
@@ -113,7 +117,7 @@ async function applyChanges(event) {
           newSection.style.display = 'none';
           element.insertAdjacentElement('afterend', newSection);
           decorateButtons(newSection);
-          decorateIcons(newSection);
+          decorateIconsAndBullets(newSection);
           decorateRichtext(newSection);
           decorateSections(parentElement);
           decorateBlocks(parentElement);
@@ -123,7 +127,7 @@ async function applyChanges(event) {
         } else {
           element.replaceWith(...newElements);
           decorateButtons(parentElement);
-          decorateIcons(parentElement);
+          decorateIconsAndBullets(parentElement);
           decorateRichtext(parentElement);
         }
         return true;
