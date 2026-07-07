@@ -1,0 +1,89 @@
+{
+  "metadata": {
+    "projectType": "da"
+  },
+  "templates": [
+    {
+      "name": "homepage",
+      "urls": [
+        "https://vyeptihcp-stage.d.lundbeckus.com/"
+      ],
+      "representativeUrl": "https://vyeptihcp-stage.d.lundbeckus.com/",
+      "coverageGaps": [],
+      "description": "Landing page: hero banner with quick-link cards, two-card promo section, image+text CTA rows, references, and sticky ISI safety block. Header and footer are experience fragments handled separately.",
+      "blocks": [
+        {
+          "name": "columns-banner-text",
+          "instances": [
+            "article.home-page div.herocomponent div.banner-content div.columncontainer:nth-of-type(1)"
+          ]
+        },
+        {
+          "name": "cards-quicklink",
+          "instances": [
+            "article.home-page div.herocomponent div.banner-content div.columncontainer:nth-of-type(2)"
+          ]
+        },
+        {
+          "name": "cards-promo",
+          "instances": [
+            "article.home-page div.columncontainer.home-two-card-section"
+          ]
+        },
+        {
+          "name": "columns-teaser-cta",
+          "instances": [
+            "article.home-page div.teaser.image-teaser-cta.home-image-content-wrapper-1",
+            "article.home-page div.columncontainer div.container.coverage-finder-section-two",
+            "article.home-page div.teaser.image-teaser-cta.home-image-content-wrapper-3"
+          ]
+        },
+        {
+          "name": "isi",
+          "instances": [
+            "div.experiencefragment:nth-of-type(2) .isi",
+            "#isi"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-banner",
+          "name": "Hero banner",
+          "selector": "article.home-page div.herocomponent div.banner-content div.columncontainer:nth-of-type(1)",
+          "style": "banner",
+          "blocks": ["columns-banner-text", "cards-quicklink"],
+          "defaultContent": [],
+          "backgroundImage": "article.home-page div.herocomponent div.banner-img"
+        },
+        {
+          "id": "section-light-cta",
+          "name": "Promo + CTA rows",
+          "selector": "article.home-page div.columncontainer.home-two-card-section",
+          "style": "light",
+          "blocks": ["cards-promo", "columns-teaser-cta"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-isi",
+          "name": "Important Safety Information",
+          "selector": "div.experiencefragment:nth-of-type(2) .isi",
+          "style": "grey",
+          "blocks": ["isi"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-references",
+          "name": "References",
+          "selector": "div.rte div.rteComponent div.container.reference-section",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "div.rte div.container.reference-section > p",
+            "div.rte div.container.reference-section > ol"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -17,3 +17,13 @@ Trace*.json
 # Playwright / a11y test artifacts
 playwright-report/
 test-results/
+
+# Local secrets / credentials — never commit
+.env
+.env.*
+
+# Importer runtime artifacts — may embed source URLs (incl. auth-bearing).
+# Generated per import; never commit. Infra (parsers/transformers/import-*.js,
+# page-templates.json) is tracked; only the generated URL lists and reports are ignored.
+tools/importer/urls-*.txt
+tools/importer/reports/

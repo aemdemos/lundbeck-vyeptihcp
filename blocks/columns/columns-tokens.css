@@ -5,3 +5,84 @@
   --columns-divider-spacing: var(--spacing-l, 32px);
   --columns-divider-color: #7ebcc6;
 }
+
+/* ────────────────────────────────────────────────────────────────
+ * Customer variant styling for the columns block.
+ * Authored as "Columns (teaser-cta)" → renders as .columns.teaser-cta.
+ * Kept here (not in libs-owned columns.css) so upstream libs updates
+ * never clobber it.
+ *
+ * teaser-cta — image + text CTA row: image one side, heading + copy +
+ * pill CTA the other. Column order in the authored table IS the layout
+ * (left cell renders left, right cell renders right).
+ * ──────────────────────────────────────────────────────────────── */
+
+main .columns.teaser-cta > div {
+  gap: 1.5rem;
+  align-items: center;
+}
+
+main .columns.teaser-cta .columns-img-col {
+  line-height: 0;
+}
+
+main .columns.teaser-cta img {
+  width: 100%;
+  height: auto;
+}
+
+main .columns.teaser-cta h2 {
+  margin-top: 0;
+}
+
+main .columns.teaser-cta .image-caption,
+main .columns.teaser-cta figcaption {
+  display: block;
+  font-size: var(--body-font-size-xs);
+  color: var(--text-color-light);
+  line-height: 1.3;
+}
+
+/* Fine-print footnote paragraph */
+main .columns.teaser-cta .footnote,
+main .columns.teaser-cta sup + p {
+  font-size: var(--body-font-size-xs);
+  color: var(--text-color-light);
+}
+
+/* Pill CTA button uses the site button tokens */
+main .columns.teaser-cta a.button,
+main .columns.teaser-cta .button-container a {
+  border-radius: var(--button-border-radius);
+}
+
+/* Tablet+ : two columns side by side */
+@media (width >= 768px) {
+  main .columns.teaser-cta > div {
+    gap: 2.5rem;
+  }
+}
+
+/* banner-text — hero sub-copy container (single column). Used inside a `banner`
+   section for the small definition/footnote heading beneath the hero art. Gives
+   authors a styled container instead of bare default content. */
+main .columns.banner-text {
+  max-width: var(--max-width-site);
+}
+
+main .columns.banner-text > div {
+  display: block;
+}
+
+main .columns.banner-text :is(h1, h2, h3, h4, h5, h6) {
+  margin: 1rem 0;
+  font-size: var(--body-font-size-xs);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--text-color-light);
+}
+
+main .columns.banner-text p {
+  font-size: var(--body-font-size-xs);
+  color: var(--text-color-light);
+}
