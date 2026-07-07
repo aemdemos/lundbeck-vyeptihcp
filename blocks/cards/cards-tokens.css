@@ -9,3 +9,115 @@
   --cards-image-aspect-ratio: 4 / 3; /* @boilerplate */
   --cards-image-object-fit: cover; /* @boilerplate */
 }
+
+/* ────────────────────────────────────────────────────────────────
+ * Customer variant styling for the cards block.
+ * Variants are authored as "Cards (quicklink)" / "Cards (promo)" and
+ * render as .cards.quicklink / .cards.promo. Kept here (not in the
+ * libs-owned cards.css) so upstream libs updates never clobber them.
+ * ──────────────────────────────────────────────────────────────── */
+
+/* quicklink — hero quick-link strip: transparent, centered icon-over-link cards */
+main .cards.quicklink > ul {
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+main .cards.quicklink > ul > li {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  width: auto;
+}
+
+main .cards.quicklink .cards-card-image img {
+  width: auto;
+  max-width: 64px;
+  aspect-ratio: auto;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+main .cards.quicklink .cards-card-body {
+  margin: 0;
+}
+
+main .cards.quicklink .cards-card-body h5 {
+  margin: 0;
+  font-size: var(--body-font-size-m);
+  font-weight: 700;
+}
+
+main .cards.quicklink .cards-card-body a {
+  color: var(--brand-primary);
+  text-decoration: none;
+}
+
+main .cards.quicklink .cards-card-body a:hover {
+  color: var(--brand-primary-light);
+  text-decoration: underline;
+}
+
+/* promo — two-up light-background promo cards: icon + bold heading link */
+main .cards.promo > ul {
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+main .cards.promo > ul > li {
+  border: 1px solid var(--brand-primary-light);
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  width: auto;
+}
+
+main .cards.promo .cards-card-image {
+  flex: 0 0 auto;
+}
+
+main .cards.promo .cards-card-image img {
+  width: auto;
+  max-width: 72px;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
+main .cards.promo .cards-card-body {
+  margin: 0;
+}
+
+main .cards.promo .cards-card-body h4 {
+  margin: 0;
+  font-size: var(--body-font-size-ms, 18px);
+  font-weight: 700;
+}
+
+main .cards.promo .cards-card-body a {
+  color: var(--brand-primary);
+  text-decoration: none;
+}
+
+main .cards.promo .cards-card-body a:hover {
+  color: var(--brand-primary-light);
+  text-decoration: underline;
+}
+
+/* Tablet+ : quicklink four across, promo two across */
+@media (width >= 600px) {
+  main .cards.quicklink > ul {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  main .cards.promo > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
