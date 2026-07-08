@@ -1,412 +1,381 @@
-import { getMetadata, decorateBlock, loadBlock } from '../../scripts/aem.js';
+import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 
-function toggleAllNavSections(sections, expanded = false) {
-  if (!sections) return;
-  sections.querySelectorAll(':scope > ul > li').forEach((section) => {
-    section.setAttribute('aria-expanded', expanded);
-  });
+const SESSION_HCP_DISMISSED = 'vyepti-hcp-bar-dismissed';
+
+/**
+ * Marks a link as opening in a new tab and appends the source's visually-hidden
+ * "opens in a new tab" hint (a11y parity with the source header).
+ */
+function markNewTab(link) {
+  link.setAttribute('target', '_blank');
+  link.setAttribute('rel', 'noopener');
+  const hint = document.createElement('span');
+  hint.className = 'nav-visually-hidden';
+  hint.textContent = 'opens in a new tab';
+  link.append(hint);
 }
 
-function closeAllDropdowns(nav) {
-  nav.querySelectorAll('[aria-expanded="true"]').forEach((el) => {
-    el.setAttribute('aria-expanded', 'false');
-  });
-}
-
-function closeOnEscape(e) {
-  if (e.code === 'Escape') {
-    const nav = document.getElementById('nav');
-    closeAllDropdowns(nav);
-  }
-}
-
-function closeOnClickOutside(e) {
-  const nav = document.getElementById('nav');
-  if (nav && !nav.contains(e.target)) {
-    closeAllDropdowns(nav);
-  }
+function isDesktop() {
+  return window.matchMedia('(min-width: 900px)').matches;
 }
 
 /**
- * Builds a search block instance (uses the shared blocks/search block) and
- * loads its CSS + JS. Wrapped in a .nav-search container for header layout.
- * @returns {HTMLElement} wrapper containing the (async-decorated) search block
+ * Wires hover (desktop) + click (all) open/close behavior on a dropdown container.
+ * @param {HTMLElement} item The <li>/wrapper holding the trigger + menu
+ * @param {HTMLElement} menu The dropdown menu element
  */
-function buildSearchBlock() {
-  const searchWrapper = document.createElement('div');
-  searchWrapper.className = 'nav-search';
-
-  const searchBlock = document.createElement('div');
-  searchBlock.className = 'search block';
-  searchBlock.dataset.blockName = 'search';
-  searchWrapper.append(searchBlock);
-
-  decorateBlock(searchBlock);
-  loadBlock(searchBlock);
-
-  return searchWrapper;
+function wireDropdown(item, menu, siblings) {
+  item.setAttribute('aria-expanded', 'false');
+  const close = () => item.setAttribute('aria-expanded', 'false');
+  const open = () => {
+    siblings.forEach((s) => { if (s !== item) s.setAttribute('aria-expanded', 'false'); });
+    item.setAttribute('aria-expanded', 'true');
+  };
+  item.addEventListener('mouseenter', () => { if (isDesktop()) open(); });
+  item.addEventListener('mouseleave', () => { if (isDesktop()) close(); });
+  const trigger = item.querySelector(':scope > button, :scope > span, :scope > a');
+  if (trigger) {
+    trigger.addEventListener('click', (e) => {
+      // A dropdown trigger with no real href toggles; a real link navigates.
+      const isRealLink = trigger.tagName === 'A' && trigger.getAttribute('href') && trigger.getAttribute('href') !== '#';
+      if (isRealLink) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const expanded = item.getAttribute('aria-expanded') === 'true';
+      if (expanded) close(); else open();
+    });
+  }
+  menu.setAttribute('role', 'menu');
 }
 
 /**
- * Decorates the utility bar section (top teal bar)
- * @param {Element} utilSection The utility bar section from nav fragment
- * @returns {HTMLElement} decorated utility bar
+ * Builds a dropdown from a source <li> that contains a nested <ul>.
+ * The li's leading text (before the nested ul) becomes the trigger label.
+ * @returns {HTMLElement} decorated <li> dropdown
  */
-function decorateUtilityBar(utilSection) {
-  const utilBar = document.createElement('div');
-  utilBar.className = 'nav-utility';
+function buildDropdownItem(sourceLi, siblings) {
+  const li = document.createElement('li');
+  li.className = 'nav-dropdown';
 
+  const subUl = sourceLi.querySelector(':scope > ul');
+  // Trigger label = the li's own text nodes / leading anchor, excluding the nested ul.
+  const leadingLink = sourceLi.querySelector(':scope > a');
+  const labelText = leadingLink
+    ? leadingLink.textContent.trim()
+    : Array.from(sourceLi.childNodes)
+      .filter((n) => n.nodeType === Node.TEXT_NODE)
+      .map((n) => n.textContent.trim())
+      .filter(Boolean)
+      .join(' ');
+
+  const trigger = document.createElement('button');
+  trigger.className = 'nav-dropdown-trigger';
+  trigger.type = 'button';
+  trigger.textContent = labelText;
+  li.append(trigger);
+
+  const menu = document.createElement('div');
+  menu.className = 'nav-dropdown-menu';
+  const menuList = document.createElement('ul');
+  [...subUl.querySelectorAll(':scope > li > a')].forEach((a) => {
+    const mi = document.createElement('li');
+    const link = a.cloneNode(true);
+    if (/^https?:\/\//.test(link.getAttribute('href') || '')) {
+      markNewTab(link);
+    }
+    mi.append(link);
+    menuList.append(mi);
+  });
+  menu.append(menuList);
+  li.append(menu);
+
+  wireDropdown(li, menu, siblings);
+  return li;
+}
+
+/**
+ * Decorates the HCP notification bar (row 0). CONTINUE dismisses the bar for the
+ * session; GO TO PATIENT SITE navigates out.
+ * @returns {HTMLElement|null}
+ */
+function decorateHcpBar(section) {
+  if (!section) return null;
+  if (sessionStorage.getItem(SESSION_HCP_DISMISSED) === 'true') return null;
+
+  const bar = document.createElement('div');
+  bar.className = 'nav-hcp-bar';
+  const container = document.createElement('div');
+  container.className = 'nav-hcp-container';
+
+  const msg = section.querySelector('p');
+  if (msg) {
+    const msgEl = document.createElement('p');
+    msgEl.className = 'nav-hcp-message';
+    msgEl.textContent = msg.textContent.trim();
+    container.append(msgEl);
+  }
+
+  const actions = document.createElement('div');
+  actions.className = 'nav-hcp-actions';
+  const links = [...section.querySelectorAll('ul > li > a')];
+  links.forEach((a) => {
+    const label = a.textContent.trim();
+    const href = a.getAttribute('href') || '#';
+    if (/^continue$/i.test(label) || href === '#') {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'nav-hcp-continue';
+      btn.textContent = label;
+      btn.addEventListener('click', () => {
+        sessionStorage.setItem(SESSION_HCP_DISMISSED, 'true');
+        bar.remove();
+      });
+      actions.append(btn);
+    } else {
+      const link = a.cloneNode(true);
+      link.className = 'nav-hcp-link';
+      if (/^https?:\/\//.test(href)) {
+        markNewTab(link);
+      }
+      actions.append(link);
+    }
+  });
+  container.append(actions);
+  bar.append(container);
+  return bar;
+}
+
+/**
+ * Decorates the utility bar (row 1): indication tagline + PI/Patient Info dropdowns
+ * + View patient site.
+ * @returns {HTMLElement|null}
+ */
+function decorateUtilityBar(section) {
+  if (!section) return null;
+  const bar = document.createElement('div');
+  bar.className = 'nav-utility';
   const container = document.createElement('div');
   container.className = 'nav-utility-container';
 
-  // Tagline
-  const tagline = utilSection.querySelector('p');
+  const contentRoot = section.querySelector('.default-content-wrapper') || section;
+  const tagline = contentRoot.querySelector(':scope > p');
   if (tagline) {
-    const taglineEl = document.createElement('span');
-    taglineEl.className = 'nav-utility-tagline';
-    taglineEl.textContent = tagline.textContent.trim();
-    container.append(taglineEl);
+    const t = document.createElement('span');
+    t.className = 'nav-utility-tagline';
+    t.textContent = tagline.textContent.trim();
+    container.append(t);
   }
 
-  // Utility links (PI dropdowns, HCP link)
-  const utilLinks = document.createElement('div');
-  utilLinks.className = 'nav-utility-links';
-
-  const ul = utilSection.querySelector('ul');
-  if (ul) {
-    [...ul.children].forEach((li) => {
-      const subUl = li.querySelector('ul');
-      const link = li.querySelector(':scope > a');
-
-      if (subUl) {
-        // Dropdown item (Patient Info, Prescribing Info)
-        const dropdown = document.createElement('div');
-        dropdown.className = 'nav-utility-dropdown';
-
-        const trigger = document.createElement('button');
-        trigger.className = 'nav-utility-dropdown-trigger';
-        trigger.setAttribute('aria-expanded', 'false');
-        // EDS wraps text in <p>; check <p> first, then fall back to direct text nodes
-        const labelP = li.querySelector(':scope > p');
-        const directText = Array.from(li.childNodes)
-          .filter((n) => n.nodeType === Node.TEXT_NODE)
-          .map((n) => n.textContent.trim())
-          .join('');
-        trigger.textContent = (labelP ? labelP.textContent.trim() : '') || directText;
-
-        const menu = document.createElement('div');
-        menu.className = 'nav-utility-dropdown-menu';
-        [...subUl.children].forEach((subLi) => {
-          const a = subLi.querySelector('a');
-          if (a) menu.append(a.cloneNode(true));
-        });
-
-        trigger.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const expanded = trigger.getAttribute('aria-expanded') === 'true';
-          // Close other utility dropdowns
-          dropdown.closest('.nav-utility-links')
-            .querySelectorAll('.nav-utility-dropdown-trigger[aria-expanded="true"]')
-            .forEach((t) => t.setAttribute('aria-expanded', 'false'));
-          trigger.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-
-          // Toggle overlay on mobile
-          const isMobile = window.matchMedia('(max-width: 899px)').matches;
-          if (isMobile) {
-            let overlay = document.querySelector('.nav-utility-overlay');
-            if (!expanded) {
-              if (!overlay) {
-                overlay = document.createElement('div');
-                overlay.className = 'nav-utility-overlay';
-                overlay.addEventListener('click', () => {
-                  trigger.setAttribute('aria-expanded', 'false');
-                  overlay.remove();
-                });
-                document.body.append(overlay);
-              }
-              requestAnimationFrame(() => {
-                const menuEl = dropdown.querySelector('.nav-utility-dropdown-menu');
-                if (menuEl && overlay.parentElement) {
-                  const menuBottom = menuEl.getBoundingClientRect().bottom;
-                  overlay.style.top = `${menuBottom}px`;
-                }
-              });
-            } else if (overlay) {
-              overlay.remove();
-            }
-          }
-        });
-
-        dropdown.addEventListener('mouseenter', () => {
-          if (window.matchMedia('(min-width: 900px)').matches) {
-            dropdown.closest('.nav-utility-links')
-              .querySelectorAll('.nav-utility-dropdown-trigger[aria-expanded="true"]')
-              .forEach((t) => t.setAttribute('aria-expanded', 'false'));
-            trigger.setAttribute('aria-expanded', 'true');
-          }
-        });
-        dropdown.addEventListener('mouseleave', () => {
-          if (window.matchMedia('(min-width: 900px)').matches) {
-            trigger.setAttribute('aria-expanded', 'false');
-          }
-        });
-
-        dropdown.append(trigger, menu);
-        utilLinks.append(dropdown);
+  const linksWrap = document.createElement('ul');
+  linksWrap.className = 'nav-utility-links';
+  const topUl = contentRoot.querySelector(':scope > ul');
+  if (topUl) {
+    const items = [...topUl.querySelectorAll(':scope > li')];
+    items.forEach((li) => {
+      if (li.querySelector(':scope > ul')) {
+        linksWrap.append(buildDropdownItem(li, items));
       } else {
-        // Simple link (HCP) — may be direct child or wrapped in <p> by EDS
-        const a = link || li.querySelector('a');
+        const a = li.querySelector(':scope > a');
         if (a) {
-          const clone = a.cloneNode(true);
-          clone.className = 'nav-utility-link';
-          utilLinks.append(clone);
+          const outer = document.createElement('li');
+          const link = a.cloneNode(true);
+          link.className = 'nav-utility-link';
+          if (/^https?:\/\//.test(link.getAttribute('href') || '')) {
+            markNewTab(link);
+          }
+          outer.append(link);
+          linksWrap.append(outer);
         }
       }
     });
   }
-
-  // Social icons — EDS may put each social link in its own <p>
-  const socialParagraphs = [...utilSection.querySelectorAll('p')]
-    .filter((p) => p.querySelector('a picture, a img'));
-  if (socialParagraphs.length) {
-    const socialLinks = document.createElement('div');
-    socialLinks.className = 'nav-utility-social';
-    socialParagraphs.forEach((p) => {
-      const a = p.querySelector('a');
-      if (a) {
-        const clone = a.cloneNode(true);
-        clone.className = 'nav-utility-social-link';
-        socialLinks.append(clone);
-      }
-    });
-    utilLinks.append(socialLinks);
-  }
-
-  container.append(utilLinks);
-  utilBar.append(container);
-  return utilBar;
+  container.append(linksWrap);
+  bar.append(container);
+  return bar;
 }
 
 /**
- * Decorates the brand row with logo and tool links
- * @param {Element} brandSection The brand section (logo)
- * @param {Element} toolsSection The tools section (icon links)
- * @returns {HTMLElement} decorated brand row
+ * Builds the tools cluster (CTA pills) from the brand section.
+ * @returns {HTMLElement} .nav-tools
  */
-function decorateBrandRow(brandSection, toolsSection) {
-  const brandRow = document.createElement('div');
-  brandRow.className = 'nav-brand-row';
-
-  const container = document.createElement('div');
-  container.className = 'nav-brand-container';
-
-  // Logo
-  const logoWrapper = document.createElement('div');
-  logoWrapper.className = 'nav-brand';
-  const logoLink = brandSection.querySelector('a');
-  if (logoLink) {
-    const clone = logoLink.cloneNode(true);
-    clone.className = 'nav-brand-link';
-    logoWrapper.append(clone);
+function buildTools(section) {
+  const tools = document.createElement('div');
+  tools.className = 'nav-tools';
+  const contentRoot = section.querySelector('.default-content-wrapper') || section;
+  const toolUl = contentRoot.querySelector(':scope > ul');
+  if (toolUl) {
+    [...toolUl.querySelectorAll(':scope > li > a')].forEach((a) => {
+      const cta = a.cloneNode(true);
+      cta.className = 'nav-tool-cta';
+      tools.append(cta);
+    });
   }
-  // Brand tagline (visible on mobile next to logo)
-  const brandTagline = document.createElement('span');
-  brandTagline.className = 'nav-brand-tagline';
-  brandTagline.textContent = 'For the preventive treatment of migraine in adults.';
-  logoWrapper.append(brandTagline);
+  return tools;
+}
 
-  container.append(logoWrapper);
-
-  // Hamburger menu button (mobile)
+/**
+ * Builds the mobile hamburger toggle (icon + persistent "Menu" label, as source).
+ * @returns {HTMLElement} button.nav-hamburger
+ */
+function buildHamburger() {
   const hamburger = document.createElement('button');
+  hamburger.type = 'button';
   hamburger.className = 'nav-hamburger';
   hamburger.setAttribute('aria-label', 'Toggle Menu');
   hamburger.setAttribute('aria-expanded', 'false');
-  const hamburgerIcon = document.createElement('span');
-  hamburgerIcon.className = 'nav-hamburger-icon';
-  const hamburgerText = document.createElement('span');
-  hamburgerText.className = 'nav-hamburger-text';
-  hamburgerText.textContent = 'Menu';
-  hamburger.append(hamburgerIcon, hamburgerText);
-  hamburger.addEventListener('click', () => {
-    const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-    hamburger.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-    const nav = hamburger.closest('nav');
-    if (nav) nav.classList.toggle('nav-mobile-open', !expanded);
-  });
-
-  container.append(hamburger);
-
-  // Tools (icon links)
-  const toolsWrapper = document.createElement('div');
-  toolsWrapper.className = 'nav-tools';
-
-  if (toolsSection) {
-    toolsSection.querySelectorAll('p').forEach((p) => {
-      const a = p.querySelector('a');
-      if (a) {
-        const toolLink = a.cloneNode(true);
-        toolLink.className = 'nav-tool-link';
-        const img = toolLink.querySelector('img, picture');
-        if (img) img.className = 'nav-tool-icon';
-        // EDS may place label text outside <a> as a sibling in <p>
-        if (!toolLink.textContent.trim() || toolLink.textContent.trim() === (img ? img.alt : '')) {
-          const pText = Array.from(p.childNodes)
-            .filter((n) => n.nodeType === Node.TEXT_NODE)
-            .map((n) => n.textContent.trim())
-            .filter(Boolean)
-            .join(' ');
-          if (pText) toolLink.append(document.createTextNode(pText));
-        }
-        toolsWrapper.append(toolLink);
-      }
-    });
-  }
-
-  // Search (shared blocks/search block)
-  toolsWrapper.append(buildSearchBlock());
-  container.append(toolsWrapper);
-  brandRow.append(container);
-  return brandRow;
+  hamburger.innerHTML = '<span class="nav-hamburger-icon"></span><span class="nav-hamburger-label">Menu</span>';
+  return hamburger;
 }
 
 /**
- * Decorates the navigation links row
- * @param {Element} sectionsEl The sections element (nav links with dropdowns)
- * @returns {HTMLElement} decorated nav links row
+ * Builds the primary nav links list from the nav-links section.
+ * @returns {HTMLElement} ul.nav-links-list
  */
-function decorateNavLinks(sectionsEl) {
-  const navRow = document.createElement('div');
-  navRow.className = 'nav-links-row';
-
-  // Mobile menu header (search + close button)
-  const mobileHeader = document.createElement('div');
-  mobileHeader.className = 'nav-mobile-header';
-
-  const mobileSearch = buildSearchBlock();
-  mobileSearch.className = 'nav-mobile-search';
-  mobileHeader.append(mobileSearch);
-
-  const closeBtn = document.createElement('button');
-  closeBtn.className = 'nav-mobile-close';
-  closeBtn.setAttribute('aria-label', 'Close Menu');
-  const closeIcon = document.createElement('span');
-  closeIcon.className = 'nav-mobile-close-icon';
-  closeIcon.setAttribute('aria-hidden', 'true');
-  closeBtn.append(closeIcon);
-  closeBtn.addEventListener('click', () => {
-    const nav = navRow.closest('nav');
-    if (nav) {
-      nav.classList.remove('nav-mobile-open');
-      const hamburger = nav.querySelector('.nav-hamburger');
-      if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
-    }
-  });
-  mobileHeader.append(closeBtn);
-
-  navRow.append(mobileHeader);
-
-  // Mobile tool links (pill buttons below search) — populated after nav is in DOM
-  const mobileTools = document.createElement('div');
-  mobileTools.className = 'nav-mobile-tools';
-  navRow.append(mobileTools);
-
-  requestAnimationFrame(() => {
-    const nav = navRow.closest('nav');
-    if (!nav) return;
-    nav.querySelectorAll('.nav-tool-link').forEach((link) => {
-      const pill = document.createElement('a');
-      pill.className = 'nav-mobile-tool-pill';
-      pill.href = link.href;
-      pill.textContent = link.textContent.trim();
-      mobileTools.append(pill);
-    });
-  });
-
-  const container = document.createElement('div');
-  container.className = 'nav-links-container';
-
-  const ul = sectionsEl.querySelector('ul');
-  if (ul) {
-    const navList = ul.cloneNode(true);
-    navList.className = 'nav-links-list';
-
-    const isDesktop = () => window.matchMedia('(min-width: 900px)').matches;
-
-    // Add dropdown behavior to items with sub-menus
-    navList.querySelectorAll(':scope > li').forEach((li) => {
-      const subUl = li.querySelector('ul');
-      if (subUl) {
-        li.classList.add('nav-drop');
-        li.setAttribute('aria-expanded', 'false');
-        li.setAttribute('tabindex', '0');
-        subUl.className = 'nav-dropdown-menu';
-
-        // Hover open/close (desktop only)
-        li.addEventListener('mouseenter', () => {
-          if (!isDesktop()) return;
-          toggleAllNavSections(navList);
-          li.setAttribute('aria-expanded', 'true');
-        });
-        li.addEventListener('mouseleave', () => {
-          if (!isDesktop()) return;
-          li.setAttribute('aria-expanded', 'false');
-        });
-
-        // Click toggle
-        li.addEventListener('click', (e) => {
-          if (e.target.closest('a')) return;
-          e.stopPropagation();
-          const expanded = li.getAttribute('aria-expanded') === 'true';
-          if (isDesktop()) toggleAllNavSections(navList);
-          li.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-        });
-
-        // Keyboard
-        li.addEventListener('keydown', (e) => {
-          if (e.code === 'Enter' || e.code === 'Space') {
-            e.preventDefault();
-            const expanded = li.getAttribute('aria-expanded') === 'true';
-            if (isDesktop()) toggleAllNavSections(navList);
-            li.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-          }
-        });
+function buildNavLinksList(section) {
+  const list = document.createElement('ul');
+  list.className = 'nav-links-list';
+  const contentRoot = section.querySelector('.default-content-wrapper') || section;
+  const topUl = contentRoot.querySelector(':scope > ul');
+  if (topUl) {
+    const items = [...topUl.querySelectorAll(':scope > li')];
+    items.forEach((li) => {
+      if (li.querySelector(':scope > ul')) {
+        list.append(buildDropdownItem(li, items));
+      } else {
+        const a = li.querySelector(':scope > a');
+        if (a) {
+          const outer = document.createElement('li');
+          outer.className = 'nav-link-item';
+          outer.append(a.cloneNode(true));
+          list.append(outer);
+        }
       }
     });
+  }
+  return list;
+}
 
-    container.append(navList);
+/**
+ * Builds the LuMi AI Assistant widget: a circular avatar + label that toggles a
+ * small popup ("Let LuMi help you today!" + Start chatting / Try later + close).
+ * All copy/media come from the nav fragment's LuMi section (content-first).
+ * @param {HTMLElement} section The LuMi fragment section
+ * @returns {HTMLElement|null}
+ */
+function buildLumi(section) {
+  if (!section) return null;
+  const contentRoot = section.querySelector('.default-content-wrapper') || section;
+  const paragraphs = [...contentRoot.querySelectorAll(':scope > p')];
+  const avatarImg = contentRoot.querySelector('p img');
+  if (!avatarImg) return null;
+  // p[0]=avatar image, p[1]=button label, p[2]=popup title.
+  const labelText = paragraphs[1] ? paragraphs[1].textContent.trim() : 'LuMi AI Assistant';
+  const popupTitle = paragraphs[2] ? paragraphs[2].textContent.trim() : '';
+  const popupLinks = [...contentRoot.querySelectorAll(':scope > ul > li > a')];
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'nav-lumi';
+
+  const trigger = document.createElement('button');
+  trigger.type = 'button';
+  trigger.className = 'nav-lumi-button';
+  trigger.setAttribute('aria-expanded', 'false');
+  const avatar = document.createElement('span');
+  avatar.className = 'nav-lumi-avatar';
+  avatar.append(avatarImg.cloneNode(true));
+  const label = document.createElement('span');
+  label.className = 'nav-lumi-label';
+  label.textContent = labelText;
+  trigger.append(avatar, label);
+  wrapper.append(trigger);
+
+  const popup = document.createElement('div');
+  popup.className = 'nav-lumi-popup';
+  popup.setAttribute('role', 'dialog');
+  const header = document.createElement('div');
+  header.className = 'nav-lumi-popup-header';
+  const title = document.createElement('span');
+  title.className = 'nav-lumi-popup-title';
+  title.textContent = popupTitle;
+  const closeBtn = document.createElement('button');
+  closeBtn.type = 'button';
+  closeBtn.className = 'nav-lumi-popup-close';
+  closeBtn.setAttribute('aria-label', 'Close');
+  header.append(title, closeBtn);
+  const actions = document.createElement('div');
+  actions.className = 'nav-lumi-popup-actions';
+  popupLinks.forEach((a) => {
+    const btn = a.cloneNode(true);
+    btn.className = 'nav-lumi-popup-btn';
+    actions.append(btn);
+  });
+  popup.append(header, actions);
+  wrapper.append(popup);
+
+  const close = () => trigger.setAttribute('aria-expanded', 'false');
+  trigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const open = trigger.getAttribute('aria-expanded') === 'true';
+    trigger.setAttribute('aria-expanded', open ? 'false' : 'true');
+  });
+  closeBtn.addEventListener('click', (e) => { e.preventDefault(); close(); });
+  const tryLater = actions.querySelector('a[href="#lumi-later"]');
+  if (tryLater) tryLater.addEventListener('click', (e) => { e.preventDefault(); close(); });
+
+  return wrapper;
+}
+
+/**
+ * Builds the teal brand band as it appears on source: the logo sits on the left
+ * and spans two stacked right-hand rows — tool CTAs on top, primary nav below.
+ * @returns {HTMLElement|null}
+ */
+function decorateBrandBand(brandSection, navLinksSection, lumiSection) {
+  if (!brandSection && !navLinksSection) return null;
+  const band = document.createElement('div');
+  band.className = 'nav-brand-row';
+  const container = document.createElement('div');
+  container.className = 'nav-brand-container';
+
+  if (brandSection) {
+    const contentRoot = brandSection.querySelector('.default-content-wrapper') || brandSection;
+    const logoLink = contentRoot.querySelector('p a');
+    if (logoLink) {
+      const brand = document.createElement('div');
+      brand.className = 'nav-brand';
+      brand.append(logoLink.cloneNode(true));
+      container.append(brand);
+    }
   }
 
-  navRow.append(container);
+  const right = document.createElement('div');
+  right.className = 'nav-brand-right';
 
-  // Mobile nav footer (HCP link + social icons) — populated after nav is in DOM
-  const mobileFooter = document.createElement('div');
-  mobileFooter.className = 'nav-mobile-footer';
-  navRow.append(mobileFooter);
+  if (brandSection) {
+    const toolsRow = document.createElement('div');
+    toolsRow.className = 'nav-tools-row';
+    toolsRow.append(buildTools(brandSection));
+    right.append(toolsRow);
+  }
 
-  requestAnimationFrame(() => {
-    const nav = navRow.closest('nav');
-    if (!nav) return;
+  if (navLinksSection) {
+    const linksRow = document.createElement('div');
+    linksRow.className = 'nav-links-row';
+    linksRow.append(buildNavLinksList(navLinksSection));
+    // LuMi AI Assistant sits to the right of the primary nav links (as on source).
+    const lumi = buildLumi(lumiSection);
+    if (lumi) linksRow.append(lumi);
+    right.append(linksRow);
+  }
 
-    // Clone HCP link
-    const hcpLink = nav.querySelector('.nav-utility-link');
-    if (hcpLink) {
-      const hcpClone = hcpLink.cloneNode(true);
-      hcpClone.className = 'nav-mobile-hcp-link';
-      mobileFooter.append(hcpClone);
-    }
-
-    // Clone social icons
-    const socialSection = nav.querySelector('.nav-utility-social');
-    if (socialSection) {
-      const socialClone = socialSection.cloneNode(true);
-      socialClone.className = 'nav-mobile-social';
-      mobileFooter.append(socialClone);
-    }
-  });
-
-  return navRow;
+  container.append(right);
+  // Hamburger lives on the top bar (beside the logo) on mobile; the right column
+  // (CTAs + nav links) becomes the collapsible menu it toggles.
+  container.append(buildHamburger());
+  band.append(container);
+  return band;
 }
 
 /**
@@ -415,50 +384,64 @@ function decorateNavLinks(sectionsEl) {
  */
 export default async function decorate(block) {
   const navMeta = getMetadata('nav');
-  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
-  const fragment = await loadFragment(navPath);
+  // Local (aem up) serves the nav fragment under /content; DA/EDS production serves
+  // it at /nav. Try the metadata-provided path first, then /content/nav (local),
+  // then /nav (production) — first one that loads wins.
+  const candidates = [];
+  if (navMeta) candidates.push(new URL(navMeta, window.location).pathname);
+  candidates.push('/content/nav', '/nav');
+  let fragment = null;
+  for (let i = 0; i < candidates.length && !fragment; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    fragment = await loadFragment(candidates[i]);
+  }
 
   block.textContent = '';
   const nav = document.createElement('nav');
   nav.id = 'nav';
   nav.setAttribute('aria-label', 'Main navigation');
 
-  // Collect sections from fragment: brand, sections, tools, utility
   const sections = [...fragment.children];
+  // Fragment order: [0] HCP bar, [1] utility bar, [2] brand+tools, [3] primary nav,
+  // [4] LuMi AI Assistant. Brand + primary nav combine into one teal band.
+  const [hcpSection, utilitySection, brandSection, navLinksSection, lumiSection] = sections;
 
-  const [brandSection, sectionsEl, toolsSection, utilitySection] = sections;
+  const hcpBar = decorateHcpBar(hcpSection);
+  if (hcpBar) nav.append(hcpBar);
+  const utilityBar = decorateUtilityBar(utilitySection);
+  if (utilityBar) nav.append(utilityBar);
+  // Source renders the teal band as ONE row: logo on the left spanning two
+  // stacked right-hand rows (tool CTAs over primary nav links + LuMi widget).
+  const brandBand = decorateBrandBand(brandSection, navLinksSection, lumiSection);
+  if (brandBand) nav.append(brandBand);
 
-  // Build 3-row header: utility (top), brand+tools (middle), nav links (bottom)
-  if (utilitySection) nav.append(decorateUtilityBar(utilitySection));
-  if (brandSection) nav.append(decorateBrandRow(brandSection, toolsSection));
-  if (sectionsEl) nav.append(decorateNavLinks(sectionsEl));
+  // Hamburger toggles the mobile nav-links drawer.
+  const hamburger = nav.querySelector('.nav-hamburger');
+  if (hamburger) {
+    hamburger.addEventListener('click', () => {
+      const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+      hamburger.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      nav.classList.toggle('nav-mobile-open', !expanded);
+    });
+  }
 
-  // Keyboard and click-outside handlers
-  window.addEventListener('keydown', closeOnEscape);
-  document.addEventListener('click', closeOnClickOutside);
+  // Close dropdowns on Escape / outside click.
+  const closeAll = () => nav.querySelectorAll('[aria-expanded="true"]').forEach((el) => {
+    if (el.classList.contains('nav-dropdown')) el.setAttribute('aria-expanded', 'false');
+  });
+  window.addEventListener('keydown', (e) => { if (e.code === 'Escape') closeAll(); });
+  document.addEventListener('click', (e) => { if (!nav.contains(e.target)) closeAll(); });
+
+  // Reset mobile state when resizing up to desktop.
+  window.matchMedia('(min-width: 900px)').addEventListener('change', (mq) => {
+    if (mq.matches) {
+      nav.classList.remove('nav-mobile-open');
+      if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
+    }
+  });
 
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
   navWrapper.append(nav);
   block.append(navWrapper);
-
-  // Hide header on scroll down, show on scroll up
-  let lastScrollY = window.scrollY;
-  let ticking = false;
-
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        const currentScrollY = window.scrollY;
-        if (currentScrollY > lastScrollY && currentScrollY > 100) {
-          navWrapper.classList.add('nav-hidden');
-        } else {
-          navWrapper.classList.remove('nav-hidden');
-        }
-        lastScrollY = currentScrollY;
-        ticking = false;
-      });
-      ticking = true;
-    }
-  });
 }

@@ -1,26 +1,144 @@
-/* header design tokens (layout only; colors/typography use global tokens) */
-:root { /* @boilerplate */
+/* ============================================================
+   Header design tokens.
+   Customer-tunable surface for the VYEPTI HCP header. Everything the
+   header.css consumes resolves to a token here; tokens in turn reference
+   the global design tokens in styles/styles.css wherever a global exists,
+   so brand/typography changes cascade automatically. Adjust header look
+   here (not in header.css) whenever possible.
+   ============================================================ */
+:root {
+  /* nav heights (legacy — kept for header-height math in styles.css) */
   --nav-height: 200px;
   --header-nav-max-width-mobile: 510px;
   --header-nav-max-width-tablet: 690px;
   --header-nav-max-width-desktop: 930px;
   --header-nav-max-width-max: 1110px;
-  --header-white-text-color: #fff;
-  --header-text-color: #484848;
 
-  /* font */
-  --header-font-weight-xs: 500;
+  /* ---- color roles (reference global brand/semantic tokens) ---- */
+  /* Brand band measured from source = #41748d = --brand-teal-muted (--brand-primary-dark).
+     NOTE: --brand-primary is #046183 (darker) — do NOT use it for the band. */
+  --header-brand-band-bg: var(--brand-primary-dark);
+  --header-brand-band-color: var(--background-color);
+  --header-accent-color: var(--brand-primary-dark);
+  --header-utility-bg: var(--light-color);
+  --header-hcp-bg: var(--background-color);
+  --header-text-color: var(--text-color);
+  --header-white-text-color: var(--background-color);
+  --header-border-color: var(--brand-primary-light);
+  --header-dropdown-bg: var(--background-color);
+  --header-dropdown-link-color: var(--brand-primary-dark);
+  --header-dropdown-hover-bg: var(--light-color);
+  --header-band-divider-color: rgb(255 255 255 / 20%);
+
+  /* ---- typography (reference global body sizes) ---- */
+  --header-font-size-xs: var(--body-font-size-xs);
+  --header-font-size-s: var(--body-font-size-s);
+  --header-font-size-m: var(--body-font-size-ms);
   --header-font-weight-s: 600;
   --header-font-weight-medium: 700;
-  --header-font-weight-bold: 800;
-  --header-font-size-xs: 14px;
-  --header-font-size-s: 16px;
-  --header-font-size-m: 18px;
-  --header-padding-container: 15px;
+  --header-nav-line-height: 1.2;
 
-  /* line heights */
-  --header-line-height-xs: 14px;
-  --header-line-height-s: 18px;
-  --header-line-height-m: 22px;
-  --header-line-height-l: 24px;
+  /* ---- spacing scale (header-local; no global spacing tokens exist) ---- */
+  --header-space-3xs: 6px;
+  --header-space-2xs: 8px;
+  --header-space-xs: 10px;
+  --header-space-s: 14px;
+  --header-space-m: 16px;
+  --header-space-l: 18px;
+  --header-space-xl: 22px;
+  --header-space-2xl: 24px;
+  --header-padding-container: 15px;
+  --header-row-gap: 16px;
+  --header-actions-gap: 24px;
+  --header-tools-gap: 16px;
+  --header-dropdown-gap: 6px;
+  --header-chevron-gap: 8px;
+  --header-chevron-offset-y: -2px;
+  --header-brand-gap: 24px;
+
+  /* ---- primary-nav dropdown menu (matches source) ---- */
+  --header-navmenu-radius: 10px;
+  --header-navmenu-padding-inline: 16px;
+  --header-navmenu-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+  --header-navmenu-link-font-size: 12px;
+  --header-navmenu-link-line-height: 16px;
+  --header-navmenu-link-padding: 12px 0;
+  --header-navmenu-separator: 1px solid rgb(164 164 164);
+
+  /* ---- LuMi AI Assistant widget ---- */
+  --header-lumi-gap: 5px;
+  --header-lumi-avatar-size: 50px;
+  --header-lumi-label-line-height: 18px;
+  --header-lumi-label-max-width: 80px;
+  /* Popup — matches source: teal header band (#b5d9dd) + white body, teal title
+     (#046183), pill buttons, and an upward triangle centered under the avatar. */
+  --header-lumi-popup-offset: 12px;
+  --header-lumi-popup-width: 335px;
+  --header-lumi-popup-bg: var(--background-color);
+  --header-lumi-popup-radius: 10px;
+  --header-lumi-popup-shadow: 0 4px 4px rgb(0 0 0 / 10%);
+  --header-lumi-header-bg: #b5d9dd;
+  --header-lumi-header-padding: 10px;
+  --header-lumi-title-color: var(--brand-primary);
+  --header-lumi-body-padding: 10px;
+  --header-lumi-close-size: 24px;
+  --header-lumi-close-x-length: 10px;
+  --header-lumi-close-color: var(--header-white-text-color);
+  --header-lumi-close-bg: transparent;
+  --header-lumi-close-ring: 2px solid var(--header-white-text-color);
+  --header-lumi-popup-btn-gap: 10px;
+  --header-lumi-btn-border-color: rgb(217 217 217);
+  --header-lumi-btn-radius: 20px;
+  --header-lumi-btn-padding: 5px 12px;
+  --header-lumi-btn-hover-bg: #002d54;
+  /* Triangle: 14px wide (half 7px), 12px tall; avatar center is ~110px in from
+     the popup's right edge, so offset the arrow to sit under it. */
+  --header-lumi-arrow-half: 7px;
+  --header-lumi-arrow-height: 12px;
+  --header-lumi-arrow-right: 103px;
+
+  /* ---- borders / radii / elevation (reference global button + section tokens) ---- */
+  --header-border-width: var(--button-border-width);
+  --header-pill-radius: var(--button-border-radius);
+  --header-dropdown-radius: 8px;
+  --header-dropdown-min-width: 180px;
+  --header-utility-dropdown-min-width: 160px;
+  --header-dropdown-shadow: 0 2px 8px rgb(46 50 51 / 20%);
+  --header-dropdown-z: 20;
+  --header-transition: var(--button-transition);
+
+  /* ---- pill CTA padding ---- */
+  --header-cta-padding: 16px 32px;
+  --header-hcp-continue-padding: 6px 22px;
+  --header-nav-link-padding: 24px 0;
+  --header-nav-link-gap: 20px;
+  --header-dropdown-link-padding: 10px 18px;
+
+  /* ---- brand logo ---- */
+  --header-logo-height: 85px;
+
+  /* ---- chevron ---- */
+  --header-chevron-size: 8px;
+
+  /* ---- hamburger (mobile) ---- */
+  --header-hamburger-size: 40px;
+  --header-hamburger-bar-width: 24px;
+  --header-hamburger-bar-height: 2px;
+  --header-hamburger-bar-offset: 7px;
+  --header-hamburger-label-gap: 4px;
+  --header-hamburger-transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease;
+
+  /* ---- mobile menu (expanding accordion panel) ---- */
+  --header-mobile-menu-bg: var(--background-color);
+  --header-mobile-menu-padding: 16px;
+  /* Vertical-only panel padding: items align to the 15px container inset
+     (matches source's ~19px item inset instead of doubling to 31px). */
+  --header-mobile-menu-padding-block: 16px;
+  --header-mobile-cta-gap: 12px;
+  --header-mobile-divider-color: rgb(153 153 153);
+  --header-mobile-nav-link-padding: 16px 0 12px;
+  --header-mobile-sublink-padding: 0 0 12px 32px;
+
+  /* ---- responsive breakpoint ---- */
+  --header-mobile-breakpoint: 900px;
 }
