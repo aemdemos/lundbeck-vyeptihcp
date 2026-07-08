@@ -59,10 +59,13 @@ function buildDropdownItem(sourceLi, siblings) {
   li.className = 'nav-dropdown';
 
   const subUl = sourceLi.querySelector(':scope > ul');
-  // Trigger label = the li's own text nodes / leading anchor, excluding the nested ul.
-  const leadingLink = sourceLi.querySelector(':scope > a');
-  const labelText = leadingLink
-    ? leadingLink.textContent.trim()
+  // Trigger label = the li's leading content before the nested <ul>. The DA/EDS
+  // pipeline wraps this in a <p> (`<li><p>Label</p><ul>…`), while the local raw
+  // fragment has bare text — so take the first non-<ul> child's text, falling
+  // back to direct text nodes.
+  const labelNode = [...sourceLi.children].find((c) => c.tagName !== 'UL');
+  const labelText = labelNode
+    ? labelNode.textContent.trim()
     : Array.from(sourceLi.childNodes)
       .filter((n) => n.nodeType === Node.TEXT_NODE)
       .map((n) => n.textContent.trim())
@@ -176,7 +179,8 @@ function decorateUtilityBar(section) {
       if (li.querySelector(':scope > ul')) {
         linksWrap.append(buildDropdownItem(li, items));
       } else {
-        const a = li.querySelector(':scope > a');
+        // Plain link: direct child on local, or wrapped in <p> on published DA.
+        const a = li.querySelector(':scope > a, :scope > p > a');
         if (a) {
           const outer = document.createElement('li');
           const link = a.cloneNode(true);
@@ -243,7 +247,8 @@ function buildNavLinksList(section) {
       if (li.querySelector(':scope > ul')) {
         list.append(buildDropdownItem(li, items));
       } else {
-        const a = li.querySelector(':scope > a');
+        // Plain link: direct child on local, or wrapped in <p> on published DA.
+        const a = li.querySelector(':scope > a, :scope > p > a');
         if (a) {
           const outer = document.createElement('li');
           outer.className = 'nav-link-item';
