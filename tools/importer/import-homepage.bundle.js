@@ -250,6 +250,41 @@ var CustomImportScript = (() => {
 
   // tools/importer/transformers/vyeptihcp-sections.js
   var TransformHook2 = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
+  function mediaWidth(media) {
+    if (!media) return Infinity;
+    const m = media.match(/(?:max-width|min-width|width)\s*:\s*(\d+(?:\.\d+)?)/i);
+    return m ? parseFloat(m[1]) : Infinity;
+  }
+  function extractRenditionImgs(container, doc) {
+    const picture = container.matches("picture") ? container : container.querySelector("picture");
+    const fallbackImg = picture && picture.querySelector("img") || (container.matches("img") ? container : container.querySelector("img"));
+    const alt = fallbackImg ? fallbackImg.getAttribute("alt") || "" : "";
+    const entries = [];
+    const addEntry = (rawSrcset, media) => {
+      if (!rawSrcset) return;
+      rawSrcset.split(",").forEach((candidate) => {
+        const url = candidate.trim().split(/\s+/)[0];
+        if (url) entries.push({ url, width: mediaWidth(media) });
+      });
+    };
+    if (picture) {
+      picture.querySelectorAll("source").forEach((s) => addEntry(s.getAttribute("srcset"), s.getAttribute("media")));
+      if (fallbackImg) entries.push({ url: fallbackImg.getAttribute("src"), width: Infinity });
+    } else if (fallbackImg) {
+      entries.push({ url: fallbackImg.getAttribute("src"), width: Infinity });
+    }
+    const byUrl = /* @__PURE__ */ new Map();
+    entries.forEach(({ url, width }) => {
+      if (!url) return;
+      if (!byUrl.has(url) || width < byUrl.get(url)) byUrl.set(url, width);
+    });
+    return [...byUrl.entries()].sort((a, b) => a[1] - b[1]).map(([url]) => {
+      const im = doc.createElement("img");
+      im.setAttribute("src", url);
+      if (alt) im.setAttribute("alt", alt);
+      return im;
+    });
+  }
   function transform2(hookName, element, payload) {
     if (hookName !== TransformHook2.beforeTransform) return;
     const sections = payload && payload.template && payload.template.sections;
@@ -267,18 +302,25 @@ var CustomImportScript = (() => {
       resolved[i].hr = hr;
     }
     resolved.forEach(({ section }, i) => {
-      let bgImageEl = null;
+      let bgRenditions = [];
       if (section.backgroundImage) {
         const bgSource = element.querySelector(section.backgroundImage);
         if (bgSource) {
-          bgImageEl = bgSource.matches("img") ? bgSource : bgSource.querySelector("img");
+          bgRenditions = extractRenditionImgs(bgSource, doc);
+          bgSource.remove();
         }
       }
-      if (!section.style && !bgImageEl) return;
+      if (!section.style && bgRenditions.length === 0) return;
       const rows = [];
       if (section.style) rows.push(["Style", section.style]);
-      if (bgImageEl) {
-        rows.push(["background-image", bgImageEl]);
+      if (bgRenditions.length > 0) {
+        const cell = doc.createElement("div");
+        bgRenditions.forEach((im) => {
+          const p = doc.createElement("p");
+          p.appendChild(im);
+          cell.appendChild(p);
+        });
+        rows.push(["background-image", cell]);
       }
       const meta = WebImporter.Blocks.createBlock(doc, {
         name: "Section Metadata",
