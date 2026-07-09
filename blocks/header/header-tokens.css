@@ -19,9 +19,20 @@
      NOTE: --brand-primary is #046183 (darker) — do NOT use it for the band. */
   --header-brand-band-bg: var(--brand-primary-dark);
   --header-brand-band-color: var(--background-color);
+  /* Mobile brand band flips to white (source): colour logo + dark hamburger/label. */
+  --header-mobile-brand-bg: var(--background-color);
+  --header-mobile-hamburger-color: var(--brand-primary-dark);
+  --header-mobile-hamburger-label-color: rgb(77 77 77);
+  --header-mobile-logo-height: 64px;
   --header-accent-color: var(--brand-primary-dark);
   --header-utility-bg: var(--light-color);
   --header-hcp-bg: var(--background-color);
+  --header-hcp-font-size: var(--header-font-size-s);
+  --header-hcp-actions-gap: 12px;
+  --header-hcp-arrow-size: 24px;
+  --header-hcp-arrow-gap: 8px;
+  /* Teal circle with a white right-arrow (matches source icon-right-arrow-teal). */
+  --header-hcp-arrow-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"%3E%3Ccircle cx="12" cy="12" r="12" fill="%2341748d"/%3E%3Cpath d="M9 6l6 6-6 6" fill="none" stroke="%23fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
   --header-text-color: var(--text-color);
   --header-white-text-color: var(--background-color);
   --header-border-color: var(--brand-primary-light);
@@ -80,6 +91,7 @@
   --header-lumi-header-bg: #b5d9dd;
   --header-lumi-header-padding: 10px;
   --header-lumi-title-color: var(--brand-primary);
+  --header-lumi-title-line-height: 1.33;
   --header-lumi-body-padding: 10px;
   --header-lumi-close-size: 24px;
   --header-lumi-close-x-length: 10px;
@@ -122,10 +134,20 @@
 
   /* ---- hamburger (mobile) ---- */
   --header-hamburger-size: 40px;
-  --header-hamburger-bar-width: 24px;
-  --header-hamburger-bar-height: 2px;
-  --header-hamburger-bar-offset: 7px;
-  --header-hamburger-label-gap: 4px;
+  /* Bar geometry matches source hamburger.svg (34x20: ~33px wide, ~4px thick,
+     ~8px between bar centers). */
+  --header-hamburger-bar-width: 33px;
+  --header-hamburger-bar-height: 4px;
+  --header-hamburger-bar-radius: 2px;
+  --header-hamburger-bar-offset: 8px;
+  /* Open X: shorter + thicker arms so the cross reads bold (source cross svg). */
+  --header-hamburger-x-arm-length: 26px;
+  --header-hamburger-x-arm-thickness: 5px;
+  /* Gap is measured from the 3px center bar's box; the top/bottom bars are
+     absolutely positioned (out of flow), so this must clear the bottom bar
+     (~8.5px below center) plus ~5px breathing room to match the source. */
+  --header-hamburger-label-gap: 13px;
+  --header-hamburger-label-line-height: 1;
   --header-hamburger-transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease;
 
   /* ---- mobile menu (expanding accordion panel) ---- */
@@ -133,11 +155,29 @@
   --header-mobile-menu-padding: 16px;
   /* Vertical-only panel padding: items align to the 15px container inset
      (matches source's ~19px item inset instead of doubling to 31px). */
-  --header-mobile-menu-padding-block: 16px;
-  --header-mobile-cta-gap: 12px;
+  /* No trailing gap: the pop-over ends flush with the last nav item so it
+     doesn't look like there's more menu to scroll to. */
+  --header-mobile-menu-padding-block: 0;
   --header-mobile-divider-color: rgb(153 153 153);
   --header-mobile-nav-link-padding: 16px 0 12px;
   --header-mobile-sublink-padding: 0 0 12px 32px;
+  --header-mobile-sublink-line-height: 24px;
+  --header-mobile-util-link-gap: 14px;
+  --header-mobile-util-divider-color: var(--header-accent-color);
+  --header-mobile-util-band-bg: #dfe9f1;
+  --header-mobile-util-band-padding: 10px 15px;
+  --header-mobile-menu-inset: 15px;
+  --header-mobile-cta-block-padding: 16px;
+  --header-mobile-cta-gap: 16px;
+  --header-mobile-cta-padding: 8px 16px;
+  --header-mobile-cta-font-size: 14px;
+  --header-mobile-cta-full-font-size: 16px;
+  /* Accordion chevron: 24x24 teal V (matches source chevron-basic.svg #41748d). */
+  --header-mobile-chevron-size: 24px;
+  --header-mobile-chevron-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 17" fill="none"%3E%3Cpath fill-rule="evenodd" clip-rule="evenodd" d="M2.63275 5.93451C2.94517 5.62209 3.4517 5.62209 3.76412 5.93451L7.99844 10.1688L12.2328 5.93451C12.5452 5.62209 13.0517 5.62209 13.3641 5.93451C13.6765 6.24693 13.6765 6.75346 13.3641 7.06588L8.56412 11.8659C8.2517 12.1783 7.74517 12.1783 7.43275 11.8659L2.63275 7.06588C2.32033 6.75346 2.32033 6.24693 2.63275 5.93451Z" fill="%2341748d"/%3E%3C/svg%3E');
+  /* Pop-over overlay panel (source): absolute, drops below the brand bar. */
+  --header-mobile-menu-shadow: 0 8px 16px rgb(0 0 0 / 15%);
+  --header-mobile-menu-z: 30;
 
   /* ---- responsive breakpoint ---- */
   --header-mobile-breakpoint: 900px;

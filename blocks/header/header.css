@@ -56,7 +56,7 @@ header nav .nav-links-container {
 /* ---- Row 0: HCP notification bar ---- */
 header nav .nav-hcp-bar {
   background-color: var(--header-hcp-bg);
-  font-size: var(--header-font-size-xs);
+  font-size: var(--header-hcp-font-size);
 }
 
 header nav .nav-hcp-container {
@@ -76,7 +76,15 @@ header nav .nav-hcp-message {
 header nav .nav-hcp-actions {
   display: flex;
   align-items: center;
-  gap: var(--header-actions-gap);
+  gap: var(--header-hcp-actions-gap);
+}
+
+header nav .nav-hcp-actions .nav-hcp-continue,
+header nav .nav-hcp-actions .nav-hcp-link {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
 }
 
 header nav .nav-hcp-continue {
@@ -85,7 +93,7 @@ header nav .nav-hcp-continue {
   background: transparent;
   color: var(--header-accent-color);
   font-weight: var(--header-font-weight-medium);
-  font-size: var(--header-font-size-xs);
+  font-size: var(--header-hcp-font-size);
   padding: var(--header-hcp-continue-padding);
   cursor: pointer;
   transition: var(--header-transition);
@@ -100,10 +108,21 @@ header nav .nav-hcp-continue:focus {
 header nav .nav-hcp-link {
   color: var(--header-accent-color);
   font-weight: var(--header-font-weight-medium);
+  font-size: var(--header-hcp-font-size);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: var(--header-dropdown-gap);
+  gap: var(--header-hcp-arrow-gap);
+}
+
+/* Teal circular right-arrow after "GO TO PATIENT SITE" (matches source). */
+header nav .nav-hcp-link::after {
+  content: '';
+  display: inline-block;
+  width: var(--header-hcp-arrow-size);
+  height: var(--header-hcp-arrow-size);
+  background: var(--header-hcp-arrow-image) center / contain no-repeat;
+  flex: 0 0 auto;
 }
 
 header nav .nav-hcp-link:hover {
@@ -167,6 +186,11 @@ header nav .nav-brand img {
   display: block;
   width: auto;
   height: var(--header-logo-height);
+}
+
+/* Desktop (base): show the white logo on the teal band, hide the mobile one. */
+header nav .nav-brand .nav-brand-logo-mobile {
+  display: none;
 }
 
 /* Right column stacks the CTA/tools row above the primary nav links row. */
@@ -373,7 +397,7 @@ header nav .nav-lumi-popup-title {
   color: var(--header-lumi-title-color);
   font-size: var(--header-font-size-m);
   font-weight: var(--header-font-weight-medium);
-  line-height: var(--header-heading-line-height, 1.33);
+  line-height: var(--header-lumi-title-line-height);
 }
 
 header nav .nav-lumi-popup-close {
@@ -564,7 +588,22 @@ header nav .nav-hamburger {
    Breakpoint literal 900px MUST match --header-mobile-breakpoint.
    ============================================================ */
 @media (width < 900px) {
-  /* Hamburger button: icon + persistent "Menu" label, teal on the brand band. */
+  /* Mobile brand band is white (source switches from the teal desktop band):
+     show the colour logo, hide the white one, and darken the hamburger + label. */
+  header nav .nav-brand-row {
+    background-color: var(--header-mobile-brand-bg);
+  }
+
+  header nav .nav-brand .nav-brand-logo-desktop {
+    display: none;
+  }
+
+  header nav .nav-brand .nav-brand-logo-mobile {
+    display: block;
+    height: var(--header-mobile-logo-height);
+  }
+
+  /* Hamburger button: icon + persistent "Menu" label, dark on the white band. */
   header nav .nav-hamburger {
     display: inline-flex;
     flex-direction: column;
@@ -575,7 +614,7 @@ header nav .nav-hamburger {
     background: transparent;
     border: 0;
     cursor: pointer;
-    color: var(--header-white-text-color);
+    color: var(--header-mobile-hamburger-color);
     flex: 0 0 auto;
   }
 
@@ -586,7 +625,8 @@ header nav .nav-hamburger {
     display: block;
     width: var(--header-hamburger-bar-width);
     height: var(--header-hamburger-bar-height);
-    background: var(--header-white-text-color);
+    background: var(--header-mobile-hamburger-color);
+    border-radius: var(--header-hamburger-bar-radius);
     transition: var(--header-hamburger-transition);
   }
 
@@ -607,12 +647,21 @@ header nav .nav-hamburger {
   header nav .nav-hamburger-label {
     font-size: var(--header-font-size-xs);
     font-weight: var(--header-font-weight-medium);
-    line-height: 1;
+    line-height: var(--header-hamburger-label-line-height);
+    color: var(--header-mobile-hamburger-label-color);
   }
 
   /* Open state: bars morph into an X. */
   header nav.nav-mobile-open .nav-hamburger-icon {
     background: transparent;
+  }
+
+  /* The X arms are shorter + thicker than the 3-line bars so the cross reads as
+     bold like the source (hamburger-cross.svg: ~26px diagonal arms, ~5px thick). */
+  header nav.nav-mobile-open .nav-hamburger-icon::before,
+  header nav.nav-mobile-open .nav-hamburger-icon::after {
+    width: var(--header-hamburger-x-arm-length);
+    height: var(--header-hamburger-x-arm-thickness);
   }
 
   header nav.nav-mobile-open .nav-hamburger-icon::before {
@@ -623,10 +672,48 @@ header nav .nav-hamburger {
     transform: translateY(0) rotate(-45deg);
   }
 
-  /* Utility links wrap on mobile so they never overflow the viewport. */
+  /* Utility area on mobile splits into two stacked bands (matches source):
+     1) teal indication tagline band (white text)
+     2) light-blue PI/Patient Info band (teal text), centered with a divider.
+     "View patient site" is hidden. */
+  header nav .nav-utility {
+    background-color: var(--header-brand-band-bg);
+  }
+
+  header nav .nav-utility-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding-bottom: 0;
+  }
+
+  header nav .nav-utility-tagline {
+    color: var(--header-white-text-color);
+    padding-bottom: var(--header-space-3xs);
+  }
+
+  /* PI/Patient Info band: full-bleed light-blue strip below the teal tagline. */
   header nav .nav-utility-links {
     flex-wrap: wrap;
-    gap: var(--header-space-s);
+    justify-content: center;
+    gap: 0;
+    margin: 0 calc(-1 * var(--header-mobile-menu-inset));
+    padding: var(--header-mobile-util-band-padding);
+    background-color: var(--header-mobile-util-band-bg);
+  }
+
+  header nav .nav-utility-links .nav-dropdown-trigger {
+    color: var(--header-accent-color);
+    padding: 0 var(--header-mobile-util-link-gap);
+  }
+
+  header nav .nav-utility-links .nav-dropdown:first-child {
+    border-right: var(--section-divider-width) solid var(--header-mobile-util-divider-color);
+  }
+
+  /* "View patient site" (plain link, not a dropdown) is hidden on mobile. */
+  header nav .nav-utility-links > li:not(.nav-dropdown) {
+    display: none;
   }
 
   /* Brand band: logo left, hamburger right; right column collapses. */
@@ -637,28 +724,41 @@ header nav .nav-hamburger {
     padding-block: var(--header-space-2xs);
   }
 
+  /* The brand row anchors the pop-over menu. */
+  header nav .nav-brand-row {
+    position: relative;
+  }
+
   header nav .nav-brand-right {
     display: none;
-    flex-basis: 100%;
-    order: 3;
   }
 
+  /* Menu = a pop-over overlay (source): absolutely positioned below the brand
+     bar, full-width white panel that floats OVER the page (does not push content
+     down). Tool CTAs on top (teal block, flush), then the nav accordion. */
   header nav.nav-mobile-open .nav-brand-right {
     display: flex;
-  }
-
-  /* Menu panel = white inline block with the tool CTAs then the nav accordion.
-     Vertical-only padding so items align to the 15px container inset. */
-  header nav.nav-mobile-open .nav-brand-right {
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
     background: var(--header-mobile-menu-bg);
-    padding-block: var(--header-mobile-menu-padding-block);
-    margin-top: var(--header-space-2xs);
+    box-shadow: var(--header-mobile-menu-shadow);
+    /* Match the container inset so the CTA/util full-bleed (negative-margin)
+       bands still align to the viewport edges. */
+    padding: 0 var(--header-mobile-menu-inset) var(--header-mobile-menu-padding-block);
+    z-index: var(--header-mobile-menu-z);
   }
 
-  /* Tool CTAs stack as full-width pills (teal outline on white). */
+  /* Tool CTAs sit on a full-width teal block. Phone (base): all three pills
+     stack full-width. Tablet override below switches to 2-up + full-width third.
+     Pills are white outline + white text on the teal. */
   header nav .nav-tools-row {
     justify-content: stretch;
-    padding-block: 0 var(--header-mobile-menu-padding);
+    background: var(--header-brand-band-bg);
+    margin: 0 calc(-1 * var(--header-mobile-menu-inset));
+    padding: var(--header-mobile-cta-block-padding);
   }
 
   header nav .nav-tools {
@@ -668,32 +768,46 @@ header nav .nav-hamburger {
     gap: var(--header-mobile-cta-gap);
   }
 
-  header nav .nav-tool-cta {
+  header nav .nav-tools .nav-tool-cta {
     justify-content: center;
     text-align: center;
-    color: var(--header-accent-color);
-    border-color: var(--header-accent-color);
-  }
-
-  header nav .nav-tool-cta:hover,
-  header nav .nav-tool-cta:focus {
-    background: var(--header-accent-color);
+    font-size: var(--header-mobile-cta-full-font-size);
     color: var(--header-white-text-color);
+    border-color: var(--header-white-text-color);
+    padding: var(--header-mobile-cta-padding);
+    white-space: nowrap;
   }
 
-  /* Primary nav becomes a vertical accordion with divider lines. */
+  header nav .nav-tools .nav-tool-cta:hover,
+  header nav .nav-tools .nav-tool-cta:focus {
+    background: var(--header-white-text-color);
+    color: var(--header-brand-band-bg);
+  }
+
+  /* LuMi AI Assistant is not shown on mobile (matches source). */
+  header nav .nav-lumi {
+    display: none;
+  }
+
+  /* Primary nav becomes a vertical accordion with divider lines. The desktop
+     rules make .nav-links-row a flex row and let .nav-links-list shrink to
+     content; on mobile it must be a full-width block instead. */
   header nav .nav-links-row {
+    display: block;
     padding-bottom: 0;
     width: 100%;
   }
 
   header nav .nav-links-list {
+    display: flex;
     flex-direction: column;
+    align-items: stretch;
     width: 100%;
   }
 
   header nav .nav-links-list > li {
     margin-right: 0;
+    width: 100%;
     border-bottom: var(--section-divider-width) solid var(--header-mobile-divider-color);
   }
 
@@ -703,7 +817,22 @@ header nav .nav-hamburger {
     justify-content: space-between;
     color: var(--header-accent-color);
     padding: var(--header-mobile-nav-link-padding);
-    line-height: 1.2;
+    line-height: var(--header-nav-line-height);
+  }
+
+  /* Accordion chevron: swap the desktop rotated-square caret for the source's
+     24x24 teal V image; rotate 180° when the item is expanded. */
+  header nav .nav-links-list .nav-dropdown-trigger::after {
+    top: 0;
+    width: var(--header-mobile-chevron-size);
+    height: var(--header-mobile-chevron-size);
+    border: 0;
+    background: var(--header-mobile-chevron-image) center / contain no-repeat;
+    transform: none;
+  }
+
+  header nav .nav-links-list .nav-dropdown[aria-expanded='true'] .nav-dropdown-trigger::after {
+    transform: rotate(180deg);
   }
 
   /* Accordion dropdown: menu flows inline (no absolute overlay). */
@@ -729,10 +858,41 @@ header nav .nav-hamburger {
     color: var(--header-accent-color);
     font-size: var(--header-font-size-s);
     font-weight: var(--header-font-weight-medium);
+    /* Taller line box gives the extra vertical breathing room between sub-items
+       (matches source's 24px line-height). */
+    line-height: var(--header-mobile-sublink-line-height);
     white-space: normal;
+    /* Only top-level items carry dividers on mobile; sub-items do not. */
+    border-bottom: 0;
   }
 
   header nav .nav-links-list .nav-dropdown-menu a:hover {
     background: transparent;
+  }
+}
+
+/* ============================================================
+   Tablet range (600px ≤ width < 900px): the tool CTAs switch from the phone's
+   fully-stacked column to a 2-up top row (INFUSION LOCATOR + CHECK COVERAGE),
+   with REQUEST A REP full-width on the row below. Upper bound keeps the literal
+   in sync with --header-mobile-breakpoint (900px).
+   ============================================================ */
+@media (width >= 600px) and (width < 900px) {
+  header nav .nav-tools {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  header nav .nav-tools .nav-tool-cta {
+    flex: 1 1 calc(50% - var(--header-mobile-cta-gap));
+    min-width: 0;
+    font-size: var(--header-mobile-cta-font-size);
+  }
+
+  /* Third CTA (REQUEST A REP) spans the full width on its own row. */
+  header nav .nav-tools .nav-tool-cta:nth-child(3) {
+    flex-basis: 100%;
+    font-size: var(--header-mobile-cta-full-font-size);
   }
 }

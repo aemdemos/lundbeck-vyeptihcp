@@ -25,11 +25,15 @@ function isDesktop() {
  * @param {HTMLElement} item The <li>/wrapper holding the trigger + menu
  * @param {HTMLElement} menu The dropdown menu element
  */
-function wireDropdown(item, menu, siblings) {
+function wireDropdown(item, menu) {
   item.setAttribute('aria-expanded', 'false');
   const close = () => item.setAttribute('aria-expanded', 'false');
   const open = () => {
-    siblings.forEach((s) => { if (s !== item) s.setAttribute('aria-expanded', 'false'); });
+    // Single-open: collapse any sibling dropdown in the same list before opening.
+    if (item.parentElement) {
+      item.parentElement.querySelectorAll(':scope > .nav-dropdown[aria-expanded="true"]')
+        .forEach((s) => { if (s !== item) s.setAttribute('aria-expanded', 'false'); });
+    }
     item.setAttribute('aria-expanded', 'true');
   };
   item.addEventListener('mouseenter', () => { if (isDesktop()) open(); });
@@ -54,7 +58,7 @@ function wireDropdown(item, menu, siblings) {
  * The li's leading text (before the nested ul) becomes the trigger label.
  * @returns {HTMLElement} decorated <li> dropdown
  */
-function buildDropdownItem(sourceLi, siblings) {
+function buildDropdownItem(sourceLi) {
   const li = document.createElement('li');
   li.className = 'nav-dropdown';
 
@@ -93,7 +97,7 @@ function buildDropdownItem(sourceLi, siblings) {
   menu.append(menuList);
   li.append(menu);
 
-  wireDropdown(li, menu, siblings);
+  wireDropdown(li, menu);
   return li;
 }
 
@@ -177,7 +181,7 @@ function decorateUtilityBar(section) {
     const items = [...topUl.querySelectorAll(':scope > li')];
     items.forEach((li) => {
       if (li.querySelector(':scope > ul')) {
-        linksWrap.append(buildDropdownItem(li, items));
+        linksWrap.append(buildDropdownItem(li));
       } else {
         // Plain link: direct child on local, or wrapped in <p> on published DA.
         const a = li.querySelector(':scope > a, :scope > p > a');
@@ -245,7 +249,7 @@ function buildNavLinksList(section) {
     const items = [...topUl.querySelectorAll(':scope > li')];
     items.forEach((li) => {
       if (li.querySelector(':scope > ul')) {
-        list.append(buildDropdownItem(li, items));
+        list.append(buildDropdownItem(li));
       } else {
         // Plain link: direct child on local, or wrapped in <p> on published DA.
         const a = li.querySelector(':scope > a, :scope > p > a');
@@ -350,7 +354,20 @@ function decorateBrandBand(brandSection, navLinksSection, lumiSection) {
     if (logoLink) {
       const brand = document.createElement('div');
       brand.className = 'nav-brand';
-      brand.append(logoLink.cloneNode(true));
+      const link = logoLink.cloneNode(true);
+      // Source swaps logos by breakpoint: white logo on the teal desktop band,
+      // full-colour logo on the white mobile band. Keep the authored (white) img
+      // for desktop and add a colour variant (same directory) shown on mobile.
+      const desktopImg = link.querySelector('img');
+      if (desktopImg) {
+        desktopImg.classList.add('nav-brand-logo-desktop');
+        const mobileImg = desktopImg.cloneNode(true);
+        mobileImg.classList.remove('nav-brand-logo-desktop');
+        mobileImg.classList.add('nav-brand-logo-mobile');
+        mobileImg.src = desktopImg.src.replace(/[^/]+$/, 'logo-vyepti-mobile.svg');
+        desktopImg.after(mobileImg);
+      }
+      brand.append(link);
       container.append(brand);
     }
   }
