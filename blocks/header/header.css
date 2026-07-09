@@ -3,12 +3,21 @@
 /* ============================================================
    VYEPTI HCP header — 3 rows:
    (0) HCP notification bar (white, dismissible)
-   (1) Utility bar (light) — indication + PI/Patient Info dropdowns
-   (2) Brand + tools + primary nav (teal brand band)
-   All values resolve to tokens in header-tokens.css (which reference the
-   global design tokens in styles/styles.css). Tune the header there, not here.
-   Exception: @media breakpoints must be literals — see --header-mobile-breakpoint
-   (900px) in header-tokens.css; keep the literal below in sync with it.
+   (1) Utility bar — indication tagline + PI/Patient Info dropdowns
+   (2) Brand + tools + primary nav
+
+   MOBILE-FIRST layout (do NOT reintroduce max-width queries):
+   • Base rules below target the smallest viewport (~375px): white brand band,
+     hamburger + LuMi avatar on the top bar, accordion nav, stacked CTA block,
+     two-band utility area.
+   • Exactly TWO min-width media sections follow, near the end of the file:
+       @media (width >= 600px)  — tablet overrides (tool CTAs go 2-up)
+       @media (width >= 900px)  — desktop overrides (teal band, horizontal nav)
+     The 900px literal MUST match --header-mobile-breakpoint in header-tokens.css
+     (and header.js's matchMedia('(min-width: 900px)')).
+
+   All values resolve to tokens in header-tokens.css (which reference the global
+   design tokens in styles/styles.css). Tune the header there, not here.
    ============================================================ */
 
 /* CLS reservation for this multi-row header lives in the EAGER styles.css
@@ -34,7 +43,7 @@ header nav .nav-visually-hidden {
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
 }
@@ -111,13 +120,15 @@ header nav .nav-hcp-link {
   gap: var(--header-hcp-arrow-gap);
 }
 
-/* Teal circular right-arrow after "GO TO PATIENT SITE" (matches source). */
+/* Circular right-arrow after "GO TO PATIENT SITE". Mobile (base) uses the
+   outlined variant: white circle + 2px teal ring + teal arrow. Desktop swaps
+   to the filled teal circle with a white arrow. */
 header nav .nav-hcp-link::after {
   content: '';
   display: inline-block;
   width: var(--header-hcp-arrow-size);
   height: var(--header-hcp-arrow-size);
-  background: var(--header-hcp-arrow-image) center / contain no-repeat;
+  background: var(--header-hcp-arrow-image-mobile) center / contain no-repeat;
   flex: 0 0 auto;
 }
 
@@ -125,32 +136,42 @@ header nav .nav-hcp-link:hover {
   text-decoration: underline;
 }
 
-/* ---- Row 1: Utility bar ---- */
+/* ---- Row 1: Utility bar ----
+   Mobile: two stacked bands (matches source) — a teal indication tagline band
+   (white text) above a light-blue PI/Patient Info band (teal text), centered
+   with a divider between the two triggers. "View patient site" is hidden. */
 header nav .nav-utility {
-  background-color: var(--header-utility-bg);
+  background-color: var(--header-brand-band-bg);
   font-size: var(--header-font-size-xs);
 }
 
 header nav .nav-utility-container {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-flow: column wrap;
+  align-items: stretch;
   justify-content: space-between;
-  gap: var(--header-space-s);
-  padding-block: var(--header-space-3xs);
+  gap: 0;
+  padding-block: var(--header-space-3xs) 0;
 }
 
 header nav .nav-utility-tagline {
-  color: var(--header-accent-color);
+  color: var(--header-white-text-color);
   font-weight: var(--header-font-weight-medium);
+  padding-bottom: var(--header-space-3xs);
+  font-size: var(--header-mobile-util-font-size);
 }
 
+/* PI/Patient Info band: full-bleed light-blue strip below the teal tagline.
+   Both links stay on one line side-by-side (no wrap) — matches source. */
 header nav .nav-utility-links {
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
-  gap: var(--header-actions-gap);
-  margin: 0;
-  padding: 0;
+  justify-content: center;
+  gap: 0;
+  margin: 0 calc(-1 * var(--header-mobile-menu-inset));
+  padding: var(--header-mobile-util-band-padding);
+  background-color: var(--header-mobile-util-band-bg);
   list-style: none;
 }
 
@@ -160,16 +181,26 @@ header nav .nav-utility-link {
   font-weight: var(--header-font-weight-medium);
 }
 
-/* ---- Teal brand band: logo left, spanning stacked [tools row / nav row] right ---- */
+/* "View patient site" (plain link, not a dropdown) is hidden on mobile. */
+header nav .nav-utility-links > li:not(.nav-dropdown) {
+  display: none;
+}
+
+/* ---- Teal brand band: logo left, spanning stacked [tools row / nav row] right ----
+   Mobile: white band, logo + LuMi avatar + hamburger on one row; the right
+   column (tools + primary nav) collapses into the hamburger pop-over. */
 header nav .nav-brand-row {
-  background-color: var(--header-brand-band-bg);
+  position: relative;
+  background-color: var(--header-mobile-brand-bg);
 }
 
 header nav .nav-brand-container {
   display: flex;
-  align-items: stretch;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
   gap: var(--header-brand-gap);
-  padding-block: 0;
+  padding-block: var(--header-space-2xs);
 }
 
 header nav .nav-brand {
@@ -184,42 +215,79 @@ header nav .nav-brand img {
   height: var(--header-logo-height);
 }
 
-/* Desktop (base): show the white logo on the teal band, hide the mobile one. */
-header nav .nav-brand .nav-brand-logo-mobile {
+/* Mobile shows the full-colour logo on the white band; desktop shows the white
+   logo on the teal band. */
+header nav .nav-brand .nav-brand-logo-desktop {
   display: none;
 }
 
-/* Right column stacks the CTA/tools row above the primary nav links row. */
-header nav .nav-brand-right {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  min-width: 0;
+header nav .nav-brand .nav-brand-logo-mobile {
+  display: block;
+  height: var(--header-mobile-logo-height);
 }
 
+/* Right column (tools + primary nav) is hidden until the hamburger opens it. */
+header nav .nav-brand-right {
+  display: none;
+}
+
+/* Open menu = a pop-over overlay (source): absolutely positioned below the
+   brand bar, full-width white panel that floats OVER the page. Tool CTAs on top
+   (teal block, flush), then the nav accordion. */
+header nav.nav-mobile-open .nav-brand-right {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--header-mobile-menu-bg);
+  box-shadow: var(--header-mobile-menu-shadow);
+
+  /* Match the container inset so the CTA/util full-bleed (negative-margin)
+     bands still align to the viewport edges. */
+  padding: 0 var(--header-mobile-menu-inset) var(--header-mobile-menu-padding-block);
+  z-index: var(--header-mobile-menu-z);
+}
+
+/* Tool CTAs sit on a full-width teal block. Phone (base): all three pills stack
+   full-width. The tablet override switches to 2-up + full-width third. */
 header nav .nav-tools-row {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  padding-block: var(--header-space-m) var(--header-space-2xs);
+  justify-content: stretch;
+  background: var(--header-brand-band-bg);
+  margin: 0 calc(-1 * var(--header-mobile-menu-inset));
+  padding: var(--header-mobile-cta-block-padding);
 }
 
 header nav .nav-tools {
   display: flex;
-  align-items: center;
-  gap: var(--header-tools-gap);
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  gap: var(--header-mobile-cta-gap);
 }
 
+/* Shared CTA pill look (all viewports); size/spacing set per breakpoint. */
 header nav .nav-tool-cta {
   border: var(--header-border-width) solid var(--header-white-text-color);
   border-radius: var(--header-pill-radius);
   color: var(--header-white-text-color);
   text-decoration: none;
   font-weight: var(--header-font-weight-medium);
-  font-size: var(--header-font-size-s);
-  padding: var(--header-cta-padding);
   white-space: nowrap;
   transition: var(--header-transition);
+}
+
+header nav .nav-tools .nav-tool-cta {
+  justify-content: center;
+  text-align: center;
+  font-size: var(--header-mobile-cta-full-font-size);
+  color: var(--header-white-text-color);
+  border-color: var(--header-white-text-color);
+  padding: var(--header-mobile-cta-padding);
+  white-space: nowrap;
 }
 
 header nav .nav-tool-cta:hover,
@@ -228,15 +296,23 @@ header nav .nav-tool-cta:focus {
   color: var(--header-brand-band-bg);
 }
 
-/* ---- Primary nav links (bottom row of the right column) ---- */
+/* ---- Primary nav links ----
+   Mobile: a full-width vertical accordion with divider lines between items. */
 header nav .nav-links-row {
-  padding-bottom: var(--header-space-2xs);
+  display: block;
+  width: 100%;
+  padding-bottom: 0;
+}
+
+header nav .nav-links-row .nav-links-list {
+  flex: 1 1 auto;
 }
 
 header nav .nav-links-list {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: stretch;
+  width: 100%;
   gap: 0;
   margin: 0;
   padding: 0;
@@ -245,7 +321,9 @@ header nav .nav-links-list {
 
 header nav .nav-links-list > li {
   position: relative;
-  margin-right: var(--header-nav-link-gap);
+  width: 100%;
+  margin-right: 0;
+  border-bottom: var(--section-divider-width) solid var(--header-mobile-divider-color);
 }
 
 header nav .nav-links-list > li:last-child {
@@ -257,8 +335,10 @@ header nav .nav-dropdown-trigger {
   display: inline-flex;
   align-items: center;
   gap: var(--header-chevron-gap);
-  padding: var(--header-nav-link-padding);
-  color: var(--header-white-text-color);
+  width: 100%;
+  justify-content: space-between;
+  padding: var(--header-mobile-nav-link-padding);
+  color: var(--header-accent-color);
   font-weight: var(--header-font-weight-medium);
   font-size: var(--header-font-size-s);
   line-height: var(--header-nav-line-height);
@@ -267,6 +347,7 @@ header nav .nav-dropdown-trigger {
   border: 0;
   cursor: pointer;
   font-family: inherit;
+
   /* Global .button rule sets overflow:hidden, which clips the rotated chevron
      corner; allow it to render fully. */
   overflow: visible;
@@ -277,39 +358,34 @@ header nav .nav-dropdown-trigger:hover {
   text-decoration: underline;
 }
 
-/* dropdown chevron — a rotated square caret whose visible ink sits low in its
-   box, so nudge it up via --header-chevron-offset-y to optically center it. */
+/* Accordion chevron (mobile): the source's 24x24 teal V image. Stays pointing
+   down when expanded (no rotate) — matches source. Desktop swaps to a small
+   rotated-square caret. */
 header nav .nav-links-list .nav-dropdown-trigger::after {
   content: '';
   position: relative;
-  top: var(--header-chevron-offset-y);
-  width: var(--header-chevron-size);
-  height: var(--header-chevron-size);
-  border-right: var(--header-border-width) solid currentcolor;
-  border-bottom: var(--header-border-width) solid currentcolor;
-  transform: rotate(45deg);
-  transition: var(--header-transition);
+  top: 0;
+  width: var(--header-mobile-chevron-size);
+  height: var(--header-mobile-chevron-size);
+  border: 0;
+  background: var(--header-mobile-chevron-image) center / contain no-repeat;
+  transform: none;
 }
 
-header nav .nav-links-list .nav-dropdown[aria-expanded='true'] .nav-dropdown-trigger::after {
-  transform: rotate(-135deg);
-}
-
-/* ---- LuMi AI Assistant widget (right of primary nav) ---- */
-header nav .nav-links-row {
-  display: flex;
-  align-items: center;
-  gap: var(--header-row-gap);
-}
-
-header nav .nav-links-row .nav-links-list {
-  flex: 1 1 auto;
-}
-
+/* ---- LuMi AI Assistant widget ----
+   Mobile: just the circular avatar (no label), on the top bar immediately left
+   of the hamburger (moved there in header.js). Desktop: avatar + label sitting
+   to the right of the primary nav. */
 header nav .nav-lumi {
-  position: relative;
+  /* Static so the popup anchors to the full-width .nav-brand-row (position
+     relative on mobile) instead of this narrow avatar box. */
+  position: static;
   flex: 0 0 auto;
+
+  /* Push LuMi + hamburger together to the right edge (source). */
   margin-left: auto;
+  margin-right: var(--header-mobile-lumi-hamburger-gap);
+  align-self: center;
 }
 
 header nav .nav-lumi-button {
@@ -326,10 +402,12 @@ header nav .nav-lumi-button {
 
 header nav .nav-lumi-avatar {
   display: block;
-  width: var(--header-lumi-avatar-size);
-  height: var(--header-lumi-avatar-size);
+  width: var(--header-mobile-lumi-avatar-size);
+  height: var(--header-mobile-lumi-avatar-size);
+  border: var(--header-mobile-lumi-ring);
   border-radius: 50%;
   overflow: hidden;
+  background: var(--header-lumi-popup-bg);
   flex: 0 0 auto;
 }
 
@@ -341,22 +419,28 @@ header nav .nav-lumi-avatar img {
 }
 
 header nav .nav-lumi-label {
+  display: none;
   font-size: var(--header-font-size-s);
   font-weight: var(--header-font-weight-medium);
   line-height: var(--header-lumi-label-line-height);
   text-align: left;
+
   /* Wrap to two lines ("LuMi AI" / "Assistant") as on source, keeping the
      widget compact so the primary nav links stay on one row. */
   white-space: normal;
   max-width: var(--header-lumi-label-max-width);
 }
 
+/* Popup drops below the avatar. On a narrow viewport the 335px card can't
+   center under an avatar near the right edge, so right-align it to the screen
+   (capping width to fit) and keep its arrow pointing up at the avatar. */
 header nav .nav-lumi-popup {
   display: none;
   position: absolute;
   top: calc(100% + var(--header-lumi-popup-offset));
-  right: 0;
-  width: var(--header-lumi-popup-width);
+  left: auto;
+  right: var(--header-mobile-lumi-popup-right);
+  width: min(var(--header-lumi-popup-width), calc(100vw - 2 * var(--header-mobile-menu-inset)));
   background: var(--header-lumi-popup-bg);
   border-radius: var(--header-lumi-popup-radius);
   box-shadow: var(--header-lumi-popup-shadow);
@@ -367,13 +451,16 @@ header nav .nav-lumi-button[aria-expanded='true'] + .nav-lumi-popup {
   display: block;
 }
 
-/* Upward triangle indicator, teal like the header band, centered under the
-   avatar (which sits --header-lumi-arrow-right from the popup's right edge). */
+/* Upward triangle indicator, teal like the popup header, pointing up at the
+   avatar. Mobile anchors it from the popup's right edge; desktop uses a wider
+   offset (avatar sits further in). */
 header nav .nav-lumi-popup::before {
   content: '';
   position: absolute;
   bottom: 100%;
-  right: var(--header-lumi-arrow-right);
+  left: auto;
+  right: var(--header-mobile-lumi-arrow-right);
+  transform: none;
   border-left: var(--header-lumi-arrow-half) solid transparent;
   border-right: var(--header-lumi-arrow-half) solid transparent;
   border-bottom: var(--header-lumi-arrow-height) solid var(--header-lumi-header-bg);
@@ -455,7 +542,7 @@ header nav .nav-lumi-popup-btn:focus {
   color: var(--header-white-text-color);
 }
 
-/* ---- Dropdown menus (shared: utility + primary nav) ---- */
+/* ---- Dropdown menus (shared base: utility + primary nav) ---- */
 header nav .nav-dropdown-menu {
   display: none;
   position: absolute;
@@ -492,20 +579,26 @@ header nav .nav-dropdown-menu a:hover {
   text-decoration: underline;
 }
 
-/* Primary-nav dropdown menus (VYEPTI Results / Access & Savings): fully rounded
-   card with side padding, 12px/700 links, and a divider line between each item
-   (all but the last). Matches source. */
-header nav .nav-links-list .nav-dropdown-menu {
+/* Dropdown menus with the "card" treatment (matches source): fully rounded card
+   with side padding, 12px/700 links, and a divider line between each item (all
+   but the last). Shared by the primary-nav submenus (VYEPTI Results / Access &
+   Savings) and the utility-bar submenus (Prescribing / Patient Information).
+   On mobile the primary-nav submenus flatten into the accordion (below); the
+   utility-bar submenus keep the card. */
+header nav .nav-links-list .nav-dropdown-menu,
+header nav .nav-utility-links .nav-dropdown-menu {
   border-radius: var(--header-navmenu-radius);
   box-shadow: var(--header-navmenu-shadow);
   padding: 0 var(--header-navmenu-padding-inline);
 }
 
-header nav .nav-links-list .nav-dropdown-menu ul {
+header nav .nav-links-list .nav-dropdown-menu ul,
+header nav .nav-utility-links .nav-dropdown-menu ul {
   padding: 0;
 }
 
-header nav .nav-links-list .nav-dropdown-menu a {
+header nav .nav-links-list .nav-dropdown-menu a,
+header nav .nav-utility-links .nav-dropdown-menu a {
   padding: var(--header-navmenu-link-padding);
   font-size: var(--header-navmenu-link-font-size);
   line-height: var(--header-navmenu-link-line-height);
@@ -513,12 +606,39 @@ header nav .nav-links-list .nav-dropdown-menu a {
   border-bottom: var(--header-navmenu-separator);
 }
 
-header nav .nav-links-list .nav-dropdown-menu li:last-child a {
+header nav .nav-links-list .nav-dropdown-menu li:last-child a,
+header nav .nav-utility-links .nav-dropdown-menu li:last-child a {
   border-bottom: 0;
 }
 
-header nav .nav-links-list .nav-dropdown-menu a:hover {
+header nav .nav-links-list .nav-dropdown-menu a:hover,
+header nav .nav-utility-links .nav-dropdown-menu a:hover {
   background: transparent;
+}
+
+/* Primary-nav submenus on mobile: flatten the card into an inline accordion
+   (no absolute overlay, no rounded card / shadow). Desktop restores the card. */
+header nav .nav-links-list .nav-dropdown-menu {
+  position: static;
+  min-width: 0;
+  box-shadow: none;
+  border-radius: 0;
+  background: transparent;
+}
+
+header nav .nav-links-list .nav-dropdown-menu a {
+  padding: var(--header-mobile-sublink-padding);
+  color: var(--header-accent-color);
+  font-size: var(--header-font-size-s);
+  font-weight: var(--header-font-weight-medium);
+
+  /* Taller line box gives extra vertical breathing room between sub-items
+     (matches source's 24px line-height). */
+  line-height: var(--header-mobile-sublink-line-height);
+  white-space: normal;
+
+  /* Only top-level items carry dividers on mobile; sub-items do not. */
+  border-bottom: 0;
 }
 
 /* Utility-bar dropdowns render as inline text triggers (not teal-band buttons) */
@@ -528,22 +648,29 @@ header nav .nav-utility-links .nav-dropdown {
 }
 
 header nav .nav-utility-links .nav-dropdown-trigger {
-  padding: 0;
+  padding: 0 var(--header-mobile-util-link-gap);
   color: var(--header-accent-color);
   background: transparent;
   border: 0;
   font: inherit;
   font-weight: var(--header-font-weight-medium);
+
+  /* 12px keeps each label on one line so PI + Patient Info sit side-by-side with
+     the divider between them (matches source), rather than wrapping. */
+  font-size: var(--header-mobile-util-font-size);
+  white-space: nowrap;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: var(--header-chevron-gap);
+
   /* Global .button rule sets overflow:hidden, which clips the rotated chevron
      corner; allow it to render fully. */
   overflow: visible;
 }
 
-/* Down chevron on the utility-bar dropdown triggers (PI / Patient Info). */
+/* Down chevron on the utility-bar dropdown triggers (PI / Patient Info).
+   Stays pointing down when expanded (no rotate) — matches source. */
 header nav .nav-utility-links .nav-dropdown-trigger::after {
   content: '';
   position: relative;
@@ -553,11 +680,11 @@ header nav .nav-utility-links .nav-dropdown-trigger::after {
   border-right: var(--header-border-width) solid currentcolor;
   border-bottom: var(--header-border-width) solid currentcolor;
   transform: rotate(45deg);
-  transition: var(--header-transition);
 }
 
-header nav .nav-utility-links .nav-dropdown[aria-expanded='true'] .nav-dropdown-trigger::after {
-  transform: rotate(-135deg);
+/* Divider between the two utility triggers (mobile only). */
+header nav .nav-utility-links .nav-dropdown:first-child {
+  border-right: var(--section-divider-width) solid var(--header-mobile-util-divider-color);
 }
 
 header nav .nav-utility-links .nav-dropdown-menu {
@@ -572,311 +699,92 @@ header nav .nav-utility-links .nav-dropdown-menu a {
   white-space: nowrap;
 }
 
-/* ---- Hamburger (hidden on desktop) ---- */
+/* ---- Hamburger (mobile): icon + persistent "Menu" label, dark on the white
+   band. Reset the global button padding (14px 25px) so the icon isn't pushed in
+   from the right edge; spacing is controlled by --header-hamburger-inset. The
+   3-bar icon morphs into an X when the menu is open. Hidden on desktop. ---- */
 header nav .nav-hamburger {
-  display: none;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--header-hamburger-label-gap);
+  min-width: var(--header-hamburger-size);
+  padding: var(--header-hamburger-inset);
+  margin-right: var(--header-hamburger-space-right);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+  cursor: pointer;
+  color: var(--header-mobile-hamburger-color);
+  flex: 0 0 auto;
+  transform: translateY(var(--header-hamburger-nudge-y));
+}
+
+header nav .nav-hamburger-icon,
+header nav .nav-hamburger-icon::before,
+header nav .nav-hamburger-icon::after {
+  content: '';
+  display: block;
+  width: var(--header-hamburger-bar-width);
+  height: var(--header-hamburger-bar-height);
+  background: var(--header-mobile-hamburger-color);
+  border-radius: var(--header-hamburger-bar-radius);
+  transition: var(--header-hamburger-transition);
+}
+
+header nav .nav-hamburger-icon {
+  position: relative;
+}
+
+header nav .nav-hamburger-icon::before {
+  position: absolute;
+  transform: translateY(calc(-1 * var(--header-hamburger-bar-offset)));
+}
+
+header nav .nav-hamburger-icon::after {
+  position: absolute;
+  transform: translateY(var(--header-hamburger-bar-offset));
+}
+
+header nav .nav-hamburger-label {
+  font-size: var(--header-font-size-xs);
+  font-weight: var(--header-font-weight-medium);
+  line-height: var(--header-hamburger-label-line-height);
+  color: var(--header-mobile-hamburger-label-color);
+}
+
+/* Open state: bars morph into an X. */
+header nav.nav-mobile-open .nav-hamburger-icon {
+  background: transparent;
+}
+
+/* The X arms are shorter + thicker than the 3-line bars so the cross reads as
+   bold like the source (hamburger-cross.svg: ~26px diagonal arms, ~5px thick). */
+header nav.nav-mobile-open .nav-hamburger-icon::before,
+header nav.nav-mobile-open .nav-hamburger-icon::after {
+  width: var(--header-hamburger-x-arm-length);
+  height: var(--header-hamburger-x-arm-thickness);
+}
+
+header nav.nav-mobile-open .nav-hamburger-icon::before {
+  transform: translateX(var(--header-hamburger-x-shift-x)) rotate(45deg);
+}
+
+header nav.nav-mobile-open .nav-hamburger-icon::after {
+  transform: translateX(var(--header-hamburger-x-shift-x)) rotate(-45deg);
 }
 
 /* ============================================================
-   Mobile / tablet — hamburger (icon + "Menu" label) morphs to an X, and the
-   brand band's right column (tool CTAs + primary nav) becomes an inline
-   expanding accordion menu that pushes page content down (matches source).
-   Breakpoint literal 900px MUST match --header-mobile-breakpoint.
-   ============================================================ */
-@media (width < 900px) {
-  /* Mobile brand band is white (source switches from the teal desktop band):
-     show the colour logo, hide the white one, and darken the hamburger + label. */
-  header nav .nav-brand-row {
-    background-color: var(--header-mobile-brand-bg);
-  }
-
-  header nav .nav-brand .nav-brand-logo-desktop {
-    display: none;
-  }
-
-  header nav .nav-brand .nav-brand-logo-mobile {
-    display: block;
-    height: var(--header-mobile-logo-height);
-  }
-
-  /* Hamburger button: icon + persistent "Menu" label, dark on the white band. */
-  header nav .nav-hamburger {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--header-hamburger-label-gap);
-    min-width: var(--header-hamburger-size);
-    background: transparent;
-    border: 0;
-    cursor: pointer;
-    color: var(--header-mobile-hamburger-color);
-    flex: 0 0 auto;
-  }
-
-  header nav .nav-hamburger-icon,
-  header nav .nav-hamburger-icon::before,
-  header nav .nav-hamburger-icon::after {
-    content: '';
-    display: block;
-    width: var(--header-hamburger-bar-width);
-    height: var(--header-hamburger-bar-height);
-    background: var(--header-mobile-hamburger-color);
-    border-radius: var(--header-hamburger-bar-radius);
-    transition: var(--header-hamburger-transition);
-  }
-
-  header nav .nav-hamburger-icon {
-    position: relative;
-  }
-
-  header nav .nav-hamburger-icon::before {
-    position: absolute;
-    transform: translateY(calc(-1 * var(--header-hamburger-bar-offset)));
-  }
-
-  header nav .nav-hamburger-icon::after {
-    position: absolute;
-    transform: translateY(var(--header-hamburger-bar-offset));
-  }
-
-  header nav .nav-hamburger-label {
-    font-size: var(--header-font-size-xs);
-    font-weight: var(--header-font-weight-medium);
-    line-height: var(--header-hamburger-label-line-height);
-    color: var(--header-mobile-hamburger-label-color);
-  }
-
-  /* Open state: bars morph into an X. */
-  header nav.nav-mobile-open .nav-hamburger-icon {
-    background: transparent;
-  }
-
-  /* The X arms are shorter + thicker than the 3-line bars so the cross reads as
-     bold like the source (hamburger-cross.svg: ~26px diagonal arms, ~5px thick). */
-  header nav.nav-mobile-open .nav-hamburger-icon::before,
-  header nav.nav-mobile-open .nav-hamburger-icon::after {
-    width: var(--header-hamburger-x-arm-length);
-    height: var(--header-hamburger-x-arm-thickness);
-  }
-
-  header nav.nav-mobile-open .nav-hamburger-icon::before {
-    transform: translateY(0) rotate(45deg);
-  }
-
-  header nav.nav-mobile-open .nav-hamburger-icon::after {
-    transform: translateY(0) rotate(-45deg);
-  }
-
-  /* Utility area on mobile splits into two stacked bands (matches source):
-     1) teal indication tagline band (white text)
-     2) light-blue PI/Patient Info band (teal text), centered with a divider.
-     "View patient site" is hidden. */
-  header nav .nav-utility {
-    background-color: var(--header-brand-band-bg);
-  }
-
-  header nav .nav-utility-container {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    padding-bottom: 0;
-  }
-
-  header nav .nav-utility-tagline {
-    color: var(--header-white-text-color);
-    padding-bottom: var(--header-space-3xs);
-  }
-
-  /* PI/Patient Info band: full-bleed light-blue strip below the teal tagline. */
-  header nav .nav-utility-links {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0;
-    margin: 0 calc(-1 * var(--header-mobile-menu-inset));
-    padding: var(--header-mobile-util-band-padding);
-    background-color: var(--header-mobile-util-band-bg);
-  }
-
-  header nav .nav-utility-links .nav-dropdown-trigger {
-    color: var(--header-accent-color);
-    padding: 0 var(--header-mobile-util-link-gap);
-  }
-
-  header nav .nav-utility-links .nav-dropdown:first-child {
-    border-right: var(--section-divider-width) solid var(--header-mobile-util-divider-color);
-  }
-
-  /* "View patient site" (plain link, not a dropdown) is hidden on mobile. */
-  header nav .nav-utility-links > li:not(.nav-dropdown) {
-    display: none;
-  }
-
-  /* Brand band: logo left, hamburger right; right column collapses. */
-  header nav .nav-brand-container {
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    padding-block: var(--header-space-2xs);
-  }
-
-  /* The brand row anchors the pop-over menu. */
-  header nav .nav-brand-row {
-    position: relative;
-  }
-
-  header nav .nav-brand-right {
-    display: none;
-  }
-
-  /* Menu = a pop-over overlay (source): absolutely positioned below the brand
-     bar, full-width white panel that floats OVER the page (does not push content
-     down). Tool CTAs on top (teal block, flush), then the nav accordion. */
-  header nav.nav-mobile-open .nav-brand-right {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: var(--header-mobile-menu-bg);
-    box-shadow: var(--header-mobile-menu-shadow);
-    /* Match the container inset so the CTA/util full-bleed (negative-margin)
-       bands still align to the viewport edges. */
-    padding: 0 var(--header-mobile-menu-inset) var(--header-mobile-menu-padding-block);
-    z-index: var(--header-mobile-menu-z);
-  }
-
-  /* Tool CTAs sit on a full-width teal block. Phone (base): all three pills
-     stack full-width. Tablet override below switches to 2-up + full-width third.
-     Pills are white outline + white text on the teal. */
-  header nav .nav-tools-row {
-    justify-content: stretch;
-    background: var(--header-brand-band-bg);
-    margin: 0 calc(-1 * var(--header-mobile-menu-inset));
-    padding: var(--header-mobile-cta-block-padding);
-  }
-
-  header nav .nav-tools {
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    gap: var(--header-mobile-cta-gap);
-  }
-
-  header nav .nav-tools .nav-tool-cta {
-    justify-content: center;
-    text-align: center;
-    font-size: var(--header-mobile-cta-full-font-size);
-    color: var(--header-white-text-color);
-    border-color: var(--header-white-text-color);
-    padding: var(--header-mobile-cta-padding);
-    white-space: nowrap;
-  }
-
-  header nav .nav-tools .nav-tool-cta:hover,
-  header nav .nav-tools .nav-tool-cta:focus {
-    background: var(--header-white-text-color);
-    color: var(--header-brand-band-bg);
-  }
-
-  /* LuMi AI Assistant is not shown on mobile (matches source). */
-  header nav .nav-lumi {
-    display: none;
-  }
-
-  /* Primary nav becomes a vertical accordion with divider lines. The desktop
-     rules make .nav-links-row a flex row and let .nav-links-list shrink to
-     content; on mobile it must be a full-width block instead. */
-  header nav .nav-links-row {
-    display: block;
-    padding-bottom: 0;
-    width: 100%;
-  }
-
-  header nav .nav-links-list {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-  }
-
-  header nav .nav-links-list > li {
-    margin-right: 0;
-    width: 100%;
-    border-bottom: var(--section-divider-width) solid var(--header-mobile-divider-color);
-  }
-
-  header nav .nav-links-list > li > a,
-  header nav .nav-dropdown-trigger {
-    width: 100%;
-    justify-content: space-between;
-    color: var(--header-accent-color);
-    padding: var(--header-mobile-nav-link-padding);
-    line-height: var(--header-nav-line-height);
-  }
-
-  /* Accordion chevron: swap the desktop rotated-square caret for the source's
-     24x24 teal V image; rotate 180° when the item is expanded. */
-  header nav .nav-links-list .nav-dropdown-trigger::after {
-    top: 0;
-    width: var(--header-mobile-chevron-size);
-    height: var(--header-mobile-chevron-size);
-    border: 0;
-    background: var(--header-mobile-chevron-image) center / contain no-repeat;
-    transform: none;
-  }
-
-  header nav .nav-links-list .nav-dropdown[aria-expanded='true'] .nav-dropdown-trigger::after {
-    transform: rotate(180deg);
-  }
-
-  /* Accordion dropdown: menu flows inline (no absolute overlay). */
-  header nav .nav-links-list .nav-dropdown-menu {
-    position: static;
-    display: none;
-    min-width: 0;
-    box-shadow: none;
-    border-radius: 0;
-    background: transparent;
-  }
-
-  header nav .nav-links-list .nav-dropdown[aria-expanded='true'] > .nav-dropdown-menu {
-    display: block;
-  }
-
-  header nav .nav-links-list .nav-dropdown-menu ul {
-    padding: 0;
-  }
-
-  header nav .nav-links-list .nav-dropdown-menu a {
-    padding: var(--header-mobile-sublink-padding);
-    color: var(--header-accent-color);
-    font-size: var(--header-font-size-s);
-    font-weight: var(--header-font-weight-medium);
-    /* Taller line box gives the extra vertical breathing room between sub-items
-       (matches source's 24px line-height). */
-    line-height: var(--header-mobile-sublink-line-height);
-    white-space: normal;
-    /* Only top-level items carry dividers on mobile; sub-items do not. */
-    border-bottom: 0;
-  }
-
-  header nav .nav-links-list .nav-dropdown-menu a:hover {
-    background: transparent;
-  }
-}
-
-/* ============================================================
-   Tablet range (600px ≤ width < 900px): the tool CTAs switch from the phone's
+   TABLET overrides (width >= 600px): the tool CTAs switch from the phone's
    fully-stacked column to a 2-up top row (INFUSION LOCATOR + CHECK COVERAGE),
-   with REQUEST A REP full-width on the row below. Upper bound keeps the literal
-   in sync with --header-mobile-breakpoint (900px).
+   with REQUEST A REP full-width on the row below. These persist up into the
+   desktop range until the desktop section re-lays the tools horizontally.
    ============================================================ */
-@media (width >= 600px) and (width < 900px) {
+@media (width >= 600px) {
   header nav .nav-tools {
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
     justify-content: space-between;
   }
 
@@ -890,5 +798,214 @@ header nav .nav-hamburger {
   header nav .nav-tools .nav-tool-cta:nth-child(3) {
     flex-basis: 100%;
     font-size: var(--header-mobile-cta-full-font-size);
+  }
+}
+
+/* ============================================================
+   DESKTOP overrides (width >= 900px): the header returns to its full layout —
+   the teal brand band with the white logo, the utility bar as a single light
+   row, tool CTAs on one horizontal row above the horizontal primary nav, and
+   the LuMi avatar + label to the right of the nav. The hamburger / accordion /
+   pop-over are hidden. This 900px literal MUST match --header-mobile-breakpoint
+   and header.js's matchMedia('(min-width: 900px)').
+   ============================================================ */
+@media (width >= 900px) {
+  /* HCP arrow returns to the filled teal circle with a white arrow. */
+  header nav .nav-hcp-link::after {
+    background-image: var(--header-hcp-arrow-image);
+  }
+
+  /* Utility bar: single light row. */
+  header nav .nav-utility {
+    background-color: var(--header-utility-bg);
+  }
+
+  header nav .nav-utility-container {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--header-space-s);
+    padding-block: var(--header-space-3xs);
+  }
+
+  header nav .nav-utility-tagline {
+    color: var(--header-accent-color);
+    padding-bottom: 0;
+    font-size: var(--header-font-size-xs);
+  }
+
+  header nav .nav-utility-links {
+    gap: var(--header-actions-gap);
+    margin: 0;
+    padding: 0;
+    background: none;
+    justify-content: normal;
+  }
+
+  header nav .nav-utility-links .nav-dropdown-trigger {
+    padding: 0;
+    font-size: var(--header-font-size-xs);
+  }
+
+  header nav .nav-utility-links .nav-dropdown:first-child {
+    border-right: 0;
+  }
+
+  header nav .nav-utility-links > li:not(.nav-dropdown) {
+    display: list-item;
+  }
+
+  /* Brand band: teal, single row, white logo. */
+  header nav .nav-brand-row {
+    position: static;
+    background-color: var(--header-brand-band-bg);
+  }
+
+  header nav .nav-brand-container {
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: normal;
+    padding-block: 0;
+  }
+
+  header nav .nav-brand .nav-brand-logo-desktop {
+    display: block;
+  }
+
+  header nav .nav-brand .nav-brand-logo-mobile {
+    display: none;
+  }
+
+  /* Right column stacks the CTA/tools row above the primary nav links row. */
+  header nav .nav-brand-right {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  header nav .nav-tools-row {
+    justify-content: flex-end;
+    background: none;
+    margin: 0;
+    padding: var(--header-space-m) 0 var(--header-space-2xs);
+  }
+
+  header nav .nav-tools {
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: normal;
+    width: auto;
+    gap: var(--header-tools-gap);
+  }
+
+  header nav .nav-tools .nav-tool-cta {
+    flex: 0 1 auto;
+    min-width: auto;
+    justify-content: normal;
+    text-align: start;
+    font-size: var(--header-font-size-s);
+    padding: var(--header-cta-padding);
+  }
+
+  /* Undo the tablet third-CTA full-width row. */
+  header nav .nav-tools .nav-tool-cta:nth-child(3) {
+    flex-basis: auto;
+    font-size: var(--header-font-size-s);
+  }
+
+  /* Primary nav goes horizontal. */
+  header nav .nav-links-row {
+    display: flex;
+    align-items: center;
+    gap: var(--header-row-gap);
+    width: auto;
+    padding-bottom: var(--header-space-2xs);
+  }
+
+  header nav .nav-links-list {
+    flex-flow: row wrap;
+    width: auto;
+  }
+
+  header nav .nav-links-list > li {
+    width: auto;
+    margin-right: var(--header-nav-link-gap);
+    border-bottom: 0;
+  }
+
+  header nav .nav-links-list > li:last-child {
+    margin-right: 0;
+  }
+
+  header nav .nav-links-list > li > a,
+  header nav .nav-dropdown-trigger {
+    width: auto;
+    justify-content: normal;
+    color: var(--header-white-text-color);
+    padding: var(--header-nav-link-padding);
+  }
+
+  /* Desktop dropdown chevron: small rotated-square caret (nudged up to optically
+     center) instead of the mobile V image. */
+  header nav .nav-links-list .nav-dropdown-trigger::after {
+    top: var(--header-chevron-offset-y);
+    width: var(--header-chevron-size);
+    height: var(--header-chevron-size);
+    border-right: var(--header-border-width) solid currentcolor;
+    border-bottom: var(--header-border-width) solid currentcolor;
+    background: none;
+    transform: rotate(45deg);
+  }
+
+  /* Restore the primary-nav submenu card (absolute overlay, rounded, shadow). */
+  header nav .nav-links-list .nav-dropdown-menu {
+    position: absolute;
+    min-width: var(--header-dropdown-min-width);
+    box-shadow: var(--header-navmenu-shadow);
+    border-radius: var(--header-navmenu-radius);
+    background: var(--header-dropdown-bg);
+  }
+
+  header nav .nav-links-list .nav-dropdown-menu a {
+    padding: var(--header-navmenu-link-padding);
+    color: var(--header-dropdown-link-color);
+    font-size: var(--header-navmenu-link-font-size);
+    line-height: var(--header-navmenu-link-line-height);
+    border-bottom: var(--header-navmenu-separator);
+  }
+
+  /* Utility trigger label returns to 14px. */
+  header nav .nav-utility-links .nav-dropdown-trigger::after {
+    top: var(--header-chevron-offset-y);
+  }
+
+  /* LuMi: avatar + label to the right of the nav; popup right-aligned to it. */
+  header nav .nav-lumi {
+    position: relative;
+    margin-right: 0;
+    align-self: auto;
+  }
+
+  header nav .nav-lumi-label {
+    display: block;
+  }
+
+  header nav .nav-lumi-avatar {
+    border: 0;
+    background: none;
+  }
+
+  header nav .nav-lumi-popup {
+    right: 0;
+    width: var(--header-lumi-popup-width);
+  }
+
+  header nav .nav-lumi-popup::before {
+    right: var(--header-lumi-arrow-right);
+  }
+
+  /* Hamburger is mobile-only. */
+  header nav .nav-hamburger {
+    display: none;
   }
 }

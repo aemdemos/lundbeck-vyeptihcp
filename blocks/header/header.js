@@ -454,8 +454,25 @@ export default async function decorate(block) {
   window.addEventListener('keydown', (e) => { if (e.code === 'Escape') closeAll(); });
   document.addEventListener('click', (e) => { if (!nav.contains(e.target)) closeAll(); });
 
+  // LuMi lives in the primary-nav row on desktop; on mobile that row collapses
+  // into the hamburger drawer, so move the LuMi avatar onto the top bar (just
+  // left of the hamburger) as the source does. Keep a marker of its desktop home.
+  const lumi = nav.querySelector('.nav-lumi');
+  const lumiDesktopHome = lumi ? lumi.parentElement : null;
+  const desktopMq = window.matchMedia('(min-width: 900px)');
+  const placeLumi = (isDesktop) => {
+    if (!lumi) return;
+    if (isDesktop) {
+      if (lumiDesktopHome && lumi.parentElement !== lumiDesktopHome) lumiDesktopHome.append(lumi);
+    } else if (hamburger && lumi.nextElementSibling !== hamburger) {
+      hamburger.before(lumi);
+    }
+  };
+  placeLumi(desktopMq.matches);
+
   // Reset mobile state when resizing up to desktop.
-  window.matchMedia('(min-width: 900px)').addEventListener('change', (mq) => {
+  desktopMq.addEventListener('change', (mq) => {
+    placeLumi(mq.matches);
     if (mq.matches) {
       nav.classList.remove('nav-mobile-open');
       if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
