@@ -135,6 +135,9 @@ function decorateHcpBar(section) {
       btn.className = 'nav-hcp-continue';
       btn.textContent = label;
       btn.addEventListener('click', () => {
+        // Non-sensitive UI flag (a boolean marking the HCP notice as dismissed
+        // for this tab). No tokens or personal data — safe in sessionStorage.
+        // eslint-disable-next-line browser-security/no-sensitive-localstorage
         sessionStorage.setItem(SESSION_HCP_DISMISSED, 'true');
         bar.remove();
       });
@@ -357,15 +360,21 @@ function decorateBrandBand(brandSection, navLinksSection, lumiSection) {
       const link = logoLink.cloneNode(true);
       // Source swaps logos by breakpoint: white logo on the teal desktop band,
       // full-colour logo on the white mobile band. Keep the authored (white) img
-      // for desktop and add a colour variant (same directory) shown on mobile.
+      // for desktop and add a colour variant shown on mobile. The mobile <img>
+      // must live OUTSIDE the authored <picture> — inside it the picture's
+      // <source srcset> (the white PNG) would override the img's src. The SVG is
+      // served from /icons/ (the only asset dir served on both local and EDS;
+      // /content/images is not served on published EDS).
       const desktopImg = link.querySelector('img');
       if (desktopImg) {
         desktopImg.classList.add('nav-brand-logo-desktop');
-        const mobileImg = desktopImg.cloneNode(true);
-        mobileImg.classList.remove('nav-brand-logo-desktop');
-        mobileImg.classList.add('nav-brand-logo-mobile');
-        mobileImg.src = desktopImg.src.replace(/[^/]+$/, 'logo-vyepti-mobile.svg');
-        desktopImg.after(mobileImg);
+        const mobileImg = document.createElement('img');
+        mobileImg.className = 'nav-brand-logo-mobile';
+        mobileImg.src = '/icons/logo-vyepti-mobile.svg';
+        mobileImg.alt = desktopImg.alt || '';
+        mobileImg.loading = desktopImg.loading || 'lazy';
+        const picture = desktopImg.closest('picture');
+        (picture || desktopImg).after(mobileImg);
       }
       brand.append(link);
       container.append(brand);
@@ -414,7 +423,7 @@ export default async function decorate(block) {
   candidates.push('/content/nav', '/nav');
   let fragment = null;
   for (let i = 0; i < candidates.length && !fragment; i += 1) {
-    // eslint-disable-next-line no-await-in-loop
+     
     fragment = await loadFragment(candidates[i]);
   }
 
@@ -460,9 +469,9 @@ export default async function decorate(block) {
   const lumi = nav.querySelector('.nav-lumi');
   const lumiDesktopHome = lumi ? lumi.parentElement : null;
   const desktopMq = window.matchMedia('(min-width: 900px)');
-  const placeLumi = (isDesktop) => {
+  const placeLumi = (atDesktop) => {
     if (!lumi) return;
-    if (isDesktop) {
+    if (atDesktop) {
       if (lumiDesktopHome && lumi.parentElement !== lumiDesktopHome) lumiDesktopHome.append(lumi);
     } else if (hamburger && lumi.nextElementSibling !== hamburger) {
       hamburger.before(lumi);
