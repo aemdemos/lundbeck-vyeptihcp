@@ -11,40 +11,11 @@
    (900px) in header-tokens.css; keep the literal below in sync with it.
    ============================================================ */
 
-/* The boilerplate reserves a fixed header height (--nav-height) so content
-   doesn't jump while the nav lazy-loads. This multi-row VYEPTI header is taller
-   than that fixed value and its height varies (e.g. when the HCP bar is
-   dismissed), so we can't keep a permanent fixed height — that would leave a
-   gap above <main>.
-
-   To avoid a CLS hit, reserve the real first-load header height (HCP bar
-   present) with min-height WHILE the header block is still loading, then release
-   it to real content height once the block has loaded. Mobile-first: the base
-   reserve is the (taller) mobile height; tablet/desktop overrides below. */
-body header {
-  height: auto;
-  min-height: var(--header-reserve-height-mobile);
-}
-
-/* Once the header block finishes loading, drop the reservation so the header
-   sizes to its true content (and shrinks cleanly if the HCP bar is dismissed). */
-body header:has(.header[data-block-status="loaded"]) {
-  min-height: 0;
-}
-
-/* Tablet + desktop reserve the (shorter) wide-layout header height while loading.
-   Breakpoint literal 900px MUST match --header-mobile-breakpoint. */
-@media (width >= 600px) {
-  body header {
-    min-height: var(--header-reserve-height-tablet);
-  }
-}
-
-@media (width >= 900px) {
-  body header {
-    min-height: var(--header-reserve-height-desktop);
-  }
-}
+/* CLS reservation for this multi-row header lives in the EAGER styles.css
+   (`header { min-height: var(--header-reserve-height-*) }` + a loaded-state
+   release), because it must reserve space from first paint — this block's CSS
+   loads lazily and would apply too late to prevent the shift. Nothing to set
+   here; the header sizes to its real content once loaded. */
 
 header .nav-wrapper {
   width: 100%;
