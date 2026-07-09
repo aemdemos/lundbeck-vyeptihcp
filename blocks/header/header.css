@@ -12,13 +12,38 @@
    ============================================================ */
 
 /* The boilerplate reserves a fixed header height (--nav-height) so content
-   doesn't jump while the nav loads. This multi-row VYEPTI header is a different
-   height than that fixed value — and it changes when the HCP bar is dismissed —
-   so a fixed height (or even a min-height floor) leaves a gap above <main>.
-   Let the header size to its real content at all times. */
+   doesn't jump while the nav lazy-loads. This multi-row VYEPTI header is taller
+   than that fixed value and its height varies (e.g. when the HCP bar is
+   dismissed), so we can't keep a permanent fixed height — that would leave a
+   gap above <main>.
+
+   To avoid a CLS hit, reserve the real first-load header height (HCP bar
+   present) with min-height WHILE the header block is still loading, then release
+   it to real content height once the block has loaded. Mobile-first: the base
+   reserve is the (taller) mobile height; tablet/desktop overrides below. */
 body header {
   height: auto;
+  min-height: var(--header-reserve-height-mobile);
+}
+
+/* Once the header block finishes loading, drop the reservation so the header
+   sizes to its true content (and shrinks cleanly if the HCP bar is dismissed). */
+body header:has(.header[data-block-status="loaded"]) {
   min-height: 0;
+}
+
+/* Tablet + desktop reserve the (shorter) wide-layout header height while loading.
+   Breakpoint literal 900px MUST match --header-mobile-breakpoint. */
+@media (width >= 600px) {
+  body header {
+    min-height: var(--header-reserve-height-tablet);
+  }
+}
+
+@media (width >= 900px) {
+  body header {
+    min-height: var(--header-reserve-height-desktop);
+  }
 }
 
 header .nav-wrapper {

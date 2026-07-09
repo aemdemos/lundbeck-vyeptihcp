@@ -9,6 +9,12 @@
 :root {
   /* nav heights (legacy — kept for header-height math in styles.css) */
   --nav-height: 200px;
+
+  /* CLS reservation: real first-load header height (HCP bar present) per
+     breakpoint, applied as min-height only while the header block is loading. */
+  --header-reserve-height-mobile: 312px;
+  --header-reserve-height-tablet: 246px;
+  --header-reserve-height-desktop: 244px;
   --header-nav-max-width-mobile: 510px;
   --header-nav-max-width-tablet: 690px;
   --header-nav-max-width-desktop: 930px;
