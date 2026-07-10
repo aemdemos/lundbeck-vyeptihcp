@@ -39,7 +39,7 @@
   --footer-link-hover-decoration: none;
   --footer-link-font-size: 16px; /* mobile */
   --footer-link-font-size-desktop: 16px;
-  --footer-link-font-weight: 700;
+  --footer-link-font-weight: 600;
   --footer-link-line-height: 16px;
   --footer-link-gap: 0; /* Onfi separates links with a pipe (p + p border-left), not a margin */
   --footer-link-mobile-gap: 10px; /* @boilerplate */
@@ -165,26 +165,11 @@ footer .footer .section:first-child a {
   font-family: var(--footer-link-font-family);
 }
 
-/* [LIBS GAP] footer.css has no rule beneath the links AND sets `margin: 0 auto`
-   on this wrapper. Onfi needs a thin white rule under the links plus an 11px
-   gap below it; the doubled class outranks footer.css's `margin: 0 auto` so the
-   bottom margin survives (top stays 0, sides stay auto-centred). */
-footer .footer .section:first-child .default-content-wrapper.default-content-wrapper {
-  margin: 0 auto var(--footer-divider-margin-bottom);
-  border-bottom: 1px solid var(--footer-divider-color);
-}
-
 /* [LIBS GAP] footer.css zeroes the first stacked link's top margin. Onfi's
    source gives every mobile link the same 10px top gap, including the first.
    Doubled `.footer` class outranks footer.css's `p:first-child { margin-top: 0 }`. */
 footer .footer.footer .section:first-child p:first-child {
   margin-top: var(--footer-link-mobile-gap);
-}
-
-/* [LIBS GAP] feed the white divider colour to the columns `.divider` variant
-   (the vertical rule between legal copy and the logo). */
-footer .footer .columns.divider {
-  --columns-divider-color: var(--footer-divider-color);
 }
 
 /* [LIBS GAP] Onfi's logo is a bare <picture> in column 2, not a <p>-wrapped
