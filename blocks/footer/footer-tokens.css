@@ -129,7 +129,7 @@
   --footer-phone-radius: 30px; /* @boilerplate */
   --footer-phone-icon-size: 16px 19px; /* @boilerplate */
   --footer-phone-icon-position: 19px 24px; /* @boilerplate */
-  --footer-phone-icon-image: /icons/call.svg; /* Onfi has no phone pill */
+  --footer-phone-icon-image: "/icons/call.svg";
   --footer-social-row-margin-top: 27px; /* @boilerplate */
   --footer-social-icon-width: 27px; /* @boilerplate */
   --footer-social-icon-gap: 13px; /* @boilerplate */
