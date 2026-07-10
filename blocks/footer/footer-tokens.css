@@ -40,7 +40,7 @@
   --footer-link-font-size: 16px; /* mobile */
   --footer-link-font-size-desktop: 16px;
   --footer-link-font-weight: 600;
-  --footer-link-line-height: 16px;
+  --footer-link-line-height: 22px;
   --footer-link-gap: 0; /* Onfi separates links with a pipe (p + p border-left), not a margin */
   --footer-link-mobile-gap: 10px; /* @boilerplate */
   --footer-transition: 0.2s ease; /* @boilerplate */
