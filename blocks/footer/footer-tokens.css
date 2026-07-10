@@ -42,7 +42,7 @@
   --footer-link-font-weight: 600;
   --footer-link-line-height: 22px;
   --footer-link-gap: 0; /* Onfi separates links with a pipe (p + p border-left), not a margin */
-  --footer-link-mobile-gap: 10px; /* @boilerplate */
+  --footer-link-mobile-gap: 0; /* @boilerplate */
   --footer-transition: 0.2s ease; /* @boilerplate */
 
   /* ---- Onfi link extras (consumed by the overrides section) ---------- */
@@ -111,9 +111,6 @@
   --footer-logo-col-padding-bottom: 8px; /* sets the vertical divider height (logo box + this) */
   --footer-logo-margin-top: 10px;
 
-  /* ---- UNUSED BY ONFI (no phone pill / social icons / assistance label).
-     Kept so the shared structure's vars still resolve; the matching selectors
-     never appear in Onfi's authored content, so these never render. ------ */
   --footer-assist-color: #484848; /* @boilerplate */
   --footer-assist-font-size: 17px; /* @boilerplate */
   --footer-assist-font-size-mobile: 14px; /* @boilerplate */
@@ -190,7 +187,7 @@ footer .footer .columns.divider img {
     --footer-legal-font-size: var(--footer-legal-font-size-desktop);
     --footer-legal-line-height: var(--footer-legal-line-height-desktop);
     --footer-legal-margin-bottom: var(--footer-legal-margin-bottom-desktop);
-    --footer-linkbar-padding: 30px 0 0;
+    --footer-linkbar-padding: 20px 0 20px;
   }
 
   /* [LIBS GAP] footer.css lays the desktop links out as inline-block <p>s, so
