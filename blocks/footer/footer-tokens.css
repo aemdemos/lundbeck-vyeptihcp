@@ -30,8 +30,8 @@
 
   /* ---- link section -------------------------------------------------- */
   --footer-linkbar-background: var(--dark-color);
-  --footer-linkbar-padding: 20px 0 0; /* mobile top space above the link row */
-  --footer-linkbar-inner-padding: 0 15px 23px; /* side gutters + gap down to the rule */
+  --footer-linkbar-padding: 20px 0 20px; /* mobile top space above the link row */
+  --footer-linkbar-inner-padding: 0;
   --footer-link-text-align: center;
   --footer-link-color: var(--background-color); /* white */
   --footer-link-hover-color: var(--link-hover-color);
@@ -202,6 +202,7 @@ footer .footer .columns.divider img {
     align-items: baseline;
     justify-content: center;
     row-gap: var(--footer-link-row-gap);
+    line-height: var(--footer-link-line-height);
   }
 
   /* [LIBS GAP] footer.css separates desktop links with a margin only. Onfi uses
