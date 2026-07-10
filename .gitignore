@@ -13,6 +13,9 @@ localhost-key.pem
 .cursor
 Trace*.json
 .migration/*
+.claude
+mcp-server.log
+
 
 # Playwright / a11y test artifacts
 playwright-report/
