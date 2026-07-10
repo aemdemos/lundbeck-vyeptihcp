@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="26px" viewBox="0 0 32 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>youtube-logo-lowernav-32-desktop</title>
+    <defs>
+        <polygon id="path-1" points="0 0 32 0 32 26 0 26"></polygon>
+    </defs>
+    <g id="Build-Kit" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="youtube-logo-lowernav-32-desktop">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <g id="Clip-2"></g>
+            <path d="M21.128,13.5638961 L13.944,17.1025974 C13.3152,17.4098701 12.8,17.0654545 12.8,16.3327273 L12.8,9.66727273 C12.8,8.93623377 13.3152,8.59012987 13.944,8.8974026 L21.128,12.4361039 C21.7568,12.7467532 21.7568,13.2532468 21.128,13.5638961 M16,0 C0.2752,0 0,1.47558442 0,13 C0,24.5244156 0.2752,26 16,26 C31.7248,26 32,24.5244156 32,13 C32,1.47558442 31.7248,0 16,0" id="Fill-1" fill="#046183" mask="url(#mask-2)"></path>
+        </g>
+    </g>
+</svg>
