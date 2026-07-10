@@ -104,6 +104,14 @@
   --breadcrumbs-height: 34px; /* @libs */
   --header-height: var(--nav-height); /* @libs */
 
+  /* CLS reservation for the multi-row VYEPTI header. Defined here (eager,
+     LCP-critical CSS) so the correct space is reserved from first paint —
+     the header block's own CSS loads lazily and would apply too late. Values =
+     real first-load header height (HCP bar present) per breakpoint. */
+  --header-reserve-height-mobile: 312px;
+  --header-reserve-height-tablet: 246px;
+  --header-reserve-height-desktop: 244px;
+
   /* fixed-width / code */
   --fixed-font-family: menlo, consolas, monospace; /* @libs */
 
@@ -196,7 +204,16 @@ body.appear { /* @libs */
 }
 
 header { /* @libs */
-  height: var(--header-height); /* @libs */
+  /* Reserve the real multi-row header height from first paint (mobile-first) to
+     avoid CLS while the header block lazy-loads. Released once loaded (below) so
+     a dismissed HCP bar / shorter content leaves no gap. Tablet/desktop reserves
+     are set in the media queries further down this file. */
+  height: auto;
+  min-height: var(--header-reserve-height-mobile);
+}
+
+header:has(.header[data-block-status="loaded"]) {
+  min-height: 0;
 }
 
 header .header,
@@ -741,10 +758,6 @@ main .section.stats-callout h4 {
   body[data-breadcrumbs] { /* @libs */
     --header-height: calc(var(--nav-height) + var(--breadcrumbs-height)); /* @libs */
   }
-  
-  header { /* @libs */
-    height: calc(var(--nav-height) + 23px); /* @libs */
-}
 
 main > .section > div { /* @libs */
   max-width: var(--max-width-site); /* @libs */
@@ -761,12 +774,23 @@ main .section.stats-callout > div:not(.bg-image) {
 }
 
 @media (width >= 1200px) {
-  header { /* @libs */
-    height: var(--nav-height); /* @libs */
-  }
-
   main .section.stats-callout > div:not(.bg-image) {
     max-width: 1140px;
+  }
+}
+
+/* Header CLS reservation — tablet + desktop overrides (eager so they apply from
+   first paint). Breakpoints match the header block: 600px (tablet layout) and
+   900px (desktop layout). The loaded-state release above still applies. */
+@media (width >= 600px) {
+  header {
+    min-height: var(--header-reserve-height-tablet);
+  }
+}
+
+@media (width >= 900px) {
+  header {
+    min-height: var(--header-reserve-height-desktop);
   }
 }
 

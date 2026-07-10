@@ -171,7 +171,7 @@ Key principles:
 
 CSS rules:
 - **All selectors scoped to block**: `.my-block .item`, never just `.item`
-- **Mobile-first**: Base styles for mobile, `min-width >=`("greater than") media queries for larger. Never use `<=` ("less than"), instead prefer to override/unset earlier CSS rules.
+- **Mobile-first (MANDATORY for ALL site CSS — blocks, `header.css`, `footer.css`, `styles/*.css`, everything)**: Base rules (no media query, at the TOP of the file) target the smallest viewport (~375px). Then add `min-width` (`>=`, "greater than") media-query sections near the END of the file to layer on tablet/desktop overrides. NEVER use `max-width` (`<=`, "less than") queries — instead override/unset earlier rules. NEVER scatter media queries throughout the file or write one per rule. A file should read: mobile base → one tablet `@media (width >= 600px)` block → one desktop `@media (width >= 900px)` block. Because `min-width` queries are additive, any property a larger breakpoint sets that must revert on mobile needs an explicit base default. `blocks/header/header.css` is the reference implementation of this layout.
 - **Breakpoints**: 600px (tablet), 900px (desktop), 1200px (wide) — use only what's needed. Consolidate all breakpoint-specific rules into 1 media-query per CSS file, do not create individual media-queries per CSS rule.
 - **CSS custom properties**: Use `var(--token)` for all colors, fonts, sizes
 - **No `-container` / `-wrapper`** class names — those conflict with section wrappers

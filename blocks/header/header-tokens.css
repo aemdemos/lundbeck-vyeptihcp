@@ -1,26 +1,243 @@
-/* header design tokens (layout only; colors/typography use global tokens) */
-:root { /* @boilerplate */
+/* ============================================================
+   Header design tokens.
+   Customer-tunable surface for the VYEPTI HCP header. Everything the
+   header.css consumes resolves to a token here; tokens in turn reference
+   the global design tokens in styles/styles.css wherever a global exists,
+   so brand/typography changes cascade automatically. Adjust header look
+   here (not in header.css) whenever possible.
+   ============================================================ */
+:root {
+  /* nav heights (legacy — kept for header-height math in styles.css) */
   --nav-height: 200px;
+
+  /* NOTE: --header-reserve-height-* (CLS reservation) are defined in the eager
+     styles.css :root, not here, so they apply from first paint. */
   --header-nav-max-width-mobile: 510px;
   --header-nav-max-width-tablet: 690px;
   --header-nav-max-width-desktop: 930px;
   --header-nav-max-width-max: 1110px;
-  --header-white-text-color: #fff;
-  --header-text-color: #484848;
 
-  /* font */
-  --header-font-weight-xs: 500;
+  /* ---- color roles (reference global brand/semantic tokens) ---- */
+
+  /* Brand band measured from source = #41748d = --brand-teal-muted (--brand-primary-dark).
+     NOTE: --brand-primary is #046183 (darker) — do NOT use it for the band. */
+  --header-brand-band-bg: var(--brand-primary-dark);
+  --header-brand-band-color: var(--background-color);
+
+  /* Mobile brand band flips to white (source): colour logo + dark hamburger/label. */
+  --header-mobile-brand-bg: var(--background-color);
+  --header-mobile-hamburger-color: var(--brand-primary-dark);
+  --header-mobile-hamburger-label-color: rgb(77 77 77);
+  --header-mobile-logo-height: 64px;
+  --header-accent-color: var(--brand-primary-dark);
+  --header-utility-bg: var(--light-color);
+  --header-hcp-bg: var(--background-color);
+  --header-hcp-font-size: var(--header-font-size-s);
+  --header-hcp-actions-gap: 12px;
+  --header-hcp-arrow-size: 24px;
+  --header-hcp-arrow-gap: 8px;
+
+  /* Teal circle with a white right-arrow (matches source icon-right-arrow-teal). */
+  --header-hcp-arrow-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"%3E%3Ccircle cx="12" cy="12" r="12" fill="%2341748d"/%3E%3Cpath d="M9 6l6 6-6 6" fill="none" stroke="%23fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
+
+  /* Mobile variant (matches source): white fill, 2px teal ring, teal arrow.
+     Chevron is inset (x 10→14, y 8→16) so it doesn't crowd the ring. */
+  --header-hcp-arrow-image-mobile: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"%3E%3Ccircle cx="12" cy="12" r="11" fill="%23fff" stroke="%2341748d" stroke-width="2"/%3E%3Cpath d="M10 8l4 4-4 4" fill="none" stroke="%2341748d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
+  --header-text-color: var(--text-color);
+  --header-white-text-color: var(--background-color);
+  --header-border-color: var(--brand-primary-light);
+  --header-dropdown-bg: var(--background-color);
+  --header-dropdown-link-color: var(--brand-primary-dark);
+  --header-dropdown-hover-bg: var(--light-color);
+  --header-band-divider-color: rgb(255 255 255 / 20%);
+
+  /* ---- typography (reference global body sizes) ---- */
+  --header-font-size-xs: var(--body-font-size-xs);
+  --header-font-size-s: var(--body-font-size-s);
+  --header-font-size-m: var(--body-font-size-ms);
   --header-font-weight-s: 600;
   --header-font-weight-medium: 700;
-  --header-font-weight-bold: 800;
-  --header-font-size-xs: 14px;
-  --header-font-size-s: 16px;
-  --header-font-size-m: 18px;
-  --header-padding-container: 15px;
+  --header-nav-line-height: 1.2;
 
-  /* line heights */
-  --header-line-height-xs: 14px;
-  --header-line-height-s: 18px;
-  --header-line-height-m: 22px;
-  --header-line-height-l: 24px;
+  /* ---- spacing scale (header-local; no global spacing tokens exist) ---- */
+  --header-space-3xs: 6px;
+  --header-space-2xs: 8px;
+  --header-space-xs: 10px;
+  --header-space-s: 14px;
+  --header-space-m: 16px;
+  --header-space-l: 18px;
+  --header-space-xl: 22px;
+  --header-space-2xl: 24px;
+  --header-padding-container: 15px;
+  --header-row-gap: 16px;
+  --header-actions-gap: 24px;
+  --header-tools-gap: 16px;
+  --header-dropdown-gap: 6px;
+  --header-chevron-gap: 8px;
+  --header-chevron-offset-y: -2px;
+  --header-brand-gap: 24px;
+
+  /* ---- primary-nav dropdown menu (matches source) ---- */
+  --header-navmenu-radius: 10px;
+  --header-navmenu-padding-inline: 16px;
+  --header-navmenu-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+  --header-navmenu-link-font-size: 12px;
+  --header-navmenu-link-line-height: 16px;
+  --header-navmenu-link-padding: 12px 0;
+  --header-navmenu-separator: 1px solid rgb(164 164 164);
+
+  /* ---- LuMi AI Assistant widget ---- */
+  --header-lumi-gap: 5px;
+  --header-lumi-avatar-size: 50px;
+  --header-lumi-label-line-height: 18px;
+  --header-lumi-label-max-width: 80px;
+
+  /* Mobile: label hidden, avatar carries a thin teal ring (source: 50px img in a
+     52px ring, 1px #b5d9dd). Sits left of the hamburger on the white top bar. */
+  --header-mobile-lumi-avatar-size: 50px;
+  --header-mobile-lumi-ring: 1px solid var(--header-lumi-header-bg);
+
+  /* Negative because the brand container's 24px flex gap already sits between
+     the avatar and hamburger; this trims it to the source's ~21px. */
+  --header-mobile-lumi-hamburger-gap: -3px;
+
+  /* Popup right-aligns to the container inset; its arrow sits ~84px from the
+     popup's right edge so it points up at the avatar center. */
+  --header-mobile-lumi-popup-right: 15px;
+  --header-mobile-lumi-arrow-right: 84px;
+
+  /* Popup — matches source: teal header band (#b5d9dd) + white body, teal title
+     (#046183), pill buttons, and an upward triangle centered under the avatar. */
+  --header-lumi-popup-offset: 12px;
+  --header-lumi-popup-width: 335px;
+  --header-lumi-popup-bg: var(--background-color);
+  --header-lumi-popup-radius: 10px;
+  --header-lumi-popup-shadow: 0 4px 4px rgb(0 0 0 / 10%);
+  --header-lumi-header-bg: #b5d9dd;
+  --header-lumi-header-padding: 10px;
+  --header-lumi-title-color: var(--brand-primary);
+  --header-lumi-title-line-height: 1.33;
+  --header-lumi-body-padding: 10px;
+  --header-lumi-close-size: 24px;
+  --header-lumi-close-x-length: 10px;
+  --header-lumi-close-color: var(--header-white-text-color);
+  --header-lumi-close-bg: transparent;
+  --header-lumi-close-ring: 2px solid var(--header-white-text-color);
+  --header-lumi-popup-btn-gap: 10px;
+  --header-lumi-btn-border-color: rgb(217 217 217);
+  --header-lumi-btn-radius: 20px;
+  --header-lumi-btn-padding: 5px 12px;
+  --header-lumi-btn-hover-bg: #002d54;
+
+  /* Triangle: 14px wide (half 7px), 12px tall; avatar center is ~110px in from
+     the popup's right edge, so offset the arrow to sit under it. */
+  --header-lumi-arrow-half: 7px;
+  --header-lumi-arrow-height: 12px;
+  --header-lumi-arrow-right: 103px;
+
+  /* ---- borders / radii / elevation (reference global button + section tokens) ---- */
+  --header-border-width: var(--button-border-width);
+  --header-pill-radius: var(--button-border-radius);
+  --header-dropdown-radius: 8px;
+  --header-dropdown-min-width: 180px;
+  --header-utility-dropdown-min-width: 160px;
+  --header-dropdown-shadow: 0 2px 8px rgb(46 50 51 / 20%);
+  --header-dropdown-z: 20;
+  --header-transition: var(--button-transition);
+
+  /* ---- pill CTA padding ---- */
+  --header-cta-padding: 16px 32px;
+  --header-hcp-continue-padding: 6px 22px;
+  --header-nav-link-padding: 24px 0;
+  --header-nav-link-gap: 20px;
+  --header-dropdown-link-padding: 10px 18px;
+
+  /* ---- brand logo ---- */
+  --header-logo-height: 85px;
+
+  /* ---- chevron ---- */
+  --header-chevron-size: 8px;
+
+  /* ---- hamburger (mobile) ---- */
+  --header-hamburger-size: 40px;
+
+  /* Resets the global button padding (14px 25px). Tuned so the icon+label stack
+     is vertically centered on the logo and its right whitespace equals the
+     space above/below it. */
+  --header-hamburger-inset: 0;
+
+  /* The 3 bars' top bar overflows the flow box, so the stack's visual centre
+     sits a few px above the flex-centred box; nudge it down onto the logo
+     centre. */
+  --header-hamburger-nudge-y: 4px;
+
+  /* Pulls the icon toward the edge so the whitespace right of it (container's
+     15px inset minus this) matches the ~13px above/below it once centred. */
+  --header-hamburger-space-right: -2px;
+
+  /* Bar geometry matches source hamburger.svg (34x20: ~33px wide, ~4px thick,
+     ~8px between bar centers). */
+  --header-hamburger-bar-width: 33px;
+  --header-hamburger-bar-height: 4px;
+  --header-hamburger-bar-radius: 2px;
+  --header-hamburger-bar-offset: 8px;
+
+  /* Open X: shorter + thicker arms so the cross reads bold (source cross svg). */
+  --header-hamburger-x-arm-length: 26px;
+  --header-hamburger-x-arm-thickness: 5px;
+
+  /* The X arms are narrower than the 3 bars and absolutely positioned at left:0,
+     so the cross sits left of the bars' center; nudge it right to re-center. */
+  --header-hamburger-x-shift-x: 4px;
+
+  /* Gap is measured from the 3px center bar's box; the top/bottom bars are
+     absolutely positioned (out of flow), so this must clear the bottom bar
+     (~8.5px below center) plus ~5px breathing room to match the source. */
+  --header-hamburger-label-gap: 13px;
+  --header-hamburger-label-line-height: 1;
+  --header-hamburger-transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease;
+
+  /* ---- mobile menu (expanding accordion panel) ---- */
+  --header-mobile-menu-bg: var(--background-color);
+  --header-mobile-menu-padding: 16px;
+
+  /* Vertical-only panel padding: items align to the 15px container inset
+     (matches source's ~19px item inset instead of doubling to 31px). */
+
+  /* No trailing gap: the pop-over ends flush with the last nav item so it
+     doesn't look like there's more menu to scroll to. */
+  --header-mobile-menu-padding-block: 0;
+  --header-mobile-divider-color: rgb(153 153 153);
+  --header-mobile-nav-link-padding: 16px 0 12px;
+  --header-mobile-sublink-padding: 0 0 12px 32px;
+  --header-mobile-sublink-line-height: 24px;
+  --header-mobile-util-link-gap: 10px;
+
+  /* Mobile utility band: tagline + PI/Patient Info triggers are 12px (matches
+     source at 375px), smaller than the 14px used on wider layouts. */
+  --header-mobile-util-font-size: 12px;
+  --header-mobile-util-divider-color: var(--header-accent-color);
+  --header-mobile-util-band-bg: #dfe9f1;
+  --header-mobile-util-band-padding: 10px 15px;
+  --header-mobile-menu-inset: 15px;
+  --header-mobile-cta-block-padding: 16px;
+  --header-mobile-cta-gap: 16px;
+  --header-mobile-cta-padding: 8px 16px;
+  --header-mobile-cta-font-size: 14px;
+  --header-mobile-cta-full-font-size: 16px;
+
+  /* Accordion chevron: 24x24 teal V (matches source chevron-basic.svg #41748d). */
+  --header-mobile-chevron-size: 24px;
+  --header-mobile-chevron-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 17" fill="none"%3E%3Cpath fill-rule="evenodd" clip-rule="evenodd" d="M2.63275 5.93451C2.94517 5.62209 3.4517 5.62209 3.76412 5.93451L7.99844 10.1688L12.2328 5.93451C12.5452 5.62209 13.0517 5.62209 13.3641 5.93451C13.6765 6.24693 13.6765 6.75346 13.3641 7.06588L8.56412 11.8659C8.2517 12.1783 7.74517 12.1783 7.43275 11.8659L2.63275 7.06588C2.32033 6.75346 2.32033 6.24693 2.63275 5.93451Z" fill="%2341748d"/%3E%3C/svg%3E');
+
+  /* Pop-over overlay panel (source): absolute, drops below the brand bar. */
+  --header-mobile-menu-shadow: 0 8px 16px rgb(0 0 0 / 15%);
+  --header-mobile-menu-z: 30;
+
+  /* ---- responsive breakpoint ----
+     header.css is mobile-first: base rules target ~375px, then min-width
+     overrides at 600px (tablet) and 900px (desktop). This 900px value documents
+     the desktop literal used in header.css's @media (width >= 900px) and in
+     header.js's matchMedia('(min-width: 900px)'); keep all three in sync. */
+  --header-mobile-breakpoint: 900px;
 }

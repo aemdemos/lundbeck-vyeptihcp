@@ -27,3 +27,6 @@ test-results/
 # page-templates.json) is tracked; only the generated URL lists and reports are ignored.
 tools/importer/urls-*.txt
 tools/importer/reports/
+
+# Nav migration validation infrastructure (never commit)
+migration-work/navigation-validation/
