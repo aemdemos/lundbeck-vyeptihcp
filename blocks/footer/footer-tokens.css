@@ -28,15 +28,13 @@
      local()-only avenir-* fallbacks otherwise drop to Arial off-Mac. */
   --footer-font-family: "Avenir LT W01_55 Roman", "nunito sans", "Avenir Next", avenir, "Segoe UI", roboto, helvetica, arial, sans-serif;
 
-  /* ---- link section --------------------------------------------------
-     Onfi has NO coloured band — the whole footer shares one background and a
-     thin white rule sits under the links (added in the overrides below). */
-  --footer-linkbar-background: transparent;
+  /* ---- link section -------------------------------------------------- */
+  --footer-linkbar-background: var(--dark-color);
   --footer-linkbar-padding: 20px 0 0; /* mobile top space above the link row */
   --footer-linkbar-inner-padding: 0 15px 23px; /* side gutters + gap down to the rule */
   --footer-link-text-align: center;
-  --footer-link-color: var(--dark-color); /* teal */
-  --footer-link-hover-color: var(--dark-color); /* unchanged on hover (only underline appears) */
+  --footer-link-color: var(--background-color); /* teal */
+  --footer-link-hover-color: var(--link-hover-color); /* unchanged on hover (only underline appears) */
   --footer-link-decoration: none; /* @boilerplate */
   --footer-link-hover-decoration: underline;
   --footer-link-font-size: 20px; /* mobile */
