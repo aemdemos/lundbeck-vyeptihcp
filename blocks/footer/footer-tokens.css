@@ -33,12 +33,12 @@
   --footer-linkbar-padding: 20px 0 0; /* mobile top space above the link row */
   --footer-linkbar-inner-padding: 0 15px 23px; /* side gutters + gap down to the rule */
   --footer-link-text-align: center;
-  --footer-link-color: var(--background-color); /* teal */
-  --footer-link-hover-color: var(--link-hover-color); /* unchanged on hover (only underline appears) */
+  --footer-link-color: var(--background-color); /* white */
+  --footer-link-hover-color: var(--link-hover-color);
   --footer-link-decoration: none; /* @boilerplate */
-  --footer-link-hover-decoration: underline;
-  --footer-link-font-size: 20px; /* mobile */
-  --footer-link-font-size-desktop: 20px; /* Onfi keeps 20px on desktop */
+  --footer-link-hover-decoration: none;
+  --footer-link-font-size: 16px; /* mobile */
+  --footer-link-font-size-desktop: 16px;
   --footer-link-font-weight: 700;
   --footer-link-line-height: 16px;
   --footer-link-gap: 0; /* Onfi separates links with a pipe (p + p border-left), not a margin */
