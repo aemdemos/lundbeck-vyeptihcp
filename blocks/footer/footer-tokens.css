@@ -26,7 +26,7 @@
   /* base footer font = the body-weight Avenir substitute (Nunito Sans) used
      for the legal copy; links override to the Heavy stack below. The
      local()-only avenir-* fallbacks otherwise drop to Arial off-Mac. */
-  --footer-font-family: "proxima-nova";
+  --footer-font-family: "proxima-nova", "Helvetica Neue", Arial, sans-serif;
 
   /* ---- link section -------------------------------------------------- */
   --footer-linkbar-background: var(--dark-color);
