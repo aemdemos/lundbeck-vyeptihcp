@@ -65,7 +65,7 @@
 
   /* link font is the Heavy Avenir substitute (Nunito Sans); applied via the
      overrides since the shared structure inherits one footer font-family */
-  --footer-link-font-family: "Avenir LT W01_85 Heavy", "nunito sans", "Avenir Next", avenir, "Segoe UI", roboto, helvetica, arial, sans-serif;
+  --footer-link-font-family: open-sans, sans-serif;
 
   /* ---- body section (legal + logo) ----------------------------------- */
   --footer-body-padding: 14px 15px 30px; /* desktop (top gap below the white rule) */
