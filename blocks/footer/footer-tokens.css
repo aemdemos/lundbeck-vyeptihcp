@@ -81,7 +81,7 @@
 
   /* desktop legal copy (consumed by the overrides). Explicit px so Nunito's
      tall intrinsic metrics can't push the line box toward `normal`. */
-  --footer-legal-font-size-desktop: 16px;
+  --footer-legal-font-size-desktop: 14px;
   --footer-legal-line-height-desktop: 22.86px;
   --footer-legal-margin-bottom-desktop: 16px;
 
