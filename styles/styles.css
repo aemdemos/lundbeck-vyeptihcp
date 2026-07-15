@@ -555,6 +555,7 @@ main > .section > div:not(.bg-image) {
   padding: 0 var(--spacing-m);
 }
 
+
 main .flex-group > .section.flex {
 margin: 0;
 }
