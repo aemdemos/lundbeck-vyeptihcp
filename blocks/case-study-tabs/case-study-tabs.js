@@ -1,9 +1,6 @@
 import { getBlockId } from '../../scripts/scripts.js';
 
-const TICK_ICON = `<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-  <circle cx="24" cy="24" r="24" fill="#fff" />
-  <path d="M14 25l7 7 13-15" fill="none" stroke="#046183" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-</svg>`;
+const TICK_ICON_SRC = '/media-da/patient-profiles/tick-icon-90771810.png';
 
 function cellText(cell) {
   return cell ? cell.textContent.trim() : '';
@@ -177,20 +174,29 @@ export default function decorate(block) {
 
     const goals = document.createElement('div');
     goals.className = 'case-study-tabs-goals';
-    const goalsIcon = document.createElement('div');
+
+    // Header row: tick icon + heading side by side (icon hidden on desktop, per source).
+    const goalsHeader = document.createElement('div');
+    goalsHeader.className = 'case-study-tabs-goals-header';
+    const goalsIcon = document.createElement('img');
     goalsIcon.className = 'case-study-tabs-goals-icon';
-    goalsIcon.innerHTML = TICK_ICON;
-    const goalsContent = document.createElement('div');
-    goalsContent.className = 'case-study-tabs-goals-content';
+    goalsIcon.src = TICK_ICON_SRC;
+    goalsIcon.alt = '';
+    goalsIcon.setAttribute('loading', 'lazy');
+    goalsHeader.append(goalsIcon);
     const goalsHeadText = cellText(goalsHeadCell);
     if (goalsHeadText) {
       const heading = document.createElement('h3');
       heading.className = 'case-study-tabs-goals-heading';
       heading.textContent = goalsHeadText;
-      goalsContent.append(heading);
+      goalsHeader.append(heading);
     }
+    goals.append(goalsHeader);
+
+    const goalsContent = document.createElement('div');
+    goalsContent.className = 'case-study-tabs-goals-content';
     if (goalsCell) while (goalsCell.firstChild) goalsContent.append(goalsCell.firstChild);
-    goals.append(goalsIcon, goalsContent);
+    goals.append(goalsContent);
 
     panel.replaceChildren(caseStudy, experience, goals);
     panels.append(panel);
