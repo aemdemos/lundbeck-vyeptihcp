@@ -155,11 +155,9 @@ footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img) { 
   vertical-align: middle; /* @boilerplate */
 } /* @boilerplate */
 
-footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img) img { /* @boilerplate */
-  display: block; /* @boilerplate */
-  width: var(--footer-social-icon-width); /* @boilerplate */
-  height: auto; /* @boilerplate */
-} /* @boilerplate */
+footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img) a:hover {
+  color: var(--footer-link-hover-color);
+}
 
 /* last image is the company (Lundbeck) logo — larger, gapped from the icons */
 footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):last-child { /* @boilerplate */
