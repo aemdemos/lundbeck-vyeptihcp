@@ -182,6 +182,7 @@ footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):fi
 
 footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):nth-child(n+2) img {
   width: var(--footer-social-icon-width);
+  height: var(--footer-social-icon-height);
 }
 
 @media (width >= 768px) { /* @boilerplate */
