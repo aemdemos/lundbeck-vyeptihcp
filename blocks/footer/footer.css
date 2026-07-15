@@ -227,6 +227,8 @@ footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):fi
   /* gap between the "For assistance, call" label and the phone pill */
   footer .footer .columns-container .columns > div > :nth-child(2) > p:first-child { /* @boilerplate */
     margin-right: var(--footer-assist-margin-right); /* @boilerplate */
+    flex: 100%;
+    text-align: right;
   } /* @boilerplate */
 
   /* forced flex line break so social icons + logo drop to a second row */
