@@ -34,7 +34,7 @@
   --footer-linkbar-background: transparent;
   --footer-linkbar-padding: 0; /* mobile top space above the link row */
   --footer-linkbar-inner-padding: 30px 0 23px; /* side gutters + gap down to the rule */
-  --footer-link-text-align: center;
+  --footer-link-text-align: left;
   --footer-link-color: var(--link-color); /* teal */
   --footer-link-hover-color: var(--link-hover-color); /* unchanged on hover (only underline appears) */
   --footer-link-decoration: none; /* @boilerplate */
@@ -76,6 +76,7 @@
   --footer-legal-color: var(--text-color); /* matches the inherited footer text colour */
   --footer-legal-font-size: 14px; /* mobile */
   --footer-legal-line-height: 20px; /* mobile */
+  --footer-legal-text-align: left;
   --footer-legal-margin-bottom: 14px; /* mobile */
   --footer-legal-width: 66.6667%; /* desktop 2/3 split (source col-sm-8) */
 

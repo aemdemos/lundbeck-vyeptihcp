@@ -91,7 +91,7 @@ footer .footer .columns p { /* @boilerplate */
   color: var(--footer-legal-color); /* @boilerplate */
   font-size: var(--footer-legal-font-size); /* @boilerplate */
   line-height: var(--footer-legal-line-height); /* @boilerplate */
-  text-align: center; /* @boilerplate */
+  text-align: var(--footer-legal-text-align); /* @boilerplate */
 } /* @boilerplate */
 
 footer .footer .columns-container .columns > div > :first-child p:not(:last-child) { /* @boilerplate */
