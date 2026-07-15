@@ -165,8 +165,9 @@ footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):la
   margin-left: var(--footer-logo-margin-left); /* @boilerplate */
 } /* @boilerplate */
 
-footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):last-child img { /* @boilerplate */
+footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):first-child img { /* @boilerplate */
   width: var(--footer-logo-width); /* @boilerplate */
+  height: auto;
 } /* @boilerplate */
 
 @media (width >= 768px) { /* @boilerplate */
