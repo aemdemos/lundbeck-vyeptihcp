@@ -265,6 +265,12 @@ footer .footer .columns.divider img {
 
 @media (width >= 768px) {
    :root {
+      --footer-max-width: 45pc;
+   }
+}
+
+@media (width >= 992px) {
+   :root {
       --footer-max-width: 60pc;
    }
 }
