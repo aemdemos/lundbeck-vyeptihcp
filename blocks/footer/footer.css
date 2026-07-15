@@ -148,6 +148,15 @@ footer .footer a[href^="tel:"]:hover { /* @boilerplate */
   background-color: var(--footer-phone-hover-background); /* @boilerplate */
 } /* @boilerplate */
 
+/* logo + social icons left justified for mobile */
+footer .footer .columns.columns-2-cols > div > :nth-child(2) { /* @boilerplate */
+    display: flex; /* @boilerplate */
+    flex: 0 0 var(--footer-right-width); /* @boilerplate */
+    flex-wrap: wrap; /* @boilerplate */
+    align-items: center; /* @boilerplate */
+    justify-content: flex-start; /* @boilerplate */
+} /* @boilerplate */
+
 /* social icons + company logo: each is a <p> wrapping an <a><picture><img> */
 footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img) { /* @boilerplate */
   display: inline-block; /* @boilerplate */
@@ -164,6 +173,11 @@ footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):la
   margin-right: 0; /* @boilerplate */
   margin-left: var(--footer-logo-margin-left); /* @boilerplate */
 } /* @boilerplate */
+
+/* Logo left aligned for mobile */
+footer .footer .columns-container .columns > div > :nth-child(2) > p:first-child {
+    flex: 100%;
+}
 
 footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):first-child img { /* @boilerplate */
   width: var(--footer-logo-width); /* @boilerplate */
