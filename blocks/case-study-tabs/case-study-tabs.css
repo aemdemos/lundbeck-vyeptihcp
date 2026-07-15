@@ -99,7 +99,7 @@
 
 .case-study-tabs .case-study-tabs-case h5 {
   color: var(--case-study-tabs-selector-color);
-  font-size: var(--heading-font-size-l);
+  font-size: 22px;
   font-weight: 700;
   margin: 1em 0 0.25em;
 }
@@ -120,7 +120,7 @@
 .case-study-tabs .case-study-tabs-experience-heading {
   margin: 0 0 16px;
   color: var(--case-study-tabs-selector-color);
-  font-size: var(--heading-font-size-l);
+  font-size: 22px;
   font-weight: 700;
 }
 
@@ -156,7 +156,7 @@
 .case-study-tabs .case-study-tabs-goals-heading {
   margin: 0 0 12px;
   color: var(--background-color);
-  font-size: var(--heading-font-size-l);
+  font-size: 22px;
   font-weight: 700;
 }
 
