@@ -225,9 +225,4 @@
     border-bottom: 0;
     border-left: 1px solid var(--brand-teal-light);
   }
-
-  /* Source hides the tick icon on desktop; heading sits alone above the bullets. */
-  .case-study-tabs .case-study-tabs-goals-icon {
-    display: none;
-  }
 }
