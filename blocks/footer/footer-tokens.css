@@ -18,7 +18,7 @@
 
 :root {
   /* ---- global frame -------------------------------------------------- */
-  --footer-max-width-desktop: var(--max-width-site);
+  --footer-max-width-desktop: 45pc;
   --footer-max-width-mobile: 540px;
   --footer-max-width: var(--footer-max-width-mobile);
   --footer-background: transparent; /* shared gray footer panel */
@@ -261,4 +261,16 @@ footer .footer .columns.divider img {
     margin-block-start: var(--footer-logo-margin-top);
     margin-inline: var(--footer-logo-offset) 0;
   }
+}
+
+@media (width >= 768px) {
+   :root {
+      --footer-max-width: 60pc;
+   }
+}
+
+@media (width >= 1200px) {
+   :root {
+      --footer-max-width: 855pt;
+   }
 }
