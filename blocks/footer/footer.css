@@ -180,6 +180,10 @@ footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):fi
   height: auto;
 } /* @boilerplate */
 
+footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):nth-child(n+2) img {
+  width: var(--footer-social-icon-width);
+}
+
 @media (width >= 768px) { /* @boilerplate */
   footer .footer .columns-container { /* @boilerplate */
     padding: var(--footer-body-padding); /* @boilerplate */
