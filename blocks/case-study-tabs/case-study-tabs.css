@@ -134,6 +134,7 @@
 .case-study-tabs .case-study-tabs-experience-col {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 8px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--brand-teal-light);
