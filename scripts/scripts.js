@@ -189,6 +189,124 @@ function buildAutoBlocks(main) {
   }
 }
 
+
+/**
+ * Hosts considered "local" — links to these open in the same tab.
+ * Everything else (plus any PDF) opens in a new tab.
+ */
+const LOCAL_HOSTS = new Set(['localhost']);
+const LOCAL_HOST_SUFFIXES = ['.page', '.live'];
+
+/**
+ * @param {URL} url
+ * @returns {boolean} true when the URL points at a first-party/local host
+ */
+function isLocalUrl(url) {
+  const host = url.hostname.toLowerCase();
+  if (host === window.location.hostname.toLowerCase()) return true;
+  if (LOCAL_HOSTS.has(host)) return true;
+  return LOCAL_HOST_SUFFIXES.some((suffix) => host.endsWith(suffix));
+}
+
+/**
+ * Opens external links (and any PDF) in a new tab. First-party links to local
+ * hosts keep their default same-tab behavior. In-page anchors and non-http(s)
+ * schemes (mailto:, tel:, etc.) are left untouched.
+ * @param {Element} element The container element
+ */
+export function decorateExternalLinks(element) {
+  element.querySelectorAll('a[href]').forEach((a) => {
+    const href = a.getAttribute('href');
+    if (!href || href.startsWith('#')) return;
+
+    let url;
+    try {
+      url = new URL(href, window.location.href);
+    } catch {
+      return;
+    }
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
+
+    const isPdf = url.pathname.toLowerCase().endsWith('.pdf');
+    if (isLocalUrl(url) && !isPdf) return;
+
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener noreferrer');
+  });
+}
+
+/** Duration for the in-page anchor smooth scroll (matches xenazineusa.com). */
+const ANCHOR_SCROLL_DURATION_MS = 1000;
+
+const anchorEaseInOutQuad = (t) => (t < 0.5 ? 2 * t * t : 1 - ((-2 * t + 2) ** 2) / 2);
+
+/**
+ * Smooth-scrolls the window to a target Y with an explicit duration (native
+ * smooth scroll speed is not configurable).
+ * @param {number} targetY
+ * @param {number} duration
+ */
+function animatedScrollTo(targetY, duration = ANCHOR_SCROLL_DURATION_MS) {
+  const start = window.scrollY;
+  const distance = targetY - start;
+  if (distance === 0) return;
+  const startTime = performance.now();
+
+  const step = (now) => {
+    const progress = Math.min((now - startTime) / duration, 1);
+    window.scrollTo(0, start + distance * anchorEaseInOutQuad(progress));
+    if (progress < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+/**
+ * Resolves the in-page target for an anchor click, or null if the link is not
+ * a same-page hash link (external, cross-page, or bare "#").
+ * @param {HTMLAnchorElement} anchor
+ * @returns {HTMLElement|null}
+ */
+function inPageTarget(anchor) {
+  const href = anchor.getAttribute('href');
+  if (!href || href === '#' || !href.includes('#')) return null;
+
+  let url;
+  try {
+    url = new URL(href, window.location.href);
+  } catch {
+    return null;
+  }
+  // must resolve to the current page (same path) to be an in-page anchor
+  if (url.pathname !== window.location.pathname || !url.hash) return null;
+
+  const id = decodeURIComponent(url.hash.substring(1));
+  if (!id) return null;
+  return document.getElementById(id);
+}
+
+/**
+ * Delegated smooth-scroll for in-page anchor links (e.g. nav cards that jump to
+ * an on-page section). Matches the animated scroll on xenazineusa.com without
+ * changing the URL hash (the source site scrolls without updating the URL).
+ * Cross-page and external links are left untouched.
+ * @param {Document|Element} scope
+ */
+export function enableSmoothAnchorScroll(scope = document) {
+  scope.addEventListener('click', (e) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const anchor = e.target.closest('a[href*="#"]');
+    if (!anchor) return;
+
+    const target = inPageTarget(anchor);
+    if (!target) return;
+
+    e.preventDefault();
+    const scrollMargin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+    const targetY = target.getBoundingClientRect().top + window.scrollY - scrollMargin;
+    animatedScrollTo(targetY);
+  });
+}
+
 function a11yLinks(main) {
   const links = main.querySelectorAll('a');
   links.forEach((link) => {
@@ -391,6 +509,39 @@ export function decorateSections(main) {
       'background-image-4': section.getAttribute('data-background-image-4') || '',
       'background-image-5': section.getAttribute('data-background-image-5') || '',
     });
+  }
+}
+
+/**
+ * Wraps each run of 2+ consecutive sections carrying the `flex` class into its own
+ * `.flex-group` container, so CSS can lay them out side-by-side. Operates purely on
+ * section elements and their classes — no inspection of inner block types. A run is
+ * broken by any non-flex section or the end of main; each run becomes an independent
+ * flex context. A lone flex section (no adjacent flex sibling) is left untouched.
+ * @param {Element} main The main element
+ */
+export function groupFlexSections(main) {
+  const sections = [...main.querySelectorAll(':scope > .section')].slice(0, MAX_SECTIONS);
+  const sectionLimit = Math.min(sections.length, MAX_SECTIONS);
+  let i = 0;
+  while (i < sectionLimit) {
+    if (!sections[i].classList.contains('flex')) {
+      i += 1;
+    } else {
+      let j = i + 1;
+      while (j < sectionLimit && sections[j].classList.contains('flex')) {
+        j += 1;
+      }
+      const run = sections.slice(i, j);
+      if (run.length > 1) {
+        const group = document.createElement('div');
+        group.className = 'flex-group';
+        group.setAttribute('data-flex-count', String(run.length));
+        main.insertBefore(group, run[0]);
+        run.forEach((section) => group.append(section));
+      }
+      i = j;
+    }
   }
 }
 
@@ -608,6 +759,7 @@ function applySplitBoundaryPass(el) {
     const next = children.at(i + 2);
 
     const isPrevText = prev.nodeType === Node.TEXT_NODE;
+    // eslint-disable-next-line secure-coding/detect-object-injection
     const isMidInline = mid.nodeType === Node.ELEMENT_NODE && SPLIT_INLINE_TAGS.has(mid.nodeName);
     const isNextText = next.nodeType === Node.TEXT_NODE;
 
@@ -648,7 +800,9 @@ function applySplitBoundaryPass(el) {
       }
     } else if (!isPrevText && mid.nodeType === Node.TEXT_NODE && !isNextText && next.children.length === 0) {
       // Pattern B: <inline>prefix[[</inline> "classes" <inline>]content]</inline>
+      // eslint-disable-next-line secure-coding/detect-object-injection
       const isPrevInline = prev.nodeType === Node.ELEMENT_NODE && SPLIT_INLINE_TAGS.has(prev.nodeName);
+      // eslint-disable-next-line secure-coding/detect-object-injection
       const isNextInline = next.nodeType === Node.ELEMENT_NODE && SPLIT_INLINE_TAGS.has(next.nodeName);
       const openerText = prev.textContent;
       const closerText = next.textContent;
@@ -773,6 +927,7 @@ function hoistAlignmentAcrossInlines(el) {
     // If the bracket expression is fully contained in this node, replaceTextNode handles it
     if (/^\[\[[^\]]+\][^\]]*\]/.test(tail)) continue; // eslint-disable-line no-continue
 
+    // eslint-disable-next-line sonarjs/slow-regex
     const classMatch = tail.match(/^\[\[([a-zA-Z0-9_,-]+)\]/);
     if (!classMatch) continue; // eslint-disable-line no-continue
 
@@ -962,10 +1117,12 @@ export function decorateMain(main) {
   decorateIconsAndBullets(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  groupFlexSections(main);
   decorateBlocks(main);
   decorateNestedSections(main);
   decorateButtons(main);
   a11yLinks(main);
+  decorateExternalLinks(main);
   decorateSpanTags(main);
 }
 
@@ -1092,6 +1249,8 @@ async function loadLazy(doc) {
 
   const main = doc.querySelector('main');
   await loadSections(main);
+
+  enableSmoothAnchorScroll(doc);
 
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
