@@ -155,6 +155,7 @@ footer .footer .columns.columns-2-cols > div > :nth-child(2) { /* @boilerplate *
     flex-wrap: wrap; /* @boilerplate */
     align-items: center; /* @boilerplate */
     justify-content: flex-start; /* @boilerplate */
+    margin-top: var(--footer-local-col-margin-top)
 } /* @boilerplate */
 
 /* social icons + company logo: each is a <p> wrapping an <a><picture><img> */
@@ -167,12 +168,6 @@ footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img) { 
 footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img) a:hover {
   color: var(--footer-link-hover-color);
 }
-
-/* last image is the company (Lundbeck) logo — larger, gapped from the icons */
-footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):last-child { /* @boilerplate */
-  margin-right: 0; /* @boilerplate */
-  margin-left: var(--footer-logo-margin-left); /* @boilerplate */
-} /* @boilerplate */
 
 /* Logo left aligned for mobile */
 footer .footer .columns-container .columns > div > :nth-child(2) > p:first-child {
