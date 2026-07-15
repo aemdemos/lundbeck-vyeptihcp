@@ -550,6 +550,11 @@ main .icon.icon-bullet { /* @libs */
   }
 }
 
+main > .section > div:not(.bg-image) {
+  margin: auto;
+  padding: 0 var(--spacing-m);
+}
+
 main .flex-group > .section.flex {
 margin: 0;
 }
