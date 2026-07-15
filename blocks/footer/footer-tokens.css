@@ -32,8 +32,8 @@
      Onfi has NO coloured band — the whole footer shares one background and a
      thin white rule sits under the links (added in the overrides below). */
   --footer-linkbar-background: transparent;
-  --footer-linkbar-padding: 20px 0 0; /* mobile top space above the link row */
-  --footer-linkbar-inner-padding: 0 0 23px; /* side gutters + gap down to the rule */
+  --footer-linkbar-padding: 0; /* mobile top space above the link row */
+  --footer-linkbar-inner-padding: 30px 0 23px; /* side gutters + gap down to the rule */
   --footer-link-text-align: center;
   --footer-link-color: var(--link-color); /* teal */
   --footer-link-hover-color: var(--link-hover-color); /* unchanged on hover (only underline appears) */
@@ -59,7 +59,7 @@
 
   /* white rule under the link row (source: 23px below the link text, then a
      1px rule, then an 11px gap down to the legal/logo row) */
-  --footer-divider-color: #fff;
+  --footer-divider-color: grey;
   --footer-divider-margin-bottom: 11px;
   --footer-divider-padding-bottom: 23px; /* baked into --footer-linkbar-inner-padding */
 
@@ -173,7 +173,7 @@ footer .footer .section:first-child a {
    bottom margin survives (top stays 0, sides stay auto-centred). */
 footer .footer .section:first-child .default-content-wrapper.default-content-wrapper {
   margin: 0 auto var(--footer-divider-margin-bottom);
-  border-bottom: 1px solid var(--footer-divider-color);
+  border-top: 1px solid var(--footer-divider-color);
 }
 
 /* [LIBS GAP] footer.css zeroes the first stacked link's top margin. Onfi's
