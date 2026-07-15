@@ -1,0 +1,118 @@
+{
+  "definitions": [
+    {
+      "title": "Case Study Tabs",
+      "id": "case-study-tabs",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Case Study Tabs",
+              "filter": "case-study-tabs"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Case Study",
+      "id": "case-study-tabs-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Case Study",
+              "model": "case-study-tabs-item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "case-study-tabs-item",
+      "fields": [
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
+          "label": "Profile Image",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "imageAlt",
+          "label": "Profile Image Alt Text"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "name",
+          "value": "",
+          "label": "Name"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "age",
+          "value": "",
+          "label": "Age"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "description",
+          "value": "",
+          "label": "Tab Description"
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "caseStudy",
+          "value": "",
+          "label": "Case Study Content"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "experienceHeading",
+          "value": "Previous treatment experience",
+          "label": "Treatment Experience Heading"
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "experienceContent",
+          "value": "",
+          "label": "Treatment Experience (one paragraph per column, bold the label)"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "goalsHeading",
+          "value": "Patient's treatment goals",
+          "label": "Treatment Goals Heading"
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "goals",
+          "value": "",
+          "label": "Treatment Goals Content"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "case-study-tabs",
+      "components": [
+        "case-study-tabs-item"
+      ]
+    }
+  ]
+}
