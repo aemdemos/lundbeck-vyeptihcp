@@ -33,10 +33,10 @@
      thin white rule sits under the links (added in the overrides below). */
   --footer-linkbar-background: transparent;
   --footer-linkbar-padding: 20px 0 0; /* mobile top space above the link row */
-  --footer-linkbar-inner-padding: 0 15px 23px; /* side gutters + gap down to the rule */
+  --footer-linkbar-inner-padding: 0 0 23px; /* side gutters + gap down to the rule */
   --footer-link-text-align: center;
-  --footer-link-color: var(--dark-color); /* teal */
-  --footer-link-hover-color: var(--light-color); /* unchanged on hover (only underline appears) */
+  --footer-link-color: var(--link-color); /* teal */
+  --footer-link-hover-color: var(--link-hover-color); /* unchanged on hover (only underline appears) */
   --footer-link-decoration: none; /* @boilerplate */
   --footer-link-hover-decoration: none;
   --footer-link-font-size: 16px; /* mobile */
@@ -48,8 +48,8 @@
   --footer-transition: 0.2s ease; /* @boilerplate */
 
   /* ---- Onfi link extras (consumed by the overrides section) ---------- */
-  --footer-link-padding: 0 20px; /* inline-block padding on each link */
-  --footer-link-separator: 2px solid var(--dark-color); /* the teal pipe */
+  --footer-link-padding: 0 35px 20px 0; /* inline-block padding on each link */
+  --footer-link-separator: 0;
 
   /* word-space the source gets between inline-block <li>s: 4.5px space + 2px
      pipe ≈ the 6.5px edge-to-edge gap between desktop links */
@@ -217,7 +217,7 @@ footer .footer .columns.divider img {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    justify-content: center;
+    justify-content: left;
     row-gap: var(--footer-link-row-gap);
   }
 
