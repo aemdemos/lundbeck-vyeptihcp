@@ -194,6 +194,71 @@
           }
         },
         {
+          "title": "Case Study Tabs",
+          "id": "case-study-tabs",
+          "model": "case-study-tabs",
+          "filter": "case-study-tabs",
+          "plugins": {
+            "da": {
+              "columns": 0,
+              "rows": 0
+            }
+          }
+        },
+        {
+          "title": "Case Study",
+          "id": "case-study-tabs-item",
+          "model": "case-study-tabs-item",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 9,
+              "fields": [
+                {
+                  "name": "image",
+                  "selector": "div:nth-child(1)>picture>img[src]"
+                },
+                {
+                  "name": "imageAlt",
+                  "selector": "div:nth-child(1)>picture>img[alt]"
+                },
+                {
+                  "name": "name",
+                  "selector": "div:nth-child(2)"
+                },
+                {
+                  "name": "age",
+                  "selector": "div:nth-child(3)"
+                },
+                {
+                  "name": "description",
+                  "selector": "div:nth-child(4)"
+                },
+                {
+                  "name": "caseStudy",
+                  "selector": "div:nth-child(5)"
+                },
+                {
+                  "name": "experienceHeading",
+                  "selector": "div:nth-child(6)"
+                },
+                {
+                  "name": "experienceContent",
+                  "selector": "div:nth-child(7)"
+                },
+                {
+                  "name": "goalsHeading",
+                  "selector": "div:nth-child(8)"
+                },
+                {
+                  "name": "goals",
+                  "selector": "div:nth-child(9)"
+                }
+              ]
+            }
+          }
+        },
+        {
           "title": "Columns",
           "id": "columns",
           "model": "columns",
