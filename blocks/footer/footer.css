@@ -165,10 +165,6 @@ footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img) { 
   vertical-align: middle; /* @boilerplate */
 } /* @boilerplate */
 
-footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img) a:hover {
-  color: var(--footer-link-hover-color);
-}
-
 /* Logo left aligned for mobile */
 footer .footer .columns-container .columns > div > :nth-child(2) > p:first-child {
     flex: 100%;
@@ -183,6 +179,10 @@ footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):fi
 footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):nth-child(n+2) img {
   width: var(--footer-social-icon-width);
   height: var(--footer-social-icon-height);
+}
+
+footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):nth-child(n+2) img:hover {
+  color: var(--footer-link-hover-color);
 }
 
 @media (width >= 768px) { /* @boilerplate */
