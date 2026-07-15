@@ -26,7 +26,7 @@
   /* base footer font = the body-weight Avenir substitute (Nunito Sans) used
      for the legal copy; links override to the Heavy stack below. The
      local()-only avenir-* fallbacks otherwise drop to Arial off-Mac. */
-  --footer-font-family: "Avenir LT W01_55 Roman", "nunito sans", "Avenir Next", avenir, "Segoe UI", roboto, helvetica, arial, sans-serif;
+  --footer-font-family: open-sans, sans-serif;
 
   /* ---- link section --------------------------------------------------
      Onfi has NO coloured band — the whole footer shares one background and a
