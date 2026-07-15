@@ -155,7 +155,7 @@ footer .footer .columns.columns-2-cols > div > :nth-child(2) { /* @boilerplate *
     flex-wrap: wrap; /* @boilerplate */
     align-items: center; /* @boilerplate */
     justify-content: flex-start; /* @boilerplate */
-    margin-top: var(--footer-local-col-margin-top)
+    margin-top: var(--footer-logo-col-margin-top)
 } /* @boilerplate */
 
 /* social icons + company logo: each is a <p> wrapping an <a><picture><img> */
