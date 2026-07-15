@@ -777,6 +777,16 @@ main .section.stats-callout > div:not(.bg-image) {
   main .section.accent > div { /* @libs */
     gap: 30px; /* @libs */
   }
+
+  main .flex-group {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  main .flex-group > .section.flex {
+    flex: 1 1 0;
+    min-width: 0;
+  }
 }
 
 @media (width >= 1200px) {
