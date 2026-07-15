@@ -18,7 +18,9 @@
 
 :root {
   /* ---- global frame -------------------------------------------------- */
-  --footer-max-width: var(--max-width-site); /* @boilerplate */
+  --footer-max-width-desktop: var(--max-width-site);
+  --footer-max-width-mobile: 540px;
+  --footer-max-width: var(--footer-max-width-mobile);
   --footer-background: transparent; /* shared gray footer panel */
   --footer-text-color: var(--text-color-light);
   --footer-font-size: var(--body-font-size-m);
@@ -205,6 +207,7 @@ footer .footer .columns.divider img {
        • legal copy grows 14/20 → 16/22.86 with a 16px paragraph gap;
        • link section gets a 30px top gap above the links (matches the source). */
   :root {
+    --footer-max-width: var(--footer-max-width-desktop);
     --footer-legal-font-size: var(--footer-legal-font-size-desktop);
     --footer-legal-line-height: var(--footer-legal-line-height-desktop);
     --footer-legal-margin-bottom: var(--footer-legal-margin-bottom-desktop);
