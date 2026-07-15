@@ -172,6 +172,7 @@ footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img) a:
 /* Logo left aligned for mobile */
 footer .footer .columns-container .columns > div > :nth-child(2) > p:first-child {
     flex: 100%;
+    margin-bottom: var(--footer-logo-margin-bottom);
 }
 
 footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):first-child img { /* @boilerplate */
