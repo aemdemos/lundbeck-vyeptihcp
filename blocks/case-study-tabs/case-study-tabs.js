@@ -175,28 +175,29 @@ export default function decorate(block) {
     const goals = document.createElement('div');
     goals.className = 'case-study-tabs-goals';
 
-    // Header row: tick icon + heading side by side (icon hidden on desktop, per source).
-    const goalsHeader = document.createElement('div');
-    goalsHeader.className = 'case-study-tabs-goals-header';
-    const goalsIcon = document.createElement('img');
-    goalsIcon.className = 'case-study-tabs-goals-icon';
-    goalsIcon.src = TICK_ICON_SRC;
-    goalsIcon.alt = '';
-    goalsIcon.setAttribute('loading', 'lazy');
-    goalsHeader.append(goalsIcon);
+    // Heading sits full-width on top.
     const goalsHeadText = cellText(goalsHeadCell);
     if (goalsHeadText) {
       const heading = document.createElement('h3');
       heading.className = 'case-study-tabs-goals-heading';
       heading.textContent = goalsHeadText;
-      goalsHeader.append(heading);
+      goals.append(heading);
     }
-    goals.append(goalsHeader);
 
+    // Body row: tick icon on the left, bullet list on the right.
+    const goalsBody = document.createElement('div');
+    goalsBody.className = 'case-study-tabs-goals-body';
+    const goalsIcon = document.createElement('img');
+    goalsIcon.className = 'case-study-tabs-goals-icon';
+    goalsIcon.src = TICK_ICON_SRC;
+    goalsIcon.alt = '';
+    goalsIcon.setAttribute('loading', 'lazy');
+    goalsBody.append(goalsIcon);
     const goalsContent = document.createElement('div');
     goalsContent.className = 'case-study-tabs-goals-content';
     if (goalsCell) while (goalsCell.firstChild) goalsContent.append(goalsCell.firstChild);
-    goals.append(goalsContent);
+    goalsBody.append(goalsContent);
+    goals.append(goalsBody);
 
     panel.replaceChildren(caseStudy, experience, goals);
     panels.append(panel);
