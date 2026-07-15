@@ -73,7 +73,7 @@
 
   /* legal column (column 1) — Onfi values are MOBILE here; the overrides bump
      them on desktop (footer2 only models a single legal size). */
-  --footer-legal-color: var(--text-color-light); /* matches the inherited footer text colour */
+  --footer-legal-color: var(--text-color); /* matches the inherited footer text colour */
   --footer-legal-font-size: 14px; /* mobile */
   --footer-legal-line-height: 20px; /* mobile */
   --footer-legal-margin-bottom: 14px; /* mobile */
