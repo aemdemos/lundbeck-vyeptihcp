@@ -19,7 +19,7 @@
 :root {
   /* ---- global frame -------------------------------------------------- */
   --footer-max-width: var(--max-width-site); /* @boilerplate */
-  --footer-background: var(--footer-background-color); /* shared gray footer panel */
+  --footer-background: transparent; /* shared gray footer panel */
   --footer-text-color: var(--text-color-light);
   --footer-font-size: var(--body-font-size-m);
 
@@ -36,9 +36,9 @@
   --footer-linkbar-inner-padding: 0 15px 23px; /* side gutters + gap down to the rule */
   --footer-link-text-align: center;
   --footer-link-color: var(--dark-color); /* teal */
-  --footer-link-hover-color: var(--dark-color); /* unchanged on hover (only underline appears) */
+  --footer-link-hover-color: var(--light-color); /* unchanged on hover (only underline appears) */
   --footer-link-decoration: none; /* @boilerplate */
-  --footer-link-hover-decoration: underline;
+  --footer-link-hover-decoration: none;
   --footer-link-font-size: 20px; /* mobile */
   --footer-link-font-size-desktop: 20px; /* Onfi keeps 20px on desktop */
   --footer-link-font-weight: 700;
