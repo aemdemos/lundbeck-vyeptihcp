@@ -120,6 +120,15 @@
   text-transform: uppercase;
 }
 
+/* The italic web font has no bold weight, so a bold-italic run (the doctor
+   credit) renders as regular italic. Use the upright variable font (its weight
+   axis works) with a synthesized slant so the bold actually shows. Applied to
+   both em and strong because the innermost element's font-style wins. */
+.case-study-tabs .case-study-tabs-case > p:first-child strong,
+.case-study-tabs .case-study-tabs-case > p:first-child em {
+  font-style: oblique 10deg;
+}
+
 .case-study-tabs .case-study-tabs-case h5 {
   color: var(--case-study-tabs-selector-color);
   font-size: 22px;
