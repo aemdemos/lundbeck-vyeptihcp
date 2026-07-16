@@ -113,6 +113,13 @@
   margin-top: 0;
 }
 
+/* Intro caption ("Patient Case: …") is uppercased and sits apart from the first
+   heading below it. */
+.case-study-tabs .case-study-tabs-case > p:first-child {
+  margin-bottom: 28px;
+  text-transform: uppercase;
+}
+
 .case-study-tabs .case-study-tabs-case h5 {
   color: var(--case-study-tabs-selector-color);
   font-size: 22px;
