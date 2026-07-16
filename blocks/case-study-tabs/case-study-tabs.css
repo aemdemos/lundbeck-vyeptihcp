@@ -85,6 +85,7 @@
 }
 
 .case-study-tabs .case-study-tabs-age {
+  margin-bottom: 6px;
   color: var(--case-study-tabs-selector-color);
   font-weight: 700;
   font-size: 22px;
