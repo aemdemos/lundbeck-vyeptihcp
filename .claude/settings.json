@@ -1,15 +1,14 @@
 {
   "hooks": {
-    "SessionStart": [
+    "PostToolUse": [
       {
-        "command": "bash .claude/hooks/excat-session-start.sh",
-        "timeout": 5000
-      }
-    ],
-    "Stop": [
-      {
-        "command": "bash .claude/hooks/excat-session-close-reminder.sh",
-        "timeout": 5000
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/check-boilerplate-markers.mjs\""
+          }
+        ]
       }
     ]
   }
