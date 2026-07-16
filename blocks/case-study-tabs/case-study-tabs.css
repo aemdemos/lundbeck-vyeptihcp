@@ -1,6 +1,7 @@
 @import url('./case-study-tabs-tokens.css');
 
 .case-study-tabs {
+  width: calc(100% - 30px);
   max-width: 1110px;
   margin-inline: auto;
   border: 1px solid var(--case-study-tabs-border-color);
