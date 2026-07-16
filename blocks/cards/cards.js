@@ -9,12 +9,14 @@ export default function decorate(block) {
   block.setAttribute('role', 'region');
   block.setAttribute('aria-roledescription', 'Cards');
 
+  const isVideo = block.classList.contains('video');
+
   /* change to ul, li */
   const ul = document.createElement('ul');
   [...block.children].forEach((row) => {
-    ul.append(createCard(row));
+    ul.append(createCard(row, { video: isVideo }));
   });
-  ul.querySelectorAll('picture > img').forEach((img) => {
+  ul.querySelectorAll('.cards-card-image picture > img').forEach((img) => {
     const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
     moveInstrumentation(img, optimizedPic.querySelector('img'));
     img.closest('picture').replaceWith(optimizedPic);

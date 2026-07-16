@@ -111,7 +111,122 @@ main .cards.promo .cards-card-body a:hover {
   text-decoration: underline;
 }
 
-/* Tablet+ : quicklink four across, promo two across */
+/* video — peer-perspective cards: header + embedded video + quote + byline */
+main .cards.video > ul {
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+main .cards.video > ul > li {
+  border: none;
+  background-color: var(--color-surface, #fff);
+  border-radius: 12px;
+  padding: 2rem;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+main .cards.video .cards-card-body {
+  margin: 0;
+}
+
+/* header */
+main .cards.video .cards-card-body:first-child h2,
+main .cards.video .cards-card-body:first-child h3,
+main .cards.video .cards-card-body:first-child h4 {
+  margin: 0;
+  color: var(--brand-secondary);
+  font-size: var(--heading-font-size-l);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+/* embedded video frame */
+main .cards.video .cards-card-video {
+  margin: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  line-height: 0;
+}
+
+main .cards.video .cards-card-video.placeholder {
+  cursor: pointer;
+}
+
+/* embedded video: placeholder thumbnail + centered play button (mirrors video block) */
+main .cards.video .cards-card-video .video-placeholder {
+  position: relative;
+  aspect-ratio: 16 / 9;
+}
+
+main .cards.video .cards-card-video .video-placeholder > * {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+main .cards.video .cards-card-video .video-placeholder picture,
+main .cards.video .cards-card-video .video-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+main .cards.video .cards-card-video .video-placeholder-play button {
+  position: relative;
+  display: block;
+  width: 68px;
+  height: 68px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: rgb(255 255 255 / 70%);
+  cursor: pointer;
+}
+
+main .cards.video .cards-card-video .video-placeholder-play button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 3px);
+  width: 0;
+  height: 0;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 20px solid var(--brand-primary);
+  transform: translate(-50%, -50%);
+}
+
+main .cards.video .cards-card-video iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+main .cards.video .cards-card-body p {
+  margin: 0;
+}
+
+/* quote — the body immediately after the video frame */
+main .cards.video .cards-card-video + .cards-card-body p {
+  color: var(--brand-primary-dark);
+  font-size: var(--heading-font-size-m);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* byline — the final body, when there is one after the quote */
+main .cards.video .cards-card-video + .cards-card-body + .cards-card-body p {
+  color: var(--text-color, #333);
+  font-size: var(--body-font-size-s);
+  font-weight: 700;
+}
+
+/* Tablet+ : quicklink four across, promo two across, video two across */
 @media (width >= 600px) {
   main .cards.quicklink > ul {
     grid-template-columns: repeat(4, 1fr);
@@ -119,5 +234,10 @@ main .cards.promo .cards-card-body a:hover {
 
   main .cards.promo > ul {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  main .cards.video > ul {
+    grid-template-columns: repeat(2, 1fr);
+    align-items: start;
   }
 }
