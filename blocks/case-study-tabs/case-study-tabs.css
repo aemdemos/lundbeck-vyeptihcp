@@ -18,7 +18,7 @@
 .case-study-tabs .case-study-tabs-tab {
   flex: 1 1 0;
   margin: 0;
-  border: 1px solid var(--case-study-tabs-tab-border-color);
+  border: 0;
   border-radius: 0;
   padding: 16px;
   background-color: transparent;
@@ -30,8 +30,19 @@
   transition: background-color 0.2s;
 }
 
+/* Vertical divider between adjacent tabs, drawn once on the later tab. */
+.case-study-tabs .case-study-tabs-tab + .case-study-tabs-tab {
+  border-left: 1px solid var(--case-study-tabs-tab-border-color);
+}
+
+/* An inactive tab is boxed off from the panel below with a bottom line; its top
+   and outer-side edges come from the block's own rounded border, so the edges
+   are never doubled and the outer corner stays rounded. */
+.case-study-tabs .case-study-tabs-tab[aria-selected='false'] {
+  border-bottom: 1px solid var(--case-study-tabs-tab-border-color);
+}
+
 .case-study-tabs .case-study-tabs-tab[aria-selected='true'] {
-  border-color: transparent;
   background-color: var(--background-color);
   cursor: default;
 }
