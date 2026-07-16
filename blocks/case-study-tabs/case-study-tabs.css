@@ -76,6 +76,7 @@
 }
 
 .case-study-tabs .case-study-tabs-name {
+  margin-bottom: 12px;
   color: var(--case-study-tabs-selector-color);
   font-family: var(--heading-font-family);
   font-weight: 700;
