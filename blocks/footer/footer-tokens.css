@@ -215,6 +215,7 @@ footer .footer .columns.divider img {
     --footer-legal-line-height: var(--footer-legal-line-height-desktop);
     --footer-legal-margin-bottom: var(--footer-legal-margin-bottom-desktop);
     --footer-linkbar-padding: 30px 0 0;
+    --footer-linkbar-inner-padding: 30px 150px 23px 0;
   }
 
   /* [LIBS GAP] footer.css lays the desktop links out as inline-block <p>s, so
@@ -222,7 +223,7 @@ footer .footer .columns.divider img {
      centered flex-wrap row with a row-gap so wrapped links get spacing above. */
   footer .footer .section:first-child .default-content-wrapper.default-content-wrapper {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: baseline;
     justify-content: left;
     row-gap: var(--footer-link-row-gap);
@@ -264,17 +265,6 @@ footer .footer .columns.divider img {
     margin-block-start: var(--footer-logo-margin-top);
     margin-inline: var(--footer-logo-offset) 0;
   }
-}
-
-@media (width >= 768px) {
-   :root {
-      --footer-max-width: 45pc;
-      --footer-linkbar-inner-padding: 30px 150px 23px 0;
-   }
- 
-   footer .footer .section:first-child .default-content-wrapper {
-      flex-wrap: nowrap;
-   }
 }
 
 @media (width >= 992px) {
