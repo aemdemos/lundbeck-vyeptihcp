@@ -175,7 +175,16 @@ export default function decorate(block) {
     const goals = document.createElement('div');
     goals.className = 'case-study-tabs-goals';
 
-    // Heading sits full-width on top.
+    // Icon, heading and bullets are direct grid children so their placement can
+    // change per breakpoint (icon+heading row on mobile; heading on top with
+    // icon beside the bullets on desktop).
+    const goalsIcon = document.createElement('img');
+    goalsIcon.className = 'case-study-tabs-goals-icon';
+    goalsIcon.src = TICK_ICON_SRC;
+    goalsIcon.alt = '';
+    goalsIcon.setAttribute('loading', 'lazy');
+    goals.append(goalsIcon);
+
     const goalsHeadText = cellText(goalsHeadCell);
     if (goalsHeadText) {
       const heading = document.createElement('h3');
@@ -184,20 +193,10 @@ export default function decorate(block) {
       goals.append(heading);
     }
 
-    // Body row: tick icon on the left, bullet list on the right.
-    const goalsBody = document.createElement('div');
-    goalsBody.className = 'case-study-tabs-goals-body';
-    const goalsIcon = document.createElement('img');
-    goalsIcon.className = 'case-study-tabs-goals-icon';
-    goalsIcon.src = TICK_ICON_SRC;
-    goalsIcon.alt = '';
-    goalsIcon.setAttribute('loading', 'lazy');
-    goalsBody.append(goalsIcon);
     const goalsContent = document.createElement('div');
     goalsContent.className = 'case-study-tabs-goals-content';
     if (goalsCell) while (goalsCell.firstChild) goalsContent.append(goalsCell.firstChild);
-    goalsBody.append(goalsContent);
-    goals.append(goalsBody);
+    goals.append(goalsContent);
 
     panel.replaceChildren(caseStudy, experience, goals);
     panels.append(panel);
