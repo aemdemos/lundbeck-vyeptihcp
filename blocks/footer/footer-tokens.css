@@ -50,7 +50,7 @@
   --footer-transition: 0.2s ease; /* @boilerplate */
 
   /* ---- Onfi link extras (consumed by the overrides section) ---------- */
-  --footer-link-padding: 0 35px 20px 0; /* inline-block padding on each link */
+  --footer-link-padding: 0 35px 10px 0; /* inline-block padding on each link */
   --footer-link-separator: 0;
 
   /* word-space the source gets between inline-block <li>s: 4.5px space + 2px
