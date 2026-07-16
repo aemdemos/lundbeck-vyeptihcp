@@ -62,6 +62,10 @@
   flex: 0 0 auto;
   border-radius: var(--case-study-tabs-radius);
   object-fit: cover;
+
+  /* Some avatars are transparent cut-outs; white keeps them from showing the
+     tab's teal tint behind the subject. */
+  background-color: var(--background-color);
 }
 
 .case-study-tabs .case-study-tabs-selector-info {
