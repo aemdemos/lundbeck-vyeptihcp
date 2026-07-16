@@ -114,7 +114,8 @@
      source's 88px divider height; the logo lands 40px below the text top. */
   --footer-logo-col-margin-top: 30px;
   --footer-logo-col-padding-bottom: 8px; /* sets the vertical divider height (logo box + this) */
-  --footer-logo-margin-top: 10px;
+  --footer-logo-margin-top-mobile: 10px;
+  --footer-logo-margin-top-desktop: -120px;
   --footer-logo-margin-bottom: 20px;
 
   /* ---- UNUSED BY ONFI (no phone pill / social icons / assistance label).

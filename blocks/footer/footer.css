@@ -155,7 +155,7 @@ footer .footer .columns.columns-2-cols > div > :nth-child(2) { /* @boilerplate *
     flex-wrap: wrap; /* @boilerplate */
     align-items: center; /* @boilerplate */
     justify-content: flex-start; /* @boilerplate */
-    margin-top: var(--footer-logo-col-margin-top)
+    margin-top: var(--footer-logo-col-margin-top-mobile);
 } /* @boilerplate */
 
 /* social icons + company logo: each is a <p> wrapping an <a><picture><img> */
@@ -231,6 +231,7 @@ footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):nt
     flex-wrap: wrap; /* @boilerplate */
     align-items: center; /* @boilerplate */
     justify-content: flex-end; /* @boilerplate */
+    margin-top: var(--footer-logo-margin-top-desktop);
   } /* @boilerplate */
 
   /* assistance label sits inline before the phone pill (both wrapped in
