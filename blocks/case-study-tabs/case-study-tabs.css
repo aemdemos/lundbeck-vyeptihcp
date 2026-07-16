@@ -189,7 +189,8 @@
 .case-study-tabs .case-study-tabs-goals-heading {
   margin: 0 0 12px;
   color: var(--background-color);
-  font-size: 22px;
+  font-size: 32px;
+  line-height: 1.2;
   font-weight: 700;
 }
 
@@ -251,6 +252,10 @@
     padding: 32px;
   }
 
+  .case-study-tabs .case-study-tabs-goals-heading {
+    font-size: 43px;
+  }
+
   .case-study-tabs .case-study-tabs-experience-cols {
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   }
@@ -258,8 +263,12 @@
   .case-study-tabs .case-study-tabs-experience-col {
     gap: 4px;
     padding-bottom: 0;
-    padding-left: 16px;
     border-bottom: 0;
+  }
+
+  /* Divider sits only between columns, not on the far-left of the first. */
+  .case-study-tabs .case-study-tabs-experience-col + .case-study-tabs-experience-col {
+    padding-left: 16px;
     border-left: 1px solid var(--brand-teal-light);
   }
 }
