@@ -5,4 +5,5 @@
   --case-study-tabs-experience-bg: var(--card-bg-light);
   --case-study-tabs-goals-bg: #1988a5;
   --case-study-tabs-border-color: var(--brand-teal-light);
+  --case-study-tabs-tab-border-color: #000;
 }
