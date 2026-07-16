@@ -13,7 +13,6 @@
 .case-study-tabs .case-study-tabs-list {
   display: flex;
   flex-direction: row;
-  background-color: var(--case-study-tabs-list-bg);
 }
 
 .case-study-tabs .case-study-tabs-tab {
@@ -268,7 +267,7 @@
     grid-column: 1 / -1;
     grid-row: 1;
     margin-bottom: 12px;
-    font-size: 43px;
+    font-size: 22px;
   }
 
   .case-study-tabs .case-study-tabs-goals-icon {
