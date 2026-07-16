@@ -1,7 +1,7 @@
 .case-study-tabs {
   --case-study-tabs-radius: 20px;
   --case-study-tabs-selector-color: var(--link-color);
-  --case-study-tabs-list-bg: var(--accent-bg);
+  --case-study-tabs-list-bg: #e5f2f4;
   --case-study-tabs-experience-bg: var(--card-bg-light);
   --case-study-tabs-goals-bg: #1988a5;
   --case-study-tabs-border-color: var(--brand-teal-light);
