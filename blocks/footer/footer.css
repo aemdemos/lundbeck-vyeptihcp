@@ -182,7 +182,7 @@ footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):nt
 }
 
 footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):nth-child(n+2) img:hover {
-  color: var(--footer-link-hover-color);
+  opacity: 0.6;
 }
 
 @media (width >= 768px) { /* @boilerplate */
