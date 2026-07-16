@@ -1,6 +1,8 @@
 @import url('./case-study-tabs-tokens.css');
 
 .case-study-tabs {
+  max-width: 1110px;
+  margin-inline: auto;
   border: 1px solid var(--case-study-tabs-border-color);
   border-radius: var(--case-study-tabs-radius);
   overflow: hidden;
@@ -16,7 +18,7 @@
 .case-study-tabs .case-study-tabs-tab {
   flex: 1 1 0;
   margin: 0;
-  border: 0;
+  border: 1px solid var(--case-study-tabs-tab-border-color);
   border-radius: 0;
   padding: 16px;
   background-color: transparent;
@@ -29,6 +31,7 @@
 }
 
 .case-study-tabs .case-study-tabs-tab[aria-selected='true'] {
+  border-color: transparent;
   background-color: var(--background-color);
   cursor: default;
 }
