@@ -213,7 +213,11 @@
   .case-study-tabs .case-study-tabs-selector {
     flex-direction: row;
     gap: 24px;
-    align-items: center;
+    align-items: flex-start;
+  }
+
+  .case-study-tabs .case-study-tabs-selector-info {
+    margin-top: 8px;
   }
 
   .case-study-tabs .case-study-tabs-avatar {
