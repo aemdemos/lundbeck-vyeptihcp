@@ -27,6 +27,109 @@ import {
 const MAX_SECTIONS = 100;
 const MAX_SECTION_CHILDREN = 200;
 
+/**
+ * Site-wide outbound link policy (same rules everywhere — main, header, footer, fragments).
+ *
+ * | Link type                         | New tab | Exit modal |
+ * |-----------------------------------|---------|------------|
+ * | Same-site                         | No      | No         |
+ * | /modals/*                         | No      | No (content modal) |
+ * | PDF                               | Yes     | No         |
+ * | Trusted partner hosts (Lundbeck…) | Yes     | No         |
+ * | All other external http(s)        | Yes     | Yes        |
+ */
+const TRUSTED_HOSTS = [
+  'lundbeck.com',
+  'lundbeck-tools.com',
+  'sabril.net',
+  'aem.page',
+  'aem.live',
+];
+
+function isPdfLink(href) {
+  try {
+    const { pathname } = new URL(href, window.location);
+    return pathname.toLowerCase().endsWith('.pdf');
+  } catch {
+    return false;
+  }
+}
+
+function hostMatches(hostname, hosts) {
+  const host = hostname.toLowerCase();
+  return hosts.some((h) => host === h || host.endsWith(`.${h}`));
+}
+
+/**
+ * @param {string} href
+ * @returns {{ newTab: boolean, exitModal: boolean }}
+ */
+function getLinkPolicy(href) {
+  if (!href || href.includes('/modals/')) {
+    return { newTab: false, exitModal: false };
+  }
+
+  try {
+    const { protocol, hostname } = new URL(href, window.location);
+    if (!protocol.startsWith('http')) {
+      return { newTab: false, exitModal: false };
+    }
+
+    const external = hostname !== window.location.hostname;
+    if (!external) {
+      return { newTab: false, exitModal: false };
+    }
+
+    if (isPdfLink(href) || hostMatches(hostname, TRUSTED_HOSTS)) {
+      return { newTab: true, exitModal: false };
+    }
+
+    return { newTab: true, exitModal: true };
+  } catch {
+    return { newTab: false, exitModal: false };
+  }
+}
+
+function setNewTabAttrs(link) {
+  link.target = '_blank';
+  const rel = new Set((link.rel || '').split(/\s+/).filter(Boolean));
+  rel.add('noopener');
+  rel.add('noreferrer');
+  link.rel = [...rel].join(' ');
+}
+
+/**
+ * Applies site-wide link policy to all anchors under root.
+ * @param {ParentNode} root
+ */
+export function decorateLinks(root) {
+  root.querySelectorAll('a[href]').forEach((link) => {
+    if (getLinkPolicy(link.href).newTab) setNewTabAttrs(link);
+  });
+}
+
+function autolinkModals(doc) {
+  doc.addEventListener('click', async (e) => {
+    const anchor = e.target.closest('a');
+    if (!anchor || !anchor.href) return;
+
+    if (anchor.href.includes('/modals/')) {
+      e.preventDefault();
+      const { openModal } = await import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`);
+      openModal(anchor.href);
+      return;
+    }
+
+    if (anchor.closest('.modal')) return;
+
+    if (getLinkPolicy(anchor.href).exitModal) {
+      e.preventDefault();
+      const { openModal } = await import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`);
+      openModal('/modals/exit', anchor.href);
+    }
+  });
+}
+
 /** Keys that must not be used for object/dataset assignment (CWE-915). */
 const UNSAFE_OBJECT_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 
@@ -133,17 +236,6 @@ export function getBlockId(name) {
 async function loadFonts() {
   await loadCSS(`${window.hlx.codeBasePath}/styles/fonts.css`);
   if (!window.location.hostname.includes('localhost')) sessionStorage.setItem('fonts-loaded', 'true');
-}
-
-function autolinkModals(doc) {
-  doc.addEventListener('click', async (e) => {
-    const origin = e.target.closest('a');
-    if (origin && origin.href && origin.href.includes('/modals/')) {
-      e.preventDefault();
-      const { openModal } = await import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`);
-      openModal(origin.href);
-    }
-  });
 }
 
 /**
