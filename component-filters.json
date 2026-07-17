@@ -11,6 +11,7 @@
       "accordion",
       "cards",
       "carousel",
+      "case-study-tabs",
       "columns",
       "embed",
       "fragment",
@@ -48,6 +49,12 @@
     "id": "carousel",
     "components": [
       "carousel-item"
+    ]
+  },
+  {
+    "id": "case-study-tabs",
+    "components": [
+      "case-study-tabs-item"
     ]
   },
   {
