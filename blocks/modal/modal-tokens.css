@@ -26,7 +26,7 @@
   --modal-exit-button-ok-background: var(--brand-rose);
   --modal-exit-button-ok-color: var(--background-color);
   --modal-exit-button-cancel-background: var(--background-color);
-  --mocal-exit-button-cancel-color: var(--brand-rose);
+  --modal-exit-button-cancel-color: var(--brand-rose);
   --modal-exit-button-radius: 20px;
   --modal-exit-button-padding: 12px 74px;
   --modal-exit-button-gap: 5px;

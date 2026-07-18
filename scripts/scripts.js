@@ -39,9 +39,8 @@ const MAX_SECTION_CHILDREN = 200;
  * | All other external http(s)        | Yes     | Yes        |
  */
 const TRUSTED_HOSTS = [
-  /* 'lundbeck.com', */
+  'lundbeck.com',
   'lundbeck-tools.com',
-  'sabril.net',
   'aem.page',
   'aem.live',
 ];
