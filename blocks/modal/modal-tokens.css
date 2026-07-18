@@ -24,9 +24,11 @@
   --modal-exit-close-height: 75px;
   --modal-exit-button-color: var(--brand-rose);
   --modal-exit-button-ok-background: var(--brand-rose);
+  --modal-exit-button-ok-color: var(--background-color);
   --modal-exit-button-cancel-background: var(--background-color);
-  --modal-exit-button-radius: 8px;
-  --modal-exit-button-padding: 6px 74px;
+  --mocal-exit-button-cancel-color: var(--brand-rose);
+  --modal-exit-button-radius: 20px;
+  --modal-exit-button-padding: 12px 74px;
   --modal-exit-button-gap: 5px;
   --modal-exit-button-row-margin-top: 15px;
   --modal-exit-button-font-size: 14px;
@@ -94,7 +96,7 @@
   height: var(--modal-exit-close-height);
   border-radius: 0 var(--modal-exit-radius) 0 0;
   background-color: var(--modal-exit-close-background);
-  color: var(--background-color);
+  color: var(--brand-teal);
   font-size: var(--modal-exit-close-font-size);
   font-weight: var(--font-weight-bold);
   transition: none;
@@ -114,6 +116,7 @@
 
 .modal.exit dialog .modal-actions {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   gap: var(--modal-exit-button-gap);
   margin-top: var(--modal-exit-button-row-margin-top);
@@ -128,7 +131,7 @@
 
 .modal.exit dialog a.button {
   margin: 0;
-  border: none;
+  border: 2px solid var(--brand-rose);
   border-radius: var(--modal-exit-button-radius);
   padding: var(--modal-exit-button-padding);
   color: var(--modal-exit-button-color);
@@ -137,10 +140,12 @@
 
 .modal.exit dialog a.button.ok {
   background-color: var(--modal-exit-button-ok-background);
+  color: var(--modal-exit-button-ok-color);
 }
 
 .modal.exit dialog a.button.cancel {
   background-color: var(--modal-exit-button-cancel-background);
+  color: var(--modal-exit-button-cancel-color);
 }
 
 @media (width >= 992px) {
