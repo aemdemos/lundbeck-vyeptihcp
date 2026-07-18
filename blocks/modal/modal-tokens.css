@@ -22,8 +22,9 @@
   --modal-exit-close-background: var(--brand-green-light);
   --modal-exit-close-width: 66px;
   --modal-exit-close-height: 75px;
-  --modal-exit-button-ok-background: var(--brand-orange);
-  --modal-exit-button-cancel-background: #999;
+  --modal-exit-button-color: var(--brand-rose);
+  --modal-exit-button-ok-background: var(--brand-rose);
+  --modal-exit-button-cancel-background: var(--background-color);
   --modal-exit-button-radius: 8px;
   --modal-exit-button-padding: 6px 74px;
   --modal-exit-button-gap: 5px;
@@ -130,7 +131,7 @@
   border: none;
   border-radius: var(--modal-exit-button-radius);
   padding: var(--modal-exit-button-padding);
-  color: var(--background-color);
+  color: var(--modal-exit-button-color);
   font-size: var(--modal-exit-button-font-size);
 }
 
