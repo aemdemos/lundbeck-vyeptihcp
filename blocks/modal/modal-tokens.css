@@ -136,6 +136,11 @@
   padding: var(--modal-exit-button-padding);
   color: var(--modal-exit-button-color);
   font-size: var(--modal-exit-button-font-size);
+  width: 60%;
+}
+
+.modal.exit dialog a.button::after {
+  content: none;
 }
 
 .modal.exit dialog a.button.ok {

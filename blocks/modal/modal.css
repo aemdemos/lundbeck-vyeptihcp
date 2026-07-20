@@ -73,10 +73,6 @@ body.modal-open { /* @boilerplate */
   padding: 0; /* @boilerplate */
 }
 
-.modal a.button::after {
-  content: none;
-}
-
 .modal h4 {
   color: var(--text-color);
   text-align: center;
