@@ -16,7 +16,7 @@
   --modal-exit-max-width: calc(100vw - 30px);
   --modal-exit-radius: 15px;
   --modal-exit-shadow: 0 5px 15px rgb(0 0 0 / 50%);
-  --modal-exit-heading-color: var(--brand-purple);
+  --modal-exit-heading-color: var(--text-color);
   --modal-exit-heading-size: 22px;
   --modal-exit-body-size: 16px;
   --modal-exit-close-background: var(--brand-green-light);
