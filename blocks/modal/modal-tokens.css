@@ -24,9 +24,11 @@
   --modal-exit-close-height: 75px;
   --modal-exit-button-color: var(--brand-rose);
   --modal-exit-button-ok-background: var(--brand-rose);
+  --modal-exit-button-ok-hover-background: var(--background-color);
   --modal-exit-button-ok-color: var(--background-color);
   --modal-exit-button-cancel-background: var(--background-color);
   --modal-exit-button-cancel-color: var(--brand-rose);
+  --modal-exit-button-cancel-hover-color: #f5e9ed; /* no pre-defined color */
   --modal-exit-button-radius: 9999px; /* half-circle at any height */
   --modal-exit-button-padding: 12px 74px;
   --modal-exit-button-gap: 24px;
@@ -148,9 +150,17 @@
   color: var(--modal-exit-button-ok-color);
 }
 
+.modal.exit dialog a.button.ok:hover {
+  background-color: var(--modal-exit-button-ok-hover-background);
+}
+
 .modal.exit dialog a.button.cancel {
   background-color: var(--modal-exit-button-cancel-background);
   color: var(--modal-exit-button-cancel-color);
+}
+
+.modal.exit dialog a.button.cancel:hover {
+  background-color: var(--modal-exit-button-cancel-hover-background);
 }
 
 @media (width >= 992px) {
