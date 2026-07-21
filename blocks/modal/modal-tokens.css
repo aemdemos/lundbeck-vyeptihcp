@@ -39,6 +39,7 @@
   --modal-exit-content-padding: 25px 35px 25px 25px;
   --modal-exit-heading-padding-right: 55px;
   --modal-exit-heading-margin-bottom: 30px;
+  --modal-exit-heading-margin-top: 1.6em;
   --modal-exit-offset-top: 105px;
   --modal-exit-bottom-gap: 40px;
 }
@@ -92,6 +93,7 @@
 .modal.exit dialog h4 {
   color: var(--text-color);
   text-align: center;
+  margin-top: var(--modal-exit-heading-margin-top);
 }
 
 .modal.exit dialog p {
