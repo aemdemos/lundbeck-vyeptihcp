@@ -97,6 +97,7 @@
 .modal.exit dialog p {
   font-size: var(--modal-exit-body-size);
   line-height: var(--body-line-height);
+  text-align: center;
 }
 
 .modal.exit .close-button {
@@ -168,6 +169,11 @@
 
 .modal.exit dialog a.button.cancel:hover {
   background-color: var(--modal-exit-button-cancel-hover-background);
+}
+
+.modal.exit dialog img {
+  width: 160px;
+
 }
 
 @media (width >= 992px) {
