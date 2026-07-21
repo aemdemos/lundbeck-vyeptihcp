@@ -73,11 +73,6 @@ body.modal-open { /* @boilerplate */
   padding: 0; /* @boilerplate */
 }
 
-.modal h4 {
-  color: var(--text-color);
-  text-align: center;
-}
-
 @media (width >= 992px) { /* @boilerplate */
   .modal dialog { /* @boilerplate */
     width: var(--modal-width-desktop); /* @boilerplate */

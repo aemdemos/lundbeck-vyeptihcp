@@ -89,6 +89,11 @@
   font-size: var(--modal-exit-heading-size);
 }
 
+.modal.exit dialog h4 {
+  color: var(--text-color);
+  text-align: center;
+}
+
 .modal.exit dialog p {
   font-size: var(--modal-exit-body-size);
   line-height: var(--body-line-height);
