@@ -7,9 +7,10 @@
   --modal-content-padding: var(--spacing-m); /* @boilerplate */
   --modal-content-padding-desktop: var(--spacing-l); /* @boilerplate */
   --modal-content-margin-top: 44px; /* @boilerplate */
-  --modal-close-button-size: 44px; /* @boilerplate */
-  --modal-close-icon-size: var(--icon-size); /* @boilerplate */
-  --modal-close-icon-thickness: 2px; /* @boilerplate */
+  --modal-close-button-size: calc(44px * 0.8);
+  --modal-close-icon-size: calc(var(--icon-size) * 0.8);
+  --modal-close-icon-thickness: 4px;
+  --modal-close-color: var(--dark-color); /* ring + X color */
 
   /* exit interstitial ("Leaving VYEPTI website...") */
   --modal-exit-width: 550px;
