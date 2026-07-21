@@ -20,9 +20,9 @@
   --modal-exit-heading-color: var(--text-color);
   --modal-exit-heading-size: 22px;
   --modal-exit-body-size: 16px;
-  --modal-exit-close-background: var(--brand-green-light);
   --modal-exit-close-width: 66px;
   --modal-exit-close-height: 75px;
+  --modal-exit-close-circle-size: 46px;
   --modal-exit-button-color: var(--brand-rose);
   --modal-exit-button-ok-background: var(--brand-rose);
   --modal-exit-button-ok-hover-background: var(--background-color);
@@ -53,6 +53,7 @@
     --modal-exit-max-width: calc(100vw - 20px);
     --modal-exit-close-width: 43px;
     --modal-exit-close-height: 50px;
+    --modal-exit-close-circle-size: 37px;
     --modal-exit-close-font-size: 20px;
     --modal-exit-heading-padding-right: 20px;
     --modal-exit-heading-margin-bottom: 20px;
@@ -106,12 +107,22 @@
 .modal.exit .close-button {
   width: var(--modal-exit-close-width);
   height: var(--modal-exit-close-height);
-  border-radius: 0 var(--modal-exit-radius) 0 0;
-  background-color: var(--modal-exit-close-background);
-  color: var(--brand-teal);
-  font-size: var(--modal-exit-close-font-size);
-  font-weight: var(--font-weight-bold);
-  transition: none;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--modal-close-color);
+}
+
+.modal.exit .close-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--modal-exit-close-circle-size);
+  height: var(--modal-exit-close-circle-size);
+  border: var(--modal-close-icon-thickness) solid var(--modal-close-color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .modal.exit .close-button .icon.icon-close {
@@ -122,8 +133,8 @@
 .modal.exit .close-button .icon.icon-close::before,
 .modal.exit .close-button .icon.icon-close::after {
   width: var(--modal-exit-close-font-size);
-  height: 3px;
-  border-radius: 3px;
+  height: var(--modal-close-icon-thickness);
+  border-radius: var(--modal-close-icon-thickness);
 }
 
 .modal.exit dialog .modal-actions {
