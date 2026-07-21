@@ -12,7 +12,7 @@
   --modal-close-icon-thickness: 2px; /* @boilerplate */
 
   /* exit interstitial ("Leaving VYEPTI website...") */
-  --modal-exit-width: 600px;
+  --modal-exit-width: 550px;
   --modal-exit-max-width: calc(100vw - 30px);
   --modal-exit-radius: 15px;
   --modal-exit-shadow: 0 5px 15px rgb(0 0 0 / 50%);
