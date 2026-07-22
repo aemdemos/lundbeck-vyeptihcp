@@ -142,7 +142,7 @@
   padding: var(--modal-exit-button-padding);
   color: var(--modal-exit-button-color);
   font-size: var(--modal-exit-button-font-size);
-  width: 60%;
+  width: 100%;
 }
 
 .modal.exit dialog a.button::after {
@@ -187,6 +187,10 @@
     --modal-exit-heading-margin-bottom: 30px;
     --modal-exit-offset-top: 105px;
     --modal-exit-bottom-gap: 40px;
+  }
+
+  .modal.exit dialog a.button {
+    width: 60%;
   }
 }
 
