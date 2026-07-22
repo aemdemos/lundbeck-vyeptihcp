@@ -44,7 +44,7 @@
   --modal-exit-heading-margin-top: 0.9em;
   --modal-exit-offset-top: 55px;
   --modal-exit-bottom-gap: 20px;
-  --modal-exit-logo-width: 0.9em;
+  --modal-exit-logo-width: 100px;
 }
 
 /* exit interstitial variant */
