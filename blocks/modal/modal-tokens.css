@@ -7,7 +7,197 @@
   --modal-content-padding: var(--spacing-m); /* @boilerplate */
   --modal-content-padding-desktop: var(--spacing-l); /* @boilerplate */
   --modal-content-margin-top: 44px; /* @boilerplate */
-  --modal-close-button-size: 44px; /* @boilerplate */
-  --modal-close-icon-size: var(--icon-size); /* @boilerplate */
-  --modal-close-icon-thickness: 2px; /* @boilerplate */
+  --modal-close-button-size: calc(44px * 0.8);
+  --modal-close-icon-size: calc(var(--icon-size) * 0.8);
+  --modal-close-icon-thickness: 3px;
+  --modal-close-color: var(--dark-color); /* ring + X color */
+
+  /* exit interstitial ("Leaving VYEPTI website...") */
+  --modal-exit-width: calc(100vw - 20px);
+  --modal-exit-max-width: calc(100vw - 20px);
+  --modal-exit-radius: 15px;
+  --modal-exit-shadow: 0 5px 15px rgb(0 0 0 / 50%);
+  --modal-exit-heading-color: var(--text-color);
+  --modal-exit-heading-size: 22px;
+  --modal-exit-body-size: 16px;
+  --modal-exit-close-width: 55px;
+  --modal-exit-close-height: 55px;
+  --modal-exit-close-circle-size: 30px;
+  --modal-exit-button-color: var(--brand-rose);
+  --modal-exit-button-ok-background: var(--brand-rose);
+  --modal-exit-button-ok-hover-background: var(--background-color);
+  --modal-exit-button-ok-hover-text-color: var(--brand-rose);
+  --modal-exit-button-ok-color: var(--background-color);
+  --modal-exit-button-cancel-background: var(--background-color);
+  --modal-exit-button-cancel-color: var(--brand-rose);
+  --modal-exit-button-cancel-hover-background: #f5e9ed; /* no pre-defined color */
+  --modal-exit-button-radius: 9999px; /* half-circle at any height */
+  --modal-exit-button-padding: 12px 74px;
+  --modal-exit-button-gap: 24px;
+  --modal-exit-button-width: 100%;
+  --modal-exit-button-row-margin-top: 20px;
+  --modal-exit-button-font-size: 16px;
+  --modal-exit-close-font-size: 15px;
+  --modal-exit-content-padding: 25px 35px 25px 25px;
+  --modal-exit-heading-padding-right: 20px;
+  --modal-exit-heading-margin-bottom: 20px;
+  --modal-exit-heading-margin-top: 0.9em;
+  --modal-exit-offset-top: 55px;
+  --modal-exit-bottom-gap: 20px;
+  --modal-exit-logo-width: 100px;
+}
+
+/* exit interstitial variant */
+.modal.exit dialog {
+  width: var(--modal-exit-width);
+  max-width: var(--modal-exit-max-width);
+  max-height: calc(100dvh - var(--modal-exit-offset-top) - var(--modal-exit-bottom-gap));
+  margin-top: var(--modal-exit-offset-top);
+  margin-bottom: auto;
+  border: none;
+  border-radius: var(--modal-exit-radius);
+  box-shadow: var(--modal-exit-shadow);
+  overflow: visible;
+}
+
+.modal.exit dialog .modal-content {
+  max-height: calc(100dvh - var(--modal-exit-offset-top) - var(--modal-exit-bottom-gap));
+  padding: var(--modal-exit-content-padding);
+  margin-top: 0;
+}
+
+.modal.exit dialog .section > .default-content-wrapper {
+  padding: 0;
+}
+
+.modal.exit dialog h2 {
+  margin: 0 0 var(--modal-exit-heading-margin-bottom);
+  padding-right: var(--modal-exit-heading-padding-right);
+  color: var(--modal-exit-heading-color);
+  font-size: var(--modal-exit-heading-size);
+}
+
+.modal.exit dialog h4 {
+  color: var(--text-color);
+  text-align: center;
+  margin-top: var(--modal-exit-heading-margin-top);
+}
+
+.modal.exit dialog p {
+  font-size: var(--modal-exit-body-size);
+  line-height: var(--body-line-height);
+  text-align: center;
+}
+
+.modal.exit .close-button {
+  width: var(--modal-exit-close-width);
+  height: var(--modal-exit-close-height);
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--modal-close-color);
+}
+
+.modal.exit .close-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--modal-exit-close-circle-size);
+  height: var(--modal-exit-close-circle-size);
+  border: var(--modal-close-icon-thickness) solid var(--modal-close-color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal.exit .close-button .icon.icon-close {
+  width: var(--modal-exit-close-font-size);
+  height: var(--modal-exit-close-font-size);
+}
+
+.modal.exit .close-button .icon.icon-close::before,
+.modal.exit .close-button .icon.icon-close::after {
+  width: var(--modal-exit-close-font-size);
+  height: var(--modal-close-icon-thickness);
+  border-radius: var(--modal-close-icon-thickness);
+}
+
+.modal.exit dialog .modal-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--modal-exit-button-gap);
+  margin-top: var(--modal-exit-button-row-margin-top);
+  margin-right: -10px;
+}
+
+.modal.exit dialog .button-wrapper {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.modal.exit dialog a.button {
+  margin: 0;
+  border: 2px solid var(--brand-rose);
+  border-radius: var(--modal-exit-button-radius);
+  padding: var(--modal-exit-button-padding);
+  color: var(--modal-exit-button-color);
+  font-size: var(--modal-exit-button-font-size);
+  width: var(--modal-exit-button-width);
+}
+
+.modal.exit dialog a.button::after {
+  content: none;
+}
+
+.modal.exit dialog a.button.ok {
+  background-color: var(--modal-exit-button-ok-background);
+  color: var(--modal-exit-button-ok-color);
+}
+
+.modal.exit dialog a.button.ok:hover {
+  background-color: var(--modal-exit-button-ok-hover-background);
+  color: var(--modal-exit-button-ok-hover-text-color);
+}
+
+.modal.exit dialog a.button.cancel {
+  background-color: var(--modal-exit-button-cancel-background);
+  color: var(--modal-exit-button-cancel-color);
+}
+
+.modal.exit dialog a.button.cancel:hover {
+  background-color: var(--modal-exit-button-cancel-hover-background);
+}
+
+.modal.exit dialog img {
+  width: var(--modal-exit-logo-width);
+}
+
+/* exit interstitial — tablet+ overrides (matches source at/above tablet:
+   fixed dialog width, larger close button, same content padding) */
+@media (width >= 768px) {
+  :root {
+    --modal-exit-width: 550px;
+    --modal-exit-max-width: calc(100vw - 30px);
+    --modal-exit-close-width: 66px;
+    --modal-exit-close-height: 75px;
+    --modal-exit-close-circle-size: 46px;
+    --modal-exit-close-font-size: 25px;
+    --modal-exit-heading-padding-right: 55px;
+    --modal-exit-heading-margin-bottom: 30px;
+    --modal-exit-offset-top: 105px;
+    --modal-exit-bottom-gap: 40px;
+    --modal-exit-heading-margin-top: 1.6em;
+    --modal-exit-logo-width: 160px;
+    --modal-exit-button-width: 60%;
+    --modal-exit-button-row-margin-top: 40px;
+    --modal-close-icon-thickness: 4px;
+  }
+}
+
+@media (width >= 992px) {
+  .modal.exit dialog {
+    width: var(--modal-exit-width);
+  }
 }

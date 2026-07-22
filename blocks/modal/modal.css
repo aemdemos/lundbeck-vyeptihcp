@@ -36,11 +36,11 @@ body.modal-open { /* @boilerplate */
   width: var(--modal-close-button-size); /* @boilerplate */
   height: var(--modal-close-button-size); /* @boilerplate */
   margin: 0; /* @boilerplate */
-  border: none; /* @boilerplate */
-  border-radius: 0; /* @boilerplate */
+  border: var(--modal-close-icon-thickness) solid var(--modal-close-color);
+  border-radius: 50%;
   padding: 0; /* @boilerplate */
-  background-color: transparent; /* @boilerplate */
-  color: var(--text-color); /* @boilerplate */
+  background-color: transparent;
+  color: var(--modal-close-color);
   line-height: 0; /* @boilerplate */
 }
 
