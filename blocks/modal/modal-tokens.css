@@ -13,16 +13,16 @@
   --modal-close-color: var(--dark-color); /* ring + X color */
 
   /* exit interstitial ("Leaving VYEPTI website...") */
-  --modal-exit-width: 550px;
-  --modal-exit-max-width: calc(100vw - 30px);
+  --modal-exit-width: calc(100vw - 20px);
+  --modal-exit-max-width: calc(100vw - 20px);
   --modal-exit-radius: 15px;
   --modal-exit-shadow: 0 5px 15px rgb(0 0 0 / 50%);
   --modal-exit-heading-color: var(--text-color);
   --modal-exit-heading-size: 22px;
   --modal-exit-body-size: 16px;
-  --modal-exit-close-width: 66px;
-  --modal-exit-close-height: 75px;
-  --modal-exit-close-circle-size: 46px;
+  --modal-exit-close-width: 43px;
+  --modal-exit-close-height: 50px;
+  --modal-exit-close-circle-size: 37px;
   --modal-exit-button-color: var(--brand-rose);
   --modal-exit-button-ok-background: var(--brand-rose);
   --modal-exit-button-ok-hover-background: var(--background-color);
@@ -36,30 +36,13 @@
   --modal-exit-button-gap: 24px;
   --modal-exit-button-row-margin-top: 40px;
   --modal-exit-button-font-size: 16px;
-  --modal-exit-close-font-size: 25px;
+  --modal-exit-close-font-size: 20px;
   --modal-exit-content-padding: 25px 35px 25px 25px;
-  --modal-exit-heading-padding-right: 55px;
-  --modal-exit-heading-margin-bottom: 30px;
+  --modal-exit-heading-padding-right: 20px;
+  --modal-exit-heading-margin-bottom: 20px;
   --modal-exit-heading-margin-top: 1.6em;
-  --modal-exit-offset-top: 105px;
-  --modal-exit-bottom-gap: 40px;
-}
-
-/* exit interstitial — mobile overrides (matches source below tablet:
-   full-width dialog, smaller close button, same content padding) */
-@media (width < 768px) {
-  :root {
-    --modal-exit-width: calc(100vw - 20px);
-    --modal-exit-max-width: calc(100vw - 20px);
-    --modal-exit-close-width: 43px;
-    --modal-exit-close-height: 50px;
-    --modal-exit-close-circle-size: 37px;
-    --modal-exit-close-font-size: 20px;
-    --modal-exit-heading-padding-right: 20px;
-    --modal-exit-heading-margin-bottom: 20px;
-    --modal-exit-offset-top: 55px;
-    --modal-exit-bottom-gap: 20px;
-  }
+  --modal-exit-offset-top: 55px;
+  --modal-exit-bottom-gap: 20px;
 }
 
 /* exit interstitial variant */
@@ -188,6 +171,23 @@
 .modal.exit dialog img {
   width: 160px;
 
+}
+
+/* exit interstitial — tablet+ overrides (matches source at/above tablet:
+   fixed dialog width, larger close button, same content padding) */
+@media (width >= 768px) {
+  :root {
+    --modal-exit-width: 550px;
+    --modal-exit-max-width: calc(100vw - 30px);
+    --modal-exit-close-width: 66px;
+    --modal-exit-close-height: 75px;
+    --modal-exit-close-circle-size: 46px;
+    --modal-exit-close-font-size: 25px;
+    --modal-exit-heading-padding-right: 55px;
+    --modal-exit-heading-margin-bottom: 30px;
+    --modal-exit-offset-top: 105px;
+    --modal-exit-bottom-gap: 40px;
+  }
 }
 
 @media (width >= 992px) {
