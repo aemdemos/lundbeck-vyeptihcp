@@ -9,7 +9,7 @@
   --modal-content-margin-top: 44px; /* @boilerplate */
   --modal-close-button-size: calc(44px * 0.8);
   --modal-close-icon-size: calc(var(--icon-size) * 0.8);
-  --modal-close-icon-thickness: 4px;
+  --modal-close-icon-thickness: 3px;
   --modal-close-color: var(--dark-color); /* ring + X color */
 
   /* exit interstitial ("Leaving VYEPTI website...") */
@@ -20,9 +20,9 @@
   --modal-exit-heading-color: var(--text-color);
   --modal-exit-heading-size: 22px;
   --modal-exit-body-size: 16px;
-  --modal-exit-close-width: 43px;
-  --modal-exit-close-height: 50px;
-  --modal-exit-close-circle-size: 37px;
+  --modal-exit-close-width: 55px;
+  --modal-exit-close-height: 55px;
+  --modal-exit-close-circle-size: 30px;
   --modal-exit-button-color: var(--brand-rose);
   --modal-exit-button-ok-background: var(--brand-rose);
   --modal-exit-button-ok-hover-background: var(--background-color);
@@ -37,7 +37,7 @@
   --modal-exit-button-width: 100%;
   --modal-exit-button-row-margin-top: 40px;
   --modal-exit-button-font-size: 16px;
-  --modal-exit-close-font-size: 20px;
+  --modal-exit-close-font-size: 15px;
   --modal-exit-content-padding: 25px 35px 25px 25px;
   --modal-exit-heading-padding-right: 20px;
   --modal-exit-heading-margin-bottom: 20px;
@@ -191,6 +191,7 @@
     --modal-exit-heading-margin-top: 1.6em;
     --modal-exit-logo-width: 160px;
     --modal-exit-button-width: 60%;
+    --modal-close-icon-thickness: 4px;
   }
 }
 
