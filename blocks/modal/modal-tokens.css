@@ -35,7 +35,7 @@
   --modal-exit-button-padding: 12px 74px;
   --modal-exit-button-gap: 24px;
   --modal-exit-button-width: 100%;
-  --modal-exit-button-row-margin-top: 40px;
+  --modal-exit-button-row-margin-top: 20px;
   --modal-exit-button-font-size: 16px;
   --modal-exit-close-font-size: 15px;
   --modal-exit-content-padding: 25px 35px 25px 25px;
@@ -191,6 +191,7 @@
     --modal-exit-heading-margin-top: 1.6em;
     --modal-exit-logo-width: 160px;
     --modal-exit-button-width: 60%;
+    --modal-exit-button-row-margin-top: 40px;
     --modal-close-icon-thickness: 4px;
   }
 }
