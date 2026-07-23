@@ -276,6 +276,35 @@
           }
         },
         {
+          "title": "Quote (KOL)",
+          "id": "quote-kol",
+          "model": "quote-kol",
+          "plugins": {
+            "da": {
+              "rows": 3,
+              "columns": 1,
+              "fields": [
+                {
+                  "name": "image",
+                  "selector": "div:nth-child(1)>picture>img[src]"
+                },
+                {
+                  "name": "imageAlt",
+                  "selector": "div:nth-child(1)>picture>img[alt]"
+                },
+                {
+                  "name": "quote",
+                  "selector": "div:nth-child(2)>div"
+                },
+                {
+                  "name": "author",
+                  "selector": "div:nth-child(3)>div"
+                }
+              ]
+            }
+          }
+        },
+        {
           "title": "Quote",
           "id": "quote",
           "model": "quote",
