@@ -152,32 +152,36 @@
    the brand-mark + text the shared light-blue background and butt them together
    into a single callout card. */
 
-/* Redundant background-shape SVG — the CSS background replaces it. */
-.tabs .tabs-panel p:has(> picture img[src*='bg-shape']) {
-  display: none;
-}
+/* NOTE: Document Authoring rewrites image `src` to hashed `./media_<hash>.svg?...`
+   URLs, so filename-based selectors (img[src*='brand-mark']) do NOT work once
+   published — they only matched on the local aem-cli preview. The two decorative
+   callout SVGs (background shape + brand-mark triangle) are instead identified
+   DA-stably by being SVGs with an EMPTY alt (`.svg` + alt=""), whereas the real
+   chart/study-design images are PNGs with descriptive alt text. */
 
-/* Brand-mark triangle → top of the callout card. */
-.tabs .tabs-panel p:has(> picture img[src*='brand-mark']) {
+/* Decorative callout SVGs (bg-shape, brand-mark): empty-alt SVGs that must not
+   render as full-width inline images (they were blowing up to 466px). Constrain
+   to a small brand-mark size; the paragraph wrapping them becomes the callout head. */
+.tabs .tabs-panel p:has(> picture img[src*='.svg'][alt='']) {
   margin: 16px 0 0;
   padding: 16px 12px 0;
   background-color: #e5f2f5;
   text-align: left;
 }
 
-.tabs .tabs-panel p:has(> picture img[src*='brand-mark']) picture img {
+.tabs .tabs-panel p:has(> picture img[src*='.svg'][alt='']) picture img {
   width: 60px;
   max-width: 60px;
+  height: auto;
   margin: 0;
 }
 
-/* Stat text run directly after the brand-mark (1–3 consecutive paragraphs) →
-   body of the callout card: light-blue bg, teal bold copy. Chained adjacency
-   stops at the next non-<p> (h3 / table), so a following graph's legend and
-   footnotes are never captured. */
-.tabs .tabs-panel p:has(> picture img[src*='brand-mark']) + p,
-.tabs .tabs-panel p:has(> picture img[src*='brand-mark']) + p + p,
-.tabs .tabs-panel p:has(> picture img[src*='brand-mark']) + p + p + p {
+/* Stat text run directly after a decorative-SVG paragraph (1–3 consecutive
+   paragraphs) → body of the callout card: light-blue bg, teal bold copy.
+   Chained adjacency stops at the next non-<p> (h3 / table). */
+.tabs .tabs-panel p:has(> picture img[src*='.svg'][alt='']) + p,
+.tabs .tabs-panel p:has(> picture img[src*='.svg'][alt='']) + p + p,
+.tabs .tabs-panel p:has(> picture img[src*='.svg'][alt='']) + p + p + p {
   margin: 0;
   padding: 0 12px;
   background-color: #e5f2f5;
@@ -187,14 +191,13 @@
   line-height: 26px;
 }
 
-/* Last line of the callout card carries the bottom padding of the box. */
-.tabs .tabs-panel p:has(> picture img[src*='brand-mark']) + p {
+.tabs .tabs-panel p:has(> picture img[src*='.svg'][alt='']) + p {
   padding-top: 4px;
 }
 
-.tabs .tabs-panel p:has(> picture img[src*='brand-mark']) + p + p:last-child,
-.tabs .tabs-panel p:has(> picture img[src*='brand-mark']) + p + p + p:last-child,
-.tabs .tabs-panel p:has(> picture img[src*='brand-mark']) + p:last-child {
+.tabs .tabs-panel p:has(> picture img[src*='.svg'][alt='']) + p + p:last-child,
+.tabs .tabs-panel p:has(> picture img[src*='.svg'][alt='']) + p + p + p:last-child,
+.tabs .tabs-panel p:has(> picture img[src*='.svg'][alt='']) + p:last-child {
   padding-bottom: 12px;
 }
 
