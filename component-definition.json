@@ -232,6 +232,27 @@
           }
         },
         {
+          "title": "Coverage Finder",
+          "id": "coverage-finder",
+          "model": "coverage-finder",
+          "plugins": {
+            "da": {
+              "rows": 2,
+              "columns": 1,
+              "fields": [
+                {
+                  "name": "scriptUrl",
+                  "selector": "div:nth-child(1)>div"
+                },
+                {
+                  "name": "token",
+                  "selector": "div:nth-child(2)>div"
+                }
+              ]
+            }
+          }
+        },
+        {
           "title": "Fragment",
           "id": "fragment",
           "model": "fragment",
@@ -270,6 +291,27 @@
                 {
                   "name": "text",
                   "selector": "div>div>h1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Infusion Locator",
+          "id": "infusion-locator",
+          "model": "infusion-locator",
+          "plugins": {
+            "da": {
+              "rows": 2,
+              "columns": 1,
+              "fields": [
+                {
+                  "name": "origin",
+                  "selector": "div:nth-child(1)>div"
+                },
+                {
+                  "name": "mapsKey",
+                  "selector": "div:nth-child(2)>div"
                 }
               ]
             }
@@ -387,6 +429,23 @@
                 {
                   "name": "subtitle-size",
                   "selector": "div:nth-child(8)>div"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Signup Form",
+          "id": "signup-form",
+          "model": "signup-form",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "fields": [
+                {
+                  "name": "origin",
+                  "selector": "div:nth-child(1)>div"
                 }
               ]
             }

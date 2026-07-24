@@ -233,6 +233,25 @@
     ]
   },
   {
+    "id": "coverage-finder",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "scriptUrl",
+        "label": "Vendor script URL",
+        "description": "URL of the vendor clientlib that registers the <coverage-finder> web component"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "token",
+        "label": "Token",
+        "description": "JWT product/client config token for the coverage-finder tool (public client-side config)"
+      }
+    ]
+  },
+  {
     "id": "fragment",
     "fields": [
       {
@@ -299,6 +318,24 @@
         "value": "",
         "label": "Text",
         "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "infusion-locator",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "origin",
+        "label": "Vendor origin",
+        "description": "Origin serving the PICL clientlib + /api/picllocator (defaults to https://www.vyeptihcp.com)"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "mapsKey",
+        "label": "Google Maps API key"
       }
     ]
   },
@@ -604,6 +641,18 @@
             ]
           }
         ]
+      }
+    ]
+  },
+  {
+    "id": "signup-form",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "origin",
+        "label": "Vendor origin",
+        "description": "Origin serving the form clientlibs + registration API (defaults to https://www.vyeptihcp.com)"
       }
     ]
   },

@@ -26,11 +26,37 @@
  *    applySectionBackgroundDecorations consumes the stacked renditions to build a
  *    responsive .bg-image layer. This replaces the retired `hero` block.
  *
+ * SELECTOR SHAPE: page-templates.json allows a section's `selector` (and its
+ * `backgroundImage`) to be EITHER a single CSS string (homepage template) OR an
+ * ARRAY of fallback selectors to try in document order (efficacy template, e.g.
+ * ["div.hero-component", ".hero.aem-GridColumn"]). resolveFirst() below normalises
+ * both shapes: a string resolves as before; an array returns the first selector
+ * that matches. This keeps the homepage (string) template working unchanged.
+ *
  * All section selectors come from page-templates.json, derived from the captured
  * DOM in migration-work/cleaned.html.
  */
 
 const TransformHook = { beforeTransform: 'beforeTransform', afterTransform: 'afterTransform' };
+
+/**
+ * Resolve a selector that may be a single CSS string OR an array of fallback
+ * selectors. For an array, each candidate is tried in order and the first element
+ * that matches (via root.querySelector) is returned. Returns null when nothing
+ * matches or the selector value is empty. Backward-compatible with plain strings.
+ */
+function resolveFirst(root, selector) {
+  if (!selector) return null;
+  const candidates = Array.isArray(selector) ? selector : [selector];
+  for (let i = 0; i < candidates.length; i += 1) {
+    const sel = candidates[i];
+    if (typeof sel === 'string' && sel.trim()) {
+      const el = root.querySelector(sel);
+      if (el) return el;
+    }
+  }
+  return null;
+}
 
 /**
  * Parse a pixel width from a media condition (max-width/min-width/width). Returns
@@ -106,7 +132,8 @@ export default function transform(hookName, element, payload) {
   const resolved = [];
   sections.forEach((section) => {
     if (!section || !section.selector) return;
-    const el = element.querySelector(section.selector);
+    // section.selector may be a string OR an array of fallbacks (see resolveFirst).
+    const el = resolveFirst(element, section.selector);
     if (el) resolved.push({ section, el });
   });
 
@@ -127,7 +154,8 @@ export default function transform(hookName, element, payload) {
     // the fallback, so the customer's full breakpoint set is preserved.
     let bgRenditions = [];
     if (section.backgroundImage) {
-      const bgSource = element.querySelector(section.backgroundImage);
+      // backgroundImage may also be a string OR an array of fallbacks (see resolveFirst).
+      const bgSource = resolveFirst(element, section.backgroundImage);
       if (bgSource) {
         bgRenditions = extractRenditionImgs(bgSource, doc);
         // Remove the original hero image from the inline flow — it now lives ONLY in

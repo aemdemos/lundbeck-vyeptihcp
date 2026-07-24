@@ -1,0 +1,11 @@
+.coverage-finder {
+  display: block;
+  width: 100%;
+  margin: var(--spacing-l, 2rem) auto;
+}
+
+.coverage-finder coverage-finder {
+  display: block;
+  width: 100%;
+  min-height: 400px;
+}

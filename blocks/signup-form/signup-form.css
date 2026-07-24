@@ -1,0 +1,22 @@
+.signup-form {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  margin: var(--spacing-l, 2rem) auto;
+}
+
+.signup-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.signup-form .custom-error {
+  display: none;
+  color: var(--error-color, #c02c57);
+}
+
+/*
+ * The bulk of this form's visual styling (dropdowns, inputs, reCAPTCHA layout, error
+ * states) is delivered by the vendor site clientlib CSS loaded at runtime in signup-form.js.
+ * Keep block-local CSS minimal so it does not fight those vendor styles; refine in the
+ * deferred styling pass if gaps remain.
+ */

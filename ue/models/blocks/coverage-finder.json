@@ -1,0 +1,41 @@
+{
+  "definitions": [
+    {
+      "title": "Coverage Finder",
+      "id": "coverage-finder",
+      "model": "coverage-finder",
+      "plugins": {
+        "da": {
+          "rows": 2,
+          "columns": 1,
+          "fields": [
+            { "name": "scriptUrl", "selector": "div:nth-child(1)>div" },
+            { "name": "token", "selector": "div:nth-child(2)>div" }
+          ]
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "coverage-finder",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "scriptUrl",
+          "label": "Vendor script URL",
+          "description": "URL of the vendor clientlib that registers the <coverage-finder> web component"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "token",
+          "label": "Token",
+          "description": "JWT product/client config token for the coverage-finder tool (public client-side config)"
+        }
+      ]
+    }
+  ],
+  "filters": []
+}
