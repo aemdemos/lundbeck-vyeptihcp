@@ -155,23 +155,29 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
   function parseArrowNav(element, document) {
-    const teasers = Array.from(element.querySelectorAll(".cmp-teaser"));
+    let teasers = Array.from(element.querySelectorAll(
+      ".arrow-navigation__left-section, .arrow-navigation__right-section"
+    ));
+    if (teasers.length === 0) teasers = Array.from(element.querySelectorAll(".cmp-teaser"));
+    if (teasers.length === 0) teasers = [element];
     const rowCells = [];
     teasers.forEach((teaser) => {
-      const src = teaser.querySelector(".cmp-teaser__action-link, .cmp-teaser__description a, a[href]");
-      if (!src) {
-        rowCells.push("");
-        return;
+      const cellNodes = [];
+      const heading = teaser.querySelector("h1, h2, h3, h4, h5, h6");
+      if (heading && heading.textContent.trim()) cellNodes.push(heading.cloneNode(true));
+      const src = teaser.querySelector(".cmp-teaser__action-link") || teaser.querySelector(".cmp-teaser__description a[href]") || teaser.querySelector("a[href]");
+      if (src) {
+        const link = document.createElement("a");
+        link.href = src.getAttribute("href") || "#";
+        if (src.getAttribute("target")) link.setAttribute("target", src.getAttribute("target"));
+        link.textContent = src.textContent.replace(/\s+/g, " ").trim();
+        const p = document.createElement("p");
+        p.append(link);
+        cellNodes.push(p);
       }
-      const link = document.createElement("a");
-      link.href = src.getAttribute("href") || "#";
-      if (src.getAttribute("target")) link.setAttribute("target", src.getAttribute("target"));
-      link.textContent = src.textContent.replace(/\s+/g, " ").trim();
-      const p = document.createElement("p");
-      p.append(link);
-      rowCells.push([p]);
+      if (cellNodes.length) rowCells.push(cellNodes);
     });
-    if (rowCells.length === 0 || rowCells.every((c) => c === "")) {
+    if (rowCells.length === 0) {
       element.replaceWith(...element.childNodes);
       return;
     }
@@ -180,7 +186,7 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
   function parse3(element, { document }) {
-    const isArrowNav = !!(element.closest(".arrow-navigation") || element.querySelector(".arrow-navigation__left-section, .arrow-navigation__right-section") || element.id && element.id === "container-9fd6cb2014");
+    const isArrowNav = !!(element.closest(".arrow-navigation, .coverage-footer-navigation") || element.matches(".arrow-navigation__left-section, .arrow-navigation__right-section") || element.querySelector(".arrow-navigation__left-section, .arrow-navigation__right-section") || element.id && element.id === "container-9fd6cb2014");
     if (isArrowNav) {
       parseArrowNav(element, document);
       return;

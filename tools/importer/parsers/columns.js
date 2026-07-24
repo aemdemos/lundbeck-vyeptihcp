@@ -67,27 +67,44 @@ function parseDoseCallout(element, document) {
  * @param {Document} document
  */
 function parseArrowNav(element, document) {
-  // Each teaser column exposes its CTA both as a description link and an
-  // action-link (with a trailing arrow <img>). Take the action-link per teaser
-  // and normalise it to a clean text link so no duplicate/arrow-image noise.
-  const teasers = Array.from(element.querySelectorAll('.cmp-teaser'));
+  // Collect the teaser "columns". Two source shapes:
+  //  - two-teaser band (efficacy, safety): a `.arrow-navigation` wrapper containing
+  //    `.arrow-navigation__left-section` + `__right-section` (each a .cmp-teaser).
+  //  - single-teaser band (coverage-finder, infusion-locator): the mapped element IS the
+  //    `.arrow-navigation__right-section` teaser itself.
+  // Prefer the explicit section teasers; only if none exist fall back to .cmp-teaser, then
+  // to the element itself (single-teaser pages where the element IS the teaser). Matching
+  // both section + inner .cmp-teaser at once would double-count columns, so try in order.
+  let teasers = Array.from(element.querySelectorAll(
+    '.arrow-navigation__left-section, .arrow-navigation__right-section',
+  ));
+  if (teasers.length === 0) teasers = Array.from(element.querySelectorAll('.cmp-teaser'));
+  if (teasers.length === 0) teasers = [element];
+
   const rowCells = [];
   teasers.forEach((teaser) => {
-    const src = teaser.querySelector('.cmp-teaser__action-link, .cmp-teaser__description a, a[href]');
-    if (!src) {
-      rowCells.push('');
-      return;
+    // A cell is a plain array of nodes (matching parseDoseCallout's imageCell/textCell shape).
+    const cellNodes = [];
+    // CTA prompt heading, if any.
+    const heading = teaser.querySelector('h1, h2, h3, h4, h5, h6');
+    if (heading && heading.textContent.trim()) cellNodes.push(heading.cloneNode(true));
+    // The CTA link: prefer action-link, then description link, then ANY link in the teaser.
+    const src = teaser.querySelector('.cmp-teaser__action-link')
+      || teaser.querySelector('.cmp-teaser__description a[href]')
+      || teaser.querySelector('a[href]');
+    if (src) {
+      const link = document.createElement('a');
+      link.href = src.getAttribute('href') || '#';
+      if (src.getAttribute('target')) link.setAttribute('target', src.getAttribute('target'));
+      link.textContent = src.textContent.replace(/\s+/g, ' ').trim();
+      const p = document.createElement('p');
+      p.append(link);
+      cellNodes.push(p);
     }
-    const link = document.createElement('a');
-    link.href = src.getAttribute('href') || '#';
-    if (src.getAttribute('target')) link.setAttribute('target', src.getAttribute('target'));
-    link.textContent = src.textContent.replace(/\s+/g, ' ').trim();
-    const p = document.createElement('p');
-    p.append(link);
-    rowCells.push([p]);
+    if (cellNodes.length) rowCells.push(cellNodes);
   });
 
-  if (rowCells.length === 0 || rowCells.every((c) => c === '')) {
+  if (rowCells.length === 0) {
     element.replaceWith(...element.childNodes);
     return;
   }
@@ -98,9 +115,11 @@ function parseArrowNav(element, document) {
 }
 
 export default function parse(element, { document }) {
-  // Branch on which instance this element is.
+  // Branch on which instance this element is. True when the element is (or is inside) an
+  // arrow-navigation band, or is itself an arrow-navigation section teaser.
   const isArrowNav = !!(
-    element.closest('.arrow-navigation')
+    element.closest('.arrow-navigation, .coverage-footer-navigation')
+    || element.matches('.arrow-navigation__left-section, .arrow-navigation__right-section')
     || element.querySelector('.arrow-navigation__left-section, .arrow-navigation__right-section')
     || (element.id && element.id === 'container-9fd6cb2014')
   );

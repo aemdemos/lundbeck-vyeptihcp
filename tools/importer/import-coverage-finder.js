@@ -43,7 +43,7 @@ const PAGE_TEMPLATE = {
     },
     {
       name: 'columns',
-      instances: ['div.coverage-footer-navigation .arrow-navigation'],
+      instances: ['div.coverage-footer-navigation .arrow-navigation__right-section'],
     },
     {
       name: 'isi',
