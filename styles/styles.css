@@ -838,6 +838,14 @@ main .section.banner {
   justify-content: flex-end;
 }
 
+/* Per-page banner override: content pages (efficacy, safety, why-iv, dosing, copay) use a
+   flatter/shorter hero (desktop 1440x396 ~3.64:1, mobile 375x198 ~1.89:1) than the homepage's
+   tall 2880x1076 hero. Authored via `Style: banner, hero-short` so the homepage-tuned global
+   default is untouched. Mobile-first here; desktop ratio applied in the 768px query below. */
+main .section.banner.hero-short {
+  --banner-aspect-ratio: 375 / 198;
+}
+
 /* Background image: true full-bleed background behind all content. Absolute inset
    fills the section (whose height comes from the aspect-ratio above); cover keeps
    the image edge-to-edge with no distortion. Overrides the generic
@@ -885,5 +893,12 @@ main .section.banner > div:not(.bg-image) {
 @media (width >= 900px) {
   main .section.banner > div:not(.bg-image) {
     padding: 0 var(--spacing-l);
+  }
+}
+
+/* hero-short: flat desktop hero ratio (1440x396) from the source's 768px breakpoint up. */
+@media (width >= 768px) {
+  main .section.banner.hero-short {
+    --banner-aspect-ratio: 1440 / 396;
   }
 }
