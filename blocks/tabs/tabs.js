@@ -1,4 +1,48 @@
 import { moveInstrumentation, getBlockId } from '../../scripts/scripts.js';
+import { buildBlock, decorateBlock, loadBlock } from '../../scripts/aem.js';
+
+/**
+ * The importer emits blocks nested inside a tabs panel (e.g. the study-design
+ * `accordion`) as plain <table> markup, because EDS only auto-decorates top-level
+ * section blocks — a block table sitting inside another block's cell is never
+ * decorated by scripts.js. This walks a panel, finds every such nested block table
+ * (identified by its header row naming the block, e.g. "Accordion"), rebuilds it as a
+ * real block element via buildBlock(), and decorates + loads it. Tables are processed
+ * deepest-first so a block nested inside another block's body cell is upgraded before
+ * its ancestor, preserving arbitrary nesting depth.
+ * @param {Element} panel a decorated .tabs-panel
+ */
+async function decorateNestedBlockTables(panel) {
+  // Deepest-first: sort by DOM depth descending so inner tables upgrade first.
+  const tables = [...panel.querySelectorAll('table')].sort(
+    (a, b) => b.querySelectorAll('table').length - a.querySelectorAll('table').length,
+  );
+
+  const loads = [];
+  tables.forEach((table) => {
+    // Header cell text names the block (e.g. "Accordion").
+    const headerCell = table.querySelector('thead th, thead td');
+    const blockName = headerCell && headerCell.textContent.trim().toLowerCase();
+    if (!blockName) return;
+
+    // Body rows → block rows; each cell → a block cell.
+    const bodyRows = [...table.querySelectorAll(':scope > tbody > tr')];
+    const cells = bodyRows.map((tr) => [...tr.children].map((td) => ({
+      elems: [...td.childNodes],
+    })));
+    if (cells.length === 0) return;
+
+    const blockEl = buildBlock(blockName, cells);
+    const wrapper = document.createElement('div');
+    wrapper.append(blockEl);
+    table.replaceWith(wrapper);
+
+    decorateBlock(blockEl);
+    loads.push(loadBlock(blockEl));
+  });
+
+  await Promise.all(loads);
+}
 
 /**
  * @param {Element} block
@@ -167,4 +211,11 @@ export default async function decorate(block) {
 
   ensureTablistClickDelegation(block, tablist);
   resyncTabsBlock(block);
+
+  // Upgrade any block tables the importer nested inside panels (e.g. accordions)
+  // into real, decorated blocks. EDS does not auto-decorate blocks nested in a
+  // block cell, so the tabs block does it for its own panels.
+  await Promise.all(
+    [...block.querySelectorAll(':scope > .tabs-panel')].map((panel) => decorateNestedBlockTables(panel)),
+  );
 }

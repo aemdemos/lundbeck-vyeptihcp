@@ -1,127 +1,216 @@
-@import url('./accordion-tokens.css');
+/* Accordion — study-design collapsible rows.
+   Source design (vyeptihcp.com "cmp-accordion"): a flat, divider-line list
+   (NOT a filled card). Each row is separated by a thin grey rule; the clickable
+   header is a teal title with a chevron on the right; the body reveals rich
+   content (paragraphs, lists, a "Read full clinical publication" link, and
+   study-design chart images).
 
-.accordion > ul { /* @libs */
-  list-style: none; /* @libs */
-  margin: 0; /* @libs */
-  padding: 0; /* @libs */
+   These accordions render NESTED inside the tabs panels and can nest inside one
+   another (a row body may contain a deeper accordion). Every selector below is
+   scoped to `.accordion` and depth-independent — it works at any nesting level
+   and never assumes the block is a top-level section child.
+
+   Source breakpoints (Bootstrap 4): 576 / 768 / 992 / 1200px. */
+
+.accordion > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-/* each item is a filled, rounded card; the whole card is the toggle */
-.accordion > ul > li { /* @libs */
-  background-color: var(--accordion-item-bg); /* @libs */
-  border-radius: var(--accordion-item-radius); /* @libs */
-  padding: var(--accordion-item-padding); /* @libs */
-  cursor: pointer; /* @libs */
+/* each item is a flat row divided from the next by a thin grey rule
+   (source: border-bottom 1px solid #a4a4a4; no background, no radius, no padding) */
+.accordion > ul > li {
+  background-color: transparent;
+  border-radius: 0;
+  border-bottom: 1px solid #a4a4a4;
+  padding: 0 0 24px;
+  margin-top: 0;
+  cursor: pointer;
 }
 
-.accordion > ul > li + li { /* @libs */
-  margin-top: var(--accordion-item-gap); /* @libs */
+.accordion > ul > li + li {
+  margin-top: 24px;
 }
 
-.accordion p { /* @libs */
-  margin: 0; /* @libs */
+.accordion p {
+  margin: 0;
 }
 
-/* clickable header row */
-.accordion .accordion-item-label { /* @libs */
-  position: relative; /* @libs */
-  align-items: flex-start; /* @libs */
-  justify-content: space-between; /* @libs */
-  gap: 10px; /* @libs */
-  padding-right: var(--accordion-label-padding-right); /* @libs */
-  color: var(--accordion-label-color); /* @libs */
-  font-family: var(--heading-font-family); /* @libs */
-  font-size: var(--accordion-label-font-size); /* @libs */
-  font-weight: var(--accordion-label-font-weight); /* @libs */
-  line-height: var(--accordion-label-line-height); /* @libs */
-  user-select: none; /* @libs */
-  transition: color var(--accordion-transition-duration); /* @libs */
+/* clickable header row — teal title, chevron pushed to the right edge
+   (source button: flex, space-between, teal #41748d, 700, 22px/28px, left-aligned) */
+.accordion .accordion-item-label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-right: 40px;
+  color: var(--link-color);
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-l);
+  font-weight: 700;
+  line-height: 1.27;
+  text-transform: none;
+  user-select: none;
+  transition: color 0.3s;
 }
 
-/* lead phrase ("Commercial insurance:") is semibold */
-.accordion .accordion-item-label strong, /* @libs */
-.accordion .accordion-item-label b { /* @libs */
-  font-weight: var(--accordion-label-strong-weight); /* @libs */
+.accordion .accordion-item-label p {
+  margin: 0;
 }
 
-/* trailing descriptive phrase — hidden on mobile when collapsed, but revealed
-   when the item is expanded; always shown from tablet up */
-.accordion .accordion-item-label-detail { /* @libs */
-  display: none; /* @libs */
+/* lead phrase stays the same weight/color as the title (no separate emphasis) */
+.accordion .accordion-item-label strong,
+.accordion .accordion-item-label b {
+  font-weight: 700;
+  color: inherit;
 }
 
-.accordion li.active .accordion-item-label-detail { /* @libs */
-  display: inline; /* @libs */
+/* trailing descriptive phrase — hidden on mobile when collapsed, revealed when
+   expanded; always shown from tablet up */
+.accordion .accordion-item-label-detail {
+  display: none;
 }
 
-/* active title turns rose */
-.accordion li.active .accordion-item-label { /* @libs */
-  color: var(--accordion-label-active-color); /* @libs */
+.accordion li.active .accordion-item-label-detail {
+  display: inline;
 }
 
-.accordion li.active .accordion-item-label strong, /* @libs */
-.accordion li.active .accordion-item-label b { /* @libs */
-  color: var(--accordion-label-active-color); /* @libs */
+/* active title keeps the teal (source does not recolor on expand) */
+.accordion li.active .accordion-item-label {
+  color: var(--link-color);
 }
 
-/* chevron — vertically centred against the title row (rotation is around the
-   box centre, so top:50% + negative half-height keeps it centred when the title
-   wraps to multiple lines on mobile) */
-.accordion .accordion-item-label::after { /* @libs */
-  content: ''; /* @libs */
-  position: absolute; /* @libs */
-  top: 40%; /* @libs */
-  right: var(--accordion-icon-right); /* @libs */
-  width: var(--accordion-icon-size); /* @libs */
-  height: var(--accordion-icon-size); /* @libs */
-  margin-top: calc(var(--accordion-icon-size) / -2); /* @libs */
-  border: solid var(--accordion-icon-color); /* @libs */
-  border-width: 0 var(--accordion-icon-thickness) var(--accordion-icon-thickness) 0; /* @libs */
-  transform: rotate(45deg); /* @libs */
-  transform-origin: center; /* @libs */
-  transition: transform var(--accordion-icon-transition-duration) ease-in-out; /* @libs */
+.accordion li.active .accordion-item-label strong,
+.accordion li.active .accordion-item-label b {
+  color: var(--link-color);
 }
 
-.accordion li.active .accordion-item-label::after { /* @libs */
-  border-color: var(--accordion-label-active-color); /* @libs */
-  transform: rotate(-135deg); /* @libs */
+/* chevron — CSS-drawn equivalent of the source icon-font "cheveron-down".
+   Points down when collapsed, flips up when active. Centered on the header row. */
+.accordion .accordion-item-label::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  width: 12px;
+  height: 12px;
+  margin-top: -9px;
+  border: solid var(--link-color);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  transform-origin: center;
+  transition: transform 0.4s ease-in-out;
 }
 
-/* body / panel */
-.accordion .accordion-item-body { /* @libs */
-  display: none; /* @libs */
+.accordion li.active .accordion-item-label::after {
+  border-color: var(--link-color);
+  margin-top: -3px;
+  transform: rotate(-135deg);
 }
 
-.accordion li.active .accordion-item-body { /* @libs */
-  display: flex; /* @libs */
-  flex-direction: column; /* @libs */
-  gap: var(--accordion-body-gap); /* @libs */
-  margin-top: var(--accordion-body-gap); /* @libs */
-  color: var(--accordion-body-color); /* @libs */
-  font-size: var(--accordion-body-font-size); /* @libs */
-  line-height: var(--accordion-body-line-height); /* @libs */
-  cursor: auto; /* @libs */
+/* body / panel — hidden until active */
+.accordion .accordion-item-body {
+  display: none;
 }
 
-.accordion .accordion-item-body ul, /* @libs */
-.accordion .accordion-item-body ol { /* @libs */
-  margin: 0; /* @libs */
-  padding-left: 20px; /* @libs */
-  font-size: var(--accordion-body-list-font-size); /* @libs */
+.accordion li.active .accordion-item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+  color: var(--text-color);
+  font-size: var(--body-font-size-s);
+  line-height: 1.5;
+  cursor: auto;
 }
 
-.accordion .accordion-item-body a { /* @libs */
-  color: var(--link-color); /* @libs */
-  font-weight: var(--font-weight-bold); /* @libs */
+.accordion .accordion-item-body p {
+  margin: 0;
+  font-size: var(--body-font-size-s);
+  line-height: 1.5;
 }
 
-.accordion .accordion-item-body a:hover { /* @libs */
-  color: var(--link-hover-color); /* @libs */
+/* body headings (e.g. "PROMISE-2") — teal, 700, matches source h5 */
+.accordion .accordion-item-body h2,
+.accordion .accordion-item-body h3,
+.accordion .accordion-item-body h4,
+.accordion .accordion-item-body h5,
+.accordion .accordion-item-body h6 {
+  margin: 0;
+  color: var(--link-color);
+  font-weight: 700;
+  text-transform: none;
 }
 
-/* tablet+: always reveal the descriptive phrase alongside the lead */
-@media (width >= 768px) { /* @libs */
-  .accordion .accordion-item-label-detail { /* @libs */
-    display: inline; /* @libs */
+.accordion .accordion-item-body h5 {
+  font-size: var(--heading-font-size-m);
+}
+
+.accordion .accordion-item-body ul,
+.accordion .accordion-item-body ol {
+  margin: 0 0 0 5px;
+  padding-left: 20px;
+  font-size: var(--body-font-size-s);
+  line-height: 1.5;
+}
+
+.accordion .accordion-item-body li {
+  cursor: auto;
+}
+
+/* study-design chart images fill the available width and keep their ratio */
+.accordion .accordion-item-body picture,
+.accordion .accordion-item-body p:has(> picture) {
+  display: block;
+}
+
+.accordion .accordion-item-body picture img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* "Read full clinical publication" link — teal, bold, underlined */
+.accordion .accordion-item-body a {
+  color: var(--link-color);
+  font-weight: var(--font-weight-bold, 700);
+  text-decoration: underline;
+}
+
+.accordion .accordion-item-body a:hover {
+  color: var(--brand-primary);
+}
+
+/* KNOWN ISSUE FIX: the "Read full clinical publication" external-link icon
+   (icon-linkout PNG, natural ~49x48) renders oversized. Constrain small inline
+   icons inside links to their natural small size so they don't blow up.
+   The large study-design charts above are NOT inside <a>, so they are unaffected. */
+.accordion .accordion-item-body a picture,
+.accordion .accordion-item-body a img {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  max-width: 18px;
+  vertical-align: text-bottom;
+  margin-left: 6px;
+}
+
+/* tablet+ (source uses Bootstrap 768px breakpoint) */
+@media (width >= 768px) {
+  .accordion > ul > li {
+    padding-bottom: 32px;
+  }
+
+  .accordion > ul > li + li {
+    margin-top: 32px;
+  }
+
+  .accordion .accordion-item-label {
+    line-height: 1.3;
+  }
+
+  .accordion .accordion-item-label-detail {
+    display: inline;
   }
 }

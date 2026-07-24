@@ -1,0 +1,20 @@
+.infusion-locator {
+  display: block;
+  width: 100%;
+}
+
+.infusion-locator .picl-tool-finder > h2 {
+  text-align: center;
+}
+
+.infusion-locator .picl-tool-finder > h3 {
+  text-align: center;
+}
+
+/*
+ * The bulk of this tool's visual styling (search form, map layout, legend band, result
+ * cards, spinner/overlay) is delivered by the vendor PICL/site clientlib CSS loaded at
+ * runtime alongside the clientlib script in infusion-locator.js. Keep block-local CSS
+ * minimal so it does not fight those vendor styles; refine in the deferred styling pass
+ * if gaps remain. Source breakpoints are Bootstrap-4 (576/768/992/1200).
+ */

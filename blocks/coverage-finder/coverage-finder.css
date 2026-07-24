@@ -1,0 +1,20 @@
+/* The MMIT coverage tool sits in a white rounded card with a subtle border and
+   shadow (matching source), centered and constrained to the site content width. */
+.coverage-finder {
+  display: block;
+  width: 100%;
+  max-width: var(--max-width-site, 1200px);
+  margin: var(--spacing-l, 2rem) auto;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid var(--overlay-background-color, #e1f0f6);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgb(0 0 0 / 8%);
+}
+
+.coverage-finder coverage-finder {
+  display: block;
+  width: 100%;
+  min-height: 400px;
+}
