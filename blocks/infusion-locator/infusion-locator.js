@@ -45,7 +45,7 @@ function toolMarkup(origin) {
       data-getStartedPdfPath="https://info.orsinispecialtypharmacy.com/hubfs/VYEPTI%20Referral%20Form.pdf?hsLang=en"
       data-showHICard="true">
       <h2>VYEPTI Infusion Locator</h2>
-      <h3 style="text-align: center;"><strong>Find infusion options near your patients.</strong></h3>
+      <h3><strong>Find infusion options near your patients.</strong></h3>
       <div id="picl-tool-vue-holder"></div>
       <div class="locator-i18n-config" hidden
         data-pdf-title="Infusion Service Providers in your area"
