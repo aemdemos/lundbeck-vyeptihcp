@@ -33,7 +33,11 @@ export default function parse(element, { document }) {
   rows.forEach((tr) => {
     const kept = [...tr.children].filter((td) => !isSpacer(td));
     if (kept.length === 0) return;
-    cells.push(kept.map((td) => ({ elems: [...td.childNodes] })));
+    // Each cell is a plain array of the source cell's child nodes (headings, spans, text,
+    // footnote markers). createBlock accepts a node / array-of-nodes / string per cell; the
+    // `{ elems }` wrapper is only understood by buildBlock, not createBlock (it stringifies
+    // to "[object Object]"). Clone so the source nodes aren't detached mid-iteration.
+    cells.push(kept.map((td) => [...td.childNodes].map((n) => n.cloneNode(true))));
   });
 
   if (cells.length === 0) {

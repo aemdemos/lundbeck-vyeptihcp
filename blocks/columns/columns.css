@@ -148,6 +148,50 @@ main .columns.stats-callout p {
   margin: 0.4em 0;
 }
 
+/* ────────────────────────────────────────────────────────────────
+ * coverage-hero variant — coverage-finder page hero.
+ * Source: a CONTAINED teaser (not a full-bleed banner) — the US-map /
+ * magnifying-glass graphic beside the "Your patients may be covered…" +
+ * "Check now." headings on a light background. Mobile-first: image on top,
+ * headings below, centered; side-by-side (image left / text right) at the
+ * source's 768px breakpoint via the base columns row flip.
+ * ──────────────────────────────────────────────────────────────── */
+main .columns.coverage-hero {
+  max-width: var(--max-width-site);
+  margin: 0 auto;
+}
+
+main .columns.coverage-hero > div {
+  gap: 1.5rem;
+  align-items: center;
+}
+
+main .columns.coverage-hero .columns-img-col {
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
+main .columns.coverage-hero .columns-img-col img {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  margin: 0 auto;
+}
+
+main .columns.coverage-hero h2 {
+  margin: 0 0 0.3em;
+  color: var(--brand-secondary);
+  font-size: var(--heading-font-size-l);
+  line-height: 1.2;
+}
+
+main .columns.coverage-hero h3 {
+  margin: 0;
+  color: var(--brand-secondary);
+  font-size: var(--heading-font-size-m);
+  font-weight: 700;
+}
+
 /* survey results block (image + text rows): small circular patient photo with an
    enlarged lead paragraph. Mobile-first: photo centered on top, centered text. */
 main .columns.stats-callout:has(img) > div {

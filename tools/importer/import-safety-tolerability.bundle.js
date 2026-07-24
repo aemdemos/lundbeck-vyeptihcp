@@ -58,7 +58,7 @@ var CustomImportScript = (() => {
     rows.forEach((tr) => {
       const kept = [...tr.children].filter((td) => !isSpacer(td));
       if (kept.length === 0) return;
-      cells.push(kept.map((td) => ({ elems: [...td.childNodes] })));
+      cells.push(kept.map((td) => [...td.childNodes].map((n) => n.cloneNode(true))));
     });
     if (cells.length === 0) {
       element.replaceWith(...element.childNodes);

@@ -128,7 +128,7 @@ var CustomImportScript = (() => {
         bodyCell.push(a);
       }
       if (imageCell.length || bodyCell.length) {
-        cells.push([{ elems: imageCell }, { elems: bodyCell }]);
+        cells.push([imageCell, bodyCell]);
       }
     });
     if (cells.length === 0) {

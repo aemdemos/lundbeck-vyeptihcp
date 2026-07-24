@@ -40,7 +40,10 @@ export default function parse(element, { document }) {
       bodyCell.push(a);
     }
     if (imageCell.length || bodyCell.length) {
-      cells.push([{ elems: imageCell }, { elems: bodyCell }]);
+      // Each cell is a plain array of nodes — createBlock accepts node / node[] / string per
+      // cell. The `{ elems }` wrapper is only understood by buildBlock (it stringifies to
+      // "[object Object]" through createBlock).
+      cells.push([imageCell, bodyCell]);
     }
   });
 
