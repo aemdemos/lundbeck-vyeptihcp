@@ -1,6 +1,6 @@
 /* modal design tokens */
 :root { /* @boilerplate */
-  --modal-backdrop-background: rgb(19 19 19 / 75%); /* @boilerplate */
+  --modal-backdrop-background: rgb(19 19 19 / 50%); /* @boilerplate */
   --modal-width-mobile: calc(100vw - 48px); /* @boilerplate */
   --modal-width-desktop: calc(100vw - 64px); /* @boilerplate */
   --modal-max-width: 900px; /* @boilerplate */
@@ -13,7 +13,7 @@
   --modal-close-color: var(--dark-color); /* ring + X color */
 
   /* exit interstitial ("Leaving VYEPTI website...") */
-  --modal-exit-width: calc(100vw - 20px);
+  --modal-exit-width: 555px;
   --modal-exit-max-width: calc(100vw - 20px);
   --modal-exit-radius: 15px;
   --modal-exit-shadow: 0 5px 15px rgb(0 0 0 / 50%);
@@ -49,7 +49,6 @@
 
 /* exit interstitial variant */
 .modal.exit dialog {
-  width: var(--modal-exit-width);
   max-width: var(--modal-exit-max-width);
   max-height: calc(100dvh - var(--modal-exit-offset-top) - var(--modal-exit-bottom-gap));
   margin-top: var(--modal-exit-offset-top);
@@ -178,12 +177,6 @@
    fixed dialog width, larger close button, same content padding) */
 @media (width >= 768px) {
   :root {
-    --modal-exit-width: 550px;
-    --modal-exit-max-width: calc(100vw - 30px);
-    --modal-exit-close-width: 66px;
-    --modal-exit-close-height: 75px;
-    --modal-exit-close-circle-size: 46px;
-    --modal-exit-close-font-size: 25px;
     --modal-exit-heading-padding-right: 55px;
     --modal-exit-heading-margin-bottom: 30px;
     --modal-exit-offset-top: 105px;
@@ -192,7 +185,6 @@
     --modal-exit-logo-width: 160px;
     --modal-exit-button-width: 60%;
     --modal-exit-button-row-margin-top: 40px;
-    --modal-close-icon-thickness: 4px;
   }
 }
 
