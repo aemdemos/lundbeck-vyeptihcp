@@ -1,0 +1,40 @@
+{
+  "definitions": [
+    {
+      "title": "Infusion Locator",
+      "id": "infusion-locator",
+      "model": "infusion-locator",
+      "plugins": {
+        "da": {
+          "rows": 2,
+          "columns": 1,
+          "fields": [
+            { "name": "origin", "selector": "div:nth-child(1)>div" },
+            { "name": "mapsKey", "selector": "div:nth-child(2)>div" }
+          ]
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "infusion-locator",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "origin",
+          "label": "Vendor origin",
+          "description": "Origin serving the PICL clientlib + /api/picllocator (defaults to https://www.vyeptihcp.com)"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "mapsKey",
+          "label": "Google Maps API key"
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

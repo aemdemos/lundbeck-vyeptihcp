@@ -52,7 +52,10 @@
           "name": "Hero banner",
           "selector": "article.home-page div.herocomponent div.banner-content div.columncontainer:nth-of-type(1)",
           "style": "banner",
-          "blocks": ["columns-banner-text", "cards-quicklink"],
+          "blocks": [
+            "columns-banner-text",
+            "cards-quicklink"
+          ],
           "defaultContent": [],
           "backgroundImage": "article.home-page div.herocomponent div.banner-img"
         },
@@ -61,7 +64,10 @@
           "name": "Promo + CTA rows",
           "selector": "article.home-page div.columncontainer.home-two-card-section",
           "style": "light",
-          "blocks": ["cards-promo", "columns-teaser-cta"],
+          "blocks": [
+            "cards-promo",
+            "columns-teaser-cta"
+          ],
           "defaultContent": []
         },
         {
@@ -69,7 +75,9 @@
           "name": "Important Safety Information",
           "selector": "div.experiencefragment:nth-of-type(2) .isi",
           "style": "grey",
-          "blocks": ["isi"],
+          "blocks": [
+            "isi"
+          ],
           "defaultContent": []
         },
         {
@@ -82,6 +90,848 @@
             "div.rte div.container.reference-section > p",
             "div.rte div.container.reference-section > ol"
           ]
+        }
+      ]
+    },
+    {
+      "name": "efficacy",
+      "urls": [
+        "https://www.vyeptihcp.com/efficacy-and-patient-outcomes"
+      ],
+      "representativeUrl": "https://www.vyeptihcp.com/efficacy-and-patient-outcomes",
+      "coverageGaps": [],
+      "description": "Efficacy/clinical-data page: banner hero, section title, 4-tab clinical data component (Primary Endpoint, 75% Fewer Migraine Days, Fast Onset, Reduction in Acute Med Use) each with graph callout + accordion study-design rows, KOL quote, product-dose callout, arrow-navigation CTA band, ISI, references.",
+      "blocks": [
+        {
+          "name": "section-title",
+          "instances": [
+            "div.title #title-91637d360f h2.cmp-title__text",
+            "#title-91637d360f"
+          ]
+        },
+        {
+          "name": "tabs",
+          "instances": [
+            "div.tabs #tabs-b3c889fa96.cmp-tabs",
+            "#tabs-b3c889fa96"
+          ]
+        },
+        {
+          "name": "accordion",
+          "instances": [
+            "#tabs-b3c889fa96 .cmp-accordion"
+          ]
+        },
+        {
+          "name": "quote-kol",
+          "instances": [
+            "div.kol-quotes-cmp .cmp-teaser",
+            "#container-0463e97b86 .cmp-teaser"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            ".teaser.dose-100mg .cmp-teaser",
+            "div.arrow-navigation #container-9fd6cb2014"
+          ]
+        },
+        {
+          "name": "isi",
+          "instances": [
+            "#SafetyPanelInfo"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-banner",
+          "name": "Hero banner",
+          "selector": [
+            "div.hero-component",
+            ".hero.aem-GridColumn"
+          ],
+          "style": "banner",
+          "blocks": [],
+          "defaultContent": [
+            ".banner-content h1"
+          ],
+          "backgroundImage": "div.hero-component div.banner-img picture"
+        },
+        {
+          "id": "section-clinical-data",
+          "name": "VYEPTI pivotal trial data",
+          "selector": [
+            "div.clinical-tabs",
+            "#vyepti-pivotal-trial-data"
+          ],
+          "style": "light",
+          "blocks": [
+            "section-title",
+            "tabs",
+            "accordion"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-kol-quote",
+          "name": "KOL quote (Brad Klein)",
+          "selector": [
+            "div.kol-quotes-cmp",
+            "#container-0463e97b86"
+          ],
+          "style": "light",
+          "blocks": [
+            "quote-kol"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-product-callout",
+          "name": "Product dose callout + fine print + arrow-nav CTA",
+          "selector": [
+            "#container-bba3c7fda1"
+          ],
+          "style": "light",
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": [
+            "#text-fa982214d4 p.hanging-indent"
+          ]
+        },
+        {
+          "id": "section-isi",
+          "name": "Important Safety Information",
+          "selector": [
+            "div.cmp-experiencefragment--isi",
+            "div.experiencefragment .isi",
+            "#isi"
+          ],
+          "style": "grey",
+          "blocks": [
+            "isi"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-references",
+          "name": "References",
+          "selector": [
+            "div.reference-section #text-f8ba31121c",
+            "#text-f8ba31121c"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "div.reference-section #text-f8ba31121c"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "coverage-finder",
+      "urls": [
+        "https://www.vyeptihcp.com/coverage-finder"
+      ],
+      "representativeUrl": "https://www.vyeptihcp.com/coverage-finder",
+      "coverageGaps": [],
+      "description": "Interactive coverage lookup tool page: banner hero, embedded coverage-finder tool (iframe), disclaimer, arrow-nav CTA to infusion locator, ISI, footnote.",
+      "blocks": [
+        {
+          "name": "coverage-finder",
+          "instances": [
+            "div.cmp-embed.coverage-embed"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "div.coverage-footer-navigation .arrow-navigation",
+            "div.coverage-footer-navigation"
+          ]
+        },
+        {
+          "name": "isi",
+          "instances": [
+            "#SafetyPanelInfo"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-banner",
+          "name": "Banner hero",
+          "selector": [
+            "main div.container.coverage-teaser div.teaser div.cmp-teaser",
+            "div.coverage-teaser"
+          ],
+          "style": "banner",
+          "blocks": [],
+          "defaultContent": [
+            "div.coverage-teaser .cmp-teaser__content"
+          ],
+          "backgroundImage": "main div.container.coverage-teaser div.cmp-teaser__image picture"
+        },
+        {
+          "id": "section-coverage-tool",
+          "name": "Coverage finder tool",
+          "selector": [
+            "main div.embed div.cmp-embed.coverage-embed",
+            "div.cmp-embed.coverage-embed"
+          ],
+          "style": "light",
+          "blocks": [
+            "coverage-finder"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-footnote",
+          "name": "Disclaimer/footnote",
+          "selector": [
+            "main div.text.coverage-foot-note div.cmp-text",
+            "div.coverage-foot-note"
+          ],
+          "style": "light",
+          "blocks": [],
+          "defaultContent": [
+            "main div.text.coverage-foot-note div.cmp-text"
+          ]
+        },
+        {
+          "id": "section-cta-arrow-nav",
+          "name": "Arrow-nav CTA band",
+          "selector": [
+            "main div.container.coverage-footer-navigation"
+          ],
+          "style": "teal",
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-isi",
+          "name": "Important Safety Information",
+          "selector": [
+            "div.cmp-experiencefragment--isi",
+            "#SafetyPanelInfo"
+          ],
+          "style": "grey",
+          "blocks": [
+            "isi"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "sign-up",
+      "urls": [
+        "https://www.vyeptihcp.com/sign-up"
+      ],
+      "representativeUrl": "https://www.vyeptihcp.com/sign-up",
+      "coverageGaps": [],
+      "description": "Request-a-rep / register form page: lead-capture form (signup-form block) and ISI.",
+      "blocks": [
+        {
+          "name": "signup-form",
+          "instances": [
+            "article.request-rep-page #signUp"
+          ]
+        },
+        {
+          "name": "isi",
+          "instances": [
+            "#SafetyPanelInfo"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-form",
+          "name": "Sign-up form",
+          "selector": [
+            "article.request-rep-page #signUp",
+            "div.signup"
+          ],
+          "style": "light",
+          "blocks": [
+            "signup-form"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-isi",
+          "name": "Important Safety Information",
+          "selector": [
+            "div.cmp-experiencefragment--isi",
+            "#SafetyPanelInfo"
+          ],
+          "style": "grey",
+          "blocks": [
+            "isi"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "infusion-locator",
+      "urls": [
+        "https://www.vyeptihcp.com/infusion-locator"
+      ],
+      "representativeUrl": "https://www.vyeptihcp.com/infusion-locator",
+      "coverageGaps": [],
+      "description": "Interactive infusion locator tool page: Google-Maps location finder (infusion-locator block), disclaimer, arrow-nav CTA to coverage finder, ISI.",
+      "blocks": [
+        {
+          "name": "infusion-locator",
+          "instances": [
+            "main #infusion-locator-page-wrapper .picllocater"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "div.coverage-footer-navigation .arrow-navigation"
+          ]
+        },
+        {
+          "name": "isi",
+          "instances": [
+            "#SafetyPanelInfo"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-locator",
+          "name": "Infusion locator tool",
+          "selector": [
+            "main #infusion-locator-page-wrapper .picllocater",
+            "div.picllocater"
+          ],
+          "style": "light",
+          "blocks": [
+            "infusion-locator"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-disclaimer",
+          "name": "Disclaimer",
+          "selector": [
+            "main div.infusion-locator-disclaimer",
+            "div.infusion-locator-disclaimer"
+          ],
+          "style": "light",
+          "blocks": [],
+          "defaultContent": [
+            "main div.infusion-locator-disclaimer"
+          ]
+        },
+        {
+          "id": "section-cta-arrow-nav",
+          "name": "Arrow-nav CTA band",
+          "selector": [
+            "main div.coverage-footer-navigation"
+          ],
+          "style": "teal",
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-isi",
+          "name": "Important Safety Information",
+          "selector": [
+            "div.cmp-experiencefragment--isi",
+            "#SafetyPanelInfo"
+          ],
+          "style": "grey",
+          "blocks": [
+            "isi"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "safety-tolerability",
+      "urls": [
+        "https://www.vyeptihcp.com/safety-and-tolerability"
+      ],
+      "representativeUrl": "https://www.vyeptihcp.com/safety-and-tolerability",
+      "coverageGaps": [],
+      "description": "Safety page: banner hero with anchor mini-tab links, adverse-reaction data tables, 2-year narrative with PREVAIL accordion, persistency banner, dosing CTA teaser, arrow-nav CTA band, ISI, references.",
+      "blocks": [
+        {
+          "name": "table",
+          "instances": [
+            "#pivotal-trials div.dosing-safety-table-wrapper",
+            "#prevail div.dosing-safety-table-wrapper"
+          ]
+        },
+        {
+          "name": "accordion",
+          "instances": [
+            "[id=\"2-year-data\"] .cmp-accordion"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "div.container.responsivegrid.arrow-navigation"
+          ]
+        },
+        {
+          "name": "isi",
+          "instances": [
+            "#SafetyPanelInfo"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-banner",
+          "name": "Hero banner",
+          "selector": [
+            "div.hero-component",
+            ".hero.aem-GridColumn"
+          ],
+          "style": "banner",
+          "blocks": [],
+          "defaultContent": [
+            ".banner-content h1"
+          ],
+          "backgroundImage": "div.hero-component div.banner-img picture"
+        },
+        {
+          "id": "section-pivotal-trials",
+          "name": "Pivotal trials adverse reactions",
+          "selector": [
+            "#pivotal-trials"
+          ],
+          "style": "light",
+          "blocks": [
+            "table"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-prevail-teaes",
+          "name": "PREVAIL 2-year TEAEs",
+          "selector": [
+            "#prevail"
+          ],
+          "style": "light",
+          "blocks": [
+            "table"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-2year-data",
+          "name": "2-year data + study design",
+          "selector": [
+            "[id=\"2-year-data\"]"
+          ],
+          "style": "light",
+          "blocks": [
+            "accordion"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-persistency",
+          "name": "Treatment persistency banner",
+          "selector": [
+            "#treatment-persistency"
+          ],
+          "style": "light",
+          "blocks": [],
+          "defaultContent": [
+            "#treatment-persistency"
+          ]
+        },
+        {
+          "id": "section-cta-arrow-nav",
+          "name": "Arrow-nav CTA band",
+          "selector": [
+            "div.container.responsivegrid.arrow-navigation"
+          ],
+          "style": "teal",
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-isi",
+          "name": "Important Safety Information",
+          "selector": [
+            "div.cmp-experiencefragment--isi",
+            "#SafetyPanelInfo"
+          ],
+          "style": "grey",
+          "blocks": [
+            "isi"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-references",
+          "name": "References",
+          "selector": [
+            "div.text.reference-section #text-ac23bc66d0",
+            "div.reference-section"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "div.text.reference-section #text-ac23bc66d0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "why-iv-infusion",
+      "urls": [
+        "https://www.vyeptihcp.com/why-iv-infusion"
+      ],
+      "representativeUrl": "https://www.vyeptihcp.com/why-iv-infusion",
+      "coverageGaps": [],
+      "description": "Mechanism-of-action page: hero, MOA narrative with PK graph and callout, Brightcove science video with feature list, arrow-nav CTA band, ISI, references.",
+      "blocks": [
+        {
+          "name": "embed",
+          "instances": [
+            "div.video:has(video-js)",
+            "div.video"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "div.container.responsivegrid.arrow-navigation"
+          ]
+        },
+        {
+          "name": "isi",
+          "instances": [
+            "#SafetyPanelInfo"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-banner",
+          "name": "Hero banner",
+          "selector": [
+            "div.hero-component",
+            ".hero.aem-GridColumn"
+          ],
+          "style": "banner",
+          "blocks": [],
+          "defaultContent": [
+            ".banner-content h1"
+          ],
+          "backgroundImage": "div.hero-component div.banner-img picture"
+        },
+        {
+          "id": "section-moa-pk",
+          "name": "MOA narrative + PK graph",
+          "selector": [
+            "#pk-parameters",
+            "div.migraine-severity-graph"
+          ],
+          "style": "light",
+          "blocks": [],
+          "defaultContent": [
+            "#pk-parameters"
+          ]
+        },
+        {
+          "id": "section-science-video",
+          "name": "See the science video + features",
+          "selector": [
+            "#container-a67c59f334",
+            "div.percentage-graph"
+          ],
+          "style": "light",
+          "blocks": [
+            "embed"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-cta-arrow-nav",
+          "name": "Arrow-nav CTA band",
+          "selector": [
+            "div.container.responsivegrid.arrow-navigation"
+          ],
+          "style": "teal",
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-isi",
+          "name": "Important Safety Information",
+          "selector": [
+            "div.cmp-experiencefragment--isi",
+            "#SafetyPanelInfo"
+          ],
+          "style": "grey",
+          "blocks": [
+            "isi"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-references",
+          "name": "References",
+          "selector": [
+            "div.text.reference-section #text-8ce07922ab",
+            "div.reference-section"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "div.text.reference-section #text-8ce07922ab"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dosing-administration",
+      "urls": [
+        "https://www.vyeptihcp.com/dosing-and-administration"
+      ],
+      "representativeUrl": "https://www.vyeptihcp.com/dosing-and-administration",
+      "coverageGaps": [],
+      "description": "Dosing & administration page: hero, dosing detail with patient image, admin-guide download + how-to video, patient testimonial video, arrow-nav CTA band, ISI, reference.",
+      "blocks": [
+        {
+          "name": "embed",
+          "instances": [
+            "div.video:has(video-js)",
+            "div.video"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "div.container.responsivegrid.arrow-navigation"
+          ]
+        },
+        {
+          "name": "isi",
+          "instances": [
+            "#SafetyPanelInfo"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-banner",
+          "name": "Hero banner",
+          "selector": [
+            "div.hero-component",
+            ".hero.aem-GridColumn"
+          ],
+          "style": "banner",
+          "blocks": [],
+          "defaultContent": [
+            ".banner-content h1"
+          ],
+          "backgroundImage": "div.hero-component div.banner-img picture"
+        },
+        {
+          "id": "section-dosing",
+          "name": "Dosing detail + patient image",
+          "selector": [
+            "#dosing"
+          ],
+          "style": "light",
+          "blocks": [],
+          "defaultContent": [
+            "#dosing"
+          ]
+        },
+        {
+          "id": "section-guide-video",
+          "name": "Admin guide download + how-to video",
+          "selector": [
+            "div.container.responsivegrid.dosing-guide-video"
+          ],
+          "style": "light",
+          "blocks": [
+            "embed"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-testimonial",
+          "name": "Patient testimonial video",
+          "selector": [
+            "#patient-iv-experience"
+          ],
+          "style": "light",
+          "blocks": [
+            "embed"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-cta-arrow-nav",
+          "name": "Arrow-nav CTA band",
+          "selector": [
+            "div.container.responsivegrid.arrow-navigation"
+          ],
+          "style": "teal",
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-isi",
+          "name": "Important Safety Information",
+          "selector": [
+            "div.cmp-experiencefragment--isi",
+            "#SafetyPanelInfo"
+          ],
+          "style": "grey",
+          "blocks": [
+            "isi"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-references",
+          "name": "References",
+          "selector": [
+            "div.text.reference-section #text-9d2dfaccc0",
+            "div.reference-section"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "div.text.reference-section #text-9d2dfaccc0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "copay-support",
+      "urls": [
+        "https://www.vyeptihcp.com/copay-support"
+      ],
+      "representativeUrl": "https://www.vyeptihcp.com/copay-support",
+      "coverageGaps": [],
+      "description": "Copay & support page: hero with anchor mini-tabs, copay assistance program with card image + accordion terms, claims icon info, VYEPTI CONNECT navigator with accordion terms, downloadable resources cards, ISI.",
+      "blocks": [
+        {
+          "name": "accordion",
+          "instances": [
+            "#copay .cmp-accordion",
+            "#vyepti-connect .cmp-accordion"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "#resources .copay-resources-button-wrapper"
+          ]
+        },
+        {
+          "name": "isi",
+          "instances": [
+            "#SafetyPanelInfo"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-banner",
+          "name": "Hero banner",
+          "selector": [
+            "#copay-support-page-wrapper .hero",
+            "div.hero-component",
+            ".hero.aem-GridColumn"
+          ],
+          "style": "banner",
+          "blocks": [],
+          "defaultContent": [
+            ".banner-content h1"
+          ],
+          "backgroundImage": "#copay-support-page-wrapper .hero .banner-img picture"
+        },
+        {
+          "id": "section-copay",
+          "name": "Copay assistance program",
+          "selector": [
+            "#copay"
+          ],
+          "style": "light",
+          "blocks": [
+            "accordion"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-claims",
+          "name": "Copay claims info",
+          "selector": [
+            "#container-e15866d7f5"
+          ],
+          "style": "light",
+          "blocks": [],
+          "defaultContent": [
+            "#container-e15866d7f5"
+          ]
+        },
+        {
+          "id": "section-connect",
+          "name": "VYEPTI CONNECT navigator",
+          "selector": [
+            "#vyepti-connect"
+          ],
+          "style": "light",
+          "blocks": [
+            "accordion"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-resources",
+          "name": "Downloadable resources",
+          "selector": [
+            "#resources"
+          ],
+          "style": "light",
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-isi",
+          "name": "Important Safety Information",
+          "selector": [
+            "div.cmp-experiencefragment--isi",
+            "#SafetyPanelInfo"
+          ],
+          "style": "grey",
+          "blocks": [
+            "isi"
+          ],
+          "defaultContent": []
         }
       ]
     }

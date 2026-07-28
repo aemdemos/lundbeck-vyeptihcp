@@ -17,6 +17,98 @@
   display: block; /* @boilerplate */
 }
 
+/* ────────────────────────────────────────────────────────────────
+ * dose callout (product-shot image + teal dose sentence).
+ * Source: `.teaser.dose-100mg .cmp-teaser` — image left, text right,
+ * vertically centered, 60px gap, 40px vertical padding. Scoped to the
+ * plain columns instance that carries a `.columns-img-col` so it never
+ * touches the arrow-nav variant or other columns.
+ * ──────────────────────────────────────────────────────────────── */
+main .columns:not(.arrow-nav):has(> div > .columns-img-col) > div {
+  gap: 1.5rem;
+  align-items: center;
+}
+
+main .columns:not(.arrow-nav):has(> div > .columns-img-col) .columns-img-col {
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
+main .columns:not(.arrow-nav):has(> div > .columns-img-col) .columns-img-col img {
+  width: 300px;
+  max-width: 100%;
+  height: auto;
+}
+
+main .columns:not(.arrow-nav):has(> div > .columns-img-col) > div > div:not(.columns-img-col) p {
+  margin: 0;
+  font-size: var(--heading-font-size-m); /* 22px @desktop (source) */
+  font-weight: 700;
+  line-height: 1.27;
+  color: var(--link-color);
+}
+
+/* ────────────────────────────────────────────────────────────────
+ * arrow-nav variant (teal CTA band with two arrow links).
+ * Source: `div.arrow-navigation` — solid teal band (rgb 65 116 141 =
+ * --link-color), two white bold links each followed by a white
+ * right-arrow glyph, vertical divider between them on desktop, stacked
+ * and centered on mobile.
+ * ──────────────────────────────────────────────────────────────── */
+main .columns.arrow-nav {
+  background-color: var(--link-color);
+  max-width: var(--max-width-site);
+}
+
+main .columns.arrow-nav > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+main .columns.arrow-nav > div > div {
+  order: unset;
+  flex: 1;
+  padding: 16px 15px;
+  text-align: center;
+}
+
+main .columns.arrow-nav > div > div p {
+  margin: 0;
+}
+
+main .columns.arrow-nav a,
+main .columns.arrow-nav a:any-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-s); /* 18px @desktop (source) */
+  font-weight: 700;
+  line-height: 1.22;
+  color: #fff;
+  text-decoration: none;
+}
+
+main .columns.arrow-nav a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* white right-arrow glyph after each link (source uses a 21x21 white arrow png) */
+main .columns.arrow-nav a::after {
+  content: '';
+  flex: 0 0 auto;
+  width: 21px;
+  height: 21px;
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11h13.2l-4.6-4.6L14 5l7 7-7 7-1.4-1.4 4.6-4.6H4z"/></svg>') no-repeat center / contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
 /* stats-callout variant — vyepti study/survey results callouts.
    Teal headings, large red italic "X fewer" numbers, centered copy. */
 main .columns.stats-callout > div > div {
@@ -54,6 +146,50 @@ main .columns.stats-callout:has(img) strong {
 
 main .columns.stats-callout p {
   margin: 0.4em 0;
+}
+
+/* ────────────────────────────────────────────────────────────────
+ * coverage-hero variant — coverage-finder page hero.
+ * Source: a CONTAINED teaser (not a full-bleed banner) — the US-map /
+ * magnifying-glass graphic beside the "Your patients may be covered…" +
+ * "Check now." headings on a light background. Mobile-first: image on top,
+ * headings below, centered; side-by-side (image left / text right) at the
+ * source's 768px breakpoint via the base columns row flip.
+ * ──────────────────────────────────────────────────────────────── */
+main .columns.coverage-hero {
+  max-width: var(--max-width-site);
+  margin: 0 auto;
+}
+
+main .columns.coverage-hero > div {
+  gap: 1.5rem;
+  align-items: center;
+}
+
+main .columns.coverage-hero .columns-img-col {
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
+main .columns.coverage-hero .columns-img-col img {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  margin: 0 auto;
+}
+
+main .columns.coverage-hero h2 {
+  margin: 0 0 0.3em;
+  color: var(--brand-secondary);
+  font-size: var(--heading-font-size-l);
+  line-height: 1.2;
+}
+
+main .columns.coverage-hero h3 {
+  margin: 0;
+  color: var(--brand-secondary);
+  font-size: var(--heading-font-size-m);
+  font-weight: 700;
 }
 
 /* survey results block (image + text rows): small circular patient photo with an
@@ -111,6 +247,22 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
     padding-inline-start: var(--columns-divider-spacing);
   }
   
+  /* arrow-nav: two links side by side with a thin vertical divider */
+  main .columns.arrow-nav > div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+
+  main .columns.arrow-nav > div > div {
+    padding: 24px 15px;
+  }
+
+  main .columns.arrow-nav > div > div:not(:first-child) {
+    border-inline-start: 1px solid rgb(255 255 255 / 45%);
+  }
+
   main .columns.stats-callout > div {
     flex-direction: row;
     align-items: flex-start;

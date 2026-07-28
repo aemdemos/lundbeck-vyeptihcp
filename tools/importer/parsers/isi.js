@@ -15,11 +15,24 @@
  * content can appear in both the abbreviated bar and the full inline body.
  */
 export default function parse(element, { document }) {
-  // The full content lives in .isi-full (fall back to the element itself).
-  const source = element.querySelector('.isi-full') || element;
-  const nodes = Array.from(source.children).filter(
-    (n) => n.textContent.trim() || n.querySelector('img, a'),
-  );
+  // The full content lives in .isi-full on the stage homepage. On other pages
+  // (e.g. efficacy) the ISI is the #SafetyPanelInfo panel, where the headings and
+  // paragraphs are nested several columns deep rather than being direct children.
+  // Prefer .isi-full's direct children; otherwise collect the content elements
+  // (headings + paragraphs) in document order from anywhere within the panel. The
+  // decorative expand icon (<i>) and layout wrapper <div>s are skipped because we
+  // only gather h1-h6 and p. A <p> nested inside another selected node is dropped to
+  // avoid duplication.
+  const isiFull = element.querySelector('.isi-full');
+  let nodes;
+  if (isiFull) {
+    nodes = Array.from(isiFull.children).filter(
+      (n) => n.textContent.trim() || n.querySelector('img, a'),
+    );
+  } else {
+    const picked = [...element.querySelectorAll('h1, h2, h3, h4, h5, h6, p')];
+    nodes = picked.filter((n) => !picked.some((other) => other !== n && other.contains(n)));
+  }
 
   // Empty-block guard.
   if (nodes.length === 0) {

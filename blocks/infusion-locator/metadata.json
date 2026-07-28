@@ -1,0 +1,49 @@
+{
+  "variantName": "infusion-locator",
+  "baseBlock": "infusion-locator",
+  "version": "1.0.0",
+  "created": "2026-07-24T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.vyeptihcp.com/infusion-locator",
+    "originPage": "VYEPTI Infusion Locator page",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "wide",
+    "purpose": "interactive-tool",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "heading + subheading + search form + google map + results panel",
+    "buttonCount": 1,
+    "imageCount": 3
+  },
+  "toolMounting": {
+    "mechanism": "clientlib-wired-static-markup (Vue.js app; NOT iframe, NOT self-registering custom element)",
+    "vueMountHolder": "#picl-tool-vue-holder",
+    "configContainer": ".picl-tool-finder[data-res-path='/api/picllocator']",
+    "scripts": [
+      "/etc.clientlibs/vyepti-hcp/clientlibs/clientlib-dependencies.min.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js",
+      "https://maps.googleapis.com/maps/api/js?key=AIzaSyC9EwXy0QjV2u1LR0PrKNNR_lMJHr4dTGI&sensor=false&libraries=places",
+      "/etc.clientlibs/vyepti-hcp/vyepti-picl-hcp/components/content/picllocater/clientlibs/clientlib-picltool-script.min.js"
+    ],
+    "googleMapsApiKey": "AIzaSyC9EwXy0QjV2u1LR0PrKNNR_lMJHr4dTGI",
+    "dataEndpoint": "/api/picllocator"
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "VYEPTI infusion/provider locator page"
+    ],
+    "notSuitableFor": [
+      "generic content pages",
+      "pages without the PICL locator tool"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/infusion-locator"],
+    "reuseCount": 1,
+    "lastUsed": "2026-07-24T00:00:00.000Z"
+  }
+}

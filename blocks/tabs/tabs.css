@@ -1,60 +1,221 @@
 @import url('./tabs-tokens.css');
 
-.tabs .tabs-list { /* @boilerplate */
-  display: flex; /* @boilerplate */
-  gap: 0.5ch; /* @boilerplate */
-  max-width: 100%; /* @boilerplate */
-  font-size: var(--body-font-size-xs); /* @boilerplate */
-  overflow-x: auto; /* @boilerplate */
+/* =========================================================================
+   VYEPTI pivotal trial data — clinical-data tab switcher.
+   Values extracted from source computed styles at
+   https://www.vyeptihcp.com/efficacy-and-patient-outcomes
+   (block #tabs-b3c889fa96.cmp-tabs). Source uses Bootstrap-4 breakpoints
+   (576/768/992/1200). Mobile-first: base = smallest viewport.
+   The nested accordion (blocks/accordion) is styled elsewhere — this file
+   never targets .accordion internals.
+   ========================================================================= */
+
+/* ---- Tab bar ------------------------------------------------------------ */
+
+/* Source: flex row, 4 equal-width tabs (flex:1 1 0), no gap, no border.
+   Inactive tab: transparent bg, muted-teal 70% text, uppercase bold.
+   Active tab: solid teal-muted fill, white text. */
+.tabs .tabs-list {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  overflow-x: hidden;
 }
 
-@media (width >= 600px) { /* @boilerplate */
-  .tabs .tabs-list { /* @boilerplate */
-    font-size: var(--body-font-size-s); /* @boilerplate */
+.tabs .tabs-list button.tabs-tab {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 8px;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: rgb(65 116 141 / 70%); /* --link-color @ 70% */
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: normal;
+  cursor: pointer;
+  transition: background-color var(--transition-duration, 0.2s), color var(--transition-duration, 0.2s);
+}
+
+.tabs .tabs-list button.tabs-tab p {
+  margin: 0;
+}
+
+.tabs .tabs-list button.tabs-tab[aria-selected='true'] {
+  background-color: var(--link-color); /* rgb(65,116,141) */
+  color: #fff;
+  cursor: default;
+}
+
+/* ---- Panel -------------------------------------------------------------- */
+
+/* Reset boilerplate borders/padding; source panel has no box, just flow content. */
+.tabs .tabs-panel {
+  margin-top: 0;
+  padding: 24px 0 0;
+  border: 0;
+  overflow: visible;
+  color: var(--text-color);
+}
+
+.tabs .tabs-panel[aria-hidden='true'] {
+  display: none;
+}
+
+.tabs .tabs-panel > div {
+  padding: 0;
+}
+
+/* ---- Panel typography --------------------------------------------------- */
+
+/* Subhead h2 (e.g. "CHRONIC MIGRAINE (PROMISE-2)") — teal-muted, 22px. */
+.tabs .tabs-panel h2 {
+  margin: 0;
+  color: var(--link-color);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 28px;
+  text-transform: none;
+}
+
+/* Subtitle line under the h2. */
+.tabs .tabs-panel h2 + p {
+  margin: 4px 0 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+/* Chart section heading (h3) — dark body color, 22px. */
+.tabs .tabs-panel h3 {
+  margin: 16px 0 8px;
+  color: var(--text-color);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 28px;
+}
+
+/* Body copy + footnotes. */
+.tabs .tabs-panel p {
+  margin: 8px 0 0;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+/* ---- Legend labels ------------------------------------------------------ */
+
+/* Source legend items are 16px, regular weight, dark body color. In the
+   migrated DOM these are the "VYEPTI 100 mg (n=356)" style paragraphs; the
+   colored swatches live baked into the composed chart image, so keep the
+   labels as clean two-line text (the <br> supplies the (n=…) line). */
+.tabs .tabs-panel p:has(br) {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+/* ---- Chart image -------------------------------------------------------- */
+
+/* The localized graph PNG is the bar-chart only (the callout box is rebuilt
+   below from the brand-mark + text fragments). Show it centered, capped to the
+   source render width so it doesn't over-scale. */
+.tabs .tabs-panel p:has(> picture) {
+  margin: 16px 0 0;
+  text-align: center;
+}
+
+.tabs .tabs-panel picture img {
+  display: block;
+  width: 100%;
+  max-width: 466px;
+  height: auto;
+  margin: 0 auto;
+}
+
+/* ---- Callout box (rebuilt from fragments) ------------------------------- */
+
+/* Source: light-blue box (#e5f2f5) with a 70px brand-mark triangle on top and
+   the stat text in teal. The migrated content supplies three loose fragments
+   after each chart: a background-shape SVG (redundant — hidden, we use the CSS
+   bg), a brand-mark SVG (the triangle), and the stat-text paragraph. We give
+   the brand-mark + text the shared light-blue background and butt them together
+   into a single callout card. */
+
+/* NOTE: Document Authoring rewrites image `src` to hashed `./media_<hash>.svg?...`
+   URLs, so filename-based selectors (img[src*='brand-mark']) do NOT work once
+   published — they only matched on the local aem-cli preview. The two decorative
+   callout SVGs (background shape + brand-mark triangle) are instead identified
+   DA-stably by being SVGs with an EMPTY alt (`.svg` + alt=""), whereas the real
+   chart/study-design images are PNGs with descriptive alt text. */
+
+/* Decorative callout SVGs (bg-shape, brand-mark): empty-alt SVGs that must not
+   render as full-width inline images (they were blowing up to 466px). Constrain
+   to a small brand-mark size; the paragraph wrapping them becomes the callout head. */
+.tabs .tabs-panel p:has(> picture img[src*='.svg'][alt='']) {
+  margin: 16px 0 0;
+  padding: 16px 12px 0;
+  background-color: #e5f2f5;
+  text-align: left;
+}
+
+.tabs .tabs-panel p:has(> picture img[src*='.svg'][alt='']) picture img {
+  width: 60px;
+  max-width: 60px;
+  height: auto;
+  margin: 0;
+}
+
+/* Stat text run directly after a decorative-SVG paragraph (1–3 consecutive
+   paragraphs) → body of the callout card: light-blue bg, teal bold copy.
+   Chained adjacency stops at the next non-<p> (h3 / table). */
+.tabs .tabs-panel p:has(> picture img[src*='.svg'][alt='']) + p,
+.tabs .tabs-panel p:has(> picture img[src*='.svg'][alt='']) + p + p,
+.tabs .tabs-panel p:has(> picture img[src*='.svg'][alt='']) + p + p + p {
+  margin: 0;
+  padding: 0 12px;
+  background-color: #e5f2f5;
+  color: var(--link-color);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 26px;
+}
+
+.tabs .tabs-panel p:has(> picture img[src*='.svg'][alt='']) + p {
+  padding-top: 4px;
+}
+
+.tabs .tabs-panel p:has(> picture img[src*='.svg'][alt='']) + p + p:last-child,
+.tabs .tabs-panel p:has(> picture img[src*='.svg'][alt='']) + p + p + p:last-child,
+.tabs .tabs-panel p:has(> picture img[src*='.svg'][alt='']) + p:last-child {
+  padding-bottom: 12px;
+}
+
+/* =========================================================================
+   Responsive — Bootstrap-4 breakpoints (source parity).
+   ========================================================================= */
+
+/* Tablet: 576px — no layout change needed; base already matches. */
+
+/* Desktop (>=992px): source lays the chart and callout side-by-side, chart
+   ~413px and callout ~177px. We keep them stacked (chart, then callout card)
+   for a robust CSS-only rebuild, but widen the chart cap to the source size. */
+@media (width >= 992px) {
+  .tabs .tabs-panel picture img {
+    max-width: 466px;
   }
-}
 
-@media (width >= 900px) { /* @boilerplate */
-  .tabs .tabs-list { /* @boilerplate */
-    font-size: var(--body-font-size-m); /* @boilerplate */
+  .tabs .tabs-panel p:has(> picture) {
+    text-align: center;
   }
-}
-
-.tabs .tabs-list button { /* @boilerplate */
-  flex: 0 0 max-content; /* @boilerplate */
-  margin: 0; /* @boilerplate */
-  border: var(--tabs-border-width) solid var(--tabs-border-color); /* @boilerplate */
-  border-radius: 0; /* @boilerplate */
-  padding: 0.5em; /* @boilerplate */
-  background-color: var(--light-color); /* @boilerplate */
-  color: initial; /* @boilerplate */
-  font-weight: bold; /* @boilerplate */
-  line-height: unset; /* @boilerplate */
-  text-align: initial; /* @boilerplate */
-  text-overflow: unset; /* @boilerplate */
-  overflow: unset; /* @boilerplate */
-  white-space: unset; /* @boilerplate */
-  transition: background-color var(--tabs-transition-duration); /* @boilerplate */
-}
-
-.tabs .tabs-list button p { /* @boilerplate */
-  margin: 0; /* @boilerplate */
-}
-
-
-.tabs .tabs-list button[aria-selected='true'] { /* @boilerplate */
-  border-bottom: var(--tabs-border-width) solid var(--background-color); /* @boilerplate */
-  background-color: var(--background-color); /* @boilerplate */
-  cursor: initial; /* @boilerplate */
-}
-
-.tabs .tabs-panel { /* @boilerplate */
-  margin-top: -1px; /* @boilerplate */
-  padding: var(--tabs-panel-padding); /* @boilerplate */
-  border: var(--tabs-border-width) solid var(--tabs-border-color); /* @boilerplate */
-  overflow: auto; /* @boilerplate */
-}
-
-.tabs .tabs-panel[aria-hidden='true'] { /* @boilerplate */
-  display: none; /* @boilerplate */
 }
