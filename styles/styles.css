@@ -541,6 +541,24 @@ main .icon.icon-bullet { /* @libs */
   display: none;
 }
 
+.center, .center-mobile, .center-desktop,
+.left, .left-mobile, .left-desktop,
+.right, .right-mobile, .right-desktpo {
+  &:not(.cards) {
+    ol {
+      width: fit-content;
+    }
+
+    ul {
+      width: fit-content;
+    }
+
+    li {
+    text-align: left;
+  }
+ }
+}
+
 .center, .center-mobile {
   text-align: center;
 
@@ -549,13 +567,8 @@ main .icon.icon-bullet { /* @libs */
   }
 
   ol, ul {
-    width: fit-content;
     margin-left: auto;
     margin-right: auto;
-  }
-
-  li {
-    text-align: left;
   }
 }
 
@@ -575,12 +588,7 @@ main .icon.icon-bullet { /* @libs */
   }
 
   ol, ul {
-    width: fit-content;
     margin-left: auto;
-  }
-
-  li {
-    text-align: left;
   }
 }
 
@@ -761,7 +769,7 @@ main .section.stats-callout h4 {
     margin-right: revert;
     }
 
-    li {
+    &:not(.cards) li {
       text-align: revert;
     }
   }
@@ -774,12 +782,11 @@ main .section.stats-callout h4 {
     }
   
     ol, ul {
-      width: fit-content;
       margin-left: auto;
       margin-right: auto;
     }
   
-    li {
+    &:not(.cards) li {
       text-align: left;
     }
   }
@@ -800,11 +807,10 @@ main .section.stats-callout h4 {
     }
   
     ol, ul {
-      width: fit-content;
       margin-left: auto;
     }
   
-    li {
+    &:not(.cards) li {
       text-align: left;
     }
   }

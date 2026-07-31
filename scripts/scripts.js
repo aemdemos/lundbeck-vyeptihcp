@@ -800,7 +800,8 @@ function parseSplitClasses(raw) {
 
 const SPLIT_INLINE_TAGS = new Set(['STRONG', 'EM', 'A', 'BR']);
 
-const ALIGNMENT_CLASSES = new Set(['center', 'left', 'right']);
+const ALIGNMENT_CLASSES = new Set(['center', 'center-mobile', 'center-desktop',
+  'left', 'left-mobile', 'left-desktop', 'right', 'right-mobile', 'right-desktop']);
 
 const SPAN_TAG_SELECTOR = 'h1, h2, h3, h4, h5, h6, p, li';
 
