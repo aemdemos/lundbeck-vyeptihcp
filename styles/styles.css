@@ -200,10 +200,24 @@ body.appear { /* @libs */
   display: block; /* @libs */
 }
 
-.color-secondary {
+.color-primary, .brand-primary, .teal {
+  color: var(--brand-primary);
+
+  --link-color: var(--brand-primary);
+}
+
+.color-secondary, .brand-secondary, .rose {
   color: var(--brand-secondary);
 
   --link-color: var(--brand-secondary);
+}
+
+/* single-purpose text utility; !important so it reliably wins over
+   block-level paragraph rules (e.g. columns' 22px line-height) wherever
+   an author or block explicitly opts in. */
+.small-text {
+  font-size: var(--body-font-size-xs) !important;
+  line-height: 1.3 !important;
 }
 
 header { /* @libs */
@@ -401,12 +415,6 @@ button:disabled:hover { /* @libs */
   cursor: unset; /* @libs */
 }
 
-/* responsive visibility utilities (authorable via [hide-mobile] / [hide-desktop] bracket spans) */
-
-.hide-mobile {
-  display: none;
-}
-
 /* secondary — outline / ghost (default for unclassified link buttons) */
 a.button.secondary,
 a.button:not(.primary, .accent),
@@ -526,29 +534,65 @@ main .icon.icon-bullet { /* @libs */
   margin-top: 0.15em; /* @libs */
 }
 
-.center {
+/* responsive visibility utilities (authorable via [hide-mobile] / [hide-desktop] bracket spans) */
+
+/* ==== START alignment + display for mobile ==== */
+.hide-mobile {
+  display: none;
+}
+
+.center, .center-mobile, .center-desktop,
+.left, .left-mobile, .left-desktop,
+.right, .right-mobile, .right-desktpo {
+  &:not(.cards) {
+    ol {
+      width: fit-content;
+    }
+
+    ul {
+      width: fit-content;
+    }
+
+    li {
+    text-align: left;
+  }
+ }
+}
+
+.center, .center-mobile {
   text-align: center;
 
-  &.columns > div > div {
-    justify-content: center;
+  &.columns .columns-img-col img {
+    display: inline-block;
+  }
+
+  ol, ul {
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
-.left {
+.left, .left-mobile {
   text-align: left;
 
-  &.columns > div > div {
-    justify-content: left;
+  &.columns .columns-img-col img {
+    display: inline-block;
   }
 }
 
-.right {
+.right, .right-mobile {
   text-align: right;
 
-  &.columns > div > div {
-    justify-content: right;
+  &.columns .columns-img-col img {
+    display: inline-block;
+  }
+
+  ol, ul {
+    margin-left: auto;
   }
 }
+
+/* ==== END alignment + display for mobile ==== */
 
 main > .section > div:not(.bg-image) {
   margin: auto;
@@ -708,50 +752,106 @@ main .section.stats-callout h4 {
     --heading-font-size-xs: 16px;
   }
 
-    .hide-desktop {
-      display: none;
+  /* ==== START alignment + display for desktop ==== */
+  .hide-desktop {
+    display: none;
+  }
+
+  .hide-mobile {
+    display: revert;
+  }
+
+  .center-mobile, .left-mobile, .right-mobile {
+    text-align: revert;
+
+    ol, ul {
+    margin-left: revert;
+    margin-right: revert;
+    }
+
+    &:not(.cards) li {
+      text-align: revert;
+    }
+  }
+
+  .center-desktop {
+    text-align: center;
+  
+    &.columns .columns-img-col img {
+      display: inline-block;
     }
   
-    .hide-mobile {
-      display: revert;
+    ol, ul {
+      margin-left: auto;
+      margin-right: auto;
     }
-
-    
-    /* ==== Start widths ==== */
-
-div[class^="width-"], div[class*=" width-"] {
-  margin: var(--div-width-margin);
-}
-
-.width-75 {
-  width: 73.5%;
-}
-
-.width-66 {
-  width: 64.5%;
-}
-
-.width-50 {
-  width: 48.5%;
-}
-
-.width-33 {
-  width: 31.5%;
-}
-
-.width-25 {
-  width: 23.5%;
-}
-
-.columns > div:has(> div[class^="width-"],> div[class*=" width-"]) {
-  align-items: var(--div-width-align-items);
-
-  > div[class^="width-"],> div[class*=" width-"] {
-    flex: none;
+  
+    &:not(.cards) li {
+      text-align: left;
+    }
   }
-}
+  
+  .left-desktop {
+    text-align: left;
+  
+    &.columns .columns-img-col img {
+      display: inline-block;
+    }
+  }
+  
+  .right-desktop {
+    text-align: right;
+  
+    &.columns .columns-img-col img {
+      display: inline-block;
+    }
+  
+    ol, ul {
+      margin-left: auto;
+    }
+  
+    &:not(.cards) li {
+      text-align: left;
+    }
+  }
 
-/* ==== End widths ==== */
+  /* ==== END alignment + display for desktop ==== */
+
+  /* ==== Start widths ==== */
+
+  div[class^="width-"], div[class*=" width-"] {
+    margin: var(--div-width-margin);
+  }
+  
+  .width-75 {
+    width: 73.5%;
+  }
+  
+  .width-66 {
+    width: 64.5%;
+  }
+  
+  .width-50 {
+    width: 48.5%;
+  }
+  
+  .width-33 {
+    width: 31.5%;
+  }
+  
+  .width-25 {
+    width: 23.5%;
+  }
+  
+  .columns > div:has(> div[class^="width-"],> div[class*=" width-"]) {
+    align-items: var(--div-width-align-items);
+  
+    > div[class^="width-"],> div[class*=" width-"] {
+      flex: none;
+    }
+  }
+  
+  /* ==== End widths ==== */
 
     main .section.stats-callout {
       padding: var(--section-padding-vertical) 0;

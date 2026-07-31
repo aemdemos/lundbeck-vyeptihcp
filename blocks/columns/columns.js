@@ -1,5 +1,5 @@
 import { getBlockId } from '../../scripts/scripts.js';
-import { decorateCellClass } from '../../scripts/utils.js';
+import { decorateCellClass, buildPictureContentFromImageCell } from '../../scripts/utils.js';
 
 export default function decorate(block) {
   decorateCellClass(block);
@@ -16,13 +16,23 @@ export default function decorate(block) {
   // setup image columns
   [...block.children].forEach((row) => {
     [...row.children].forEach((col) => {
-      const pic = col.querySelector('picture');
-      if (pic) {
-        const picWrapper = pic.closest('div');
-        if (picWrapper && picWrapper.children.length === 1) {
-          // picture is only content in column
-          picWrapper.classList.add('columns-img-col');
-        }
+      if (!col.querySelector('picture')) return;
+      const pictureCells = [...col.children].filter(
+        (child) => child.matches('picture') || child.querySelector('picture'),
+      );
+
+      if (pictureCells.length >= 2 && pictureCells.length <= 5) {
+        // 2-5 picture variants (bare <picture> or p:has(picture)) for art-direction per
+        // breakpoint; merge only those cells so any other content (e.g. a caption) stays put
+        const placeholder = document.createComment('');
+        pictureCells[0].before(placeholder);
+        const temp = document.createElement('div');
+        temp.append(...pictureCells);
+        placeholder.replaceWith(buildPictureContentFromImageCell(temp));
+      }
+      if (col.children.length === 1) {
+        // picture (single or merged art-direction) is the only content in column
+        col.classList.add('columns-img-col');
       }
     });
   });
