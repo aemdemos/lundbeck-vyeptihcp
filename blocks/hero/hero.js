@@ -1,4 +1,5 @@
 import { buildPictureContentFromImageCell } from '../../scripts/utils.js';
+/** ADCL events handling for hero */
 
 function applyAccentColor(block) {
   block.querySelectorAll('h1 strong, h2 strong, h3 strong, p strong').forEach((strong) => {
@@ -155,4 +156,9 @@ export default function decorate(block) {
 
   // Dual-panel: each row has [image cell, text cell]
   decorateDualPanel(block, rows);
+  
+  // ADCL event for hero component click
+  //pushEvent('componentClick', {
+    //componentName: 'Hero'
+  //});
 }
