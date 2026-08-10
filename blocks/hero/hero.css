@@ -442,6 +442,12 @@ main > .section.hero-container {
    (source vyeptihcp.com homepage treatment) */
 .section.single-dark .hero h3 {
   display: inline-block;
+
+  /* the legacy .hero.single h3 rule forces width: 55% at desktop (meant for
+     a different, plain-text eyebrow treatment); this pill should hug its
+     own text like any other pill, not stretch into a wide bar with a mostly
+     empty gradient tail. */
+  width: fit-content;
   color: var(--brand-primary);
   font-style: italic;
   background: linear-gradient(
