@@ -23,24 +23,30 @@
  * vertically centered, 60px gap, 40px vertical padding. Scoped to the
  * plain columns instance that carries a `.columns-img-col` so it never
  * touches the arrow-nav variant or other columns.
+ *
+ * Named variants below each define their own image sizing; this
+ * catch-all must exclude every one of them, not just arrow-nav, or its
+ * :has()-boosted specificity overrides their smaller icon sizes with a
+ * full-width 300px image (confirmed: was blowing up icon-feature,
+ * icon-feature.callout, and logo-grid download icons site-wide).
  * ──────────────────────────────────────────────────────────────── */
-main .columns:not(.arrow-nav):has(> div > .columns-img-col) > div {
+main .columns:not(.arrow-nav, .icon-feature, .logo-grid, .resource-list, .coverage-hero, .jump-nav, .stats-callout):has(> div > .columns-img-col) > div {
   gap: 1.5rem;
   align-items: center;
 }
 
-main .columns:not(.arrow-nav):has(> div > .columns-img-col) .columns-img-col {
+main .columns:not(.arrow-nav, .icon-feature, .logo-grid, .resource-list, .coverage-hero, .jump-nav, .stats-callout):has(> div > .columns-img-col) .columns-img-col {
   flex: 0 0 auto;
   line-height: 0;
 }
 
-main .columns:not(.arrow-nav):has(> div > .columns-img-col) .columns-img-col img {
+main .columns:not(.arrow-nav, .icon-feature, .logo-grid, .resource-list, .coverage-hero, .jump-nav, .stats-callout):has(> div > .columns-img-col) .columns-img-col img {
   width: 300px;
   max-width: 100%;
   height: auto;
 }
 
-main .columns:not(.arrow-nav):has(> div > .columns-img-col) > div > div:not(.columns-img-col) p {
+main .columns:not(.arrow-nav, .icon-feature, .logo-grid, .resource-list, .coverage-hero, .jump-nav, .stats-callout):has(> div > .columns-img-col) > div > div:not(.columns-img-col) p {
   margin: 0;
   font-size: var(--heading-font-size-m); /* 22px @desktop (source) */
   font-weight: 700;
