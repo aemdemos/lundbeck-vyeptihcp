@@ -648,6 +648,15 @@ main .section.highlight { /* @libs */
   padding: var(--section-padding-vertical) 0; /* @libs */
 }
 
+/* section metadata - center (centers heading/body copy in the section) */
+main .section.center {
+  text-align: center;
+}
+
+main .section.center > div {
+  margin-inline: auto;
+}
+
 /* section metadata - dark (teal) */
 main .section.dark { /* @libs */
   background-color: var(--brand-primary); /* @libs */
