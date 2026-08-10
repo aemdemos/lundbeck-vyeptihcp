@@ -295,3 +295,20 @@
     flex-direction: column;
   }
 }
+
+/* hero-tabs panel images are small supporting icons/graphics inline with
+   copy, not full-width charts — the base .tabs-panel picture img rule above
+   (width: 100%, max-width: 466px) is sized for a different tabs use case
+   (clinical study chart images) and blows these up to fill the panel. */
+.tabs.hero-tabs .tabs-panel picture img {
+  width: auto;
+  max-width: 120px;
+  height: auto;
+  margin: 0 auto;
+}
+
+@media (width >= 992px) {
+  .tabs.hero-tabs .tabs-panel picture img {
+    max-width: 120px;
+  }
+}
