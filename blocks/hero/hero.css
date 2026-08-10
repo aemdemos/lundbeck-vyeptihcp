@@ -335,6 +335,14 @@ main > .section.hero-container {
   height: auto;
 }
 
+/* single-dark scrim — darkens the photo so white text stays legible */
+.section.single-dark .hero > div:first-child::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--hero-single-dark-scrim);
+}
+
 /* Content overlay — left-aligned, vertically centered (overrides legacy bottom anchor) */
 .section.single-light .hero > div:last-of-type,
 .section.single-dark .hero > div:last-of-type {
@@ -424,11 +432,31 @@ main > .section.hero-container {
 }
 
 /* ── single-dark: white text over imagery ── */
-.section.single-dark .hero h1
- {
- color: var(--brand-primary);
- padding: 0 25px 24px; 
- margin: 0;
+.section.single-dark .hero h1 {
+  color: var(--hero-text-color-light);
+  padding: 0 25px 24px;
+  margin: 0;
+}
+
+/* Eyebrow ribbon — light gradient pill behind the italic lead-in line
+   (source vyeptihcp.com homepage treatment) */
+.section.single-dark .hero h3 {
+  display: inline-block;
+  color: var(--brand-primary);
+  font-style: italic;
+  background: linear-gradient(
+    100deg,
+    rgb(150 180 190 / 55%) 0%,
+    rgb(255 255 255 / 92%) 55%,
+    rgb(255 255 255 / 92%) 100%
+  );
+  border-radius: 0 100px 100px 0;
+  padding: 10px 40px 10px 24px;
+  margin: 0 0 16px;
+}
+
+.section.single-dark .hero > div:last-of-type p {
+  color: var(--hero-text-color-light);
 }
 
 .section.single-dark .hero .actor-portrayal {
@@ -438,15 +466,15 @@ main > .section.hero-container {
 
 /* ── single-light: teal headline, dark body ── */
 .section.single-light .hero h1 {
-  color: var(--hero-text-color-light);
+  color: var(--brand-primary);
 }
 
 .section.single-light .hero > div:last-of-type p {
-  color: var(--hero-text-color-light);
+  color: var(--text-color);
 }
 
 .section.single-light .hero .actor-portrayal {
-  color: var(--hero-text-color-light);
+  color: var(--text-color);
 }
 
 

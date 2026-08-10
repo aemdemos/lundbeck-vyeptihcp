@@ -219,3 +219,79 @@
     text-align: center;
   }
 }
+
+/* ─────────────────────────────────────────────────────
+   hero-tabs variant — 3 equal-width color-coded tabs,
+   used for the homepage "Fewer migraine days / Safety &
+   tolerability / Infusion options & coverage" strip.
+   Overlaps the bottom of the preceding hero section.
+   ───────────────────────────────────────────────────── */
+
+.tabs.hero-tabs .tabs-list {
+  gap: 2px;
+  overflow: visible;
+}
+
+.tabs.hero-tabs .tabs-list button {
+  flex: 1 1 0;
+  border: none;
+  border-radius: 0;
+  padding: 20px 24px;
+  background-color: var(--brand-primary-dark);
+  color: var(--background-color);
+  font-size: var(--body-font-size-m);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tabs.hero-tabs .tabs-list button::after {
+  content: "\25BC";
+  font-size: 14px;
+}
+
+.tabs.hero-tabs .tabs-list button[aria-selected='true']::after {
+  content: "\25B2";
+}
+
+.tabs.hero-tabs .tabs-list button:nth-child(2) {
+  background-color: var(--brand-secondary);
+}
+
+.tabs.hero-tabs .tabs-list button:nth-child(3) {
+  background-color: #7fa8b8;
+}
+
+.tabs.hero-tabs .tabs-list button[aria-selected='true'] {
+  background-color: var(--brand-primary);
+}
+
+.tabs.hero-tabs .tabs-panel {
+  border: none;
+  margin-top: 0;
+  padding: var(--tabs-panel-padding);
+  box-shadow: 4px 4px 4px rgb(0 0 0 / 25%);
+  border-radius: 0 0 20px 20px;
+}
+
+.tabs.hero-tabs .tabs-panel > h3 {
+  color: var(--brand-primary-dark);
+  font-size: 25.2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0 0 24px;
+}
+
+/* overlaps the bottom of the preceding hero section */
+.tabs.hero-tabs {
+  position: relative;
+  z-index: 2;
+  margin-top: -70px;
+}
+
+@media (width <= 767px) {
+  .tabs.hero-tabs .tabs-list {
+    flex-direction: column;
+  }
+}
