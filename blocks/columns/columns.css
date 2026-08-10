@@ -82,6 +82,11 @@ main .columns.arrow-nav > div > div {
 
 main .columns.arrow-nav > div > div p {
   margin: 0;
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-s); /* 18px @desktop (source) */
+  font-weight: 700;
+  line-height: 1.22;
 }
 
 main .columns.arrow-nav a,
