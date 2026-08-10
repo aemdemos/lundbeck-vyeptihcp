@@ -252,7 +252,7 @@
   padding: 20px 24px;
   background-color: var(--brand-primary-dark);
   color: var(--background-color);
-  font-size: var(--body-font-size-m);
+  font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -277,7 +277,11 @@
 }
 
 .tabs.hero-tabs .tabs-list button[aria-selected='true'] {
-  background-color: var(--brand-primary);
+  /* dedicated dark navy for the active state — distinct from all three
+     unselected tab colors (source: #073348), not the brand-primary teal
+     used elsewhere on the site, which is lighter than the unselected
+     first tab and reads as a step backward rather than "active" */
+  background-color: #073348;
 }
 
 .tabs.hero-tabs .tabs-panel {
