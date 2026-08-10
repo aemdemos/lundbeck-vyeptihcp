@@ -143,6 +143,19 @@
   margin: 0 auto;
 }
 
+/* Small icon inline within a link (e.g., "Read full clinical publication ⬈")
+   — structurally distinct from the standalone chart/decorative-SVG images
+   above (those are never nested inside an <a>), so this can't collide with
+   the callout-card rules below regardless of the icon's file format. */
+.tabs .tabs-panel p a picture img {
+  display: inline;
+  width: 20px;
+  max-width: 20px;
+  height: auto;
+  margin: 0 0 0 6px;
+  vertical-align: middle;
+}
+
 /* ---- Callout box (rebuilt from fragments) ------------------------------- */
 
 /* Source: light-blue box (#e5f2f5) with a 70px brand-mark triangle on top and
