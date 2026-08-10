@@ -90,4 +90,9 @@
   --hero-page-title-eyebrow-font-size: 18px;
   --hero-page-title-eyebrow-font-size-desktop: 22px;
   --hero-page-title-scrim-color: rgb(4 97 131 / 55%);
+
+  /* single-dark — main marketing hero: darkens the photo so centered
+     white text stays legible regardless of the underlying image
+     (source vyeptihcp.com homepage uses the same navy tone) */
+  --hero-single-dark-scrim: rgb(7 51 72 / 55%);
 }
