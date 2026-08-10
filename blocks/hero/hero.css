@@ -581,6 +581,13 @@ main > .section.hero-container {
     left: 50%;
     padding-right:15px;
     padding-left:15px;
+
+    /* the h3 eyebrow pill is inline-block, so its own text-align does
+       nothing for its box position — it's positioned by this container's
+       text-align, which stays "center" (the base/mobile value) unless
+       overridden here. This is what pulled the pill to the center of the
+       hero instead of sitting flush left above the headline. */
+    text-align: left;
   }
 
   .section.single-light .hero h1,
