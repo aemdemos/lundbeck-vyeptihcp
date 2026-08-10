@@ -156,9 +156,4 @@ export default function decorate(block) {
 
   // Dual-panel: each row has [image cell, text cell]
   decorateDualPanel(block, rows);
-  
-  // ADCL event for hero component click
-  //pushEvent('componentClick', {
-    //componentName: 'Hero'
-  //});
 }
