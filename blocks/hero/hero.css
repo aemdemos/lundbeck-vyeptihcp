@@ -701,6 +701,103 @@ main > .section.hero-container {
   }
 }
 
+/* ═══════════════════════════════════════════════════
+   PAGE-TITLE VARIANT
+   Compact sub-page title band — short photo strip with a teal
+   scrim and a single white H1 (optional eyebrow h3 lead-in).
+   Section-metadata Style: page-title, same pattern as
+   single-light / single-dark above.
+   ═══════════════════════════════════════════════════ */
+
+.section.page-title .hero {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  min-height: var(--hero-page-title-min-height);
+}
+
+.section.page-title .hero > div:first-child {
+  position: absolute;
+  inset: 0;
+  z-index: var(--hero-z-bg);
+}
+
+.section.page-title .hero > div:first-child::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--hero-page-title-scrim-color);
+}
+
+.section.page-title .hero > div:first-child > div,
+.section.page-title .hero > div:first-child p {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.section.page-title .hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.section.page-title .hero > div:last-of-type {
+  position: relative;
+  z-index: var(--hero-z-content);
+  max-width: var(--max-width-site);
+  min-height: var(--hero-page-title-min-height);
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.section.page-title .hero h3 {
+  color: var(--hero-text-color-light);
+  font-size: var(--hero-page-title-eyebrow-font-size);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.33;
+  margin: 0 0 8px;
+}
+
+.section.page-title .hero h1 {
+  color: var(--hero-text-color-light);
+  font-size: var(--hero-page-title-heading-font-size);
+  line-height: 1.15;
+  margin: 0;
+}
+
+@media (width >= 768px) {
+  .section.page-title .hero,
+  .section.page-title .hero > div:last-of-type {
+    min-height: var(--hero-page-title-min-height-tablet);
+  }
+
+  .section.page-title .hero h1 {
+    font-size: var(--hero-page-title-heading-font-size-tablet);
+  }
+}
+
+@media (width >= 992px) {
+  .section.page-title .hero,
+  .section.page-title .hero > div:last-of-type {
+    min-height: var(--hero-page-title-min-height-desktop);
+  }
+
+  .section.page-title .hero h1 {
+    font-size: var(--hero-page-title-heading-font-size-desktop);
+    line-height: var(--hero-page-title-heading-line-height-desktop);
+  }
+
+  .section.page-title .hero h3 {
+    font-size: var(--hero-page-title-eyebrow-font-size-desktop);
+  }
+}
+
 @media (width >= 1600px) {
   .hero-panel-light .hero-panel-description {
     width: 75%;
