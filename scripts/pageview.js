@@ -95,9 +95,4 @@ export function pushPageViewEvent() {
     campaignInfo: getCampaignFromSession(),
   });
 
-  // Optional: fire 404 tracking if error.js has been ported. Guarded so a
-  // missing module or downstream failure never breaks pageView.
-  import('./error.js')
-    .then((m) => m.maybePushPageNotFoundError?.())
-    .catch(() => { /* error.js not present yet — ignore */ });
 }
