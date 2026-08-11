@@ -1,20 +1,350 @@
-.infusion-locator {
-  display: block;
+.infusion-locator-container{
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 100%;
+}
+
+/* ------------------------------------------------------------------
+   Header
+------------------------------------------------------------------- */
+
+.locator-header {
+  margin-bottom: 24px;
+}
+
+.locator-header h2 {
+    color: #41748d;
+    text-align: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 16px;
+    line-height: 36px;
+    font-family: proxima-nova;
+    font-size: 26px;
+    margin: 0px;
+}
+
+.locator-header p {
+  margin: 8px 0;
+  text-align: center;
+}
+
+.locator-header #form-subtitle {
+    font-weight: 700;
+    padding: 0px 30px;
+    font-size: 18px;
+    color: #484848;
+    line-height: 22px;
+    padding-bottom: 8px;;
+}
+
+#form-requiredtext {
+font-style: normal;
+font-weight: 400;
+line-height: 18px;
+padding: 0 !important;
+margin-bottom: 16px !important;
+}
+
+/* ------------------------------------------------------------------
+   Search
+------------------------------------------------------------------- */
+
+.locator-search {
+      display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.locator-search .field-wrapper {
   width: 100%;
 }
 
-.infusion-locator .picl-tool-finder > h2 {
-  text-align: center;
+.locator-search .field-wrapper.text-wrapper {
+    flex: 1;
+    max-width: 58.33%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
 }
 
-.infusion-locator .picl-tool-finder > h3 {
-  text-align: center;
+.locator-search .field-wrapper.text-wrapper label {
+    position: absolute;
+    top: 0;
+    margin-top: 10px;
+    transition: all 0.4s ease;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 4px 15px 0;
+    display: inline;
+    width: auto;
+    pointer-events: none;
 }
 
-/*
- * The bulk of this tool's visual styling (search form, map layout, legend band, result
- * cards, spinner/overlay) is delivered by the vendor PICL/site clientlib CSS loaded at
- * runtime alongside the clientlib script in infusion-locator.js. Keep block-local CSS
- * minimal so it does not fight those vendor styles; refine in the deferred styling pass
- * if gaps remain. Source breakpoints are Bootstrap-4 (576/768/992/1200).
- */
+
+.locator-search .field-wrapper.text-wrapper label.focus {
+    margin-top: 3px;
+    font-size: 10px;
+    font-weight: 400;
+}
+
+.locator-search input,
+.locator-search select {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.locator-search input#form-zipcode {
+    border: 1px solid #484848;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    height: 56px;
+    line-height: 24px;
+    padding: 16px;
+    margin-top: 0;
+    z-index: 2;
+    background: transparent;
+    color: #484848;
+    font-family: 'open-sans', sans-serif;
+}
+
+.locator-select-group.mile-block {
+    max-width: 158px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 56px;
+}
+
+.locator-select-group.mile-block .select {
+    border: 1px solid #484848;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 14px 0 14px 16px;
+    line-height: 20px;
+    cursor: pointer;
+    height: 100%;
+    user-select: none;
+    background-color: #fff;
+    position: relative;
+}
+
+.locator-select-group.mile-block .select .select-arrow {
+    background-color: #3c7790;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    border-top-right-radius: 9px;
+    border-bottom-right-radius: 9px;
+    padding: 9px 20px;
+}
+
+.locator-select-group.mile-block .select .select-arrow::after {
+    display: inline-block;
+    vertical-align: middle;
+    content: "";
+    border-right: 2px solid var(--background-color);
+    border-bottom: 2px solid var(--background-color);
+    width: 12px;
+    height: 12px;
+    transform: rotate(45deg) scale(1);
+    transition: transform 0.2s ease, margin-top 0.2s ease;
+}
+
+.locator-select-group.mile-block .selectHide {
+    display: none;
+}
+
+.locator-select-group.mile-block .dropdown-items {
+    top: 52px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    padding: 0.5rem 0;
+}
+
+.locator-select-group.mile-block .dropdown-items .item {
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 700;
+    padding: 0.5rem 1.5rem;
+    color: #212529;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.15s ease;
+}
+
+.locator-select-group.mile-block .dropdown-items .item.selectedMiles,
+.locator-select-group.mile-block .dropdown-items .item:hover{
+    background-color: #f8f9fa;
+    color: #b81d4a;
+}
+
+.locator-search button {
+  width: 100%;
+  height: 56px;
+  border: 0;
+  border-radius: 4px;
+  background: #c02c57;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
+  text-transform: uppercase;
+  background-color: #c02c57;
+    border: 2px solid #fff;
+    border-radius: 75pt;
+    color: #fff;
+    display: inline-block;
+    font-family: open-sans, sans-serif;
+    max-width: 345px;
+    padding: 14px;
+    transition: all .2s ease-in-out;
+    width: 100%;
+}
+
+.locator-search button:hover {
+  background: #a6244a;
+}
+
+/* ------------------------------------------------------------------
+   Filters
+------------------------------------------------------------------- */
+
+.locator-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.locator-filters .selection-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.locator-filters input[type='checkbox'] {
+  margin-top: 4px;
+}
+
+.locator-filters label {
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+.selectHide {
+  display: none;
+}
+
+/* ------------------------------------------------------------------
+   Legend
+------------------------------------------------------------------- */
+
+.locator-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 0;
+  border-top: 1px solid #e4e4e4;
+  border-bottom: 1px solid #e4e4e4;
+  margin-bottom: 32px;
+}
+
+.locator-legend .field-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ------------------------------------------------------------------
+   Map & Results
+------------------------------------------------------------------- */
+
+.locator-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.locator-map {
+  min-height: 420px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.locator-results {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 20px;
+  min-height: 420px;
+  background: #fff;
+}
+
+/* ------------------------------------------------------------------
+   Tablet
+------------------------------------------------------------------- */
+
+@media (min-width: 989px) {
+  .locator-search {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .locator-search .submit-wrapper {
+    width: 25%;
+    font-size: 16px;
+    margin: 0;
+    text-align: center;
+    line-height: 20px;
+  }
+
+  .locator-search .select-wrapper {
+    width: 180px;
+  }
+
+  .locator-legend {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Desktop
+------------------------------------------------------------------- */
+
+@media (min-width: 1024px) {
+  .locator-main {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) 420px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .locator-map,
+  .locator-results {
+    min-height: 650px;
+  }
+
+  .locator-header h2  {
+    font-size: 36px;
+  }
+}
