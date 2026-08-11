@@ -560,6 +560,16 @@ main .columns.resource-list .icon.icon-bullet {
   margin-top: 0;
 }
 
+/* Section dividers above each resource group (Guides / Forms / Letters), and one
+   after the last — 1px light-gray rule matching the source. Scoped to sections
+   that contain a resource-list block so other <hr> uses are unaffected. */
+main .section:has(.columns.resource-list) hr {
+  height: 1px;
+  border: 0;
+  background-color: #a4a4a4;
+  margin: 32px 0 30px;
+}
+
 .center {
   text-align: center;
 
