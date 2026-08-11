@@ -220,6 +220,23 @@ body.appear { /* @libs */
   line-height: 1.3 !important;
 }
 
+/* generic "emboss" style, applicable to any block by adding the class;
+   inset shadow value matches the one already used by .columns.jump-nav. */
+.emboss {
+  background: var(--background-color);
+  border-radius: 20px;
+  box-shadow: inset 0 0 8px 4px rgb(0 0 0 / 20%);
+  padding: 24px 24px;
+}
+
+/* stronger version of .emboss — same card, heavier shadow (40% vs 20%) */
+.emboss-heavy {
+  background: var(--background-color);
+  border-radius: 20px;
+  box-shadow: inset 0 0 8px 4px rgb(0 0 0 / 40%);
+  padding: 24px 24px;
+}
+
 header { /* @libs */
   /* Reserve the real multi-row header height from first paint (mobile-first) to
      avoid CLS while the header block lazy-loads. Released once loaded (below) so
@@ -665,21 +682,25 @@ main .section.dark { /* @libs */
   padding: var(--section-padding-vertical) 0; /* @libs */
 }
 
-main .section.dark h1,
-main .section.dark h2,
-main .section.dark h3,
-main .section.dark h4,
-main .section.dark h5,
-main .section.dark h6 { /* @libs */
-  color: var(--background-color); /* @libs */
+/* :not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) excludes the emboss
+   card (either intensity) and its contents — it carries its own light
+   background, so it must keep normal (non-dark-section) text/link colors
+   instead of the white ones set for the rest of the section. */
+main .section.dark h1:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark h2:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark h3:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark h4:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark h5:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark h6:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) {
+  color: var(--background-color);
 }
 
-main .section.dark a { /* @libs */
-  color: var(--background-color); /* @libs */
+main .section.dark a:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) {
+  color: var(--background-color);
 }
 
-main .section.dark a:hover { /* @libs */
-  color: var(--brand-primary-light); /* @libs */
+main .section.dark a:hover:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) {
+  color: var(--brand-primary-light);
 }
 
 main .section.dark a.button.primary,
