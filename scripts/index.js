@@ -1,9 +1,9 @@
-export { default as EVENTS } from './events.js'; 
+export { default as EVENTS } from './events.js';
 
 export * from './datalayer.js';
-export * from './payloadBuilder.js';
+export { default as buildPagePayload } from './payloadBuilder.js';
 export { default as getPageMetadata } from './metadata.js';
-export * from './observers.js';
+export { default as initScrollDepthTracking } from './observers.js';
 export { default as initLinkTracking } from './linktracking.js';
-export * from './pageview.js';
+export { default as pushPageViewEvent } from './pageview.js';
 export * from './utils.js';
