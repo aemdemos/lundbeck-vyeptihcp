@@ -225,7 +225,15 @@ body.appear { /* @libs */
 .emboss {
   background: var(--background-color);
   border-radius: 20px;
-  box-shadow: inset 0 0 8px 2px rgb(0 0 0 / 20%);
+  box-shadow: inset 0 0 8px 4px rgb(0 0 0 / 20%);
+  padding: 24px 24px;
+}
+
+/* stronger version of .emboss — same card, heavier shadow (40% vs 20%) */
+.emboss-heavy {
+  background: var(--background-color);
+  border-radius: 20px;
+  box-shadow: inset 0 0 8px 4px rgb(0 0 0 / 40%);
   padding: 24px 24px;
 }
 
@@ -674,23 +682,24 @@ main .section.dark { /* @libs */
   padding: var(--section-padding-vertical) 0; /* @libs */
 }
 
-/* :not(.emboss, .emboss *) excludes the .emboss card and its contents — it
-   carries its own light background, so it must keep normal (non-dark-section)
-   text/link colors instead of the white ones set for the rest of the section. */
-main .section.dark h1:not(.emboss, .emboss *),
-main .section.dark h2:not(.emboss, .emboss *),
-main .section.dark h3:not(.emboss, .emboss *),
-main .section.dark h4:not(.emboss, .emboss *),
-main .section.dark h5:not(.emboss, .emboss *),
-main .section.dark h6:not(.emboss, .emboss *) {
+/* :not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) excludes the emboss
+   card (either intensity) and its contents — it carries its own light
+   background, so it must keep normal (non-dark-section) text/link colors
+   instead of the white ones set for the rest of the section. */
+main .section.dark h1:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark h2:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark h3:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark h4:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark h5:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark h6:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) {
   color: var(--background-color);
 }
 
-main .section.dark a:not(.emboss, .emboss *) {
+main .section.dark a:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) {
   color: var(--background-color);
 }
 
-main .section.dark a:hover:not(.emboss, .emboss *) {
+main .section.dark a:hover:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) {
   color: var(--brand-primary-light);
 }
 
