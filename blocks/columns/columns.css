@@ -23,24 +23,30 @@
  * vertically centered, 60px gap, 40px vertical padding. Scoped to the
  * plain columns instance that carries a `.columns-img-col` so it never
  * touches the arrow-nav variant or other columns.
+ *
+ * Named variants below each define their own image sizing; this
+ * catch-all must exclude every one of them, not just arrow-nav, or its
+ * :has()-boosted specificity overrides their smaller icon sizes with a
+ * full-width 300px image (confirmed: was blowing up icon-feature,
+ * icon-feature.callout, and logo-grid download icons site-wide).
  * ──────────────────────────────────────────────────────────────── */
-main .columns:not(.arrow-nav):has(> div > .columns-img-col) > div {
+main .columns:not(.arrow-nav, .icon-feature, .logo-grid, .resource-list, .coverage-hero, .jump-nav, .stats-callout):has(> div > .columns-img-col) > div {
   gap: 1.5rem;
   align-items: center;
 }
 
-main .columns:not(.arrow-nav):has(> div > .columns-img-col) .columns-img-col {
+main .columns:not(.arrow-nav, .icon-feature, .logo-grid, .resource-list, .coverage-hero, .jump-nav, .stats-callout):has(> div > .columns-img-col) .columns-img-col {
   flex: 0 0 auto;
   line-height: 0;
 }
 
-main .columns:not(.arrow-nav):has(> div > .columns-img-col) .columns-img-col img {
+main .columns:not(.arrow-nav, .icon-feature, .logo-grid, .resource-list, .coverage-hero, .jump-nav, .stats-callout):has(> div > .columns-img-col) .columns-img-col img {
   width: 300px;
   max-width: 100%;
   height: auto;
 }
 
-main .columns:not(.arrow-nav):has(> div > .columns-img-col) > div > div:not(.columns-img-col) p {
+main .columns:not(.arrow-nav, .icon-feature, .logo-grid, .resource-list, .coverage-hero, .jump-nav, .stats-callout):has(> div > .columns-img-col) > div > div:not(.columns-img-col) p {
   margin: 0;
   font-size: var(--heading-font-size-m); /* 22px @desktop (source) */
   font-weight: 700;
@@ -76,6 +82,11 @@ main .columns.arrow-nav > div > div {
 
 main .columns.arrow-nav > div > div p {
   margin: 0;
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-s); /* 18px @desktop (source) */
+  font-weight: 700;
+  line-height: 1.22;
 }
 
 main .columns.arrow-nav a,
@@ -190,6 +201,354 @@ main .columns.coverage-hero h3 {
   color: var(--brand-secondary);
   font-size: var(--heading-font-size-m);
   font-weight: 700;
+}
+
+/* ────────────────────────────────────────────────────────────────
+ * jump-nav variant — white pill card of same-page scroll-jump links,
+ * overlapping the bottom edge of a preceding page-title hero. Each row
+ * is one link, single cell.
+ * ──────────────────────────────────────────────────────────────── */
+main .columns.jump-nav {
+  max-width: var(--max-width-site);
+  margin: -32px auto 0;
+  padding: 0 24px;
+  position: relative;
+  z-index: 2;
+}
+
+main .columns.jump-nav > div {
+  display: flex;
+  flex-direction: column;
+  background: var(--background-color);
+  border-radius: 20px;
+  box-shadow: inset 0 0 8px 2px rgb(0 0 0 / 20%);
+  padding: 16px 24px;
+  gap: 0;
+}
+
+main .columns.jump-nav > div > div {
+  border-bottom: 1px solid #a4a4a4;
+  padding: 12px 0;
+  flex: unset;
+}
+
+main .columns.jump-nav > div > div:first-child {
+  padding-top: 0;
+}
+
+main .columns.jump-nav > div > div:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+main .columns.jump-nav a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--brand-teal-muted);
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+main .columns.jump-nav a::after {
+  content: "\276F";
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--brand-rose);
+  color: var(--background-color);
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (width >= 992px) {
+  main .columns.jump-nav {
+    margin-top: -44px;
+  }
+
+  main .columns.jump-nav > div {
+    flex-direction: row;
+    padding: 24px 40px;
+  }
+
+  main .columns.jump-nav > div > div {
+    border-bottom: 0;
+    border-left: 1px solid #a4a4a4;
+    padding: 0 40px;
+    flex: 1;
+  }
+
+  main .columns.jump-nav > div > div:first-child {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  main .columns.jump-nav > div > div:last-child {
+    padding-right: 0;
+  }
+
+  main .columns.jump-nav a {
+    font-size: 18px;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────
+ * icon-feature variant — repeating [icon, text] ITEMS, each authored as
+ * its own ROW (2 cells: icon, text). Sub-modifiers carry each source
+ * pattern's exact values: .callout (magenta band), .claims (2-col icon
+ * grid), .connect (circular icon + description grid).
+ * ──────────────────────────────────────────────────────────────── */
+main .columns.icon-feature {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+main .columns.icon-feature > div {
+  align-items: flex-start;
+  text-align: left;
+}
+
+main .columns.icon-feature img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--card-bg-light);
+  padding: 12px;
+  object-fit: contain;
+}
+
+main .columns.icon-feature > div > div:last-child p {
+  margin: 4px 0;
+  font-weight: 700;
+}
+
+main .columns.icon-feature > div > div:last-child ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+@media (width >= 900px) {
+  main .columns.icon-feature {
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 48px;
+  }
+}
+
+/* icon-feature.callout — magenta rounded band, white circular icon */
+main .columns.icon-feature.callout {
+  background: var(--brand-rose);
+  color: var(--background-color);
+  border-radius: 20px;
+  padding: 32px;
+  gap: 20px;
+}
+
+main .columns.icon-feature.callout img {
+  width: 52px;
+  height: 52px;
+  background: var(--background-color);
+}
+
+main .columns.icon-feature.callout > div > div:last-child p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+@media (width >= 900px) {
+  main .columns.icon-feature.callout {
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 24px;
+  }
+
+  main .columns.icon-feature.callout > div {
+    flex: 1;
+  }
+}
+
+/* icon-feature.claims — 4 items, icon + bold label + description, 2-col grid */
+main .columns.icon-feature.claims {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+main .columns.icon-feature.claims img {
+  width: 58px;
+  height: 44px;
+  border-radius: 0;
+  background: none;
+  padding: 0;
+}
+
+main .columns.icon-feature.claims > div > div:last-child p:first-child {
+  color: var(--brand-primary);
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+main .columns.icon-feature.claims > div > div:last-child p {
+  font-size: 15px;
+  font-weight: 400;
+  margin: 4px 0;
+}
+
+@media (width >= 768px) {
+  main .columns.icon-feature.claims {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 32px;
+  }
+}
+
+/* icon-feature.connect — 4 items, circular icon + single description */
+main .columns.icon-feature.connect {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+main .columns.icon-feature.connect img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: none;
+  padding: 0;
+}
+
+main .columns.icon-feature.connect > div > div:last-child p {
+  color: var(--brand-primary);
+  font-size: 15px;
+  font-weight: 400;
+  margin: 0;
+}
+
+@media (width >= 768px) {
+  main .columns.icon-feature.connect {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 32px;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────
+ * logo-grid variant — bordered grid of logo + download-link ITEMS, each
+ * authored as its own ROW (2 cells: logo, link); each row is one bordered
+ * grid cell, internally stacked (logo above link).
+ * ──────────────────────────────────────────────────────────────── */
+main .columns.logo-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid #e2e2e2;
+}
+
+main .columns.logo-grid > div {
+  border-right: 1px solid #e2e2e2;
+  border-bottom: 1px solid #e2e2e2;
+  padding: 32px 24px;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+main .columns.logo-grid img {
+  max-height: 60px;
+  width: auto;
+  object-fit: contain;
+}
+
+main .columns.logo-grid > div > div:last-child p {
+  margin: 0;
+}
+
+main .columns.logo-grid > div > div:last-child a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--brand-teal-muted);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+main .columns.logo-grid > div > div:last-child img {
+  width: 24px;
+  height: 24px;
+  max-height: none;
+}
+
+@media (width >= 600px) {
+  main .columns.logo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  main .columns.logo-grid > div:nth-child(2n) {
+    border-right: none;
+  }
+}
+
+@media (width >= 900px) {
+  main .columns.logo-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  main .columns.logo-grid > div:nth-child(2n) {
+    border-right: 1px solid #e2e2e2;
+  }
+
+  main .columns.logo-grid > div:nth-child(3n) {
+    border-right: none;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────
+ * resource-list variant — vertical icon+link lists side by side
+ * (resource/guide/form/letter download lists).
+ * ──────────────────────────────────────────────────────────────── */
+main .columns.resource-list > div {
+  align-items: stretch;
+}
+
+main .columns.resource-list > div > div {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+main .columns.resource-list a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  color: var(--brand-teal-muted);
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+main .columns.resource-list a u {
+  text-decoration: underline;
+}
+
+main .columns.resource-list img {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+@media (width >= 900px) {
+  main .columns.resource-list > div {
+    gap: 60px;
+  }
 }
 
 /* survey results block (image + text rows): small circular patient photo with an

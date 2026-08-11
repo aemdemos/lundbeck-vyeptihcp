@@ -1,0 +1,117 @@
+@import url('./connect-support-tokens.css');
+
+/* Connect support — pale-blue lead+grid box, directly fused to a two-tone
+   enroll/note banner (no gap — one continuous rounded shape). */
+
+main .connect-support-box {
+  background: var(--light-color);
+  border-radius: var(--connect-support-radius);
+  padding: 24px 20px;
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+main .connect-support-lead {
+  color: var(--brand-primary);
+  font-size: var(--connect-support-lead-font-size);
+  margin: 0 0 16px;
+}
+
+main .connect-support-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+main .connect-support-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+main .connect-support-item img {
+  flex-shrink: 0;
+  width: var(--connect-support-item-icon-size);
+  height: var(--connect-support-item-icon-size);
+  border-radius: 50%;
+  display: block;
+}
+
+main .connect-support-item-text p {
+  color: var(--brand-primary);
+  font-weight: 400;
+  margin: 0;
+  font-size: var(--connect-support-item-text-font-size);
+}
+
+main .connect-support-enroll {
+  background: var(--brand-primary-dark);
+  color: var(--background-color);
+  border-radius: var(--connect-support-radius) var(--connect-support-radius) 0 0;
+  padding: 24px 20px 16px;
+  font-size: var(--connect-support-enroll-font-size);
+  font-weight: 700;
+}
+
+main .connect-support-enroll p {
+  margin: 0;
+}
+
+main .connect-support-enroll a {
+  color: var(--background-color);
+  text-decoration: underline;
+}
+
+main .connect-support-note {
+  background: var(--light-color);
+  border-radius: 0 0 var(--connect-support-radius) var(--connect-support-radius);
+  padding: 16px 20px 24px;
+}
+
+main .connect-support-note p {
+  margin: 0 0 8px;
+}
+
+main .connect-support-note a {
+  text-decoration: underline;
+  color: var(--link-color);
+}
+
+main .connect-support-cols {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+main .connect-support-col p {
+  margin: 0;
+}
+
+main .connect-support-fine {
+  font-size: var(--connect-support-fine-font-size);
+  color: var(--text-color-light);
+  margin-top: 16px;
+}
+
+@media (width >= 768px) {
+  main .connect-support-box {
+    padding: 24px 32px;
+  }
+
+  main .connect-support-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 32px;
+  }
+
+  main .connect-support-enroll,
+  main .connect-support-note {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  main .connect-support-cols {
+    flex-direction: row;
+    gap: 40px;
+  }
+}

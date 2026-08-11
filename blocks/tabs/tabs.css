@@ -143,6 +143,19 @@
   margin: 0 auto;
 }
 
+/* Small icon inline within a link (e.g., "Read full clinical publication ⬈")
+   — structurally distinct from the standalone chart/decorative-SVG images
+   above (those are never nested inside an <a>), so this can't collide with
+   the callout-card rules below regardless of the icon's file format. */
+.tabs .tabs-panel p a picture img {
+  display: inline;
+  width: 20px;
+  max-width: 20px;
+  height: auto;
+  margin: 0 0 0 6px;
+  vertical-align: middle;
+}
+
 /* ---- Callout box (rebuilt from fragments) ------------------------------- */
 
 /* Source: light-blue box (#e5f2f5) with a 70px brand-mark triangle on top and
@@ -217,5 +230,102 @@
 
   .tabs .tabs-panel p:has(> picture) {
     text-align: center;
+  }
+}
+
+/* ─────────────────────────────────────────────────────
+   hero-tabs variant — 3 equal-width color-coded tabs,
+   used for the homepage "Fewer migraine days / Safety &
+   tolerability / Infusion options & coverage" strip.
+   Overlaps the bottom of the preceding hero section.
+   ───────────────────────────────────────────────────── */
+
+.tabs.hero-tabs .tabs-list {
+  gap: 2px;
+  overflow: visible;
+}
+
+.tabs.hero-tabs .tabs-list button {
+  flex: 1 1 0;
+  border: none;
+  border-radius: 0;
+  padding: 20px 24px;
+  background-color: var(--brand-primary-dark);
+  color: var(--background-color);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tabs.hero-tabs .tabs-list button::after {
+  content: "\25BC";
+  font-size: 14px;
+}
+
+.tabs.hero-tabs .tabs-list button[aria-selected='true']::after {
+  content: "\25B2";
+}
+
+.tabs.hero-tabs .tabs-list button:nth-child(2) {
+  background-color: var(--brand-secondary);
+}
+
+.tabs.hero-tabs .tabs-list button:nth-child(3) {
+  background-color: #7fa8b8;
+}
+
+.tabs.hero-tabs .tabs-list button[aria-selected='true'] {
+  /* dedicated dark navy for the active state — distinct from all three
+     unselected tab colors (source: #073348), not the brand-primary teal
+     used elsewhere on the site, which is lighter than the unselected
+     first tab and reads as a step backward rather than "active" */
+  background-color: #073348;
+}
+
+.tabs.hero-tabs .tabs-panel {
+  border: none;
+  margin-top: 0;
+  padding: var(--tabs-panel-padding);
+  box-shadow: 4px 4px 4px rgb(0 0 0 / 25%);
+  border-radius: 0 0 20px 20px;
+}
+
+.tabs.hero-tabs .tabs-panel > h3 {
+  color: var(--brand-primary-dark);
+  font-size: 25.2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0 0 24px;
+}
+
+/* overlaps the bottom of the preceding hero section */
+.tabs.hero-tabs {
+  position: relative;
+  z-index: 2;
+  margin-top: -70px;
+}
+
+@media (width <= 767px) {
+  .tabs.hero-tabs .tabs-list {
+    flex-direction: column;
+  }
+}
+
+/* hero-tabs panel images are small supporting icons/graphics inline with
+   copy, not full-width charts — the base .tabs-panel picture img rule above
+   (width: 100%, max-width: 466px) is sized for a different tabs use case
+   (clinical study chart images) and blows these up to fill the panel. */
+.tabs.hero-tabs .tabs-panel picture img {
+  width: auto;
+  max-width: 120px;
+  height: auto;
+  margin: 0 auto;
+}
+
+@media (width >= 992px) {
+  .tabs.hero-tabs .tabs-panel picture img {
+    max-width: 120px;
   }
 }

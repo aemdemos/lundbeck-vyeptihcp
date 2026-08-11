@@ -91,15 +91,16 @@ function decorateDualPanel(block, rows) {
 }
 
 /**
- * Section-metadata styles single-light / single-dark force the single full-bleed
- * panel layout regardless of how the hero cells are authored.
+ * Section-metadata styles single-light / single-dark / page-title force the
+ * single full-bleed panel layout regardless of how the hero cells are authored.
  * @param {Element} block
  * @returns {boolean} true if a single-* section style is present
  */
 function hasSingleSectionStyle(block) {
   const section = block.closest('.section');
   return !!section && (section.classList.contains('single-light')
-    || section.classList.contains('single-dark'));
+    || section.classList.contains('single-dark')
+    || section.classList.contains('page-title'));
 }
 
 /**
