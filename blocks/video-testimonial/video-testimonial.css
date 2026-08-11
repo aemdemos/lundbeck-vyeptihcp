@@ -95,6 +95,7 @@
   .video-testimonial .video-testimonial-quote {
     grid-area: quote;
     padding-top: 12px;
+    font-size: var(--video-testimonial-quote-size-desktop);
   }
 
   .video-testimonial .video-testimonial-cta {

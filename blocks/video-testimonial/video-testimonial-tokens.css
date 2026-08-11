@@ -8,8 +8,9 @@
   --video-testimonial-row-gap: 24px;
   --video-testimonial-video-radius: 20px;
   --video-testimonial-title-color: var(--text-color);
-  --video-testimonial-title-size: var(--heading-font-size-l);
+  --video-testimonial-title-size: 22px;
   --video-testimonial-quote-color: var(--brand-teal-muted);
-  --video-testimonial-quote-size: var(--heading-font-size-l);
+  --video-testimonial-quote-size: 18px;
+  --video-testimonial-quote-size-desktop: 22px;
   --video-testimonial-cta-max-width: 345px;
 }
