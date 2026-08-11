@@ -535,6 +535,14 @@ main p:has(> .icon) {
   gap: 9px;
 }
 
+/* Resource-link icons (download / pdf / connect / play) render at 32px to match
+   the source glyph size. Scoped to these icon names so the global --icon-size
+   (search, social, etc.) is unaffected. */
+main :is(.icon-download, .icon-pdf, .icon-connect, .icon-play) {
+  width: 32px;
+  height: 32px;
+}
+
 .center {
   text-align: center;
 

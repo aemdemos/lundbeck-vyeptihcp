@@ -83,5 +83,7 @@ Three steps run in `scripts/scripts.js` via `decorateIconsAndBullets(main)`:
    `.icon-bullets` / `.icon-bullet-item`, extracts the icon to the row start, and wraps
    the rest in `.icon-bullet-text`.
 
-Styling lives in `styles/styles.css` (search `icon bullet lists`). Icons render at the
-shared `--icon-size` (24px) with a 9px icon-to-text gap, matching the source design.
+Styling lives in `styles/styles.css` (search `icon bullet lists`). The resource icons
+(`download` / `pdf` / `connect` / `play`) render at 32px with a 9px icon-to-text gap to
+match the source glyph size — scoped by icon name so the shared `--icon-size` (24px) used
+by other icons (search, social) is unaffected.
