@@ -16,7 +16,6 @@
   height: var(--back-to-top-height);
   padding: 0;
   border: 0;
-  border-radius: 0;
   overflow: visible;
   background-color: transparent;
   background-image: url('/icons/back-to-top.svg');
