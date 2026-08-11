@@ -561,13 +561,21 @@ main .columns.resource-list .icon.icon-bullet {
 }
 
 /* Section dividers above each resource group (Guides / Forms / Letters), and one
-   after the last — 1px light-gray rule matching the source. Scoped to sections
-   that contain a resource-list block so other <hr> uses are unaffected. */
-main .section:has(.columns.resource-list) hr {
-  height: 1px;
-  border: 0;
-  background-color: #a4a4a4;
-  margin: 32px 0 30px;
+   below the last — a 1px light-gray rule matching the source. Implemented as a
+   top border on each section wrapping a resource-list block (EDS reserves <hr>
+   for section breaks, so a content rule can't be authored). Scoped to those
+   sections so nothing else is affected. */
+main .section:has(.columns.resource-list) {
+  border-top: 1px solid #a4a4a4;
+  padding-top: 32px;
+  margin-top: 32px;
+}
+
+/* Closing divider below the last resource group: the resource-list section that
+   is NOT immediately followed by another resource-list section. */
+main .section:has(.columns.resource-list):not(:has(+ .section .columns.resource-list)) {
+  border-bottom: 1px solid #a4a4a4;
+  padding-bottom: 32px;
 }
 
 .center {
