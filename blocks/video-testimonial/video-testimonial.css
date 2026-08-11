@@ -1,7 +1,6 @@
 @import url('./video-testimonial-tokens.css');
 
-/* Mobile-first: single column. Flat DOM order (title, video, quote, cta, disclaimer)
-   is the mobile stacking order. */
+/* Mobile: single column, DOM order = stack order. */
 .video-testimonial {
   display: flex;
   flex-direction: column;
@@ -36,7 +35,7 @@
   color: var(--text-color);
 }
 
-/* Media column: Brightcove player fills the width at a 16:9 ratio with rounded corners. */
+/* Brightcove player, 16:9. */
 .video-testimonial .video-testimonial-media {
   width: 100%;
 }
@@ -51,7 +50,7 @@
   border-radius: var(--video-testimonial-video-radius);
 }
 
-/* Fallback anchor when the video provider is unknown. */
+/* Fallback when the provider is unknown. */
 .video-testimonial .video-testimonial-media > a {
   display: block;
   width: 100%;
@@ -60,9 +59,7 @@
   background: var(--brand-teal);
 }
 
-/* Call-to-action reuses the global .button.primary pill (pink fill, white, 100px
-   radius). The block only overrides layout + the source's uppercase label, and
-   removes the default arrow icon. Mobile: full width, centered, capped. */
+/* CTA = global .button.primary; block adds layout + uppercase. */
 .video-testimonial .video-testimonial-cta {
   display: block;
   align-self: center;
@@ -75,9 +72,8 @@
   content: none;
 }
 
-/* Tablet+ : two-column card layout. Text column on the left, video on the right,
-   using a grid so the flat DOM order can be re-arranged into two columns. */
-@media (width >= 600px) {
+/* Desktop: text left, video right. */
+@media (width >= 900px) {
   .video-testimonial {
     display: grid;
     gap: 0 var(--video-testimonial-column-gap);

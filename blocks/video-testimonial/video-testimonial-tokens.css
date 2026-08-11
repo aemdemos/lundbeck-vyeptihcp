@@ -11,7 +11,5 @@
   --video-testimonial-title-size: var(--heading-font-size-l);
   --video-testimonial-quote-color: var(--brand-teal-muted);
   --video-testimonial-quote-size: var(--heading-font-size-l);
-
-  /* CTA visual styling comes from the global .button.primary; only its layout width is block-specific. */
   --video-testimonial-cta-max-width: 345px;
 }
