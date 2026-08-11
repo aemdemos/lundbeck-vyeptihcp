@@ -543,6 +543,23 @@ main :is(.icon-download, .icon-pdf, .icon-connect, .icon-play) {
   height: 32px;
 }
 
+/* Resource-list link spacing to match the source: tighter text line-height,
+   ~30px of vertical space between items, and the icon flush to the text top.
+   Scoped to the resource-list columns variant. */
+main .columns.resource-list ul.icon-bullets {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+}
+
+main .columns.resource-list .icon-bullet-text {
+  line-height: 20px;
+}
+
+main .columns.resource-list .icon.icon-bullet {
+  margin-top: 0;
+}
+
 .center {
   text-align: center;
 
