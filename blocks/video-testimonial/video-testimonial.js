@@ -72,18 +72,15 @@ export default async function decorate(block) {
   if (watchLink) block.append(watchLink);
   if (disclaimer) block.append(disclaimer);
 
-  // CTA plays the embedded player instead of navigating away.
+  // CTA plays the inline player; stopPropagation skips the global exit interstitial.
   if (watchLink && playerEl) {
     watchLink.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       media.scrollIntoView({ behavior: 'smooth', block: 'center' });
       const bigPlay = playerEl.querySelector('.vjs-big-play-button');
-      if (bigPlay) {
-        bigPlay.click();
-        return;
-      }
-      const player = window.videojs?.getPlayer?.(playerEl.id);
-      if (player) player.play();
+      if (bigPlay) bigPlay.click();
+      else window.videojs?.getPlayer?.(playerEl.id)?.play();
     });
   }
 }
