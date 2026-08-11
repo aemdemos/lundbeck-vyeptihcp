@@ -513,7 +513,7 @@ main ul.icon-bullets > li,
 main li.icon-bullet-item { /* @libs */
   display: flex; /* @libs */
   align-items: flex-start; /* @libs */
-  gap: 12px; /* @libs */
+  gap: 9px; /* @libs */
   list-style: none; /* @libs */
 }
 
@@ -524,6 +524,15 @@ main .icon-bullet-text { /* @libs */
 main .icon.icon-bullet { /* @libs */
   flex-shrink: 0; /* @libs */
   margin-top: 0.15em; /* @libs */
+}
+
+/* Standalone icon links (e.g. the webinar :play: icon): center the leading icon
+   beside the link text, matching the icon-bullet layout. The icon itself keeps
+   the shared --icon-size, so it matches the download bullets exactly. */
+main p:has(> .icon) {
+  display: flex;
+  align-items: center;
+  gap: 9px;
 }
 
 .center {
