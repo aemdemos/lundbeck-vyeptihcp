@@ -9,4 +9,5 @@
   --back-to-top-bottom: 151px;
   --back-to-top-desktop-bottom: 140px;
   --back-to-top-z-index: 100;
+  --back-to-top-shadow: 0 2px 3px rgb(0 0 0 / 40%);
 }
