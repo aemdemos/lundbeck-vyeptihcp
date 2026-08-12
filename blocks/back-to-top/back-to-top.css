@@ -24,6 +24,7 @@
   background-size: contain;
   opacity: 0;
   visibility: hidden;
+  filter: drop-shadow(var(--back-to-top-shadow));
   transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
