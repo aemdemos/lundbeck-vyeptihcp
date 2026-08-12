@@ -1,9 +1,9 @@
-export function buildPagePayload(metadata) { 
-    return { 
-        page: { 
-            pageName: metadata.title, 
-            pageType: metadata.pageType, 
-            language: metadata.language 
-        } 
-    }; 
+export default function buildPagePayload(metadata) {
+  return {
+    page: {
+      pageName: metadata.title,
+      pageType: metadata.pageType,
+      language: metadata.language,
+    },
+  };
 }
