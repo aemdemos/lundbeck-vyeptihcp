@@ -1042,3 +1042,38 @@ main .section.banner > div:not(.bg-image) {
     --banner-aspect-ratio: 1440 / 396;
   }
 }
+
+/* section metadata - sitemap (site-map page link hierarchy).
+   Source (vyeptihcp.com) renders every level — top and nested — at the same
+   size with no underline, distinguished only by indentation; flattens the
+   default h5 top-level treatment to match, and normalizes the nested <ul>'s
+   default browser bullet (circle) to match the top level's (disc). */
+main .section.sitemap h1 {
+  text-align: center;
+  padding-bottom: 22px;
+  max-width: unset;
+}
+
+main .section.sitemap h5 {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+main .section.sitemap li {
+  margin: 4px 0;
+}
+
+main .section.sitemap li::marker {
+  color: var(--link-color);
+}
+
+main .section.sitemap ul ul {
+  margin: 0;
+  list-style-type: disc;
+}
+
+main .section.sitemap a:not(.button),
+main .section.sitemap a:not(.button):hover {
+  text-decoration: none;
+}
