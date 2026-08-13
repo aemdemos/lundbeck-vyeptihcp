@@ -33,10 +33,14 @@
 }
 
 .quote blockquote {
-  margin: 0;
+  margin: auto;
   padding: 0;
   max-width: none;
   text-align: left;
+}
+
+.quote .quote-content blockquote {
+  margin: 0;
 }
 
 .quote blockquote .quote-quotation,
