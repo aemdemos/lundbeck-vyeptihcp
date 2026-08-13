@@ -560,22 +560,15 @@ main .columns.resource-list .icon.icon-bullet {
   margin-top: 0;
 }
 
-/* Section dividers above each resource group (Guides / Forms / Letters), and one
-   below the last — a 1px light-gray rule matching the source. Implemented as a
-   top border on each section wrapping a resource-list block (EDS reserves <hr>
-   for section breaks, so a content rule can't be authored). Scoped to those
-   sections so nothing else is affected. */
-main .section:has(.columns.resource-list) {
+/* 1px light-gray divider above each resource group (Guides / Forms / Letters),
+   plus one closing the set — drawn as the top border of the section that follows
+   the last group. (EDS reserves <hr> for section breaks, so the rule can't be
+   authored as content.) Scoped to those sections so nothing else is affected. */
+main .section:has(.columns.resource-list),
+main .section:has(.columns.resource-list) + .section {
   border-top: 1px solid #a4a4a4;
   padding-top: 32px;
   margin-top: 32px;
-}
-
-/* Closing divider below the last resource group: the resource-list section that
-   is NOT immediately followed by another resource-list section. */
-main .section:has(.columns.resource-list):not(:has(+ .section .columns.resource-list)) {
-  border-bottom: 1px solid #a4a4a4;
-  padding-bottom: 32px;
 }
 
 .center {
