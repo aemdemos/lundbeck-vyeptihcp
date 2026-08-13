@@ -41,3 +41,115 @@
   content: '—'; /* @boilerplate */
   padding-right: 0.5ch; /* @boilerplate */
 }
+
+/* Optional headshot variant (3rd authored row is an image) */
+.quote.has-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--quote-image-gap);
+  padding: var(--quote-image-padding);
+  background-color: var(--quote-image-bg);
+  border-radius: var(--quote-image-radius);
+
+  /* Bypass the ambiguous 'open sans' alias in --heading-font-family/--body-font-family:
+     on machines with that literal system font installed, it resolves ~16% narrower than
+     the real open-sans webfont, causing text to wrap differently than intended. */
+  font-family: open-sans, open-sans-fallback, sans-serif;
+}
+
+.quote.has-image .quote-image {
+  flex: 0 0 auto;
+}
+
+.quote.has-image .quote-image img {
+  display: block;
+  width: var(--quote-image-size);
+  height: var(--quote-image-size);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.quote.has-image .quote-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.quote.has-image blockquote {
+  margin: 0;
+  padding: 0;
+  max-width: none;
+  text-align: left;
+}
+
+.quote.has-image blockquote .quote-quotation,
+.quote.has-image blockquote .quote-quotation :is(p, h1, h2, h3, h4, h5, h6) {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 25px;
+  color: var(--brand-teal-muted);
+}
+
+/* The base quote-mark rules above only cover a p:first-child/p:last-child —
+   authors sometimes format the quotation as a heading instead of a paragraph. */
+.quote.has-image blockquote .quote-quotation :is(h1, h2, h3, h4, h5, h6):first-child::before,
+.quote.has-image blockquote .quote-quotation :is(h1, h2, h3, h4, h5, h6):last-child::after {
+  line-height: 0;
+}
+
+.quote.has-image blockquote .quote-quotation :is(h1, h2, h3, h4, h5, h6):first-child::before {
+  content: '“';
+}
+
+.quote.has-image blockquote .quote-quotation :is(h1, h2, h3, h4, h5, h6):last-child::after {
+  content: '”';
+}
+
+.quote.has-image blockquote .quote-attribution,
+.quote.has-image blockquote .quote-attribution :is(p, h1, h2, h3, h4, h5, h6) {
+  text-align: left;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--brand-teal-muted);
+}
+
+/* Target the inline tags directly rather than paragraph position — authors may
+   combine the name and role/org line in a single paragraph with a line break,
+   in which case p:first-child would incorrectly match both. strong/b default to
+   font-weight: bolder, which would otherwise resolve to 900 against our 700 parent. */
+.quote.has-image blockquote .quote-attribution :is(strong, b) {
+  display: inline-block;
+  padding-bottom: 4px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+.quote.has-image blockquote .quote-attribution p:first-child::before {
+  content: none;
+  padding-right: 0;
+}
+
+@media (width >= 900px) {
+  .quote.has-image {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+  }
+
+  .quote.has-image .quote-image img {
+    width: var(--quote-image-size-desktop);
+    height: var(--quote-image-size-desktop);
+  }
+
+  .quote.has-image blockquote {
+    max-width: 825px;
+  }
+
+  .quote.has-image blockquote .quote-quotation,
+  .quote.has-image blockquote .quote-quotation :is(p, h1, h2, h3, h4, h5, h6) {
+    font-size: 22px;
+    line-height: 32px;
+  }
+}
