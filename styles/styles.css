@@ -200,10 +200,41 @@ body.appear { /* @libs */
   display: block; /* @libs */
 }
 
-.color-secondary {
+.color-primary, .brand-primary, .teal {
+  color: var(--brand-primary);
+
+  --link-color: var(--brand-primary);
+}
+
+.color-secondary, .brand-secondary, .rose {
   color: var(--brand-secondary);
 
   --link-color: var(--brand-secondary);
+}
+
+/* single-purpose text utility; !important so it reliably wins over
+   block-level paragraph rules (e.g. columns' 22px line-height) wherever
+   an author or block explicitly opts in. */
+.small-text {
+  font-size: var(--body-font-size-xs) !important;
+  line-height: 1.3 !important;
+}
+
+/* generic "emboss" style, applicable to any block by adding the class;
+   inset shadow value matches the one already used by .columns.jump-nav. */
+.emboss {
+  background: var(--background-color);
+  border-radius: 20px;
+  box-shadow: inset 0 0 8px 4px rgb(0 0 0 / 20%);
+  padding: 24px 24px;
+}
+
+/* stronger version of .emboss — same card, heavier shadow (40% vs 20%) */
+.emboss-heavy {
+  background: var(--background-color);
+  border-radius: 20px;
+  box-shadow: inset 0 0 8px 4px rgb(0 0 0 / 40%);
+  padding: 24px 24px;
 }
 
 header { /* @libs */
@@ -245,7 +276,7 @@ h6 { /* @libs */
   color: var(--text-color); /* @libs */
 }
 
-h1 {
+h1, .size-h1 {
   font-size: var(--heading-font-size-xxl);
   line-height: 1.21;
   color: var(--brand-primary-dark);
@@ -253,13 +284,13 @@ h1 {
   max-width: var(--h1-max-width);
 }
 
-h2 {
+h2, .size-h2 {
   font-size: var(--heading-font-size-xl);
   line-height: var(--heading-line-height);
   color: var(--brand-primary-dark);
 }
 
-h3 {
+h3, .size-h3 {
   font-size: var(--heading-font-size-l);
   font-weight: var(--font-weight-bold);
   line-height: 1.2;
@@ -267,21 +298,21 @@ h3 {
   margin-bottom: 0;
 }
 
-h4 {
+h4, .size-h4 {
   font-size: var(--heading-font-size-m);
   font-weight: var(--font-weight-bold);
   line-height: 1.22;
   color: var(--brand-primary-dark);
 }
 
-h5 { /* @libs */
+h5, .size-h5 { /* @libs */
   font-size: var(--heading-font-size-s); /* @libs */
   font-weight: var(--font-weight-bold); /* @libs */
   line-height: 1.22; /* @libs */
   color: var(--brand-primary-dark); /* @libs */
 }
 
-h6 { /* @libs */
+h6, .size-h6 { /* @libs */
   font-size: var(--heading-font-size-xs); /* @libs */
   font-weight: var(--font-weight-bold); /* @libs */
 }
@@ -291,9 +322,11 @@ dl,
 ol,
 ul,
 pre,
-blockquote { /* @libs */
+blockquote,
+.size-p { /* @libs */
   margin-top: var(--block-margin-top); /* @libs */
   margin-bottom: var(--block-margin-bottom); /* @libs */
+  font-size: var(--body-font-size-s); /* @libs */
 }
 
 code,
@@ -399,12 +432,6 @@ button:disabled:hover { /* @libs */
   border-color: var(--button-disabled-border-color); /* @libs */
   color: var(--button-disabled-color); /* @libs */
   cursor: unset; /* @libs */
-}
-
-/* responsive visibility utilities (authorable via [hide-mobile] / [hide-desktop] bracket spans) */
-
-.hide-mobile {
-  display: none;
 }
 
 /* secondary — outline / ghost (default for unclassified link buttons) */
@@ -574,32 +601,52 @@ main .section:has(.columns.resource-list) + .section {
 .center {
   text-align: center;
 
-  &.columns > div > div {
-    justify-content: center;
+  &.columns .columns-img-col img {
+    display: inline-block;
+  }
+
+  ol, ul {
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
-.left {
+.left, .left-mobile {
   text-align: left;
 
-  &.columns > div > div {
-    justify-content: left;
+  &.columns .columns-img-col img {
+    display: inline-block;
   }
 }
 
-.right {
+.right, .right-mobile {
   text-align: right;
 
-  &.columns > div > div {
-    justify-content: right;
+  &.columns .columns-img-col img {
+    display: inline-block;
+  }
+
+  ol, ul {
+    margin-left: auto;
   }
 }
+
+/* ==== END alignment + display for mobile ==== */
 
 main > .section > div:not(.bg-image) {
   margin: auto;
   padding: 0 var(--spacing-m);
 }
 
+/* flex sections — a run of adjacent style=flex sections is wrapped by JS in a
+.flex-group; the group is its own independent flex context (no crossover with
+other groups). Section-level only: equal-width columns regardless of block type.
+Stacks below 900px, side-by-side at >=900px. */
+main .flex-group {
+display: flex;
+flex-direction: column;
+gap: var(--flex-group-gap);
+}
 
 main .flex-group > .section.flex {
 margin: 0;
@@ -638,6 +685,15 @@ main .section.highlight { /* @libs */
   padding: var(--section-padding-vertical) 0; /* @libs */
 }
 
+/* section metadata - center (centers heading/body copy in the section) */
+main .section.center {
+  text-align: center;
+}
+
+main .section.center > div {
+  margin-inline: auto;
+}
+
 /* section metadata - dark (teal) */
 main .section.dark { /* @libs */
   background-color: var(--brand-primary); /* @libs */
@@ -646,21 +702,25 @@ main .section.dark { /* @libs */
   padding: var(--section-padding-vertical) 0; /* @libs */
 }
 
-main .section.dark h1,
-main .section.dark h2,
-main .section.dark h3,
-main .section.dark h4,
-main .section.dark h5,
-main .section.dark h6 { /* @libs */
-  color: var(--background-color); /* @libs */
+/* :not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) excludes the emboss
+   card (either intensity) and its contents — it carries its own light
+   background, so it must keep normal (non-dark-section) text/link colors
+   instead of the white ones set for the rest of the section. */
+main .section.dark h1:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark h2:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark h3:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark h4:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark h5:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark h6:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) {
+  color: var(--background-color);
 }
 
-main .section.dark a { /* @libs */
-  color: var(--background-color); /* @libs */
+main .section.dark a:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) {
+  color: var(--background-color);
 }
 
-main .section.dark a:hover { /* @libs */
-  color: var(--brand-primary-light); /* @libs */
+main .section.dark a:hover:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) {
+  color: var(--brand-primary-light);
 }
 
 main .section.dark a.button.primary,
@@ -753,15 +813,71 @@ main .section.stats-callout h4 {
     --heading-font-size-xs: 16px;
   }
 
-    .hide-desktop {
-      display: none;
-    }
-  
-    .hide-mobile {
-      display: revert;
+  /* ==== START alignment + display for desktop ==== */
+  .hide-desktop {
+    display: none;
+  }
+
+  .hide-mobile {
+    display: revert;
+  }
+
+  .center-mobile, .left-mobile, .right-mobile {
+    text-align: revert;
+
+    ol, ul {
+    margin-left: revert;
+    margin-right: revert;
     }
 
-    
+    &:not(.cards) li {
+      text-align: revert;
+    }
+  }
+
+  .center-desktop {
+    text-align: center;
+  
+    &.columns .columns-img-col img {
+      display: inline-block;
+    }
+  
+    ol, ul {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  
+    &:not(.cards) li {
+      text-align: left;
+    }
+  }
+  
+  .left-desktop {
+    text-align: left;
+  
+    &.columns .columns-img-col img {
+      display: inline-block;
+    }
+  }
+  
+  .right-desktop {
+    text-align: right;
+  
+    &.columns .columns-img-col img {
+      display: inline-block;
+    }
+  
+    ol, ul {
+      margin-left: auto;
+    }
+  
+    &:not(.cards) li {
+      text-align: left;
+    }
+  }
+
+  /* ==== END alignment + display for desktop ==== */
+  
     /* ==== Start widths ==== */
 
 div[class^="width-"], div[class*=" width-"] {
@@ -797,7 +913,6 @@ div[class^="width-"], div[class*=" width-"] {
 }
 
 /* ==== End widths ==== */
-
     main .section.stats-callout {
       padding: var(--section-padding-vertical) 0;
     }
@@ -883,6 +998,14 @@ main .section.banner {
   justify-content: flex-end;
 }
 
+/* Per-page banner override: content pages (efficacy, safety, why-iv, dosing, copay) use a
+   flatter/shorter hero (desktop 1440x396 ~3.64:1, mobile 375x198 ~1.89:1) than the homepage's
+   tall 2880x1076 hero. Authored via `Style: banner, hero-short` so the homepage-tuned global
+   default is untouched. Mobile-first here; desktop ratio applied in the 768px query below. */
+main .section.banner.hero-short {
+  --banner-aspect-ratio: 375 / 198;
+}
+
 /* Background image: true full-bleed background behind all content. Absolute inset
    fills the section (whose height comes from the aspect-ratio above); cover keeps
    the image edge-to-edge with no distortion. Overrides the generic
@@ -931,4 +1054,46 @@ main .section.banner > div:not(.bg-image) {
   main .section.banner > div:not(.bg-image) {
     padding: 0 var(--spacing-l);
   }
+}
+
+/* hero-short: flat desktop hero ratio (1440x396) from the source's 768px breakpoint up. */
+@media (width >= 768px) {
+  main .section.banner.hero-short {
+    --banner-aspect-ratio: 1440 / 396;
+  }
+}
+
+/* section metadata - sitemap (site-map page link hierarchy).
+   Source (vyeptihcp.com) renders every level — top and nested — at the same
+   size with no underline, distinguished only by indentation; flattens the
+   default h5 top-level treatment to match, and normalizes the nested <ul>'s
+   default browser bullet (circle) to match the top level's (disc). */
+main .section.sitemap h1 {
+  text-align: center;
+  padding-bottom: 22px;
+  max-width: unset;
+}
+
+main .section.sitemap h5 {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+main .section.sitemap li {
+  margin: 4px 0;
+}
+
+main .section.sitemap li::marker {
+  color: var(--link-color);
+}
+
+main .section.sitemap ul ul {
+  margin: 0;
+  list-style-type: disc;
+}
+
+main .section.sitemap a:not(.button),
+main .section.sitemap a:not(.button):hover {
+  text-decoration: none;
 }

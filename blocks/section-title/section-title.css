@@ -1,8 +1,25 @@
 /* Section title: scoped to main; sizes use global heading tokens; text colors use :root palette tokens */
 
+/* ────────────────────────────────────────────────────────────────
+ * Source spacing for the standalone page heading (e.g. "VYEPTI pivotal
+ * trial data"): source `.cmp-title__text` uses padding 40px 0 24px and
+ * the heading carries its own margin. Neutralize the global heading
+ * margin and apply the source's top/bottom rhythm on the block instead.
+ * ──────────────────────────────────────────────────────────────── */
 main .section-title { /* @boilerplate */
   margin: 0; /* @boilerplate */
-  padding: 0; /* @boilerplate */
+  padding: 24px 0 16px;
+}
+
+main .section-title .title,
+main .section-title .subtitle {
+  margin: 0;
+}
+
+@media (width >= 768px) {
+  main .section-title {
+    padding: 40px 0 24px;
+  }
 }
 
 main .section-title.size-xxl .title,

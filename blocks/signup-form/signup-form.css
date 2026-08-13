@@ -1,0 +1,35 @@
+.signup-form {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  margin: var(--spacing-l, 2rem) auto;
+}
+
+.signup-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.signup-form .custom-error {
+  display: none;
+  color: var(--error-color, #c02c57);
+}
+
+/* State & Specialty are Bootstrap dropdowns: the option list must be collapsed by
+   default and revealed only when the vendor JS toggles `.show` on the group. Without
+   the vendor's Bootstrap CSS reliably applied, the menu renders fully expanded (a wall
+   of options), so collapse it here and let the vendor JS open it. */
+.signup-form .btn-group.dropdown .dropdown-menu {
+  display: none;
+}
+
+.signup-form .btn-group.dropdown.show .dropdown-menu,
+.signup-form .btn-group.dropdown.open .dropdown-menu {
+  display: block;
+}
+
+/*
+ * The bulk of this form's visual styling (dropdowns, inputs, reCAPTCHA layout, error
+ * states) is delivered by the vendor site clientlib CSS loaded at runtime in signup-form.js.
+ * Keep block-local CSS minimal so it does not fight those vendor styles; refine in the
+ * deferred styling pass if gaps remain.
+ */

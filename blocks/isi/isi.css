@@ -29,12 +29,19 @@ main .isi li { /* @boilerplate */
   padding-bottom: var(--isi-list-item-padding-y); /* @boilerplate */
 }
 
-main .isi h3 { /* @boilerplate */
-  color: var(--isi-heading-color); /* @boilerplate */
-  font-size: var(--isi-heading-font-size); /* @boilerplate */
-  font-weight: var(--isi-heading-font-weight); /* @boilerplate */
-  line-height: var(--isi-heading-line-height); /* @boilerplate */
-  margin-bottom: var(--isi-heading-margin-bottom); /* @boilerplate */
+/* Content uses h5, not h3 (matches vyeptihcp.com markup). First/last heading
+   (title + "Indication") get the teal accent; the rest stay plain text color. */
+main .isi h5 {
+  color: var(--isi-text-color);
+  font-size: var(--isi-heading-font-size);
+  font-weight: var(--isi-heading-font-weight);
+  line-height: var(--isi-heading-line-height);
+  margin-bottom: var(--isi-heading-margin-bottom);
+}
+
+main .isi h5:first-of-type,
+main .isi h5:last-of-type {
+  color: var(--isi-heading-color);
 }
 
 main .isi a { /* @boilerplate */
@@ -55,7 +62,7 @@ main .isi a:hover { /* @boilerplate */
   background-color: var(--isi-bar-background); /* @boilerplate */
   border-top: var(--isi-bar-border-width) solid var(--isi-bar-border-color); /* @boilerplate */
   height: var(--isi-bar-height); /* @boilerplate */
-  overflow: hidden; /* @boilerplate */
+  overflow-y: auto; /* scrollable while collapsed too, matches vyeptihcp.com */
   padding: var(--isi-bar-padding); /* @boilerplate */
   transition: height var(--isi-bar-height-transition-duration) var(--isi-bar-height-transition-easing); /* @boilerplate */
   color: var(--isi-text-color); /* @boilerplate */
@@ -89,13 +96,20 @@ main .isi a:hover { /* @boilerplate */
   min-width: 0; /* @boilerplate */
 }
 
-.isi-bar-col h3 { /* @boilerplate */
-  color: var(--isi-bar-heading-color, var(--isi-heading-color)); /* @boilerplate */
-  font-size: var(--isi-heading-font-size); /* @boilerplate */
-  font-weight: var(--isi-heading-font-weight); /* @boilerplate */
-  line-height: var(--isi-heading-line-height); /* @boilerplate */
-  padding-bottom: var(--isi-bar-heading-padding-bottom); /* @boilerplate */
-  margin: 0; /* @boilerplate */
+/* Same first/last-of-type treatment, scoped to the bar (moved outside
+   <main> once decorated, so main .isi h5 above doesn't reach it). */
+.isi-bar-col h5 {
+  color: var(--isi-text-color);
+  font-size: var(--isi-heading-font-size);
+  font-weight: var(--isi-heading-font-weight);
+  line-height: var(--isi-heading-line-height);
+  padding-bottom: var(--isi-bar-heading-padding-bottom);
+  margin: 0;
+}
+
+.isi-bar-col h5:first-of-type,
+.isi-bar-col h5:last-of-type {
+  color: var(--isi-bar-heading-color, var(--isi-heading-color));
 }
 
 .isi-bar-col p { /* @boilerplate */
@@ -136,7 +150,12 @@ main .isi a:hover { /* @boilerplate */
 /* ── Toggle button (+/−) ─────────────────────────────────────── */
 .isi-bar-toggle { /* @boilerplate */
   position: absolute; /* @boilerplate */
-  right: var(--isi-toggle-right); /* @boilerplate */
+
+  /* Pin to the content edge, not the viewport edge, once viewport > max-width. */
+  right: max(
+    var(--isi-toggle-right),
+    calc((100vw - var(--isi-content-max-width)) / 2)
+  );
   top: var(--isi-toggle-top); /* @boilerplate */
   background: none; /* @boilerplate */
   border: var(--isi-toggle-border-width) solid var(--isi-toggle-color); /* @boilerplate */
@@ -149,14 +168,24 @@ main .isi a:hover { /* @boilerplate */
   align-items: center; /* @boilerplate */
   justify-content: center; /* @boilerplate */
   color: var(--isi-toggle-color); /* @boilerplate */
-  transition: color var(--isi-toggle-transition-duration), border-color var(--isi-toggle-transition-duration); /* @boilerplate */
+  transition: color var(--isi-toggle-transition-duration), border-color var(--isi-toggle-transition-duration), background-color var(--isi-toggle-transition-duration);
   z-index: var(--isi-toggle-z-index); /* @boilerplate */
 }
 
-.isi-bar-toggle:hover { /* @boilerplate */
-  color: var(--isi-toggle-hover-color); /* @boilerplate */
-  border-color: var(--isi-toggle-hover-color); /* @boilerplate */
-  background: none; /* @boilerplate */
+/* Hover: solid rose fill with white icon, matches vyeptihcp.com. */
+.isi-bar-toggle:hover {
+  background: var(--isi-toggle-color);
+  border-color: var(--isi-toggle-color);
+  color: var(--isi-toggle-hover-color);
+}
+
+/* Native <button>s default to a filled "primary" style site-wide, which
+   would otherwise stick after a click (:focus, without :hover). Reset it,
+   but only when not hovering so this can't cancel the :hover fill above. */
+.isi-bar-toggle:focus:not(:hover) {
+  background: none;
+  border-color: var(--isi-toggle-color);
+  color: var(--isi-toggle-color);
 }
 
 /* Plus icon (collapsed) */

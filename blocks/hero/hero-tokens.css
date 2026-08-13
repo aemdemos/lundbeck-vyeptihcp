@@ -77,4 +77,22 @@
   --hero-z-bg: 0;
   --hero-z-content: 1;
   --hero-z-caption: 2;
+
+  /* page-title variant — compact sub-page title band (photo strip + teal
+     scrim + white H1, optional eyebrow h3) */
+  --hero-page-title-min-height: 151px;
+  --hero-page-title-min-height-tablet: 112px;
+  --hero-page-title-min-height-desktop: 160px;
+  --hero-page-title-heading-font-size: 32px;
+  --hero-page-title-heading-font-size-tablet: 38px;
+  --hero-page-title-heading-font-size-desktop: 43px;
+  --hero-page-title-heading-line-height-desktop: 52px;
+  --hero-page-title-eyebrow-font-size: 18px;
+  --hero-page-title-eyebrow-font-size-desktop: 22px;
+  --hero-page-title-scrim-color: rgb(4 97 131 / 55%);
+
+  /* single-dark — main marketing hero: darkens the photo so centered
+     white text stays legible regardless of the underlying image
+     (source vyeptihcp.com homepage uses the same navy tone) */
+  --hero-single-dark-scrim: rgb(7 51 72 / 55%);
 }

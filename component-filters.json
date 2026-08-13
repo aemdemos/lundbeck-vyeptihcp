@@ -11,15 +11,20 @@
       "accordion",
       "cards",
       "carousel",
+      "case-study-tabs",
       "columns",
+      "coverage-finder",
       "embed",
       "fragment",
       "form",
       "hero",
       "image",
+      "infusion-locator",
       "quote",
+      "quote-kol",
       "search",
       "section-title",
+      "signup-form",
       "tabs",
       "table",
       "text",
@@ -48,6 +53,12 @@
     "id": "carousel",
     "components": [
       "carousel-item"
+    ]
+  },
+  {
+    "id": "case-study-tabs",
+    "components": [
+      "case-study-tabs-item"
     ]
   },
   {

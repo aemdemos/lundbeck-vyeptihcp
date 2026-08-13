@@ -335,6 +335,14 @@ main > .section.hero-container {
   height: auto;
 }
 
+/* single-dark scrim — darkens the photo so white text stays legible */
+.section.single-dark .hero > div:first-child::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--hero-single-dark-scrim);
+}
+
 /* Content overlay — left-aligned, vertically centered (overrides legacy bottom anchor) */
 .section.single-light .hero > div:last-of-type,
 .section.single-dark .hero > div:last-of-type {
@@ -424,11 +432,37 @@ main > .section.hero-container {
 }
 
 /* ── single-dark: white text over imagery ── */
-.section.single-dark .hero h1
- {
- color: var(--brand-primary);
- padding: 0 25px 24px; 
- margin: 0;
+.section.single-dark .hero h1 {
+  color: var(--hero-text-color-light);
+  padding: 0 25px 24px;
+  margin: 0;
+}
+
+/* Eyebrow ribbon — light gradient pill behind the italic lead-in line
+   (source vyeptihcp.com homepage treatment) */
+.section.single-dark .hero h3 {
+  display: inline-block;
+
+  /* the legacy .hero.single h3 rule forces width: 55% at desktop (meant for
+     a different, plain-text eyebrow treatment); this pill should hug its
+     own text like any other pill, not stretch into a wide bar with a mostly
+     empty gradient tail. */
+  width: fit-content;
+  color: var(--brand-primary);
+  font-style: italic;
+  background: linear-gradient(
+    100deg,
+    rgb(150 180 190 / 55%) 0%,
+    rgb(255 255 255 / 92%) 55%,
+    rgb(255 255 255 / 92%) 100%
+  );
+  border-radius: 0 100px 100px 0;
+  padding: 10px 40px 10px 24px;
+  margin: 0 0 16px;
+}
+
+.section.single-dark .hero > div:last-of-type p {
+  color: var(--hero-text-color-light);
 }
 
 .section.single-dark .hero .actor-portrayal {
@@ -438,15 +472,15 @@ main > .section.hero-container {
 
 /* ── single-light: teal headline, dark body ── */
 .section.single-light .hero h1 {
-  color: var(--hero-text-color-light);
+  color: var(--brand-primary);
 }
 
 .section.single-light .hero > div:last-of-type p {
-  color: var(--hero-text-color-light);
+  color: var(--text-color);
 }
 
 .section.single-light .hero .actor-portrayal {
-  color: var(--hero-text-color-light);
+  color: var(--text-color);
 }
 
 
@@ -553,6 +587,13 @@ main > .section.hero-container {
     left: 50%;
     padding-right:15px;
     padding-left:15px;
+
+    /* the h3 eyebrow pill is inline-block, so its own text-align does
+       nothing for its box position — it's positioned by this container's
+       text-align, which stays "center" (the base/mobile value) unless
+       overridden here. This is what pulled the pill to the center of the
+       hero instead of sitting flush left above the headline. */
+    text-align: left;
   }
 
   .section.single-light .hero h1,
@@ -698,6 +739,103 @@ main > .section.hero-container {
 
     .hero .hero-panel .actor-portrayal sub {
     font-size: var(--hero-caption-sub-font-size-xl);
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   PAGE-TITLE VARIANT
+   Compact sub-page title band — short photo strip with a teal
+   scrim and a single white H1 (optional eyebrow h3 lead-in).
+   Section-metadata Style: page-title, same pattern as
+   single-light / single-dark above.
+   ═══════════════════════════════════════════════════ */
+
+.section.page-title .hero {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  min-height: var(--hero-page-title-min-height);
+}
+
+.section.page-title .hero > div:first-child {
+  position: absolute;
+  inset: 0;
+  z-index: var(--hero-z-bg);
+}
+
+.section.page-title .hero > div:first-child::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--hero-page-title-scrim-color);
+}
+
+.section.page-title .hero > div:first-child > div,
+.section.page-title .hero > div:first-child p {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.section.page-title .hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.section.page-title .hero > div:last-of-type {
+  position: relative;
+  z-index: var(--hero-z-content);
+  max-width: var(--max-width-site);
+  min-height: var(--hero-page-title-min-height);
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.section.page-title .hero h3 {
+  color: var(--hero-text-color-light);
+  font-size: var(--hero-page-title-eyebrow-font-size);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.33;
+  margin: 0 0 8px;
+}
+
+.section.page-title .hero h1 {
+  color: var(--hero-text-color-light);
+  font-size: var(--hero-page-title-heading-font-size);
+  line-height: 1.15;
+  margin: 0;
+}
+
+@media (width >= 768px) {
+  .section.page-title .hero,
+  .section.page-title .hero > div:last-of-type {
+    min-height: var(--hero-page-title-min-height-tablet);
+  }
+
+  .section.page-title .hero h1 {
+    font-size: var(--hero-page-title-heading-font-size-tablet);
+  }
+}
+
+@media (width >= 992px) {
+  .section.page-title .hero,
+  .section.page-title .hero > div:last-of-type {
+    min-height: var(--hero-page-title-min-height-desktop);
+  }
+
+  .section.page-title .hero h1 {
+    font-size: var(--hero-page-title-heading-font-size-desktop);
+    line-height: var(--hero-page-title-heading-line-height-desktop);
+  }
+
+  .section.page-title .hero h3 {
+    font-size: var(--hero-page-title-eyebrow-font-size-desktop);
   }
 }
 

@@ -217,6 +217,81 @@
     ]
   },
   {
+    "id": "case-study-tabs-item",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Profile Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Profile Image Alt Text",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "name",
+        "value": "",
+        "label": "Name"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "age",
+        "value": "",
+        "label": "Age"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "description",
+        "value": "",
+        "label": "Tab Description"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "caseStudy",
+        "value": "",
+        "label": "Case Study Content"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "experienceHeading",
+        "value": "Previous treatment experience",
+        "label": "Treatment Experience Heading"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "experienceContent",
+        "value": "",
+        "label": "Treatment Experience (one paragraph per column, bold the label)"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "goalsHeading",
+        "value": "Patient's treatment goals",
+        "label": "Treatment Goals Heading"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "goals",
+        "value": "",
+        "label": "Treatment Goals Content"
+      }
+    ]
+  },
+  {
     "id": "columns",
     "fields": [
       {
@@ -229,6 +304,118 @@
           "numberMin": 1,
           "numberMax": 6
         }
+      }
+    ]
+  },
+  {
+    "id": "connect-support",
+    "fields": [
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "lead",
+        "label": "Lead sentence"
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "item1Icon",
+        "label": "Item 1 icon",
+        "multi": false
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "item1Text",
+        "label": "Item 1 description"
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "item2Icon",
+        "label": "Item 2 icon",
+        "multi": false
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "item2Text",
+        "label": "Item 2 description"
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "item3Icon",
+        "label": "Item 3 icon",
+        "multi": false
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "item3Text",
+        "label": "Item 3 description"
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "item4Icon",
+        "label": "Item 4 icon",
+        "multi": false
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "item4Text",
+        "label": "Item 4 description"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "enroll",
+        "label": "Enrollment CTA line"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "note",
+        "label": "Note copy"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "contactFax",
+        "label": "Contact column 1 (fax)"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "contactCall",
+        "label": "Contact column 2 (call)"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "finePrint",
+        "label": "Fine print"
+      }
+    ]
+  },
+  {
+    "id": "coverage-finder",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "scriptUrl",
+        "label": "Vendor script URL",
+        "description": "URL of the vendor clientlib that registers the <coverage-finder> web component"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "token",
+        "label": "Token",
+        "description": "JWT product/client config token for the coverage-finder tool (public client-side config)"
       }
     ]
   },
@@ -299,6 +486,57 @@
         "value": "",
         "label": "Text",
         "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "infusion-locator",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "origin",
+        "label": "Vendor origin",
+        "description": "Origin serving the PICL clientlib + /api/picllocator (defaults to https://www.vyeptihcp.com)"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "mapsKey",
+        "label": "Google Maps API key"
+      }
+    ]
+  },
+  {
+    "id": "quote-kol",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Headshot",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Headshot Alt",
+        "multi": false
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "quote",
+        "label": "Quote text",
+        "required": true
+      },
+      {
+        "component": "richtext",
+        "name": "author",
+        "label": "Author (optional)",
+        "valueType": "string",
+        "description": "Use italics for [cite] tag"
       }
     ]
   },
@@ -571,6 +809,18 @@
             ]
           }
         ]
+      }
+    ]
+  },
+  {
+    "id": "signup-form",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "origin",
+        "label": "Vendor origin",
+        "description": "Origin serving the form clientlibs + registration API (defaults to https://www.vyeptihcp.com)"
       }
     ]
   },
