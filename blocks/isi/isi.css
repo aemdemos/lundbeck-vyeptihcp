@@ -22,6 +22,10 @@ main .isi li { /* @boilerplate */
   line-height: var(--isi-line-height); /* @boilerplate */
 }
 
+main .isi p {
+  margin-top: var(--isi-paragraph-margin-top);
+}
+
 main .isi li { /* @boilerplate */
   line-height: var(--isi-list-line-height); /* @boilerplate */
   margin-bottom: var(--isi-list-item-margin-bottom); /* @boilerplate */
@@ -42,6 +46,7 @@ main .isi h5 {
 main .isi h5:first-of-type,
 main .isi h5:last-of-type {
   color: var(--isi-heading-color);
+  font-size: var(--isi-title-font-size);
 }
 
 main .isi a { /* @boilerplate */
@@ -110,6 +115,21 @@ main .isi a:hover { /* @boilerplate */
 .isi-bar-col h5:first-of-type,
 .isi-bar-col h5:last-of-type {
   color: var(--isi-bar-heading-color, var(--isi-heading-color));
+  font-size: var(--isi-title-font-size);
+}
+
+/* Only the very first heading gets the larger gap before the next
+   heading; the last one ("INDICATION") uses the regular 8px. */
+.isi-bar-col h5:first-of-type {
+  padding-bottom: var(--isi-bar-title-padding-bottom);
+}
+
+/* A heading right after a paragraph needs a bigger gap than one after
+   another heading (e.g. "CONTRAINDICATIONS" after the title) - inline
+   gets this for free from the global heading margin-top, but .isi-bar-col
+   h5 above resets all margins to 0, so it's added back here as padding. */
+.isi-bar-col p + h5 {
+  padding-top: var(--isi-bar-heading-padding-top);
 }
 
 .isi-bar-col p { /* @boilerplate */
