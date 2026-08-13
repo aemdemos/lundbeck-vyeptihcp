@@ -20,6 +20,7 @@ function createBrightcovePlayer({ accountId, playerId, videoId }) {
  * @param {Element} block The block element
  */
 export default async function decorate(block) {
+  block.classList.add('emboss');
   const content = block.querySelector(':scope > div > div') ?? block;
 
   const title = content.querySelector('h3');

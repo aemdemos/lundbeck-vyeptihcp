@@ -1,13 +1,12 @@
 @import url('./video-testimonial-tokens.css');
 
-/* Mobile: single column, DOM order = stack order. */
+/* Mobile: single column, DOM order = stack order. Card look comes from .emboss;
+   source uses a tighter radius below desktop. */
 .video-testimonial {
   display: flex;
   flex-direction: column;
   gap: var(--video-testimonial-row-gap);
-  padding: var(--video-testimonial-card-padding);
   border-radius: var(--video-testimonial-card-radius);
-  box-shadow: var(--video-testimonial-card-shadow);
 }
 
 .video-testimonial .video-testimonial-title {
@@ -72,6 +71,13 @@
   content: none;
 }
 
+/* Tablet: quote grows to match the title. */
+@media (width >= 768px) {
+  .video-testimonial .video-testimonial-quote {
+    font-size: var(--video-testimonial-quote-size-desktop);
+  }
+}
+
 /* Desktop: text left, video right. */
 @media (width >= 900px) {
   .video-testimonial {
@@ -79,6 +85,7 @@
     gap: 0 var(--video-testimonial-column-gap);
     align-items: center;
     padding: var(--video-testimonial-card-padding-desktop);
+    border-radius: var(--video-testimonial-card-radius-desktop);
     grid-template:
       'title video' auto
       'quote video' auto
@@ -95,7 +102,6 @@
   .video-testimonial .video-testimonial-quote {
     grid-area: quote;
     padding-top: 12px;
-    font-size: var(--video-testimonial-quote-size-desktop);
   }
 
   .video-testimonial .video-testimonial-cta {

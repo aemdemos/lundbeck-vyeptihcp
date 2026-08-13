@@ -1,8 +1,7 @@
 /* video-testimonial design tokens (values extracted from vyeptihcp.com) */
 :root {
-  --video-testimonial-card-radius: 20px;
-  --video-testimonial-card-shadow: 0 0 8px 2px rgb(0 0 0 / 20%) inset;
-  --video-testimonial-card-padding: 24px;
+  --video-testimonial-card-radius: 10px;
+  --video-testimonial-card-radius-desktop: 20px;
   --video-testimonial-card-padding-desktop: 40px;
   --video-testimonial-column-gap: 32px;
   --video-testimonial-row-gap: 24px;
