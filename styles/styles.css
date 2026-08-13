@@ -540,7 +540,7 @@ main ul.icon-bullets > li,
 main li.icon-bullet-item { /* @libs */
   display: flex; /* @libs */
   align-items: flex-start; /* @libs */
-  gap: 12px; /* @libs */
+  gap: 9px; /* @libs */
   list-style: none; /* @libs */
 }
 
@@ -553,32 +553,52 @@ main .icon.icon-bullet { /* @libs */
   margin-top: 0.15em; /* @libs */
 }
 
-/* responsive visibility utilities (authorable via [hide-mobile] / [hide-desktop] bracket spans) */
-
-/* ==== START alignment + display for mobile ==== */
-.hide-mobile {
-  display: none;
+/* Standalone icon links (e.g. the webinar :play: icon): center the leading icon
+   beside the link text, matching the icon-bullet layout. The icon itself keeps
+   the shared --icon-size, so it matches the download bullets exactly. */
+main p:has(> .icon) {
+  display: flex;
+  align-items: center;
+  gap: 9px;
 }
 
-.center, .center-mobile, .center-desktop,
-.left, .left-mobile, .left-desktop,
-.right, .right-mobile, .right-desktpo {
-  &:not(.cards) {
-    ol {
-      width: fit-content;
-    }
-
-    ul {
-      width: fit-content;
-    }
-
-    li {
-    text-align: left;
-  }
- }
+/* Resource-link icons (download / pdf / connect / play) render at 32px to match
+   the source glyph size. Scoped to these icon names so the global --icon-size
+   (search, social, etc.) is unaffected. */
+main :is(.icon-download, .icon-pdf, .icon-connect, .icon-play) {
+  width: 32px;
+  height: 32px;
 }
 
-.center, .center-mobile {
+/* Resource-list link spacing to match the source: tighter text line-height,
+   ~30px of vertical space between items, and the icon flush to the text top.
+   Scoped to the resource-list columns variant. */
+main .columns.resource-list ul.icon-bullets {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+}
+
+main .columns.resource-list .icon-bullet-text {
+  line-height: 20px;
+}
+
+main .columns.resource-list .icon.icon-bullet {
+  margin-top: 0;
+}
+
+/* 1px light-gray divider above each resource group (Guides / Forms / Letters),
+   plus one closing the set — drawn as the top border of the section that follows
+   the last group. (EDS reserves <hr> for section breaks, so the rule can't be
+   authored as content.) Scoped to those sections so nothing else is affected. */
+main .section:has(.columns.resource-list),
+main .section:has(.columns.resource-list) + .section {
+  border-top: 1px solid #a4a4a4;
+  padding-top: 32px;
+  margin-top: 32px;
+}
+
+.center {
   text-align: center;
 
   &.columns .columns-img-col img {
