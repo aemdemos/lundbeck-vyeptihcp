@@ -1,4 +1,5 @@
 import { buildPictureContentFromImageCell } from '../../scripts/utils.js';
+/** ADCL events handling for hero */
 
 function applyAccentColor(block) {
   block.querySelectorAll('h1 strong, h2 strong, h3 strong, p strong').forEach((strong) => {
