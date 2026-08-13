@@ -22,7 +22,6 @@ export default function decorate(block) {
   block.innerHTML = '';
 
   if (picture) {
-    block.classList.add('has-image');
     const imageWrapper = document.createElement('div');
     imageWrapper.className = 'quote-image';
     imageWrapper.append(picture);
