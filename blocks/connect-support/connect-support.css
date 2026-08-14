@@ -1,48 +1,9 @@
 @import url('./connect-support-tokens.css');
 
-/* Connect support — pale-blue lead+grid box, directly fused to a two-tone
-   enroll/note banner (no gap — one continuous rounded shape). */
-
-main .connect-support-box {
-  background: var(--light-color);
-  border-radius: var(--connect-support-radius);
-  padding: 24px 20px;
-  text-align: left;
-  margin-bottom: 24px;
-}
-
-main .connect-support-lead {
-  color: var(--brand-primary);
-  font-size: var(--connect-support-lead-font-size);
-  margin: 0 0 16px;
-}
-
-main .connect-support-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-}
-
-main .connect-support-item {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-
-main .connect-support-item img {
-  flex-shrink: 0;
-  width: var(--connect-support-item-icon-size);
-  height: var(--connect-support-item-icon-size);
-  border-radius: 50%;
-  display: block;
-}
-
-main .connect-support-item-text p {
-  color: var(--brand-primary);
-  font-weight: 400;
-  margin: 0;
-  font-size: var(--connect-support-item-text-font-size);
-}
+/* Connect support — the two-tone enrollment banner (teal enroll CTA fused to a
+   pale-blue note panel — one continuous rounded shape) that follows the VYEPTI
+   CONNECT icon panel. The lead sentence + support icons now live in the
+   preceding `connect-panel` section / `cards (icon-feature icon-80)` block. */
 
 main .connect-support-enroll {
   background: var(--brand-primary-dark);
@@ -95,15 +56,6 @@ main .connect-support-fine {
 }
 
 @media (width >= 768px) {
-  main .connect-support-box {
-    padding: 24px 32px;
-  }
-
-  main .connect-support-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px 32px;
-  }
-
   main .connect-support-enroll,
   main .connect-support-note {
     padding-left: 32px;

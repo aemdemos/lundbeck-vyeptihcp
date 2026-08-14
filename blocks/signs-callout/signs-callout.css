@@ -1,0 +1,28 @@
+/* signs-callout — standalone filled teal stat callout below the icon-feature
+   cards (patient-profiles "82%" survey figure). Matches the source teal box. */
+main .signs-callout {
+  background: var(--brand-primary-dark, #41748d);
+  color: var(--background-color);
+  border-radius: 20px;
+  padding: 24px 28px;
+  margin: 0.5rem 0 1rem;
+  max-width: 468px;
+}
+
+main .signs-callout p {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+main .signs-callout p:first-child strong {
+  display: block;
+  font-size: 84px;
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+main .signs-callout p:last-child {
+  margin-top: 0.5em;
+  font-weight: 700;
+}
