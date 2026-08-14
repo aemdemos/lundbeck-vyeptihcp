@@ -472,22 +472,6 @@ a.button.accent:focus { /* @libs */
   cursor: pointer; /* @libs */
 }
 
-/* arrow icon on link buttons */
-a.button::after { /* @libs */
-  content: ""; /* @libs */
-  display: inline-block; /* @libs */
-  width: var(--button-icon-width); /* @libs */
-  height: var(--button-icon-height); /* @libs */
-  margin-left: var(--button-icon-gap); /* @libs */
-  vertical-align: middle; /* @libs */
-  background-color: currentcolor; /* @libs */
-  mask-image: var(--button-icon-url); /* @libs */
-  mask-size: contain; /* @libs */
-  mask-repeat: no-repeat; /* @libs */
-  mask-position: center; /* @libs */
-  transition: var(--button-transition); /* @libs */
-}
-
 a.button:hover::after,
 a.button:focus::after { /* @libs */
   opacity: var(--button-icon-opacity-hover); /* @libs */
