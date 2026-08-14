@@ -33,8 +33,10 @@ main .isi li { /* @boilerplate */
   padding-bottom: var(--isi-list-item-padding-y); /* @boilerplate */
 }
 
-/* Content uses h5, not h3 (matches vyeptihcp.com markup). First/last heading
-   (title + "Indication") get the teal accent; the rest stay plain text color. */
+/* Regular sub-headings use h5 (matches vyeptihcp.com markup). The title +
+   "Indication" headings are authored as h4 instead - re-authored from h5 to
+   keep the page's heading levels sequential (h1 > ... > h4) for
+   accessibility - and get their own rule below with the teal accent. */
 main .isi h5 {
   color: var(--isi-text-color);
   font-size: var(--isi-heading-font-size);
@@ -43,10 +45,12 @@ main .isi h5 {
   margin-bottom: var(--isi-heading-margin-bottom);
 }
 
-main .isi h5:first-of-type,
-main .isi h5:last-of-type {
+main .isi h4 {
   color: var(--isi-heading-color);
   font-size: var(--isi-title-font-size);
+  font-weight: var(--isi-heading-font-weight);
+  line-height: var(--isi-heading-line-height);
+  margin-bottom: var(--isi-heading-margin-bottom);
 }
 
 main .isi a { /* @boilerplate */
@@ -101,8 +105,9 @@ main .isi a:hover { /* @boilerplate */
   min-width: 0; /* @boilerplate */
 }
 
-/* Same first/last-of-type treatment, scoped to the bar (moved outside
-   <main> once decorated, so main .isi h5 above doesn't reach it). */
+/* Same treatment, scoped to the bar (moved outside <main> once decorated,
+   so main .isi h5/h4 above don't reach it). Title + "Indication" are h4;
+   regular sub-headings are h5. */
 .isi-bar-col h5 {
   color: var(--isi-text-color);
   font-size: var(--isi-heading-font-size);
@@ -112,23 +117,30 @@ main .isi a:hover { /* @boilerplate */
   margin: 0;
 }
 
-.isi-bar-col h5:first-of-type,
-.isi-bar-col h5:last-of-type {
+.isi-bar-col h4 {
   color: var(--isi-bar-heading-color, var(--isi-heading-color));
   font-size: var(--isi-title-font-size);
+  font-weight: var(--isi-heading-font-weight);
+  line-height: var(--isi-heading-line-height);
+  padding-bottom: var(--isi-bar-heading-padding-bottom);
+  margin: 0;
 }
 
-/* Only the very first heading gets the larger gap before the next
-   heading; the last one ("INDICATION") uses the regular 8px. */
-.isi-bar-col h5:first-of-type {
+/* Only the very first heading (the title) gets the larger gap before the
+   next heading; the last one ("INDICATION") uses the regular 8px, since
+   it's the only other h4. */
+.isi-bar-col h4:first-of-type {
   padding-bottom: var(--isi-bar-title-padding-bottom);
 }
 
 /* A heading right after a paragraph needs a bigger gap than one after
    another heading (e.g. "CONTRAINDICATIONS" after the title) - inline
    gets this for free from the global heading margin-top, but .isi-bar-col
-   h5 above resets all margins to 0, so it's added back here as padding. */
-.isi-bar-col p + h5 {
+   h5/h4 above reset all margins to 0, so it's added back here as padding.
+   "INDICATION" (h4) is the only title heading this applies to; the title
+   itself is never preceded by a paragraph. */
+.isi-bar-col p + h5,
+.isi-bar-col p + h4 {
   padding-top: var(--isi-bar-heading-padding-top);
 }
 
