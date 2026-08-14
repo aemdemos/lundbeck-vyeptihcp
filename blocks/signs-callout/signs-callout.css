@@ -26,3 +26,35 @@ main .signs-callout p:last-child {
   margin-top: 0.5em;
   font-weight: 700;
 }
+
+/* Section layout: when the signs-callout shares a section with the icon-feature
+   cards (patient-profiles "signs" section carries both -container classes),
+   place the cards left and the teal callout right on desktop. The footnotes
+   (default-content-wrapper) always span full width below. Mobile: natural stack. */
+@media (width >= 900px) {
+  main .section.cards-container.signs-callout-container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    column-gap: 2.5rem;
+  }
+
+  main .section.cards-container.signs-callout-container > .cards-wrapper {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  main .section.cards-container.signs-callout-container > .signs-callout-wrapper {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  main .section.cards-container.signs-callout-container > .signs-callout-wrapper .signs-callout {
+    margin: 0;
+  }
+
+  /* footnotes and any other default content span both columns, below the row */
+  main .section.cards-container.signs-callout-container > .default-content-wrapper {
+    grid-column: 1 / -1;
+  }
+}
