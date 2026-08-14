@@ -59,11 +59,25 @@ main .columns:not(.arrow-nav, .icon-feature, .logo-grid, .resource-list, .covera
  * Source: `div.arrow-navigation` — solid teal band (rgb 65 116 141 =
  * --link-color), two white bold links each followed by a white
  * right-arrow glyph, vertical divider between them on desktop, stacked
- * and centered on mobile.
+ * and centered on mobile. The band itself is full-bleed edge-to-edge on
+ * the source; the inner link content is what's capped/centered at the
+ * site width. Bypasses the generic `main > div` / `main > .section > div`
+ * caging the same way `main .section.banner` does elsewhere.
  * ──────────────────────────────────────────────────────────────── */
+main .section:has(> .columns-wrapper > .columns.arrow-nav) {
+  max-width: 100%;
+  margin-inline: 0;
+  padding-inline: 0;
+}
+
+main .section:has(> .columns-wrapper > .columns.arrow-nav) > .columns-wrapper {
+  max-width: 100%;
+  padding-inline: 0;
+}
+
 main .columns.arrow-nav {
   background-color: var(--link-color);
-  max-width: var(--max-width-site);
+  max-width: 100%;
 }
 
 main .columns.arrow-nav > div {
@@ -71,13 +85,15 @@ main .columns.arrow-nav > div {
   flex-direction: column;
   align-items: center;
   gap: 0;
+  max-width: var(--max-width-site);
+  margin-inline: auto;
 }
 
 main .columns.arrow-nav > div > div {
   order: unset;
   flex: 1;
-  padding: 16px 15px;
-  text-align: center;
+  padding: 34.5px 15px;
+  text-align: right;
 }
 
 main .columns.arrow-nav > div > div p {
@@ -102,19 +118,22 @@ main .columns.arrow-nav a:any-link {
   text-decoration: none;
 }
 
-main .columns.arrow-nav a:hover {
-  color: #fff;
-  text-decoration: underline;
+/* Hover highlight triggers across the whole column cell (not just the link's own
+   hit area) — matches source's `.cmp-teaser__content:hover a`. No underline. */
+main .columns.arrow-nav > div > div:hover a {
+  color: var(--columns-arrow-nav-hover-color);
 }
 
-/* white right-arrow glyph after each link (source uses a 21x21 white arrow png) */
+/* white right-arrow glyph after each link. Source is a 46x48 PNG whose shaft
+   is ~12.5% of the icon's height thick; this mask path is drawn to the same
+   proportion (our previous version was ~8.3%, noticeably thinner). */
 main .columns.arrow-nav a::after {
   content: '';
   flex: 0 0 auto;
-  width: 21px;
-  height: 21px;
+  width: var(--columns-arrow-nav-arrow-size);
+  height: var(--columns-arrow-nav-arrow-size);
   background-color: currentcolor;
-  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11h13.2l-4.6-4.6L14 5l7 7-7 7-1.4-1.4 4.6-4.6H4z"/></svg>') no-repeat center / contain;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 10.5H16L11 5.5L13 3.5L21 12L13 20.5L11 18.5L16 13.5H3Z"/></svg>') no-repeat center / contain;
   mask-repeat: no-repeat;
   mask-position: center;
   mask-size: contain;
@@ -615,11 +634,24 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   }
 
   main .columns.arrow-nav > div > div {
-    padding: 24px 15px;
+    text-align: center;
   }
 
+  /* Fixed-height divider, vertically centered — a border would stretch to the
+     column's full height, which is taller than the source's actual divider. */
   main .columns.arrow-nav > div > div:not(:first-child) {
-    border-inline-start: 1px solid rgb(255 255 255 / 45%);
+    position: relative;
+  }
+
+  main .columns.arrow-nav > div > div:not(:first-child)::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 50%;
+    width: 1px;
+    height: var(--columns-arrow-nav-divider-height);
+    background-color: var(--columns-arrow-nav-divider-color);
+    transform: translateY(-50%);
   }
 
   main .columns.stats-callout > div {
