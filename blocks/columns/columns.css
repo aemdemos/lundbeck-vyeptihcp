@@ -135,16 +135,16 @@ main .columns.arrow-nav > div > div:hover a {
   color: var(--columns-arrow-nav-hover-color);
 }
 
-/* white right-arrow glyph after each link. Source is a 46x48 PNG whose shaft
-   is ~12.5% of the icon's height thick; this mask path is drawn to the same
-   proportion (our previous version was ~8.3%, noticeably thinner). */
+/* white right-arrow glyph after each link, thickened/enlarged to better match
+   the source's bolder arrow (source is a 46x48 PNG with a visually heavier
+   shaft than a default chevron at this box size). */
 main .columns.arrow-nav a::after {
   content: '';
   flex: 0 0 auto;
   width: var(--columns-arrow-nav-arrow-size);
   height: var(--columns-arrow-nav-arrow-size);
   background-color: currentcolor;
-  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 10.5H16L11 5.5L13 3.5L21 12L13 20.5L11 18.5L16 13.5H3Z"/></svg>') no-repeat center / contain;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 11H17L11.5 6L13 4.5L21 12L13 19.5L11 18.5L17 13H3Z"/></svg>') no-repeat center / contain;
   mask-repeat: no-repeat;
   mask-position: center;
   mask-size: contain;
