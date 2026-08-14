@@ -83,10 +83,21 @@ main .columns.arrow-nav {
 main .columns.arrow-nav > div {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 0;
-  max-width: var(--max-width-site);
+  max-width: 100%;
   margin-inline: auto;
+}
+
+/* Bootstrap-style stepped container width, matching the source's `.container`
+   class exactly (sm/md/lg/xl max-widths measured directly: 540/720/960/1140px) —
+   the link content sits in a shrinking centered box at every breakpoint, not a
+   simply fluid width until 1140px. `align-items: stretch` (the flex default,
+   left unset above) is required for the cell to fill this box's full width —
+   otherwise it shrinks to its own content and text-align has no room to act. */
+@media (width >= 576px) {
+  main .columns.arrow-nav > div {
+    max-width: 540px;
+  }
 }
 
 main .columns.arrow-nav > div > div {
@@ -111,9 +122,9 @@ main .columns.arrow-nav a:any-link {
   align-items: center;
   gap: 12px;
   font-family: var(--body-font-family);
-  font-size: var(--heading-font-size-s); /* 18px @desktop (source) */
+  font-size: var(--heading-font-size-xs); /* 16px below 768px (source) */
   font-weight: 700;
-  line-height: 1.22;
+  line-height: 22px; /* fixed px in source (not a ratio) — stays 22px at both sizes */
   color: #fff;
   text-decoration: none;
 }
@@ -631,6 +642,7 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
     align-items: center;
     justify-content: center;
     gap: 0;
+    max-width: 720px;
   }
 
   main .columns.arrow-nav > div > div {
@@ -652,6 +664,11 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
     height: var(--columns-arrow-nav-divider-height);
     background-color: var(--columns-arrow-nav-divider-color);
     transform: translateY(-50%);
+  }
+
+  main .columns.arrow-nav a,
+  main .columns.arrow-nav a:any-link {
+    font-size: var(--heading-font-size-s); /* 18px at >=768px (source) */
   }
 
   main .columns.stats-callout > div {
@@ -677,5 +694,21 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
 
   main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) {
     text-align: left;
+  }
+}
+
+/* Continuing the stepped container width (see the >= 576px rule above) — must
+   come after the >= 768px block above so 960/1140px correctly win over 720px
+   at these larger sizes (equal-specificity same-selector rules apply in source
+   order, not by largest matching min-width). */
+@media (width >= 992px) {
+  main .columns.arrow-nav > div {
+    max-width: 960px;
+  }
+}
+
+@media (width >= 1200px) {
+  main .columns.arrow-nav > div {
+    max-width: var(--max-width-site); /* 1140px */
   }
 }
