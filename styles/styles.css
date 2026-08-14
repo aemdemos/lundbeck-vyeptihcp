@@ -226,7 +226,7 @@ body.appear { /* @libs */
   background: var(--background-color);
   border-radius: 20px;
   box-shadow: inset 0 0 8px 4px rgb(0 0 0 / 20%);
-  padding: 24px 24px;
+  padding: 24px;
 }
 
 /* stronger version of .emboss — same card, heavier shadow (40% vs 20%) */
@@ -234,7 +234,7 @@ body.appear { /* @libs */
   background: var(--background-color);
   border-radius: 20px;
   box-shadow: inset 0 0 8px 4px rgb(0 0 0 / 40%);
-  padding: 24px 24px;
+  padding: 24px;
 }
 
 header { /* @libs */
@@ -792,9 +792,119 @@ main .section.stats-callout h4 {
   color: var(--brand-primary);
 }
 
+main > .section.hero-tabs {
+  margin: 0;
+
+  .hero-tabs-wrapper {
+    max-width: 100%;
+  }
+}
+
+main .section.sitemap h1 {
+  text-align: center;
+  padding-bottom: 22px;
+  max-width: unset;
+}
+
+main .section.sitemap h5 {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+main .section.sitemap li {
+  margin: 4px 0;
+}
+
+main .section.sitemap li::marker {
+  color: var(--link-color);
+}
+
+main .section.sitemap ul ul {
+  margin: 0;
+  list-style-type: disc;
+}
+
+main .section.sitemap a:not(.button),
+main .section.sitemap a:not(.button):hover {
+  text-decoration: none;
+}
+
+/* section metadata - banner (hero replacement).
+   A `banner`-styled section is the site-wide hero pattern: the former hero image is
+   authored on the section metadata as `background-image` and rendered by
+   applySectionBackgroundDecorations() as a full-bleed .bg-image layer BEHIND the
+   content. Hero text and blocks (cards, columns, etc.) sit on top as normal section
+   content. The section is full page width; its height tracks the banner image's
+   aspect ratio (--banner-aspect-ratio, override per page if the hero art differs),
+   so the image fills the width with no crop and the content overlays it. */
+main .section.banner {
+  --banner-aspect-ratio: 2880 / 1076;
+
+  position: relative;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  aspect-ratio: var(--banner-aspect-ratio);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Per-page banner override: content pages (efficacy, safety, why-iv, dosing, copay) use a
+   flatter/shorter hero (desktop 1440x396 ~3.64:1, mobile 375x198 ~1.89:1) than the homepage's
+   tall 2880x1076 hero. Authored via `Style: banner, hero-short` so the homepage-tuned global
+   default is untouched. Mobile-first here; desktop ratio applied in the 768px query below. */
+main .section.banner.hero-short {
+  --banner-aspect-ratio: 375 / 198;
+}
+
+/* Background image: true full-bleed background behind all content. Absolute inset
+   fills the section (whose height comes from the aspect-ratio above); cover keeps
+   the image edge-to-edge with no distortion. Overrides the generic
+   `main > .section > div` max-width/padding caps that would otherwise cage it. */
+main .section.banner > .bg-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+main .section.banner > .bg-image picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+main .section.banner > .bg-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Overlaid content: constrained to the site width, centered, sits ABOVE the
+   background image and flows normally (aligned to the bottom band via the section's
+   flex justify-content). */
+main .section.banner > div:not(.bg-image) {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--max-width-site);
+  margin-inline: auto;
+  padding: 0 var(--spacing-m);
+}
+
+
 @media (width >= 576px) {
-  main .section.stats-callout > div:not(.bg-image) {
-    max-width: 540px;
+  :root {
+    --max-width-site: 540px;
   }
 }
 
@@ -811,6 +921,7 @@ main .section.stats-callout h4 {
     --heading-font-size-m: 22px;
     --heading-font-size-s: 18px;
     --heading-font-size-xs: 16px;
+    --max-width-site: 690px;
   }
 
   /* ==== START alignment + display for desktop ==== */
@@ -924,11 +1035,23 @@ div[class^="width-"], div[class*=" width-"] {
     main .section.stats-callout > div:not(.bg-image) {
       max-width: 720px;
     }
+
+    main .section.banner.hero-short {
+      --banner-aspect-ratio: 1440 / 396;
+    }
   }
 
-@media (width >= 992px) { /* @libs */
+@media (width >= 992px) {
+  :root {
+    --max-width-site: 960px;
+  }
+
   body[data-breadcrumbs] { /* @libs */
     --header-height: calc(var(--nav-height) + var(--breadcrumbs-height)); /* @libs */
+  }
+
+  header {
+    min-height: var(--header-reserve-height-desktop);
   }
 
 main > .section > div { /* @libs */
@@ -953,147 +1076,18 @@ main .section.stats-callout > div:not(.bg-image) {
     flex: 1 1 0;
     min-width: 0;
   }
-}
 
-@media (width >= 1200px) {
-  main .section.stats-callout > div:not(.bg-image) {
-    max-width: 1140px;
-  }
-}
-
-/* Header CLS reservation — tablet + desktop overrides (eager so they apply from
-   first paint). Breakpoints match the header block: 600px (tablet layout) and
-   900px (desktop layout). The loaded-state release above still applies. */
-@media (width >= 600px) {
-  header {
-    min-height: var(--header-reserve-height-tablet);
-  }
-}
-
-@media (width >= 900px) {
-  header {
-    min-height: var(--header-reserve-height-desktop);
-  }
-}
-
-/* section metadata - banner (hero replacement).
-   A `banner`-styled section is the site-wide hero pattern: the former hero image is
-   authored on the section metadata as `background-image` and rendered by
-   applySectionBackgroundDecorations() as a full-bleed .bg-image layer BEHIND the
-   content. Hero text and blocks (cards, columns, etc.) sit on top as normal section
-   content. The section is full page width; its height tracks the banner image's
-   aspect ratio (--banner-aspect-ratio, override per page if the hero art differs),
-   so the image fills the width with no crop and the content overlays it. */
-main .section.banner {
-  --banner-aspect-ratio: 2880 / 1076;
-
-  position: relative;
-  max-width: 100%;
-  margin: 0;
-  padding: 0;
-  aspect-ratio: var(--banner-aspect-ratio);
-  color: var(--text-color);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-/* Per-page banner override: content pages (efficacy, safety, why-iv, dosing, copay) use a
-   flatter/shorter hero (desktop 1440x396 ~3.64:1, mobile 375x198 ~1.89:1) than the homepage's
-   tall 2880x1076 hero. Authored via `Style: banner, hero-short` so the homepage-tuned global
-   default is untouched. Mobile-first here; desktop ratio applied in the 768px query below. */
-main .section.banner.hero-short {
-  --banner-aspect-ratio: 375 / 198;
-}
-
-/* Background image: true full-bleed background behind all content. Absolute inset
-   fills the section (whose height comes from the aspect-ratio above); cover keeps
-   the image edge-to-edge with no distortion. Overrides the generic
-   `main > .section > div` max-width/padding caps that would otherwise cage it. */
-main .section.banner > .bg-image {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  width: 100%;
-  max-width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  pointer-events: none;
-}
-
-main .section.banner > .bg-image picture {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-main .section.banner > .bg-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Overlaid content: constrained to the site width, centered, sits ABOVE the
-   background image and flows normally (aligned to the bottom band via the section's
-   flex justify-content). */
-main .section.banner > div:not(.bg-image) {
-  position: relative;
-  z-index: 1;
-  box-sizing: border-box;
-  width: 100%;
-  max-width: var(--max-width-site);
-  margin-inline: auto;
-  padding: 0 var(--spacing-m);
-}
-
-/* Hero sub-copy is now wrapped in a Columns (banner-text) block; its small/muted
-   footnote styling lives in blocks/columns/columns-tokens.css (.columns.banner-text). */
-
-@media (width >= 900px) {
   main .section.banner > div:not(.bg-image) {
     padding: 0 var(--spacing-l);
   }
 }
 
-/* hero-short: flat desktop hero ratio (1440x396) from the source's 768px breakpoint up. */
-@media (width >= 768px) {
-  main .section.banner.hero-short {
-    --banner-aspect-ratio: 1440 / 396;
+@media (width >= 1200px) {
+  :root {
+    --max-width-site: 1110px;
   }
-}
 
-/* section metadata - sitemap (site-map page link hierarchy).
-   Source (vyeptihcp.com) renders every level — top and nested — at the same
-   size with no underline, distinguished only by indentation; flattens the
-   default h5 top-level treatment to match, and normalizes the nested <ul>'s
-   default browser bullet (circle) to match the top level's (disc). */
-main .section.sitemap h1 {
-  text-align: center;
-  padding-bottom: 22px;
-  max-width: unset;
+  main > .section.hero-tabs {
+    margin-top: -105px;
 }
-
-main .section.sitemap h5 {
-  margin: 0;
-  font-size: inherit;
-  line-height: inherit;
-}
-
-main .section.sitemap li {
-  margin: 4px 0;
-}
-
-main .section.sitemap li::marker {
-  color: var(--link-color);
-}
-
-main .section.sitemap ul ul {
-  margin: 0;
-  list-style-type: disc;
-}
-
-main .section.sitemap a:not(.button),
-main .section.sitemap a:not(.button):hover {
-  text-decoration: none;
 }
