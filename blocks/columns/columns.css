@@ -70,7 +70,7 @@ main .section:has(> .columns-wrapper > .columns.arrow-nav) {
   padding-inline: 0;
 }
 
-main .section:has(> .columns-wrapper > .columns.arrow-nav) > .columns-wrapper {
+main .section:has(> .columns-wrapper > .columns.arrow-nav) > .columns-wrapper:has(> .columns.arrow-nav) {
   max-width: 100%;
   padding-inline: 0;
 }
