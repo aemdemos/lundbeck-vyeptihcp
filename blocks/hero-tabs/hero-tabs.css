@@ -151,6 +151,18 @@ background-image: linear-gradient(180deg, #c02b58, #962244);
   margin: 0 0 24px;
 }
 
+@media (width >= 567px) {
+  .hero-tabs .tabs-list button.tabs-tab {
+    padding-right: calc((100% - var(--max-width-site)) / 2);
+    padding-left: calc((100% - var(--max-width-site)) / 2);
+}
+
+.hero-tabs .tabs-panel > div {
+  margin-right: calc((100% - var(--max-width-site)) / 2);
+  margin-left: calc((100% - var(--max-width-site)) / 2);
+}
+}
+
 @media (width >= 992px) {
   .hero-tabs .tabs-panel picture img {
     max-width: 120px;
@@ -197,7 +209,7 @@ background-image: linear-gradient(180deg, #c02b58, #962244);
   }
 
   .hero-tabs .tabs-panel > div {
-    margin: 0;
+    margin: 16px 0 0;
     grid-column: 2 / -2;
     width: 1110px;
   }
