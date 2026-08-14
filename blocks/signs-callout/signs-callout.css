@@ -47,9 +47,10 @@ main .signs-callout p:last-child {
 @media (width >= 900px) {
   main .section.cards-container.signs-callout-container {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: minmax(auto, 620px) auto;
+    justify-content: start;
     align-items: center;
-    column-gap: 2.5rem;
+    column-gap: 1.5rem;
   }
 
   main .section.cards-container.signs-callout-container > .cards-wrapper {
