@@ -120,15 +120,54 @@ export function getBrightcoveIds(url) {
 }
 
 /**
- * Loads the Brightcove player script for the given account and player.
- * The script is only injected once per account/player combination.
+ * Builds a Brightcove <video-js> element for the given ids. Brightcove's player script
+ * (see {@link getBrightcoveScriptTag}) only auto-initializes <video-js> elements present
+ * the first time it runs, so this element's id is passed back to that script so it can be
+ * initialized explicitly too — needed when the script was already loaded for an earlier player.
+ * @param {{accountId: string, playerId: string, videoId: string}} ids
+ * @param {Object} [options]
+ * @param {boolean} [options.autoplay=false]
+ * @param {boolean} [options.playsinline=false] Inline playback on mobile Safari
+ * @param {boolean} [options.fluid=false] Responsive sizing handled by the player's own JS
+ * @param {boolean} [options.background=false] Ambient mode: loop + muted instead of controls
+ * @returns {HTMLElement}
+ */
+export function createBrightcovePlayer({ accountId, playerId, videoId }, options = {}) {
+  const {
+    autoplay = false, playsinline = false, fluid = false, background = false,
+  } = options;
+  const player = document.createElement('video-js');
+  player.id = `bc-${accountId}-${videoId}`;
+  player.setAttribute('data-account', accountId);
+  player.setAttribute('data-player', playerId);
+  player.setAttribute('data-embed', 'default');
+  player.setAttribute('data-video-id', videoId);
+  if (playsinline) player.setAttribute('playsinline', '');
+  if (autoplay) player.setAttribute('autoplay', '');
+  if (background) {
+    player.setAttribute('loop', '');
+    player.setAttribute('muted', '');
+  } else {
+    player.setAttribute('controls', '');
+  }
+  if (fluid) player.classList.add('vjs-fluid');
+  return player;
+}
+
+/**
+ * Loads the Brightcove player script for the given account and player, then explicitly
+ * initializes videoEl. The script is only injected once per account/player combination
+ * (loadScript resolves immediately for an already-loaded src), so the explicit init is what
+ * makes it safe to add more <video-js> elements for the same account/player after the fact.
  * @param {string} accountId The Brightcove account id
  * @param {string} playerId The Brightcove player id
- * @returns {Promise} Resolves when the player script has loaded
+ * @param {HTMLElement} videoEl The <video-js> element to initialize
+ * @returns {Promise<void>}
  */
-export function getBrightcoveScriptTag(accountId, playerId) {
+export async function getBrightcoveScriptTag(accountId, playerId, videoEl) {
   const src = `https://players.brightcove.net/${accountId}/${playerId}_default/index.min.js`;
-  return loadScript(src, { async: '' });
+  await loadScript(src, { async: '' });
+  if (window.bc) window.bc(videoEl);
 }
 
 /* -------------------------------------------------------------------------- */

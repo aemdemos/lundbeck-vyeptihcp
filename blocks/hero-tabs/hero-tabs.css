@@ -29,6 +29,8 @@
   white-space: normal;
   cursor: pointer;
   text-wrap-style: balance;
+  transition: none;
+  text-transform: none;
 }
 
 .hero-tabs .tabs-list button.tabs-tab::after {
@@ -203,7 +205,8 @@ background-image: linear-gradient(180deg, #c02b58, #962244);
   .hero-tabs .tabs-list button.tabs-tab {
     grid-row: 1;
     width: 370px;
-    justify-content: center;
+    padding-right: 24px;
+    padding-left: 24px;
     text-align: left;
     border-radius: 20px 20px 0 0;
   }
