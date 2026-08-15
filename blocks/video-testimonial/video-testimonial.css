@@ -62,8 +62,7 @@
 .video-testimonial .video-testimonial-cta {
   display: block;
   align-self: center;
-  width: 100%;
-  max-width: var(--video-testimonial-cta-max-width);
+  width: var(--button-wide-width);
   text-transform: uppercase;
 }
 

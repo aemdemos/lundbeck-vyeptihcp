@@ -78,8 +78,8 @@
   --heading-font-weight: 700;
   --heading-line-height: 1.2; /* @libs */
   --font-weight-bold: 700; /* @libs */
-  --block-margin-top: 0.8em; /* @libs */
-  --block-margin-bottom: 0.25em; /* @libs */
+  --block-margin-top: 0.5em;
+  --block-margin-bottom: 0.5em;
 
   /* body sizes */
   --body-font-size-m: 24px; /* @libs */
@@ -97,7 +97,7 @@
 
   /* layout */
   --max-width-site: 1140px; /* @libs */
-  --section-padding-vertical: 40px; /* @libs */
+  --section-padding-vertical: 30px; /* @libs */
   --icon-size: 24px; /* @libs */
   --h1-max-width: 14em; /* @libs */
 
@@ -119,7 +119,7 @@
   --fixed-font-family: menlo, consolas, monospace; /* @libs */
 
   /* button tokens — shared */
-  --button-margin: 0;
+  --button-margin: 20px 0 8px;
   --button-border-radius: 100px;
   --button-border-width: 2px;
   --button-padding: 14px 25px;
@@ -137,11 +137,11 @@
 
   /* primary — filled CTA */
   --button-primary-background: var(--brand-secondary); /* @libs */
-  --button-primary-hover-background: var(--brand-secondary-dark); /* @libs */
+  --button-primary-hover-background: var(--background-color); /* @libs */
   --button-primary-color: var(--background-color); /* @libs */
   --button-primary-border-color: var(--brand-secondary); /* @libs */
-  --button-primary-hover-border-color: var(--brand-secondary-dark); /* @libs */
-  --button-primary-hover-color: var(--background-color); /* @libs */
+  --button-primary-hover-border-color: var(--brand-secondary); /* @libs */
+  --button-primary-hover-color: var(--brand-secondary); /* @libs */
 
   /* secondary — outline / ghost */
   --button-secondary-background: transparent; /* @libs */
@@ -175,6 +175,7 @@
   --button-on-dark-secondary-hover-background: var(--background-color); /* @libs */
   --button-on-dark-secondary-hover-border-color: var(--background-color); /* @libs */
   --button-on-dark-secondary-hover-color: var(--brand-primary); /* @libs */
+  --button-wide-width: 100%;
 
 }
 
@@ -216,6 +217,7 @@ body.appear { /* @libs */
    block-level paragraph rules (e.g. columns' 22px line-height) wherever
    an author or block explicitly opts in. */
 .small-text {
+  display: block;
   font-size: var(--body-font-size-xs) !important;
   line-height: 1.3 !important;
 }
@@ -225,8 +227,10 @@ body.appear { /* @libs */
 .emboss {
   background: var(--background-color);
   border-radius: 20px;
-  box-shadow: inset 0 0 8px 4px rgb(0 0 0 / 20%);
-  padding: 24px;
+  box-shadow: inset 0 0 8px 2px rgb(0 0 0 / 20%);
+  padding: 20px;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 /* stronger version of .emboss — same card, heavier shadow (40% vs 20%) */
@@ -234,7 +238,9 @@ body.appear { /* @libs */
   background: var(--background-color);
   border-radius: 20px;
   box-shadow: inset 0 0 8px 4px rgb(0 0 0 / 40%);
-  padding: 24px;
+  padding: 20px;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 header { /* @libs */
@@ -295,7 +301,6 @@ h3, .size-h3 {
   font-weight: var(--font-weight-bold);
   line-height: 1.2;
   color: var(--brand-primary-dark);
-  margin-bottom: 0;
 }
 
 h4, .size-h4 {
@@ -344,7 +349,7 @@ pre { /* @libs */
 }
 
 main > div { /* @libs */
-  margin: 40px 16px; /* @libs */
+  margin: var(--section-padding-vertical) 16px; /* @libs */
 }
 
 input,
@@ -414,6 +419,7 @@ button { /* @libs */
   background-color: var(--button-primary-background); /* @libs */
   border-color: var(--button-primary-border-color); /* @libs */
   color: var(--button-primary-color); /* @libs */
+  text-transform: uppercase;
 }
 
 a.button.primary:hover,
@@ -552,6 +558,7 @@ main p:has(> .icon) {
 main :is(.icon-download, .icon-pdf, .icon-connect, .icon-play) {
   width: 32px;
   height: 32px;
+  flex: 0 0 auto;
 }
 
 /* Resource-list link spacing to match the source: tighter text line-height,
@@ -575,11 +582,9 @@ main .columns.resource-list .icon.icon-bullet {
    plus one closing the set — drawn as the top border of the section that follows
    the last group. (EDS reserves <hr> for section breaks, so the rule can't be
    authored as content.) Scoped to those sections so nothing else is affected. */
-main .section:has(.columns.resource-list),
-main .section:has(.columns.resource-list) + .section {
-  border-top: 1px solid #a4a4a4;
-  padding-top: 32px;
-  margin-top: 32px;
+main .section:has(.columns.resource-list) {
+  border-bottom: 1px solid #a4a4a4;
+  padding-bottom: 16px;
 }
 
 .center {
@@ -615,11 +620,25 @@ main .section:has(.columns.resource-list) + .section {
   }
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
+.button:has(span.wide) {
+    min-width: var(--button-wide-width);
+}
+
 /* ==== END alignment + display for mobile ==== */
 
 main > .section > div:not(.bg-image) {
   margin: auto;
   padding: 0 var(--spacing-m);
+  max-width: var(--max-width-site);
+}
+
+main > .section > div.columns-wrapper {
+  margin-top: 24px;
+  margin-bottom: 24px;
 }
 
 /* flex sections — a run of adjacent style=flex sections is wrapped by JS in a
@@ -666,7 +685,11 @@ main .section.light,
 main .section.highlight { /* @libs */
   background-color: var(--light-color); /* @libs */
   margin: 0; /* @libs */
-  padding: var(--section-padding-vertical) 0; /* @libs */
+  padding: var(--section-padding-vertical) 16px; /* @libs */
+
+  > div {
+    margin: 16px;
+  }
 }
 
 /* section metadata - center (centers heading/body copy in the section) */
@@ -678,12 +701,20 @@ main .section.center > div {
   margin-inline: auto;
 }
 
+.section.emboss, .section.emboss-heavy, .section.rounded {
+  max-width: var(--max-width-site);
+  padding: 20px 16px;
+}
+
+.section.rounded {
+  border-radius: 20px;
+}
+
 /* section metadata - dark (teal) */
 main .section.dark { /* @libs */
   background-color: var(--brand-primary); /* @libs */
   color: var(--background-color); /* @libs */
-  margin: 0; /* @libs */
-  padding: var(--section-padding-vertical) 0; /* @libs */
+  padding: 16px;
 }
 
 /* :not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) excludes the emboss
@@ -738,42 +769,6 @@ main .section.dark a.button.secondary:focus { /* @libs */
   background-color: var(--button-on-dark-secondary-hover-background); /* @libs */
   border-color: var(--button-on-dark-secondary-hover-border-color); /* @libs */
   color: var(--button-on-dark-secondary-hover-color); /* @libs */
-}
-
-/* section metadata - stats-callout (light-blue→white gradient, rounded top corners).
-   Source: vyepti.com clinical-study-results and real-life-impact callouts.
-   The light-blue background-color is authored on the section metadata and applied
-   inline via applySectionBackgroundDecorations(); this rule layers the white fade
-   + rounded corners on top.
-   Box model measured from the live source:
-   - The gradient box (section) is ALWAYS full width (max-width 100%, no side
-     margin). It carries 15px side padding below 768px; at 768+ the inner
-     container owns the gutters so the section padding drops to 0.
-   - The inner content (.container equivalent) carries the responsive caps,
-     centered with margin auto: <576 fluid, 576+ = 540, 768+ = 720,
-     992+ = 960, 1200+ = 1140 (Bootstrap container widths), each with 15px gutters. */
-main .section.stats-callout {
-  max-width: var(--max-width-site); /* @boilerplate */
-  margin: auto;
-  background-image: linear-gradient(180deg, #e8f3f5 20%, #fff 53%, #fff 100%);
-  border-radius: 23px 23px 0 0;
-  padding: var(--section-padding-vertical) 15px;
-  text-align: center;
-}
-
-/* Inner content carries the responsive container caps, centered. box-sizing keeps
-   the 15px gutters inside the width instead of adding to it. */
-main .section.stats-callout > div:not(.bg-image) {
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0 15px;
-}
-
-main .section.stats-callout h2,
-main .section.stats-callout h4 {
-  color: var(--brand-primary);
 }
 
 main > .section.hero-tabs {
@@ -890,6 +885,13 @@ main .section.banner > div:not(.bg-image) {
   :root {
     --max-width-site: 540px;
   }
+
+  
+  .section.emboss, .section.emboss-heavy, .section.rounded,
+  main .section.light > div {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 @media (width >= 768px) {
@@ -971,6 +973,10 @@ main .section.banner > div:not(.bg-image) {
     }
   }
 
+  .top > div, .columns.top > div { /* only tested with Columns block */
+  align-items: stretch;
+    }
+
   /* ==== END alignment + display for desktop ==== */
   
     /* ==== Start widths ==== */
@@ -1008,17 +1014,6 @@ div[class^="width-"], div[class*=" width-"] {
 }
 
 /* ==== End widths ==== */
-    main .section.stats-callout {
-      padding: var(--section-padding-vertical) 0;
-    }
-
-    main > .section > div { /* @libs */
-      max-width: 720px; /* @libs */
-    }
-  
-    main .section.stats-callout > div:not(.bg-image) {
-      max-width: 720px;
-    }
 
     main .section.banner.hero-short {
       --banner-aspect-ratio: 1440 / 396;
@@ -1028,6 +1023,7 @@ div[class^="width-"], div[class*=" width-"] {
 @media (width >= 992px) {
   :root {
     --max-width-site: 960px;
+    --button-wide-width: 345px;
   }
 
   body[data-breadcrumbs] { /* @libs */
@@ -1041,10 +1037,6 @@ div[class^="width-"], div[class*=" width-"] {
 main > .section > div { /* @libs */
   max-width: var(--max-width-site); /* @libs */
   padding: 0 32px; /* @libs */
-}
-
-main .section.stats-callout > div:not(.bg-image) {
-  max-width: 960px;
 }
 
   main .section.accent > div { /* @libs */
@@ -1063,6 +1055,10 @@ main .section.stats-callout > div:not(.bg-image) {
 
   main .section.banner > div:not(.bg-image) {
     padding: 0 var(--spacing-l);
+  }
+
+  .section.emboss, .section.emboss-heavy, .section.rounded {
+    padding: 24px 36px;
   }
 }
 

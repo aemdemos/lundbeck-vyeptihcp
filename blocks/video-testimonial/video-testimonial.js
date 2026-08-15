@@ -1,20 +1,6 @@
 /* Video Testimonial: text (heading, quote, CTA, disclaimer) + Brightcove video. */
 
-import { getBrightcoveIds, getBrightcoveScriptTag } from '../../scripts/utils.js';
-
-/** Builds a Brightcove <video-js> element. */
-function createBrightcovePlayer({ accountId, playerId, videoId }) {
-  const player = document.createElement('video-js');
-  player.className = 'video-js';
-  player.id = `bc-${accountId}-${videoId}`;
-  player.setAttribute('controls', '');
-  player.setAttribute('playsinline', '');
-  player.setAttribute('data-account', accountId);
-  player.setAttribute('data-player', playerId);
-  player.setAttribute('data-video-id', videoId);
-  player.setAttribute('data-embed', 'default');
-  return player;
-}
+import { getBrightcoveIds, getBrightcoveScriptTag, createBrightcovePlayer } from '../../scripts/utils.js';
 
 /**
  * @param {Element} block The block element
@@ -47,9 +33,9 @@ export default async function decorate(block) {
   if (videoAnchor) {
     const ids = getBrightcoveIds(new URL(videoAnchor.href));
     if (ids) {
-      playerEl = createBrightcovePlayer(ids);
+      playerEl = createBrightcovePlayer(ids, { playsinline: true });
       media.append(playerEl);
-      getBrightcoveScriptTag(ids.accountId, ids.playerId);
+      getBrightcoveScriptTag(ids.accountId, ids.playerId, playerEl);
     } else {
       // Unknown provider: keep the link.
       media.append(videoAnchor);

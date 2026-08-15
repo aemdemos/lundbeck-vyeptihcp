@@ -10,7 +10,7 @@ main > .section.hero-container {
   margin: 0;
 }
 
-.hero-container .hero-wrapper {
+main > .section.hero-container > .hero-wrapper {
   max-width: unset;
   padding: 0;
 }
