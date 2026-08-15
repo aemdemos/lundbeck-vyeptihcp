@@ -53,7 +53,6 @@ header nav .nav-utility-container,
 header nav .nav-brand-container,
 header nav .nav-links-container {
   box-sizing: border-box;
-  max-width: var(--max-width-site);
   margin: 0 auto;
   padding: 0 var(--header-padding-container);
 }
@@ -809,7 +808,11 @@ header nav.nav-mobile-open .nav-hamburger-icon::after {
    pop-over are hidden. This 900px literal MUST match --header-mobile-breakpoint
    and header.js's matchMedia('(min-width: 900px)').
    ============================================================ */
-@media (width >= 900px) {
+@media (width >= 992px) {
+  header nav .nav-hcp-container, header nav .nav-utility-container, header nav .nav-brand-container, header nav .nav-links-container {
+    max-width: var(--max-width-site);
+}
+
   /* HCP arrow returns to the filled teal circle with a white arrow. */
   header nav .nav-hcp-link::after {
     background-image: var(--header-hcp-arrow-image);
