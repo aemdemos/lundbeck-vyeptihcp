@@ -23,15 +23,19 @@ function getFacilityIcon(result) {
 
 
 export function noResult(resultsContainer) {
+  const noResultsImg = document.createElement('img');
+  noResultsImg.src = 'https://www.vyeptihcp.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/search-plus.png';
+ noResultsImg.className ='noResults-icon-img';
+
   const title = document.createElement('h2');
   title.className = 'locator-no-results';
   title.textContent = 'No results found';
 
   const message = document.createElement('p');
   message.textContent =
-    'Try expanding your search radius or entering a different location.';
+    'There are no results available at this time. Please edit your search filters or check back often, as more locations are periodically added.';
 
-  resultsContainer.append(title, message);
+  resultsContainer.append(noResultsImg, title, message);
 }
 
 export function searchResult(result, index, settings) {

@@ -1,3 +1,5 @@
+import renderDescription from "./regex.js";
+
 export default function createMain(form) {
   const main = document.createElement('div');
   main.className = 'locator-main';
@@ -11,6 +13,8 @@ export default function createMain(form) {
   const results = document.createElement('div');
   results.className = 'locator-results';
 
+  
+
   // Legend
   const legend = document.createElement('div');
   legend.className = 'locator-legend';
@@ -21,6 +25,7 @@ export default function createMain(form) {
     form.querySelector('#form-network')?.closest('.field-wrapper'),
   ].forEach((el) => {
     if (el) {
+      el.innerHTML = renderDescription(el.textContent)
       legend.append(el);
     }
   });

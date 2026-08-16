@@ -2,7 +2,7 @@
 
 export default function getElements(block) {
   return {
-    searchBtn: block.querySelector('.submit-wrapper .button'),
+    searchBtn: block.querySelector('#form-zipcodesubmit'),
     zipInput: block.querySelector('#form-zipcode'),
     resultsContainer: block.querySelector('.locator-results'),
     zipLabel: block.querySelector('label[for="form-zipcode"]'),

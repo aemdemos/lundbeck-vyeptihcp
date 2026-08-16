@@ -193,7 +193,7 @@ margin-bottom: 16px !important;
     color: #b81d4a;
 }
 
-.locator-search button {
+.locator-search .button-wrapper input {
   width: 100%;
   height: 56px;
   border: 0;
@@ -204,19 +204,22 @@ margin-bottom: 16px !important;
   font-weight: 700;
   text-transform: uppercase;
   background-color: #c02c57;
-    border: 2px solid #fff;
-    border-radius: 75pt;
-    color: #fff;
-    display: inline-block;
-    font-family: open-sans, sans-serif;
-    max-width: 345px;
-    padding: 14px;
-    transition: all .2s ease-in-out;
-    width: 100%;
+  border: 2px solid #fff;
+  border-radius: 75pt;
+  color: #fff;
+  display: inline-block;
+  font-family: open-sans, sans-serif;
+  max-width: 345px;
+  padding: 14px;
+  transition: all .2s ease-in-out;
+  width: 100%;
 }
 
-.locator-search button:hover {
-  background: #a6244a;
+.locator-search .button-wrapper :hover {
+  background-color: #fff;
+    border-color: #c02c57;
+    color: #c02c57;
+    text-decoration: none;
 }
 
 /* ------------------------------------------------------------------
@@ -234,39 +237,104 @@ margin-bottom: 16px !important;
   display: flex;
   align-items: flex-start;
   gap: 10px;
+  position: relative;
 }
 
 .locator-filters input[type='checkbox'] {
-  margin-top: 4px;
+   position: absolute;
+  top: 0;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  background-image: url('https://www.vyeptihcp.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/checkbox.svg');
+  background-size: 100%;
+}
+
+.locator-filters .checkmark {
+    position: absolute;
+  top: 18.5px;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  background-image: url('https://www.vyeptihcp.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/checkbox.svg');
+  background-size: 100%;
+}
+
+.labelWraper,
+#form-hidehospital-label {
+  margin-left: 33px;
 }
 
 .locator-filters label {
+  display: inline-block;
   cursor: pointer;
   line-height: 1.5;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.locator-filters  label span {
+      color: rgb(192, 44, 87);
+      font-weight: 700;
+}
+
+.locator-filters label img {
+  width: 17px;
+    position: relative;
+    vertical-align: middle;
+    bottom: 3px;
+}
+
+
+
+.locator-filters .filterDescpOne img,
+.locator-filters .filterDescpTwo img{
+  width: 17px;
+    position: relative;
+    vertical-align: middle;
+    bottom: 3px;
+    
 }
 
 .selectHide {
   display: none;
 }
 
+.locator-filters  .error {
+  text-align: center;
+    color: #c02c57;
+    margin: 24px 0 0;
+    width: 100%;
+    padding: 0 15px;
+    line-height: 24px;
+    position: relative;
+    font-family: 'open-sans', sans-serif;
+}
 /* ------------------------------------------------------------------
    Legend
 ------------------------------------------------------------------- */
 
 .locator-legend {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 20px 0;
-  border-top: 1px solid #e4e4e4;
-  border-bottom: 1px solid #e4e4e4;
-  margin-bottom: 32px;
+  background: #eff6f9;
+  padding: 12px 0 12px 9px;
+  border-bottom: 1px solid #484848;
+  border-top-right-radius: 10px;
+  justify-content: space-around;
 }
 
 .locator-legend .field-wrapper {
   display: flex;
   align-items: center;
-  gap: 12px;
+  font-size: 14px;
+  font-family: 'open-sans', sans-serif;
+  max-width: 168px;
+   
+}
+
+.locator-legend .field-wrapper img {
+  width: 39px;
+  margin-right: 8px;
 }
 
 /* ------------------------------------------------------------------
@@ -285,14 +353,53 @@ margin-bottom: 16px !important;
   border-radius: 6px;
   overflow: hidden;
   background: #f5f5f5;
+      padding: 0;
+    border-left: 1px solid #484848;
+    border-bottom: 1px solid #484848;
+    border-top: 1px solid #484848;
+    border-radius: 10px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .locator-results {
-  border: 1px solid #ddd;
   border-radius: 6px;
   padding: 20px;
-  min-height: 420px;
+  height: 420px;
   background: #fff;
+  text-align: center;
+  overflow: scroll;
+}
+
+.locator-results .noResults-icon-img {
+  width: 96px;
+    height: 96px;
+    margin-bottom: 8px;
+}
+
+.locator-results .locator-no-results {
+      font-size: 18px;
+    line-height: 26px;
+    color: #484848;
+    margin: 0;
+    padding-bottom: 8px;
+}
+
+.locator-welcome-title {
+  font-size: 18px;
+    line-height: 26px;
+    text-align: center;
+    color: #484848;
+    margin: 0;
+    padding-bottom: 8px !important;
+}
+
+.locator-welcome-text {
+  font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #484848;
+    font-weight: normal;
 }
 
 /* ------------------------------------------------------------------
@@ -308,7 +415,7 @@ margin-bottom: 16px !important;
     flex-wrap: wrap;
   }
 
-  .locator-search .submit-wrapper {
+  .locator-search .button-wrapper {
     width: 25%;
     font-size: 16px;
     margin: 0;
@@ -322,8 +429,7 @@ margin-bottom: 16px !important;
 
   .locator-legend {
     flex-direction: row;
-    flex-wrap: wrap;
-    gap: 24px;
+    flex-wrap: nowrap;
   }
 }
 
@@ -334,17 +440,211 @@ margin-bottom: 16px !important;
 @media (min-width: 1024px) {
   .locator-main {
     display: grid;
-    grid-template-columns: minmax(0, 2fr) 420px;
-    gap: 32px;
+    grid-template-columns: minmax(0, 2fr) 555px;
+    gap: 0px;
     align-items: start;
   }
 
   .locator-map,
-  .locator-results {
+  .locator-results-wrap {
     min-height: 650px;
+    border: 1px solid #484848;
+  }
+
+  .locator-map {
+    max-width: 555px;
   }
 
   .locator-header h2  {
     font-size: 36px;
   }
+}
+
+
+/* Locator results */
+
+/* --- Results Panel & Map Layout --- */
+.locator-results .locator-results-list {
+  padding: 16px 36px 0 2px;
+}
+
+
+.locator-results .locator-results-list .locator-result-item {
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  padding: 5px;
+  margin: 16px 0;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--background-color);
+}
+
+.locator-results .locator-results-list .locator-result-item.gradientBorder {
+  background: linear-gradient(to right, #f16464, #c02c57);
+}
+
+.locator-result-item-inner {
+  display: flex;
+  justify-content: space-between;
+  background: var(--background-color);
+  border-radius: 10px;
+  padding: 11px 24px 21px 11px;
+}
+
+.locator-results .locator-results-list .locator-result-item:hover,
+.locator-results .locator-results-list .locator-result-item:hover .locator-result-item-inner,
+.locator-results .locator-results-list .locator-result-item.gradientBorder:hover .locator-result-item-inner {
+  background-color: var(--card-bg-light);
+}
+
+.locator-result-left {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin-right: 10px;
+}
+
+.locator-result-left::before {
+  content: "";
+  width: 32px;
+  height: 40px;
+  background-image: url("https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/Pin_Teal_Solid.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.locator-result-left span {
+  position: absolute;
+  top: 7px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  color: var(--background-color);
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 20px;
+}
+
+.locator-result-item.gradientBorder .locator-result-left::before {
+  background-image: url("https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/Pin_Red_Solid.svg");
+}
+
+.locator-result-right {
+  text-align: left;
+  width: 100%;
+}
+
+.locator-result-right h3 {
+  margin-top: 0px;
+  color: var(--brand-teal-muted);
+  max-width: 100% !important;
+  word-break: break-word;
+  font-size: 18px;
+  padding-bottom: 8px;
+  line-height: 18px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.locator-result-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.locator-results .locator-title-wrap .locator-title {
+  text-align: center;
+  color: var(--brand-dark);
+}
+
+.locator-results  .typeText {
+  font-size: 16px;
+  line-height: 16px;
+  color: var(--brand-teal-muted);
+  font-style: italic;
+}
+.locator-results .milesText {
+    font-size: 16px;
+    line-height: 16px;
+    padding-bottom: 8px;
+    font-style: italic;
+}
+
+.locator-result-address {
+    display: block;
+    padding-bottom: 8px;
+    font-family: "proxima-nova", sans-serif;
+    font-size: 16px;
+    line-height: 19px;
+    padding-right: 88px;
+    font-weight: 700;
+    color: var(--brand-teal-muted);
+    text-decoration: underline;
+    text-underline-position: under;
+    margin-top: 0px;
+}
+
+.locator-result-phone {
+  margin: 0px;
+  float: left;
+}
+
+.locator-result-phone a {
+  text-decoration: underline;
+}
+
+.locator-result-phone span {
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 16px;
+    color: var(--border-color-dark);
+}
+
+.weblink {
+  position: relative;
+  float: right;
+}
+
+.weblink::after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background-image: url('https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/Global_Icon_External_Link_Alt_Teal.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  position: absolute;
+}
+
+.locator-results .locator-title-wrap .locator-result-disclaimer {
+  text-align: left;
+  line-height: 22px;
+  font-size: 18px !important;
+  text-align: left;
+  margin-bottom: 24px;
+  color: var(--text-color);
+}
+
+.locator-results .locator-title-wrap .locator-result-disclaimer .red-color {
+  color: var(--brand-rose);
+}
+
+.locator-welcome-title {
+  font-size: 18px;
+  line-height: 20px;
+  text-align: center;
+  color: var(--border-color-dark);
+  margin: 0 0 12px 0;
+  font-weight: 700;
+}
+
+.locator-welcome-text {
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+  color: var(--border-color-dark);
+  font-weight: normal;
+  margin: 0;
 }

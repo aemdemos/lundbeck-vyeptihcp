@@ -3,25 +3,56 @@ import  mockdata  from "./mockData.js";
 
 const USE_MOCK_DATA = true;
 
-export function getApiKey(block) {
+export function getApiInfo(block) {
   const apiKeyElement = block.querySelector('#form-apikey');
+  const apiEndpointElement = block.querySelector('#form-endpoint');
+  const showInfusionCentersElement = block.querySelector('#form-infusion-center');
+  const showHcpDataElement = block.querySelector('#form-hcp-data');
+  const showFiltersElement = block.querySelector('#form-filter');
+  
 
-  if (!apiKeyElement) {
+  if (!apiKeyElement || !apiEndpointElement) {
     return null;
   }
 
-  const apiKey = apiKeyElement.textContent.trim();
+  const apiKey = apiKeyElement.textContent;
+  const apiEndpoint = apiEndpointElement.textContent;
 
-  // Remove the rendered field from the page
-  apiKeyElement.closest('.field-wrapper')?.remove();
+  const showInfusionCenters =
+    showInfusionCentersElement?.textContent || '';
 
-  return apiKey;
+  const showHcpData =
+    showHcpDataElement?.textContent || '';
+
+  const showFilters =
+    showFiltersElement?.textContent || '';
+
+    //alert(apiKey);
+
+  [
+    apiKeyElement,
+    apiEndpointElement,
+    showInfusionCentersElement,
+    showHcpDataElement,
+    showFiltersElement,
+  ].forEach((element) => {
+    element?.closest('.field-wrapper')?.remove();
+  });
+
+  return {
+    apiKey,
+    apiEndpoint,
+    showInfusionCenters,
+    showHcpData,
+    showFilters,
+  };
 }
 
 export async function searchLocations(
   zip,
   distance,
   settings,
+  apiInfo,
   activeFilters = [],
 ) {
   const coords = await geocodeZip(zip);
@@ -44,7 +75,8 @@ export async function searchLocations(
       params.append("filter", filter);
     });
 
-    const response = await fetch(`${settings.apiEndpoint}?${params}`);
+    console.log(apiInfo.showHCPData);
+    const response = await fetch(`${apiInfo.apiEndpoint}?${params}`,{method: "POST"});
 
     if (!response.ok) {
       throw new Error(`API returned ${response.status}`);

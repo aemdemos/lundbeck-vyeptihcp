@@ -1,7 +1,7 @@
 import { createDropdown } from "./dropdown.js";
 // import { renderDescription } from "./filter-text.js";
 import  createHeader  from './layout/header.js';
-import { createSearch } from "./layout/search.js";
+import { createSearch } from "./layout/search-layout.js";
 import { createFilters } from "./layout/filters.js";
 import createMain from './layout/main.js';
 

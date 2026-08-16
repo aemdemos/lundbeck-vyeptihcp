@@ -1,9 +1,11 @@
+import renderDescription from "./regex.js";
 
 export function createFilters(form, inputField, inputFieldLabel) {
   const filters = document.createElement('div');
   filters.className = 'locator-filters';
 
   appendFilterFields(form, filters);
+
   createFilterDescription(form, inputField, inputFieldLabel);
 
   const error = createErrorMessage();
@@ -12,6 +14,8 @@ export function createFilters(form, inputField, inputFieldLabel) {
 
   return filters;
 }
+
+
 
 function appendFilterFields(form, filters) {
   const fields = [
@@ -93,16 +97,3 @@ function createErrorMessage() {
   return error;
 }
 
-function renderDescription(description) {
-  if (!description) return '';
-
-  return description
-    .replace(
-      /\[red-font\]\(([^)]+)\)/g,
-      '<span class="red-font">$1</span>',
-    )
-    .replace(
-      /\[icon\]\(([^)]+)\)/g,
-      '<img src="$1" alt="">',
-    ); 
-}

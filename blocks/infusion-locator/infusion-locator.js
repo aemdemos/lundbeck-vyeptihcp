@@ -1,20 +1,26 @@
 import { getSettings } from '../../scripts/config.js';
 import { createLayout } from './layout.js';
 import { initializeMap } from './map.js';
-import { getApiKey } from './api.js';
+import { getApiInfo } from './api.js';
 import  registerEvents  from './events.js';
 import { initCustomDropdown } from './dropdown.js';
 import  getElements  from './ui.js';
 
 export default async function decorate(block) {
-  const settings = getSettings(block);
+  await renderForm(block);
+
+  const apiInfo = getApiInfo(block);
+
+  console.log("API INFO :", apiInfo);
+  const settings = getSettings(block, apiInfo);
+
 
   await renderForm(block);
   await createLayout(block);
 
-  const apiKey = getApiKey(block);
+  
 
-  await initializeMap(apiKey);
+  await initializeMap(apiInfo.apiKey);
 
   const ui = getElements(block);
 
@@ -24,6 +30,7 @@ export default async function decorate(block) {
     block,
     ui,
     settings,
+    apiInfo,
   });
 }
 

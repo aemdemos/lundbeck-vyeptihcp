@@ -4,6 +4,7 @@ export default function registerEvents({
   block,
   ui,
   settings,
+  apiInfo,
 }) {
 
   // Handle CSS class toggles on floating element input labels
@@ -19,7 +20,8 @@ export default function registerEvents({
   }
 
   if(ui.infoIcon) {
-    ui.infoIcon.addEventListener('click', () => { 
+    ui.infoIcon.addEventListener('click', (el) => { 
+      el.preventDefault();
       ui.filterDescpTwo.classList.toggle('selectHide');
       ui.filterDescpOne.classList.toggle('selectHide');
     });
@@ -33,6 +35,7 @@ export default function registerEvents({
               block,
               ui,
               settings,
+              apiInfo,
             });
         } 
   );

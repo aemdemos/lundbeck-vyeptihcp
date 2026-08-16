@@ -13,8 +13,10 @@ export function createSearch(block, form) {
     const searchFields = [
         form.querySelector('#form-zipcode')?.closest('.field-wrapper'),
         mileBlock,
-        form.querySelector('.submit-wrapper'),
+        form.querySelector('#form-zipcodesubmit')?.closest('.field-wrapper'),
     ];
+
+    form.querySelector('#form-zipcodesubmit-label').remove();
 
     searchFields.forEach((field) => {
         if (field) {
