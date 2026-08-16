@@ -41,12 +41,6 @@ main .columns.arrow-nav > div {
   margin-inline: auto;
 }
 
-@media (width >= 576px) {
-  main .columns.arrow-nav > div {
-    max-width: 540px;
-  }
-}
-
 main .columns.arrow-nav > div > div {
   order: unset;
   flex: 1;
@@ -148,8 +142,6 @@ main .columns.coverage-hero h3 {
  * ──────────────────────────────────────────────────────────────── */
 main .columns.jump-nav {
   max-width: var(--max-width-site);
-  margin: -32px auto 0;
-  padding: 0 24px;
   position: relative;
   z-index: 2;
 }
@@ -158,15 +150,15 @@ main .columns.jump-nav > div {
   display: flex;
   flex-direction: column;
   background: var(--background-color);
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: inset 0 0 8px 2px rgb(0 0 0 / 20%);
-  padding: 16px 24px;
+  padding: 16px;
   gap: 0;
 }
 
 main .columns.jump-nav > div > div {
   border-bottom: 1px solid #a4a4a4;
-  padding: 12px 0;
+  padding: 6px 0;
   flex: unset;
 }
 
@@ -191,48 +183,26 @@ main .columns.jump-nav a {
 }
 
 main .columns.jump-nav a::after {
-  content: "\276F";
+  content: "";
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--brand-rose);
-  color: var(--background-color);
-  font-size: 15px;
-  font-weight: 700;
+  width: 42px;
+  height: 42px;
+  background-image: url('/icons/back-to-top.svg');
   display: flex;
   align-items: center;
   justify-content: center;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transform: rotate(90deg);
 }
 
-@media (width >= 992px) {
-  main .columns.jump-nav {
-    margin-top: -44px;
-  }
+main .columns.jump-nav > div > div:hover a {
+  color: var(--brand-secondary);
+  text-decoration: none;
 
-  main .columns.jump-nav > div {
-    flex-direction: row;
-    padding: 24px 40px;
-  }
-
-  main .columns.jump-nav > div > div {
-    border-bottom: 0;
-    border-left: 1px solid #a4a4a4;
-    padding: 0 40px;
-    flex: 1;
-  }
-
-  main .columns.jump-nav > div > div:first-child {
-    border-left: 0;
-    padding-left: 0;
-  }
-
-  main .columns.jump-nav > div > div:last-child {
-    padding-right: 0;
-  }
-
-  main .columns.jump-nav a {
-    font-size: 18px;
+  &::after {
+  background-image: url('/icons/back-to-top-hover.svg');
   }
 }
 
@@ -274,14 +244,6 @@ main .columns.icon-feature > div > div:last-child ul {
   font-weight: 400;
 }
 
-@media (width >= 900px) {
-  main .columns.icon-feature {
-    flex-flow: row wrap;
-    justify-content: center;
-    gap: 48px;
-  }
-}
-
 /* icon-feature.callout — magenta rounded band, white circular icon */
 main .columns.icon-feature.callout {
   color: var(--background-color);
@@ -300,18 +262,6 @@ main .columns.icon-feature.callout > div > div:last-child p {
   margin: 0;
   font-size: 15px;
   line-height: 1.3;
-}
-
-@media (width >= 900px) {
-  main .columns.icon-feature.callout {
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    gap: 24px;
-  }
-
-  main .columns.icon-feature.callout > div {
-    flex: 1;
-  }
 }
 
 /* icon-feature.claims — 4 items, icon + bold label + description, 2-col grid */
@@ -342,13 +292,6 @@ main .columns.icon-feature.claims > div > div:last-child p {
   margin: 4px 0;
 }
 
-@media (width >= 768px) {
-  main .columns.icon-feature.claims {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px 32px;
-  }
-}
-
 /* icon-feature.connect — 4 items, circular icon + single description */
 main .columns.icon-feature.connect {
   display: grid;
@@ -369,13 +312,6 @@ main .columns.icon-feature.connect > div > div:last-child p {
   font-size: 15px;
   font-weight: 400;
   margin: 0;
-}
-
-@media (width >= 768px) {
-  main .columns.icon-feature.connect {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px 32px;
-  }
 }
 
 /* ────────────────────────────────────────────────────────────────
@@ -423,27 +359,9 @@ main .columns.logo-grid > div > div:last-child img {
   max-height: none;
 }
 
-@media (width >= 600px) {
-  main .columns.logo-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  main .columns.logo-grid > div:nth-child(2n) {
-    border-right: none;
-  }
-}
-
-@media (width >= 900px) {
-  main .columns.logo-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  main .columns.logo-grid > div:nth-child(2n) {
-    border-right: 1px solid #e2e2e2;
-  }
-
-  main .columns.logo-grid > div:nth-child(3n) {
-    border-right: none;
+@media (width >= 576px) {
+  main .columns.arrow-nav > div {
+    max-width: 540px;
   }
 }
 
@@ -452,6 +370,10 @@ main .columns.logo-grid > div > div:last-child img {
     flex-direction: unset; /* @boilerplate */
     gap: var(--columns-gap); /* @boilerplate */
     align-items: center;
+  }
+
+  .columns.jump-nav > div {
+    align-items: unset;
   }
 
   .columns > div > div { /* @boilerplate */
@@ -507,15 +429,92 @@ main .columns.logo-grid > div > div:last-child img {
   main .columns.arrow-nav a:any-link {
     font-size: var(--heading-font-size-s); /* 18px at >=768px (source) */
   }
+
+  main .columns.icon-feature.claims {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 32px;
+  }
+
+  main .columns.logo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  main .columns.logo-grid > div:nth-child(2n) {
+    border-right: none;
+  }
+
+  main .columns.icon-feature.connect {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 32px;
+  }
 }
 
-/* Continuing the stepped container width (see the >= 576px rule above) — must
-   come after the >= 768px block above so 960/1140px correctly win over 720px
-   at these larger sizes (equal-specificity same-selector rules apply in source
-   order, not by largest matching min-width). */
 @media (width >= 992px) {
+  main .columns.jump-nav {
+    width: var(--max-width-site);
+
+    &.columns-2-cols {
+      width: 760px;
+    }
+  }
+
+  main .columns.jump-nav > div {
+    flex-direction: row;
+    border-radius: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  main .columns.jump-nav > div > div {
+    border-bottom: 0;
+    border-left: 1px solid #a4a4a4;
+    padding: 0 40px;
+    flex: 1;
+  }
+
+  main .columns.jump-nav > div > div:first-child {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  main .columns.jump-nav > div > div:last-child {
+    padding-right: 0;
+  }
+
+  main .columns.jump-nav a {
+    font-size: 18px;
+  }
+
   main .columns.arrow-nav > div {
     max-width: 960px;
+  }
+
+  main .columns.icon-feature {
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 48px;
+  }
+
+  main .columns.logo-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  main .columns.logo-grid > div:nth-child(2n) {
+    border-right: 1px solid #e2e2e2;
+  }
+
+  main .columns.logo-grid > div:nth-child(3n) {
+    border-right: none;
+  }
+
+  main .columns.icon-feature.callout {
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 24px;
+  }
+
+  main .columns.icon-feature.callout > div {
+    flex: 1;
   }
 }
 

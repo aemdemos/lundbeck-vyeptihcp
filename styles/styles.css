@@ -74,6 +74,7 @@
   /* fonts */
   --body-font-family: 'open sans', open-sans, open-sans-fallback, sans-serif;
   --heading-font-family: 'open sans', open-sans, open-sans-fallback, sans-serif;
+  --page-title-font-family: proxima-nova, proxima-nova-fallback, sans-serif;
   --body-line-height: 1.5;
   --heading-font-weight: 700;
   --heading-line-height: 1.2; /* @libs */
@@ -99,7 +100,7 @@
   --max-width-site: 1140px; /* @libs */
   --section-padding-vertical: 30px; /* @libs */
   --icon-size: 24px; /* @libs */
-  --h1-max-width: 14em; /* @libs */
+  --h1-max-width: 80%;
 
   /* nav heights */
   --nav-height: 200px; /* @libs */
@@ -185,6 +186,13 @@
   size-adjust: 105.2%; /* @libs */
   ascent-override: 105%; /* @libs */
   src: local('Arial'); /* @libs */
+}
+
+@font-face {
+  font-family: proxima-nova-fallback;
+  font-weight: 700;
+  size-adjust: 98%;
+  src: local('Arial Bold'), local('Arial');
 }
 
 body { /* @libs */
@@ -287,7 +295,7 @@ h1, .size-h1 {
   line-height: 1.21;
   color: var(--brand-primary-dark);
   margin-top: 0;
-  max-width: var(--h1-max-width);
+  font-family: var(--page-title-font-family);
 }
 
 h2, .size-h2 {
@@ -561,9 +569,6 @@ main :is(.icon-download, .icon-pdf, .icon-connect, .icon-play) {
   flex: 0 0 auto;
 }
 
-/* Resource-list link spacing to match the source: tighter text line-height,
-   ~30px of vertical space between items, and the icon flush to the text top.
-   Scoped to the resource-list columns variant. */
 main .columns.resource-list ul.icon-bullets {
   display: flex;
   flex-direction: column;
@@ -578,16 +583,32 @@ main .columns.resource-list .icon.icon-bullet {
   margin-top: 0;
 }
 
-/* 1px light-gray divider above each resource group (Guides / Forms / Letters),
-   plus one closing the set — drawn as the top border of the section that follows
-   the last group. (EDS reserves <hr> for section breaks, so the rule can't be
-   authored as content.) Scoped to those sections so nothing else is affected. */
-main .section:has(.columns.resource-list) {
-  border-bottom: 1px solid #a4a4a4;
-  padding-bottom: 16px;
+/* responsive visibility utilities (authorable via [hide-mobile] / [hide-desktop] bracket spans) */
+
+/* ==== START alignment + display for mobile ==== */
+.hide-mobile {
+  display: none;
 }
 
-.center {
+.center, .center-mobile, .center-desktop,
+.left, .left-mobile, .left-desktop,
+.right, .right-mobile, .right-desktpo {
+  &:not(.cards) {
+    ol {
+      width: fit-content;
+    }
+
+    ul {
+      width: fit-content;
+    }
+
+    li {
+    text-align: left;
+  }
+ }
+}
+
+.center, .center-mobile {
   text-align: center;
 
   &.columns .columns-img-col img {
@@ -620,6 +641,8 @@ main .section:has(.columns.resource-list) {
   }
 }
 
+/* ==== END alignment + display for mobile ==== */
+
 .nowrap {
   white-space: nowrap;
 }
@@ -628,12 +651,70 @@ main .section:has(.columns.resource-list) {
     min-width: var(--button-wide-width);
 }
 
-/* ==== END alignment + display for mobile ==== */
+/* sections */
+
+main > .section.page-title {
+  margin: 0;
+  padding: 30px 15px;
+
+  .bg-image img {
+    object-position: top;
+  }
+
+  h1 {
+    font-family: var(--page-title-font-family);
+    font-size: 38px;
+    margin: 0;
+  }
+
+  h1,p,.size-h4,.size-h2 {
+    color: var(--background-color);
+  }
+
+  .size-h2 {
+    font-size: 28px;
+    font-family: var(--page-title-font-family);
+  }
+
+
+  .columns-wrapper {
+    margin-bottom: 0;
+  }
+}
 
 main > .section > div:not(.bg-image) {
   margin: auto;
   padding: 0 var(--spacing-m);
   max-width: var(--max-width-site);
+}
+
+/* Section metadata: background image sits behind content */
+main > .section:has(> .bg-image) { /* @boilerplate */
+  position: relative; /* @boilerplate */
+  overflow: hidden; /* @boilerplate */
+}
+
+main > .section:has(> .bg-image) > div:not(.bg-image) { /* @boilerplate */
+  position: relative; /* @boilerplate */
+  z-index: 1; /* @boilerplate */
+}
+
+main > .section > .bg-image { /* @boilerplate */
+  position: absolute; /* @boilerplate */
+  inset: 0; /* @boilerplate */
+  z-index: 0; /* @boilerplate */
+  pointer-events: none; /* @boilerplate */
+}
+
+main > .section > .bg-image picture,
+main > .section > .bg-image img { /* @boilerplate */
+  display: block; /* @boilerplate */
+  width: 100%; /* @boilerplate */
+  height: 100%; /* @boilerplate */
+}
+
+main > .section > .bg-image img {
+  object-fit: cover;
 }
 
 main > .section > div.columns-wrapper {
@@ -653,6 +734,16 @@ gap: var(--flex-group-gap);
 
 main .flex-group > .section.flex {
 margin: 0;
+}
+
+
+/* 1px light-gray divider above each resource group (Guides / Forms / Letters),
+   plus one closing the set — drawn as the top border of the section that follows
+   the last group. (EDS reserves <hr> for section breaks, so the rule can't be
+   authored as content.) Scoped to those sections so nothing else is affected. */
+main .section:has(.columns.resource-list) {
+  border-bottom: 1px solid #a4a4a4;
+  padding-bottom: 16px;
 }
 
 /* section metadata - accent (light blue help strip) */
@@ -886,6 +977,9 @@ main .section.banner > div:not(.bg-image) {
     --max-width-site: 540px;
   }
 
+  main .section.page-title h1, .size-h2 {
+    max-width: var(--h1-max-width);
+  }
   
   .section.emboss, .section.emboss-heavy, .section.rounded,
   main .section.light > div {
@@ -1024,6 +1118,7 @@ div[class^="width-"], div[class*=" width-"] {
   :root {
     --max-width-site: 960px;
     --button-wide-width: 345px;
+    --h1-max-width: 55%;
   }
 
   body[data-breadcrumbs] { /* @libs */
@@ -1034,9 +1129,9 @@ div[class^="width-"], div[class*=" width-"] {
     min-height: var(--header-reserve-height-desktop);
   }
 
-main > .section > div { /* @libs */
+main > .section > div:not(.bg-image) { /* @libs */
   max-width: var(--max-width-site); /* @libs */
-  padding: 0 32px; /* @libs */
+  padding: 0 12px; /* @libs */
 }
 
   main .section.accent > div { /* @libs */
@@ -1060,6 +1155,21 @@ main > .section > div { /* @libs */
   .section.emboss, .section.emboss-heavy, .section.rounded {
     padding: 24px 36px;
   }
+
+  main > .section.page-title {
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .default-content-wrapper {
+    width: 100%;
+    }
+
+    h1,.size-h2 {
+      font-size: 38px;
+    }
+  }
 }
 
 @media (width >= 1200px) {
@@ -1070,4 +1180,13 @@ main > .section > div { /* @libs */
   main > .section.hero-tabs {
     margin-top: -105px;
 }
+
+main > .section.page-title {
+  padding-top: 40px;
+  padding-bottom: 40px;
+
+  h1 {
+    font-size: 43px;
+  }
+ }
 }
