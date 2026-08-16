@@ -450,26 +450,39 @@ main .columns.logo-grid > div > div:last-child img {
 }
 
 @media (width >= 992px) {
-  main .columns.jump-nav {
-    width: var(--max-width-site);
-
-    &.columns-2-cols {
-      width: 760px;
-    }
-  }
-
   main .columns.jump-nav > div {
     flex-direction: row;
     border-radius: 20px;
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   main .columns.jump-nav > div > div {
     border-bottom: 0;
     border-left: 1px solid #a4a4a4;
-    padding: 0 40px;
+    padding: 0;
     flex: 1;
+
+    > p {
+      width: 228px;
+      padding: 0 12px;
+    }
+    }
+
+    main .columns.jump-nav.columns-2-cols {
+      width: 720px;
+
+      p {
+        width: 310px;
+        padding: 0 40px;
+      }
+  }
+
+  main .columns.jump-nav.columns-3-cols {
+    p {
+      width: 290px;
+      padding: 0 40px;
+    }
   }
 
   main .columns.jump-nav > div > div:first-child {
@@ -483,10 +496,6 @@ main .columns.logo-grid > div > div:last-child img {
 
   main .columns.jump-nav a {
     font-size: 18px;
-  }
-
-  main .columns.arrow-nav > div {
-    max-width: 960px;
   }
 
   main .columns.icon-feature {

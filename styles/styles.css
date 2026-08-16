@@ -653,35 +653,6 @@ main .columns.resource-list .icon.icon-bullet {
 
 /* sections */
 
-main > .section.page-title {
-  margin: 0;
-  padding: 30px 15px;
-
-  .bg-image img {
-    object-position: top;
-  }
-
-  h1 {
-    font-family: var(--page-title-font-family);
-    font-size: 38px;
-    margin: 0;
-  }
-
-  h1,p,.size-h4,.size-h2 {
-    color: var(--background-color);
-  }
-
-  .size-h2 {
-    font-size: 28px;
-    font-family: var(--page-title-font-family);
-  }
-
-
-  .columns-wrapper {
-    margin-bottom: 0;
-  }
-}
-
 main > .section > div:not(.bg-image) {
   margin: auto;
   padding: 0 var(--spacing-m);
@@ -734,6 +705,34 @@ gap: var(--flex-group-gap);
 
 main .flex-group > .section.flex {
 margin: 0;
+}
+
+main > .section.page-title {
+  margin: 0;
+  padding: 30px 15px;
+
+  .bg-image img {
+    object-position: top;
+  }
+
+  h1 {
+    font-family: var(--page-title-font-family);
+    font-size: 38px;
+    margin: 0;
+  }
+
+  h1,p,.size-h4,.size-h2 {
+    color: var(--background-color);
+  }
+
+  .size-h2 {
+    font-size: 28px;
+    font-family: var(--page-title-font-family);
+  }
+
+  .columns-wrapper {
+    margin-bottom: 0;
+  }
 }
 
 
@@ -974,11 +973,7 @@ main .section.banner > div:not(.bg-image) {
 
 @media (width >= 576px) {
   :root {
-    --max-width-site: 540px;
-  }
-
-  main .section.page-title h1, .size-h2 {
-    max-width: var(--h1-max-width);
+    --max-width-site: 510px;
   }
   
   .section.emboss, .section.emboss-heavy, .section.rounded,
@@ -1109,16 +1104,16 @@ div[class^="width-"], div[class*=" width-"] {
 
 /* ==== End widths ==== */
 
-    main .section.banner.hero-short {
-      --banner-aspect-ratio: 1440 / 396;
-    }
+main .section.page-title h1, .size-h2 {
+  max-width: var(--h1-max-width);
+}
   }
 
 @media (width >= 992px) {
   :root {
-    --max-width-site: 960px;
+    --max-width-site: 930px;
     --button-wide-width: 345px;
-    --h1-max-width: 55%;
+    --h1-max-width: 80%;
   }
 
   body[data-breadcrumbs] { /* @libs */
@@ -1131,7 +1126,7 @@ div[class^="width-"], div[class*=" width-"] {
 
 main > .section > div:not(.bg-image) { /* @libs */
   max-width: var(--max-width-site); /* @libs */
-  padding: 0 12px; /* @libs */
+  padding: 0; /* @libs */
 }
 
   main .section.accent > div { /* @libs */
@@ -1161,14 +1156,20 @@ main > .section > div:not(.bg-image) { /* @libs */
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 40px 15px;
+    gap: 18px;
 
-    .default-content-wrapper {
+    div {
     width: 100%;
     }
 
     h1,.size-h2 {
       font-size: 38px;
     }
+  }
+
+  main > .section.page-title:has(.jump-nav) {
+    min-height: 260px;
   }
 }
 
