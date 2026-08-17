@@ -133,6 +133,9 @@
 .table.block.reactions th, td {
   border-right: 30px solid transparent;
   background-clip: padding-box;
+  color: var(--table-reactions-data-color);
+  font-size: var(--table-reactions-data-font-size);
+  text-align: center;
 }
 
 .table.block.reactions th:last-child, td:last-child {
@@ -142,28 +145,25 @@
 /* colors for four-column reactions table */
 .table.block.reactions tr th:nth-child(1):nth-last-child(4),
 .table.block.reactions tr td:nth-child(1):nth-last-child(4) {
-  background-color: var(--table-reactions-col1-background);
+  background-color: var(--table-reactions-label-background);
+  color: var(--text-reactions-label-color);
+  font-size: var(--table-reactions-label-font-size);
+  text-align: left;
 }
 
 .table.block.reactions tr th:nth-child(1):nth-last-child(4) ~ th:nth-child(2),
 .table.block.reactions tr td:nth-child(1):nth-last-child(4) ~ td:nth-child(2){
-  background-color: var(--table-reactions-col2-background);
-  color: var(--table-reactions-data-color);
-  text-align: center;
+  background-color: var(--table-reactions-data1-background);
 }
 
 .table.block.reactions tr th:nth-child(2):nth-last-child(3) ~ th:nth-child(3),
 .table.block.reactions tr td:nth-child(2):nth-last-child(3) ~ td:nth-child(3) {
-  background-color: var(--table-reactions-col3-background);
-  color: var(--table-reactions-data-color);
-  text-align: center;
+  background-color: var(--table-reactions-data2-background);
 }
 
 .table.block.reactions tr th:nth-child(2):nth-last-child(3) ~ th:nth-child(4),
 .table.block.reactions tr td:nth-child(2):nth-last-child(3) ~ td:nth-child(4) {
-  background-color: var(--table-reactions-col4-background);
-  color: var(--table-reactions-data-color);
-  text-align: center;
+  background-color: var(--table-reactions-data3-background);
 }
 
 @media (width >= 768px) { /* @libs */
