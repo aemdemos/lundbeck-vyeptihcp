@@ -168,6 +168,7 @@
   border-top: var(--table-row-border-width) solid #fff;
 }
 
+/* label column for both reactions tables */
 .table.block.reactions table tbody tr td:first-child {
   border-top: var(--table-row-border-width) solid #41748d;
   color: var(--text-reactions-label-color);
@@ -178,15 +179,6 @@
 .table.block.reactions table th:last-child,
 .table.block.reactions table td:last-child {
   border-right: none;
-}
-
-/* label column of all reactions tables */
-.table.block.reactions table tr th:nth-child(1),
-.table.block.reactions table tr td:nth-child(1) {
-  background-color: var(--table-reactions-label-background);
-  color: var(--text-reactions-label-color);
-  font-size: var(--table-reactions-label-font-size);
-  text-align: left;
 }
 
 /* data columns background colors for 4-column reactions table */
@@ -206,8 +198,8 @@
 }
 
 /* data column background color for 2-column reactions table */
-.table.block.reactions tr th:nth-child(1):nth-last-child(2)
-.table.block.reactions tr td:nth-child(1):nth-last-child(2) {
+.table.block.reactions tr th:nth-child(2):nth-last-child(2)
+.table.block.reactions tr td:nth-child(2):nth-last-child(2) {
   background-color: var(--table-reactions-data2-background);
 }
 
