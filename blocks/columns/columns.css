@@ -92,6 +92,90 @@ main .columns.arrow-nav a::after {
 }
 
 /* ────────────────────────────────────────────────────────────────
+ * "options" section style — centered intro text + a row of short bullet
+ * items (e.g. infusion-information's "Flexible options for referring
+ * patients…"). Section-scoped (not a `.columns` variant class) since it
+ * also styles the preceding default-content-wrapper text, not just the
+ * columns block.
+ * ──────────────────────────────────────────────────────────────── */
+main .section.options .default-content-wrapper {
+  text-align: center;
+}
+
+/* Source's heading stays 32px below 768px — the site's generic h2 sizing
+   (--heading-font-size-xl) steps from 24px to 34px at that same breakpoint,
+   which doesn't match this component's own smaller step. Reset back to the
+   site default at >=768px, where it already matches (34px). */
+main .section.options .default-content-wrapper h2 {
+  font-size: 32px;
+}
+
+@media (width >= 768px) {
+  main .section.options .default-content-wrapper h2 {
+    font-size: var(--heading-font-size-xl);
+  }
+}
+
+/* Override the generic `main > .section > div.columns-wrapper` 24px top
+   margin (styles.css) — that rule is shared by every columns block sitewide,
+   so it's overridden here rather than changed directly. Source's gap above
+   the row is 16px. */
+main .section.options .columns-wrapper {
+  margin-top: 16px;
+}
+
+main .section.options .default-content-wrapper p,
+main .section.options .columns li {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+main .section.options .default-content-wrapper p {
+  margin: 0;
+}
+
+main .section.options .columns strong {
+  font-weight: 600;
+}
+
+/* Source's `ul` has no indent, relying on the gap between flex items to fit
+   the outside bullet marker. In our flex layout, 0 padding makes the marker
+   overlap the previous item instead — a small padding avoids that collision
+   while still freeing up most of the browser-default 40px indent. */
+main .section.options .columns ul {
+  padding-left: 16px;
+  margin: 0; /* the browser-default 8px top/bottom margin was stacking with the
+                16px flex gap, doubling the visual space between items to 32px */
+}
+
+/* Stay stacked past the boilerplate's 768px row-switch — this source
+   component doesn't go side-by-side until 992px. Also reset align-items:
+   the boilerplate sets it to `center` at that same 768px breakpoint, which
+   (in a column-direction flex container) centers each item horizontally
+   instead of leaving it left-aligned like the source. */
+main .section.options .columns > div {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px; /* source value at every breakpoint; boilerplate default is 24px */
+}
+
+@media (width >= 992px) {
+  main .section.options .columns > div {
+    flex-direction: row;
+    align-items: stretch; /* equal-height cells so every item's text starts
+                              at the top, instead of vertically centering
+                              shorter items against the tallest one */
+  }
+
+  /* Source sizes each item to its own content (flex: 0 1 auto), not equal
+     quarter-widths — the boilerplate's `flex: 1` squeezed the longest item
+     into 4 wrapped lines instead of the source's 2. */
+  main .section.options .columns > div > div {
+    flex: 0 1 auto;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────
  * coverage-hero variant — coverage-finder page hero.
  * Source: a CONTAINED teaser (not a full-bleed banner) — the US-map /
  * magnifying-glass graphic beside the "Your patients may be covered…" +
