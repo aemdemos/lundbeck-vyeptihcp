@@ -145,7 +145,7 @@
 
 .table.block.reactions table th,
 .table.block.reactions table td {
-  border-right: 30px solid transparent;
+  border-right: var(--table-reactions-col-gap) solid transparent;
   background-clip: padding-box;
   color: var(--table-reactions-data-color);
   font-size: var(--table-reactions-data-font-size);
@@ -187,13 +187,13 @@
   background-color: var(--table-reactions-data1-background);
 }
 
-.table.block.reactions tr th:nth-child(2):nth-last-child(3) ~ th:nth-child(3),
-.table.block.reactions tr td:nth-child(2):nth-last-child(3) ~ td:nth-child(3) {
+.table.block.reactions tr th:nth-child(1):nth-last-child(4) ~ th:nth-child(3),
+.table.block.reactions tr td:nth-child(1):nth-last-child(4) ~ td:nth-child(3) {
   background-color: var(--table-reactions-data2-background);
 }
 
-.table.block.reactions tr th:nth-child(2):nth-last-child(3) ~ th:nth-child(4),
-.table.block.reactions tr td:nth-child(2):nth-last-child(3) ~ td:nth-child(4) {
+.table.block.reactions tr th:nth-child(1):nth-last-child(4) ~ th:nth-child(4),
+.table.block.reactions tr td:nth-child(1):nth-last-child(4) ~ td:nth-child(4) {
   background-color: var(--table-reactions-data3-background);
 }
 
@@ -204,6 +204,12 @@
 }
 
 @media (width >= 768px) { /* @libs */
+  :root {
+    --table-reactions-data-font-size: var(--table-reactions-data-font-size-desktop);
+    --table-reactions-label-font-size: var(--table-reactions-label-font-size-desktop);
+    --table-reactions-col-gap: var(--table-reactions-col-gap-desktop);
+  }
+
   .table.block table td { /* @libs */
     padding: var(--table-cell-padding-block-desktop) var(--table-cell-padding-inline); /* @libs */
   }
