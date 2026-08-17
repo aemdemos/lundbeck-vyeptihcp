@@ -17,67 +17,35 @@
   display: block; /* @boilerplate */
 }
 
-/* ────────────────────────────────────────────────────────────────
- * dose callout (product-shot image + teal dose sentence).
- * Source: `.teaser.dose-100mg .cmp-teaser` — image left, text right,
- * vertically centered, 60px gap, 40px vertical padding. Scoped to the
- * plain columns instance that carries a `.columns-img-col` so it never
- * touches the arrow-nav variant or other columns.
- *
- * Named variants below each define their own image sizing; this
- * catch-all must exclude every one of them, not just arrow-nav, or its
- * :has()-boosted specificity overrides their smaller icon sizes with a
- * full-width 300px image (confirmed: was blowing up icon-feature,
- * icon-feature.callout, and logo-grid download icons site-wide).
- * ──────────────────────────────────────────────────────────────── */
-main .columns:not(.arrow-nav, .icon-feature, .logo-grid, .resource-list, .coverage-hero, .jump-nav, .stats-callout):has(> div > .columns-img-col) > div {
-  gap: 1.5rem;
-  align-items: center;
-}
+main .section:has(.columns.arrow-nav) {
+  margin-left: 0;
+  margin-right: 0;
 
-main .columns:not(.arrow-nav, .icon-feature, .logo-grid, .resource-list, .coverage-hero, .jump-nav, .stats-callout):has(> div > .columns-img-col) .columns-img-col {
-  flex: 0 0 auto;
-  line-height: 0;
-}
-
-main .columns:not(.arrow-nav, .icon-feature, .logo-grid, .resource-list, .coverage-hero, .jump-nav, .stats-callout):has(> div > .columns-img-col) .columns-img-col img {
-  width: 300px;
+> div {
   max-width: 100%;
-  height: auto;
-}
-
-main .columns:not(.arrow-nav, .icon-feature, .logo-grid, .resource-list, .coverage-hero, .jump-nav, .stats-callout):has(> div > .columns-img-col) > div > div:not(.columns-img-col) p {
   margin: 0;
-  font-size: var(--heading-font-size-m); /* 22px @desktop (source) */
-  font-weight: 700;
-  line-height: 1.27;
-  color: var(--link-color);
+  padding: 0;
+ }
 }
 
-/* ────────────────────────────────────────────────────────────────
- * arrow-nav variant (teal CTA band with two arrow links).
- * Source: `div.arrow-navigation` — solid teal band (rgb 65 116 141 =
- * --link-color), two white bold links each followed by a white
- * right-arrow glyph, vertical divider between them on desktop, stacked
- * and centered on mobile.
- * ──────────────────────────────────────────────────────────────── */
 main .columns.arrow-nav {
   background-color: var(--link-color);
-  max-width: var(--max-width-site);
+  max-width: 100%;
 }
 
 main .columns.arrow-nav > div {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 0;
+  max-width: 100%;
+  margin-inline: auto;
 }
 
 main .columns.arrow-nav > div > div {
   order: unset;
   flex: 1;
-  padding: 16px 15px;
-  text-align: center;
+  padding: 34.5px 15px;
+  text-align: right;
 }
 
 main .columns.arrow-nav > div > div p {
@@ -95,68 +63,71 @@ main .columns.arrow-nav a:any-link {
   align-items: center;
   gap: 12px;
   font-family: var(--body-font-family);
-  font-size: var(--heading-font-size-s); /* 18px @desktop (source) */
+  font-size: var(--heading-font-size-xs); /* 16px below 768px (source) */
   font-weight: 700;
-  line-height: 1.22;
+  line-height: 22px; /* fixed px in source (not a ratio) — stays 22px at both sizes */
   color: #fff;
   text-decoration: none;
 }
 
-main .columns.arrow-nav a:hover {
-  color: #fff;
-  text-decoration: underline;
+/* Hover highlight spans the whole cell, matching source's `.cmp-teaser__content:hover a`. */
+main .columns.arrow-nav > div > div:hover a {
+  color: var(--columns-arrow-nav-hover-color);
 }
 
-/* white right-arrow glyph after each link (source uses a 21x21 white arrow png) */
+/* white right-arrow glyph, thickened/enlarged to match the source's bolder arrow. */
 main .columns.arrow-nav a::after {
   content: '';
   flex: 0 0 auto;
-  width: 21px;
-  height: 21px;
+  width: var(--columns-arrow-nav-arrow-size);
+  height: var(--columns-arrow-nav-arrow-size);
   background-color: currentcolor;
-  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11h13.2l-4.6-4.6L14 5l7 7-7 7-1.4-1.4 4.6-4.6H4z"/></svg>') no-repeat center / contain;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 11H17L11.5 6L13 4.5L21 12L13 19.5L11 18.5L17 13H3Z"/></svg>') no-repeat center / contain;
   mask-repeat: no-repeat;
   mask-position: center;
   mask-size: contain;
 }
 
-/* stats-callout variant — vyepti study/survey results callouts.
-   Teal headings, large red italic "X fewer" numbers, centered copy. */
-main .columns.stats-callout > div > div {
+/* "options" section style — centered intro text + a row of short bullet items (e.g. infusion-information). Section-scoped since it also styles the default-content-wrapper text, not just the columns block. */
+main .section.options .default-content-wrapper {
   text-align: center;
-  align-items: flex-start;
 }
 
-main .columns.stats-callout h2,
-main .columns.stats-callout h4 {
-  color: var(--brand-primary);
+/* Source's heading stays 32px below 768px, unlike the site's generic h2 24px→34px step. */
+main .section.options .default-content-wrapper h2 {
+  font-size: 32px;
 }
 
-main .columns.stats-callout h4 {
-  font-size: var(--heading-font-size-l);
+/* Overrides the generic 24px `.columns-wrapper` top margin (styles.css); source uses 16px. */
+main .section.options .columns-wrapper {
+  margin-top: 16px;
 }
 
-main .columns.stats-callout h1 {
-  max-width: none;
-  margin: 0.2em 0;
-  font-style: italic;
-  font-size: var(--heading-font-size-xxl);
-  color: var(--brand-secondary);
+main .section.options .default-content-wrapper p,
+main .section.options .columns li {
+  font-size: 18px;
+  font-weight: 600;
 }
 
-main .columns.stats-callout h1 em {
-  font-style: italic;
+main .section.options .default-content-wrapper p {
+  margin: 0;
 }
 
-/* bold is teal only in the results blocks (comparison line + survey lead phrases);
-   intro-block bold (e.g. "1072 people", "94 people…") stays black, as in the source */
-main .columns.stats-callout:has(h1) strong,
-main .columns.stats-callout:has(img) strong {
-  color: var(--brand-primary);
+main .section.options .columns strong {
+  font-weight: 600;
 }
 
-main .columns.stats-callout p {
-  margin: 0.4em 0;
+/* Reduced from the browser-default 40px indent — 0 causes the bullet to overlap the previous item in our flex layout. */
+main .section.options .columns ul {
+  padding-left: 16px;
+  margin: 0; /* default 8px margin was stacking with the 16px flex gap, doubling item spacing */
+}
+
+/* Stays stacked past the boilerplate's 768px row-switch (source switches at 992px) and resets align-items back from the boilerplate's `center`. */
+main .section.options .columns > div {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px; /* source value at every breakpoint; boilerplate default is 24px */
 }
 
 /* ────────────────────────────────────────────────────────────────
@@ -210,8 +181,6 @@ main .columns.coverage-hero h3 {
  * ──────────────────────────────────────────────────────────────── */
 main .columns.jump-nav {
   max-width: var(--max-width-site);
-  margin: -32px auto 0;
-  padding: 0 24px;
   position: relative;
   z-index: 2;
 }
@@ -220,15 +189,15 @@ main .columns.jump-nav > div {
   display: flex;
   flex-direction: column;
   background: var(--background-color);
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: inset 0 0 8px 2px rgb(0 0 0 / 20%);
-  padding: 16px 24px;
+  padding: 16px;
   gap: 0;
 }
 
 main .columns.jump-nav > div > div {
   border-bottom: 1px solid #a4a4a4;
-  padding: 12px 0;
+  padding: 6px 0;
   flex: unset;
 }
 
@@ -253,48 +222,26 @@ main .columns.jump-nav a {
 }
 
 main .columns.jump-nav a::after {
-  content: "\276F";
+  content: "";
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--brand-rose);
-  color: var(--background-color);
-  font-size: 15px;
-  font-weight: 700;
+  width: 42px;
+  height: 42px;
+  background-image: url('/icons/back-to-top.svg');
   display: flex;
   align-items: center;
   justify-content: center;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transform: rotate(90deg);
 }
 
-@media (width >= 992px) {
-  main .columns.jump-nav {
-    margin-top: -44px;
-  }
+main .columns.jump-nav > div > div:hover a {
+  color: var(--brand-secondary);
+  text-decoration: none;
 
-  main .columns.jump-nav > div {
-    flex-direction: row;
-    padding: 24px 40px;
-  }
-
-  main .columns.jump-nav > div > div {
-    border-bottom: 0;
-    border-left: 1px solid #a4a4a4;
-    padding: 0 40px;
-    flex: 1;
-  }
-
-  main .columns.jump-nav > div > div:first-child {
-    border-left: 0;
-    padding-left: 0;
-  }
-
-  main .columns.jump-nav > div > div:last-child {
-    padding-right: 0;
-  }
-
-  main .columns.jump-nav a {
-    font-size: 18px;
+  &::after {
+  background-image: url('/icons/back-to-top-hover.svg');
   }
 }
 
@@ -336,17 +283,8 @@ main .columns.icon-feature > div > div:last-child ul {
   font-weight: 400;
 }
 
-@media (width >= 900px) {
-  main .columns.icon-feature {
-    flex-flow: row wrap;
-    justify-content: center;
-    gap: 48px;
-  }
-}
-
 /* icon-feature.callout — magenta rounded band, white circular icon */
 main .columns.icon-feature.callout {
-  background: var(--brand-rose);
   color: var(--background-color);
   border-radius: 20px;
   padding: 32px;
@@ -365,22 +303,55 @@ main .columns.icon-feature.callout > div > div:last-child p {
   line-height: 1.3;
 }
 
-@media (width >= 900px) {
-  main .columns.icon-feature.callout {
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    gap: 24px;
-  }
-
-  main .columns.icon-feature.callout > div {
-    flex: 1;
-  }
+/* icon-feature.claims — 4 items, icon + bold label + description, 2-col grid */
+main .columns.icon-feature.claims {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
 }
 
-/* Note: the icon-feature.claims and icon-feature.connect columns sub-variants
-   were removed once their content moved to the cards (icon-feature claims) /
-   cards (icon-feature icon-80) blocks. The base icon-feature, .callout and
-   .emboss variants remain — still used on safety, infusion, and dosing. */
+main .columns.icon-feature.claims img {
+  width: 58px;
+  height: 44px;
+  border-radius: 0;
+  background: none;
+  padding: 0;
+}
+
+main .columns.icon-feature.claims > div > div:last-child p:first-child {
+  color: var(--brand-primary);
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+main .columns.icon-feature.claims > div > div:last-child p {
+  font-size: 15px;
+  font-weight: 400;
+  margin: 4px 0;
+}
+
+/* icon-feature.connect — 4 items, circular icon + single description */
+main .columns.icon-feature.connect {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+main .columns.icon-feature.connect img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: none;
+  padding: 0;
+}
+
+main .columns.icon-feature.connect > div > div:last-child p {
+  color: var(--brand-primary);
+  font-size: 15px;
+  font-weight: 400;
+  margin: 0;
+}
 
 /* ────────────────────────────────────────────────────────────────
  * logo-grid variant — bordered grid of logo + download-link ITEMS, each
@@ -427,105 +398,21 @@ main .columns.logo-grid > div > div:last-child img {
   max-height: none;
 }
 
-@media (width >= 600px) {
-  main .columns.logo-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  main .columns.logo-grid > div:nth-child(2n) {
-    border-right: none;
+@media (width >= 576px) {
+  main .columns.arrow-nav > div {
+    max-width: 540px;
   }
 }
 
-@media (width >= 900px) {
-  main .columns.logo-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  main .columns.logo-grid > div:nth-child(2n) {
-    border-right: 1px solid #e2e2e2;
-  }
-
-  main .columns.logo-grid > div:nth-child(3n) {
-    border-right: none;
-  }
-}
-
-/* ────────────────────────────────────────────────────────────────
- * resource-list variant — vertical icon+link lists side by side
- * (resource/guide/form/letter download lists).
- * ──────────────────────────────────────────────────────────────── */
-main .columns.resource-list > div {
-  align-items: stretch;
-}
-
-main .columns.resource-list > div > div {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
-main .columns.resource-list a {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 32px;
-  color: var(--brand-teal-muted);
-  font-size: 18px;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-main .columns.resource-list a u {
-  text-decoration: underline;
-}
-
-main .columns.resource-list img {
-  width: 32px;
-  height: 32px;
-  flex-shrink: 0;
-}
-
-@media (width >= 900px) {
-  main .columns.resource-list > div {
-    gap: 60px;
-  }
-}
-
-/* survey results block (image + text rows): small circular patient photo with an
-   enlarged lead paragraph. Mobile-first: photo centered on top, centered text. */
-main .columns.stats-callout:has(img) > div {
-  gap: 1.5rem;
-  align-items: center;
-}
-
-main .columns.stats-callout:has(img) .columns-img-col {
-  flex: 0 0 auto;
-  max-width: 230px;
-  margin: 0 auto;
-}
-
-main .columns.stats-callout:has(img) .columns-img-col img {
-  width: 230px;
-  aspect-ratio: 1;
-  object-fit: contain;
-}
-
-/* enlarged teal-accented lead line (first paragraph) of each survey row */
-main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first-child {
-  font-size: var(--heading-font-size-l);
-  line-height: 1.3;
-}
-
-/* Source (Bootstrap) breakpoint: the survey rows and intro/comparison columns
-   switch from stacked to side-by-side at 768px (col-md/col-lg on the source).
-   The base columns block only flips to a row at 900px, so the variant flips
-   its own flex-direction here to match the source. */
 @media (width >= 768px) {
   .columns > div { /* @boilerplate */
-    align-items: center; /* @boilerplate */
     flex-direction: unset; /* @boilerplate */
     gap: var(--columns-gap); /* @boilerplate */
+    align-items: center;
+  }
+
+  .columns.jump-nav > div {
+    align-items: unset;
   }
 
   .columns > div > div { /* @boilerplate */
@@ -553,38 +440,150 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
     align-items: center;
     justify-content: center;
     gap: 0;
+    max-width: 720px;
   }
 
   main .columns.arrow-nav > div > div {
-    padding: 24px 15px;
+    text-align: center;
   }
 
+  /* Fixed-height divider, vertically centered — a border would stretch to the
+     column's full height, which is taller than the source's actual divider. */
   main .columns.arrow-nav > div > div:not(:first-child) {
-    border-inline-start: 1px solid rgb(255 255 255 / 45%);
+    position: relative;
   }
 
-  main .columns.stats-callout > div {
+  main .columns.arrow-nav > div > div:not(:first-child)::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 50%;
+    width: 1px;
+    height: var(--columns-arrow-nav-divider-height);
+    background-color: var(--columns-arrow-nav-divider-color);
+    transform: translateY(-50%);
+  }
+
+  main .columns.arrow-nav a,
+  main .columns.arrow-nav a:any-link {
+    font-size: var(--heading-font-size-s); /* 18px at >=768px (source) */
+  }
+
+  main .columns.icon-feature.claims {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 32px;
+  }
+
+  main .columns.logo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  main .columns.logo-grid > div:nth-child(2n) {
+    border-right: none;
+  }
+
+  main .columns.icon-feature.connect {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 32px;
+  }
+
+  /* "options" section style: source's heading is a flat 32px below this breakpoint. */
+  main .section.options .default-content-wrapper h2 {
+    font-size: var(--heading-font-size-xl);
+  }
+}
+
+@media (width >= 992px) {
+  main .columns.jump-nav > div {
     flex-direction: row;
-    align-items: flex-start;
-    gap: var(--columns-gap);
+    border-radius: 20px;
+    padding-left: 0;
+    padding-right: 0;
   }
 
-  main .columns.stats-callout > div > div {
+  main .columns.jump-nav > div > div {
+    border-bottom: 0;
+    border-left: 1px solid #a4a4a4;
+    padding: 0;
     flex: 1;
-    order: unset;
+
+    > p {
+      width: 228px;
+      padding: 0 12px;
+    }
+    }
+
+    main .columns.jump-nav.columns-2-cols {
+      width: 720px;
+
+      p {
+        width: 310px;
+        padding: 0 40px;
+      }
   }
 
-  /* desktop: photo left, text left-aligned beside it */
-  main .columns.stats-callout:has(img) > div {
-    gap: 2rem;
-    align-items: center;
+  main .columns.jump-nav.columns-3-cols {
+    p {
+      width: 290px;
+      padding: 0 40px;
+    }
   }
 
-  main .columns.stats-callout:has(img) .columns-img-col {
-    margin: 0;
+  main .columns.jump-nav > div > div:first-child {
+    border-left: 0;
+    padding-left: 0;
   }
 
-  main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) {
-    text-align: left;
+  main .columns.jump-nav > div > div:last-child {
+    padding-right: 0;
+  }
+
+  main .columns.jump-nav a {
+    font-size: 18px;
+  }
+
+  main .columns.icon-feature {
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 48px;
+  }
+
+  main .columns.logo-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  main .columns.logo-grid > div:nth-child(2n) {
+    border-right: 1px solid #e2e2e2;
+  }
+
+  main .columns.logo-grid > div:nth-child(3n) {
+    border-right: none;
+  }
+
+  main .columns.icon-feature.callout {
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 24px;
+  }
+
+  main .columns.icon-feature.callout > div {
+    flex: 1;
+  }
+
+  /* "options" section style: source switches to side-by-side only here, not at 768px. */
+  main .section.options .columns > div {
+    flex-direction: row;
+    align-items: stretch; /* equal-height cells so text starts at the top, not centered */
+  }
+
+  /* Sized to content (source: flex: 0 1 auto), not equal quarters — the boilerplate's flex: 1 over-wrapped the longest item. */
+  main .section.options .columns > div > div {
+    flex: 0 1 auto;
+  }
+}
+
+@media (width >= 1200px) {
+  main .columns.arrow-nav > div {
+    max-width: var(--max-width-site); /* 1140px */
   }
 }

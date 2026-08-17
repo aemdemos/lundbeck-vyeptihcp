@@ -56,7 +56,7 @@
 
   /* semantic colors */
   --background-color: #fff;
-  --light-color: #e1f0f6;
+  --light-color: #eff6f9;
   --dark-color: #046183;
   --text-color: #484848;
   --text-color-light: #666;
@@ -74,12 +74,13 @@
   /* fonts */
   --body-font-family: 'open sans', open-sans, open-sans-fallback, sans-serif;
   --heading-font-family: 'open sans', open-sans, open-sans-fallback, sans-serif;
+  --page-title-font-family: proxima-nova, proxima-nova-fallback, sans-serif;
   --body-line-height: 1.5;
   --heading-font-weight: 700;
   --heading-line-height: 1.2; /* @libs */
   --font-weight-bold: 700; /* @libs */
-  --block-margin-top: 0.8em; /* @libs */
-  --block-margin-bottom: 0.25em; /* @libs */
+  --block-margin-top: 0.5em;
+  --block-margin-bottom: 0.5em;
 
   /* body sizes */
   --body-font-size-m: 24px; /* @libs */
@@ -97,9 +98,9 @@
 
   /* layout */
   --max-width-site: 1140px; /* @libs */
-  --section-padding-vertical: 40px; /* @libs */
+  --section-padding-vertical: 30px; /* @libs */
   --icon-size: 24px; /* @libs */
-  --h1-max-width: 14em; /* @libs */
+  --h1-max-width: 80%;
 
   /* nav heights */
   --nav-height: 200px; /* @libs */
@@ -119,7 +120,7 @@
   --fixed-font-family: menlo, consolas, monospace; /* @libs */
 
   /* button tokens — shared */
-  --button-margin: 0;
+  --button-margin: 20px 0 8px;
   --button-border-radius: 100px;
   --button-border-width: 2px;
   --button-padding: 14px 25px;
@@ -137,11 +138,11 @@
 
   /* primary — filled CTA */
   --button-primary-background: var(--brand-secondary); /* @libs */
-  --button-primary-hover-background: var(--brand-secondary-dark); /* @libs */
+  --button-primary-hover-background: var(--background-color); /* @libs */
   --button-primary-color: var(--background-color); /* @libs */
   --button-primary-border-color: var(--brand-secondary); /* @libs */
-  --button-primary-hover-border-color: var(--brand-secondary-dark); /* @libs */
-  --button-primary-hover-color: var(--background-color); /* @libs */
+  --button-primary-hover-border-color: var(--brand-secondary); /* @libs */
+  --button-primary-hover-color: var(--brand-secondary); /* @libs */
 
   /* secondary — outline / ghost */
   --button-secondary-background: transparent; /* @libs */
@@ -175,6 +176,7 @@
   --button-on-dark-secondary-hover-background: var(--background-color); /* @libs */
   --button-on-dark-secondary-hover-border-color: var(--background-color); /* @libs */
   --button-on-dark-secondary-hover-color: var(--brand-primary); /* @libs */
+  --button-wide-width: 100%;
 
 }
 
@@ -184,6 +186,13 @@
   size-adjust: 105.2%; /* @libs */
   ascent-override: 105%; /* @libs */
   src: local('Arial'); /* @libs */
+}
+
+@font-face {
+  font-family: proxima-nova-fallback;
+  font-weight: 700;
+  size-adjust: 98%;
+  src: local('Arial Bold'), local('Arial');
 }
 
 body { /* @libs */
@@ -216,6 +225,7 @@ body.appear { /* @libs */
    block-level paragraph rules (e.g. columns' 22px line-height) wherever
    an author or block explicitly opts in. */
 .small-text {
+  display: block;
   font-size: var(--body-font-size-xs) !important;
   line-height: 1.3 !important;
 }
@@ -225,8 +235,10 @@ body.appear { /* @libs */
 .emboss {
   background: var(--background-color);
   border-radius: 20px;
-  box-shadow: inset 0 0 8px 4px rgb(0 0 0 / 20%);
-  padding: 24px;
+  box-shadow: inset 0 0 8px 2px rgb(0 0 0 / 20%);
+  padding: 20px;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 /* stronger version of .emboss — same card, heavier shadow (40% vs 20%) */
@@ -234,7 +246,9 @@ body.appear { /* @libs */
   background: var(--background-color);
   border-radius: 20px;
   box-shadow: inset 0 0 8px 4px rgb(0 0 0 / 40%);
-  padding: 24px;
+  padding: 20px;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 header { /* @libs */
@@ -281,7 +295,7 @@ h1, .size-h1 {
   line-height: 1.21;
   color: var(--brand-primary-dark);
   margin-top: 0;
-  max-width: var(--h1-max-width);
+  font-family: var(--page-title-font-family);
 }
 
 h2, .size-h2 {
@@ -295,7 +309,6 @@ h3, .size-h3 {
   font-weight: var(--font-weight-bold);
   line-height: 1.2;
   color: var(--brand-primary-dark);
-  margin-bottom: 0;
 }
 
 h4, .size-h4 {
@@ -344,7 +357,7 @@ pre { /* @libs */
 }
 
 main > div { /* @libs */
-  margin: 40px 16px; /* @libs */
+  margin: var(--section-padding-vertical) 16px; /* @libs */
 }
 
 input,
@@ -414,6 +427,7 @@ button { /* @libs */
   background-color: var(--button-primary-background); /* @libs */
   border-color: var(--button-primary-border-color); /* @libs */
   color: var(--button-primary-color); /* @libs */
+  text-transform: uppercase;
 }
 
 a.button.primary:hover,
@@ -470,22 +484,6 @@ a.button.accent:focus { /* @libs */
   color: var(--button-accent-hover-color); /* @libs */
   text-decoration: none; /* @libs */
   cursor: pointer; /* @libs */
-}
-
-/* arrow icon on link buttons */
-a.button::after { /* @libs */
-  content: ""; /* @libs */
-  display: inline-block; /* @libs */
-  width: var(--button-icon-width); /* @libs */
-  height: var(--button-icon-height); /* @libs */
-  margin-left: var(--button-icon-gap); /* @libs */
-  vertical-align: middle; /* @libs */
-  background-color: currentcolor; /* @libs */
-  mask-image: var(--button-icon-url); /* @libs */
-  mask-size: contain; /* @libs */
-  mask-repeat: no-repeat; /* @libs */
-  mask-position: center; /* @libs */
-  transition: var(--button-transition); /* @libs */
 }
 
 a.button:hover::after,
@@ -568,11 +566,9 @@ main p:has(> .icon) {
 main :is(.icon-download, .icon-pdf, .icon-connect, .icon-play) {
   width: 32px;
   height: 32px;
+  flex: 0 0 auto;
 }
 
-/* Resource-list link spacing to match the source: tighter text line-height,
-   ~30px of vertical space between items, and the icon flush to the text top.
-   Scoped to the resource-list columns variant. */
 main .columns.resource-list ul.icon-bullets {
   display: flex;
   flex-direction: column;
@@ -587,18 +583,32 @@ main .columns.resource-list .icon.icon-bullet {
   margin-top: 0;
 }
 
-/* 1px light-gray divider above each resource group (Guides / Forms / Letters),
-   plus one closing the set — drawn as the top border of the section that follows
-   the last group. (EDS reserves <hr> for section breaks, so the rule can't be
-   authored as content.) Scoped to those sections so nothing else is affected. */
-main .section:has(.columns.resource-list),
-main .section:has(.columns.resource-list) + .section {
-  border-top: 1px solid #a4a4a4;
-  padding-top: 32px;
-  margin-top: 32px;
+/* responsive visibility utilities (authorable via [hide-mobile] / [hide-desktop] bracket spans) */
+
+/* ==== START alignment + display for mobile ==== */
+.hide-mobile {
+  display: none;
 }
 
-.center {
+.center, .center-mobile, .center-desktop,
+.left, .left-mobile, .left-desktop,
+.right, .right-mobile, .right-desktpo {
+  &:not(.cards) {
+    ol {
+      width: fit-content;
+    }
+
+    ul {
+      width: fit-content;
+    }
+
+    li {
+    text-align: left;
+  }
+ }
+}
+
+.center, .center-mobile {
   text-align: center;
 
   &.columns .columns-img-col img {
@@ -633,9 +643,54 @@ main .section:has(.columns.resource-list) + .section {
 
 /* ==== END alignment + display for mobile ==== */
 
+.nowrap {
+  white-space: nowrap;
+}
+
+.button:has(span.wide) {
+    min-width: var(--button-wide-width);
+}
+
+/* sections */
+
 main > .section > div:not(.bg-image) {
   margin: auto;
   padding: 0 var(--spacing-m);
+  max-width: var(--max-width-site);
+}
+
+/* Section metadata: background image sits behind content */
+main > .section:has(> .bg-image) { /* @boilerplate */
+  position: relative; /* @boilerplate */
+  overflow: hidden; /* @boilerplate */
+}
+
+main > .section:has(> .bg-image) > div:not(.bg-image) { /* @boilerplate */
+  position: relative; /* @boilerplate */
+  z-index: 1; /* @boilerplate */
+}
+
+main > .section > .bg-image { /* @boilerplate */
+  position: absolute; /* @boilerplate */
+  inset: 0; /* @boilerplate */
+  z-index: 0; /* @boilerplate */
+  pointer-events: none; /* @boilerplate */
+}
+
+main > .section > .bg-image picture,
+main > .section > .bg-image img { /* @boilerplate */
+  display: block; /* @boilerplate */
+  width: 100%; /* @boilerplate */
+  height: 100%; /* @boilerplate */
+}
+
+main > .section > .bg-image img {
+  object-fit: cover;
+}
+
+main > .section > div.columns-wrapper {
+  margin-top: 24px;
+  margin-bottom: 24px;
 }
 
 /* flex sections — a run of adjacent style=flex sections is wrapped by JS in a
@@ -650,6 +705,44 @@ gap: var(--flex-group-gap);
 
 main .flex-group > .section.flex {
 margin: 0;
+}
+
+main > .section.page-title {
+  margin: 0;
+  padding: 30px 15px;
+
+  .bg-image img {
+    object-position: top;
+  }
+
+  h1 {
+    font-family: var(--page-title-font-family);
+    font-size: 38px;
+    margin: 0;
+  }
+
+  h1,p,.size-h4,.size-h2 {
+    color: var(--background-color);
+  }
+
+  .size-h2 {
+    font-size: 28px;
+    font-family: var(--page-title-font-family);
+  }
+
+  .columns-wrapper {
+    margin-bottom: 0;
+  }
+}
+
+
+/* 1px light-gray divider above each resource group (Guides / Forms / Letters),
+   plus one closing the set — drawn as the top border of the section that follows
+   the last group. (EDS reserves <hr> for section breaks, so the rule can't be
+   authored as content.) Scoped to those sections so nothing else is affected. */
+main .section:has(.columns.resource-list) {
+  border-bottom: 1px solid #a4a4a4;
+  padding-bottom: 16px;
 }
 
 /* section metadata - accent (light blue help strip) */
@@ -682,7 +775,11 @@ main .section.light,
 main .section.highlight { /* @libs */
   background-color: var(--light-color); /* @libs */
   margin: 0; /* @libs */
-  padding: var(--section-padding-vertical) 0; /* @libs */
+  padding: var(--section-padding-vertical) 16px; /* @libs */
+
+  > div {
+    margin: 16px;
+  }
 }
 
 /* section metadata - connect-panel (VYEPTI CONNECT support): pale-blue rounded
@@ -722,12 +819,20 @@ main .section.center > div {
   margin-inline: auto;
 }
 
+.section.emboss, .section.emboss-heavy, .section.rounded {
+  max-width: var(--max-width-site);
+  padding: 20px 16px;
+}
+
+.section.rounded {
+  border-radius: 20px;
+}
+
 /* section metadata - dark (teal) */
 main .section.dark { /* @libs */
   background-color: var(--brand-primary); /* @libs */
   color: var(--background-color); /* @libs */
-  margin: 0; /* @libs */
-  padding: var(--section-padding-vertical) 0; /* @libs */
+  padding: 16px;
 }
 
 /* :not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) excludes the emboss
@@ -784,224 +889,42 @@ main .section.dark a.button.secondary:focus { /* @libs */
   color: var(--button-on-dark-secondary-hover-color); /* @libs */
 }
 
-/* section metadata - stats-callout (light-blue→white gradient, rounded top corners).
-   Source: vyepti.com clinical-study-results and real-life-impact callouts.
-   The light-blue background-color is authored on the section metadata and applied
-   inline via applySectionBackgroundDecorations(); this rule layers the white fade
-   + rounded corners on top.
-   Box model measured from the live source:
-   - The gradient box (section) is ALWAYS full width (max-width 100%, no side
-     margin). It carries 15px side padding below 768px; at 768+ the inner
-     container owns the gutters so the section padding drops to 0.
-   - The inner content (.container equivalent) carries the responsive caps,
-     centered with margin auto: <576 fluid, 576+ = 540, 768+ = 720,
-     992+ = 960, 1200+ = 1140 (Bootstrap container widths), each with 15px gutters. */
-main .section.stats-callout {
-  max-width: var(--max-width-site); /* @boilerplate */
-  margin: auto;
-  background-image: linear-gradient(180deg, #e8f3f5 20%, #fff 53%, #fff 100%);
-  border-radius: 23px 23px 0 0;
-  padding: var(--section-padding-vertical) 15px;
+main > .section.hero-tabs {
+  margin: 0;
+
+  .hero-tabs-wrapper {
+    max-width: 100%;
+  }
+}
+
+main .section.sitemap h1 {
   text-align: center;
+  padding-bottom: 22px;
+  max-width: unset;
 }
 
-/* Inner content carries the responsive container caps, centered. box-sizing keeps
-   the 15px gutters inside the width instead of adding to it. */
-main .section.stats-callout > div:not(.bg-image) {
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0 15px;
+main .section.sitemap h5 {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
 }
 
-main .section.stats-callout h2,
-main .section.stats-callout h4 {
-  color: var(--brand-primary);
+main .section.sitemap li {
+  margin: 4px 0;
 }
 
-@media (width >= 576px) {
-  main .section.stats-callout > div:not(.bg-image) {
-    max-width: 540px;
-  }
+main .section.sitemap li::marker {
+  color: var(--link-color);
 }
 
-@media (width >= 768px) {
-  :root {
-    /* heading sizes scale up on desktop — source: typography.json responsive.desktopSizes */
-    --body-font-size-m: 24px;
-    --body-font-size-ms: 18px;
-    --body-font-size-s: 16px;
-    --body-font-size-xs: 14px;
-    --heading-font-size-xxl: 43px;
-    --heading-font-size-xl: 34px;
-    --heading-font-size-l: 28px;
-    --heading-font-size-m: 22px;
-    --heading-font-size-s: 18px;
-    --heading-font-size-xs: 16px;
-  }
-
-  /* ==== START alignment + display for desktop ==== */
-  .hide-desktop {
-    display: none;
-  }
-
-  .hide-mobile {
-    display: revert;
-  }
-
-  .center-mobile, .left-mobile, .right-mobile {
-    text-align: revert;
-
-    ol, ul {
-    margin-left: revert;
-    margin-right: revert;
-    }
-
-    &:not(.cards) li {
-      text-align: revert;
-    }
-  }
-
-  .center-desktop {
-    text-align: center;
-  
-    &.columns .columns-img-col img {
-      display: inline-block;
-    }
-  
-    ol, ul {
-      margin-left: auto;
-      margin-right: auto;
-    }
-  
-    &:not(.cards) li {
-      text-align: left;
-    }
-  }
-  
-  .left-desktop {
-    text-align: left;
-  
-    &.columns .columns-img-col img {
-      display: inline-block;
-    }
-  }
-  
-  .right-desktop {
-    text-align: right;
-  
-    &.columns .columns-img-col img {
-      display: inline-block;
-    }
-  
-    ol, ul {
-      margin-left: auto;
-    }
-  
-    &:not(.cards) li {
-      text-align: left;
-    }
-  }
-
-  /* ==== END alignment + display for desktop ==== */
-  
-    /* ==== Start widths ==== */
-
-div[class^="width-"], div[class*=" width-"] {
-  margin: var(--div-width-margin);
+main .section.sitemap ul ul {
+  margin: 0;
+  list-style-type: disc;
 }
 
-.width-75 {
-  width: 73.5%;
-}
-
-.width-66 {
-  width: 64.5%;
-}
-
-.width-50 {
-  width: 48.5%;
-}
-
-.width-33 {
-  width: 31.5%;
-}
-
-.width-25 {
-  width: 23.5%;
-}
-
-.columns > div:has(> div[class^="width-"],> div[class*=" width-"]) {
-  align-items: var(--div-width-align-items);
-
-  > div[class^="width-"],> div[class*=" width-"] {
-    flex: none;
-  }
-}
-
-/* ==== End widths ==== */
-    main .section.stats-callout {
-      padding: var(--section-padding-vertical) 0;
-    }
-
-    main > .section > div { /* @libs */
-      max-width: 720px; /* @libs */
-    }
-  
-    main .section.stats-callout > div:not(.bg-image) {
-      max-width: 720px;
-    }
-  }
-
-@media (width >= 992px) { /* @libs */
-  body[data-breadcrumbs] { /* @libs */
-    --header-height: calc(var(--nav-height) + var(--breadcrumbs-height)); /* @libs */
-  }
-
-main > .section > div { /* @libs */
-  max-width: var(--max-width-site); /* @libs */
-  padding: 0 32px; /* @libs */
-}
-
-main .section.stats-callout > div:not(.bg-image) {
-  max-width: 960px;
-}
-
-  main .section.accent > div { /* @libs */
-    gap: 30px; /* @libs */
-  }
-
-  main .flex-group {
-    flex-direction: row;
-    align-items: stretch;
-  }
-
-  main .flex-group > .section.flex {
-    flex: 1 1 0;
-    min-width: 0;
-  }
-}
-
-@media (width >= 1200px) {
-  main .section.stats-callout > div:not(.bg-image) {
-    max-width: 1140px;
-  }
-}
-
-/* Header CLS reservation — tablet + desktop overrides (eager so they apply from
-   first paint). Breakpoints match the header block: 600px (tablet layout) and
-   900px (desktop layout). The loaded-state release above still applies. */
-@media (width >= 600px) {
-  header {
-    min-height: var(--header-reserve-height-tablet);
-  }
-}
-
-@media (width >= 900px) {
-  header {
-    min-height: var(--header-reserve-height-desktop);
-  }
+main .section.sitemap a:not(.button),
+main .section.sitemap a:not(.button):hover {
+  text-decoration: none;
 }
 
 /* section metadata - banner (hero replacement).
@@ -1075,53 +998,224 @@ main .section.banner > div:not(.bg-image) {
   padding: 0 var(--spacing-m);
 }
 
-/* Hero sub-copy is now wrapped in a Columns (banner-text) block; its small/muted
-   footnote styling lives in blocks/columns/columns-tokens.css (.columns.banner-text). */
 
-@media (width >= 900px) {
+@media (width >= 576px) {
+  :root {
+    --max-width-site: 510px;
+  }
+  
+  .section.emboss, .section.emboss-heavy, .section.rounded,
+  main .section.light > div {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (width >= 768px) {
+  :root {
+    /* heading sizes scale up on desktop — source: typography.json responsive.desktopSizes */
+    --body-font-size-m: 24px;
+    --body-font-size-ms: 18px;
+    --body-font-size-s: 16px;
+    --body-font-size-xs: 14px;
+    --heading-font-size-xxl: 43px;
+    --heading-font-size-xl: 34px;
+    --heading-font-size-l: 28px;
+    --heading-font-size-m: 22px;
+    --heading-font-size-s: 18px;
+    --heading-font-size-xs: 16px;
+    --max-width-site: 690px;
+  }
+
+  /* ==== START alignment + display for desktop ==== */
+  .hide-desktop {
+    display: none;
+  }
+
+  .hide-mobile {
+    display: revert;
+  }
+
+  .center-mobile, .left-mobile, .right-mobile {
+    text-align: revert;
+
+    ol, ul {
+    margin-left: revert;
+    margin-right: revert;
+    }
+
+    &:not(.cards) li {
+      text-align: revert;
+    }
+  }
+
+  .center-desktop {
+    text-align: center;
+  
+    &.columns .columns-img-col img {
+      display: inline-block;
+    }
+  
+    ol, ul {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  
+    &:not(.cards) li {
+      text-align: left;
+    }
+  }
+  
+  .left-desktop {
+    text-align: left;
+  
+    &.columns .columns-img-col img {
+      display: inline-block;
+    }
+  }
+  
+  .right-desktop {
+    text-align: right;
+  
+    &.columns .columns-img-col img {
+      display: inline-block;
+    }
+  
+    ol, ul {
+      margin-left: auto;
+    }
+  
+    &:not(.cards) li {
+      text-align: left;
+    }
+  }
+
+  .top > div, .columns.top > div { /* only tested with Columns block */
+  align-items: stretch;
+    }
+
+  /* ==== END alignment + display for desktop ==== */
+  
+    /* ==== Start widths ==== */
+
+div[class^="width-"], div[class*=" width-"] {
+  margin: var(--div-width-margin);
+}
+
+.width-75 {
+  width: 73.5%;
+}
+
+.width-66 {
+  width: 64.5%;
+}
+
+.width-50 {
+  width: 48.5%;
+}
+
+.width-33 {
+  width: 31.5%;
+}
+
+.width-25 {
+  width: 23.5%;
+}
+
+.columns > div:has(> div[class^="width-"],> div[class*=" width-"]) {
+  align-items: var(--div-width-align-items);
+
+  > div[class^="width-"],> div[class*=" width-"] {
+    flex: none;
+  }
+}
+
+/* ==== End widths ==== */
+
+main .section.page-title h1, .size-h2 {
+  max-width: var(--h1-max-width);
+}
+  }
+
+@media (width >= 992px) {
+  :root {
+    --max-width-site: 930px;
+    --button-wide-width: 345px;
+    --h1-max-width: 80%;
+  }
+
+  body[data-breadcrumbs] { /* @libs */
+    --header-height: calc(var(--nav-height) + var(--breadcrumbs-height)); /* @libs */
+  }
+
+  header {
+    min-height: var(--header-reserve-height-desktop);
+  }
+
+main > .section > div:not(.bg-image) { /* @libs */
+  max-width: var(--max-width-site); /* @libs */
+  padding: 0; /* @libs */
+}
+
+  main .section.accent > div { /* @libs */
+    gap: 30px; /* @libs */
+  }
+
+  main .flex-group {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  main .flex-group > .section.flex {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
   main .section.banner > div:not(.bg-image) {
     padding: 0 var(--spacing-l);
   }
-}
 
-/* hero-short: flat desktop hero ratio (1440x396) from the source's 768px breakpoint up. */
-@media (width >= 768px) {
-  main .section.banner.hero-short {
-    --banner-aspect-ratio: 1440 / 396;
+  .section.emboss, .section.emboss-heavy, .section.rounded {
+    padding: 24px 36px;
+  }
+
+  main > .section.page-title {
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 15px;
+    gap: 18px;
+
+    div {
+    width: 100%;
+    }
+
+    h1,.size-h2 {
+      font-size: 38px;
+    }
+  }
+
+  main > .section.page-title:has(.jump-nav) {
+    min-height: 260px;
   }
 }
 
-/* section metadata - sitemap (site-map page link hierarchy).
-   Source (vyeptihcp.com) renders every level — top and nested — at the same
-   size with no underline, distinguished only by indentation; flattens the
-   default h5 top-level treatment to match, and normalizes the nested <ul>'s
-   default browser bullet (circle) to match the top level's (disc). */
-main .section.sitemap h1 {
-  text-align: center;
-  padding-bottom: 22px;
-  max-width: unset;
+@media (width >= 1200px) {
+  :root {
+    --max-width-site: 1110px;
+  }
+
+  main > .section.hero-tabs {
+    margin-top: -105px;
 }
 
-main .section.sitemap h5 {
-  margin: 0;
-  font-size: inherit;
-  line-height: inherit;
-}
+main > .section.page-title {
+  padding-top: 40px;
+  padding-bottom: 40px;
 
-main .section.sitemap li {
-  margin: 4px 0;
-}
-
-main .section.sitemap li::marker {
-  color: var(--link-color);
-}
-
-main .section.sitemap ul ul {
-  margin: 0;
-  list-style-type: disc;
-}
-
-main .section.sitemap a:not(.button),
-main .section.sitemap a:not(.button):hover {
-  text-decoration: none;
+  h1 {
+    font-size: 43px;
+  }
+ }
 }

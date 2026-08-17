@@ -10,13 +10,6 @@
   /* nav heights (legacy — kept for header-height math in styles.css) */
   --nav-height: 200px;
 
-  /* NOTE: --header-reserve-height-* (CLS reservation) are defined in the eager
-     styles.css :root, not here, so they apply from first paint. */
-  --header-nav-max-width-mobile: 510px;
-  --header-nav-max-width-tablet: 690px;
-  --header-nav-max-width-desktop: 930px;
-  --header-nav-max-width-max: 1110px;
-
   /* ---- color roles (reference global brand/semantic tokens) ---- */
 
   /* Brand band measured from source = #41748d = --brand-teal-muted (--brand-primary-dark).

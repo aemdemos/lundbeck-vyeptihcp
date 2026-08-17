@@ -35,7 +35,7 @@
      thin white rule sits under the links (added in the overrides below). */
   --footer-linkbar-background: transparent;
   --footer-linkbar-padding: 0; /* mobile top space above the link row */
-  --footer-linkbar-inner-padding: 30px 0 23px; /* side gutters + gap down to the rule */
+  --footer-linkbar-inner-padding: 30px 15px 23px; /* side gutters (matches vyeptihcp.com; was 0, leaving links flush against the edge) + gap down to the rule */
   --footer-link-text-align: left;
   --footer-link-color: var(--link-color); /* teal */
   --footer-link-hover-color: var(--link-hover-color); /* unchanged on hover (only underline appears) */
@@ -70,8 +70,8 @@
   --footer-link-font-family: open-sans, sans-serif;
 
   /* ---- body section (legal + logo) ----------------------------------- */
-  --footer-body-padding: 14px 15px 30px; /* desktop (top gap below the white rule) */
-  --footer-body-padding-mobile: 0 15px 160px; /* mobile: tall bottom clears the fixed mobile UI */
+  --footer-body-padding: 14px 15px 60px; /* desktop (top gap below the white rule); bottom matches vyeptihcp.com */
+  --footer-body-padding-mobile: 0 15px 60px; /* mobile; bottom matches vyeptihcp.com (was 160px, meant for a fixed mobile UI element this site doesn't have) */
 
   /* legal column (column 1) — Onfi values are MOBILE here; the overrides bump
      them on desktop (footer2 only models a single legal size). */
@@ -215,7 +215,7 @@ footer .footer .columns.divider img {
     --footer-legal-line-height: var(--footer-legal-line-height-desktop);
     --footer-legal-margin-bottom: var(--footer-legal-margin-bottom-desktop);
     --footer-linkbar-padding: 30px 0 0;
-    --footer-linkbar-inner-padding: 30px 150px 23px 0;
+    --footer-linkbar-inner-padding: 30px 150px 23px 15px; /* left matches vyeptihcp.com (was 0) */
   }
 
   /* [LIBS GAP] footer.css lays the desktop links out as inline-block <p>s, so
@@ -270,13 +270,13 @@ footer .footer .columns.divider img {
 @media (width >= 992px) {
    :root {
       --footer-max-width: 60pc;
-      --footer-linkbar-inner-padding: 30px 0 23px;
+      --footer-linkbar-inner-padding: 30px 0 23px 15px; /* left matches vyeptihcp.com (was 0) */
    }
 }
 
 @media (width >= 1200px) {
    :root {
       --footer-max-width: 855pt;
-      --footer-linkbar-inner-padding: 30px 0 23px;
+      --footer-linkbar-inner-padding: 30px 0 23px 15px; /* left matches vyeptihcp.com (was 0) */
    }
 }
