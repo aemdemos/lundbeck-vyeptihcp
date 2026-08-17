@@ -130,6 +130,10 @@
   border-collapse: collapse;
 }
 
+.table.block.table.block.reactions table thead tr {
+  background-image: none;
+}
+
 .table.block.reactions table th,
 .table.block.reactions table td {
   border-right: 30px solid transparent;
