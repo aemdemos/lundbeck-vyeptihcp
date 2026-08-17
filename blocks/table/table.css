@@ -131,8 +131,12 @@
   table-layout: fixed;
 }
 
-.table.block.table.block.reactions table thead tr {
+.table.block.reactions table thead tr {
   background-image: none;
+}
+
+.table.block.reactions table th {
+  padding: var(--table-cell-padding-block) 0;
 }
 
 .table.block.reactions table th,
