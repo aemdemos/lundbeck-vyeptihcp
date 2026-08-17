@@ -1,35 +1,468 @@
+/* ==========================================
+   RESET
+========================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.signup-form-wrapper {
+  background: #f5f6f8;
+  padding: 16px;
+}
+
 .signup-form {
-  display: block;
+  max-width: 920px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================================
+   FORM LAYOUT
+========================================== */
+
+.signup-form form {
+  display: grid;
+  grid-template-columns: 1fr;
+  /* gap: 16px; */
+  padding: 24px;
+}
+
+/* ==========================================
+   HEADING
+========================================== */
+
+.heading-wrapper,
+.sign-up-header {
+  text-align: center;
+}
+
+#form-formtitle {
+  margin: 0;
+  color: #3d6f94;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.sign-up-zip {
+  text-align: center;
+}
+
+.sign-up-zip p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* ==========================================
+   FIELD STYLING
+========================================== */
+
+input{
+  margin-bottom: 32px;
+}
+
+.sign-up-checkbox input{
+  margin-bottom: 0px;
+}
+
+select{
+  margin-bottom: 32px;
+}
+
+/* Target the placeholder text of the focused input */
+input:focus::placeholder {
+  font-size: 0.75rem;
+  text-align: left;
+  transform: translateY(-120%);
+  transition: all 0.3s ease;
+  opacity: 0.7;
+  font-weight: normal;
+}
+
+/* Optional: Ensure a smooth transition when clicking away */
+input::placeholder {
+  transition: all 0.3s ease;
+  font-weight: bold;
+  color: black;
+  /* content: " *"; */
+}
+
+input:focus:not(:placeholder-shown)::placeholder {
+  font-weight: bold;
+}
+
+/* Bolds the select box text ONLY when the placeholder option (value="") is selected */
+select:invalid {
+  font-weight: bold;
+  color: #000; /* Optional: ensures high contrast for the placeholder */
+}
+
+/* Resets the options inside the dropdown list back to regular weight */
+select option {
+  font-weight: normal;
+}
+
+
+.field-wrapper {
   width: 100%;
-  max-width: 720px;
-  margin: var(--spacing-l, 2rem) auto;
 }
 
-.signup-form .form-group {
-  margin-bottom: 1rem;
-}
-
-.signup-form .custom-error {
+.field-wrapper label {
   display: none;
-  color: var(--error-color, #c02c57);
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #243746;
 }
 
-/* State & Specialty are Bootstrap dropdowns: the option list must be collapsed by
-   default and revealed only when the vendor JS toggles `.show` on the group. Without
-   the vendor's Bootstrap CSS reliably applied, the menu renders fully expanded (a wall
-   of options), so collapse it here and let the vendor JS open it. */
-.signup-form .btn-group.dropdown .dropdown-menu {
-  display: none;
+.text-wrapper input,
+.select-wrapper select {
+  width: 100%;
+  height: 54px;
+  padding: 0 16px;
+  border: 1px solid #7c7c7c;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 16px;
+  outline: none;
+  transition: 0.2s ease;
 }
 
-.signup-form .btn-group.dropdown.show .dropdown-menu,
-.signup-form .btn-group.dropdown.open .dropdown-menu {
+.text-wrapper input:focus,
+.select-wrapper select:focus {
+  border-color: #467393;
+}
+
+/* ==========================================
+   CUSTOM SELECT
+========================================== */
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  padding-right: 65px;
+}
+
+.select-wrapper::after {
+  content: "v";
+  position: absolute;
+  right: 0;
+  bottom: 32px;
+  width: 54px;
+  height: 54px;
+  background: #4f7d9d;
+  color: #fff;
+  border-radius: 0 8px 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  font-size: 24px;
+}
+
+/* ==========================================
+   INTEREST BOX
+========================================== */
+
+.sign-up-checkbox {
+  background: #edf3f6;
+  border-left: 1px solid #7f7f7f;
+  border-right: 1px solid #7f7f7f;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding: 12px 20px;
+  margin: 0;
+}f
+
+/* First checkbox in group */
+.sign-up-checkbox:first-of-type {
+  border-top: 1px solid #7f7f7f;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding-top: 20px;
+}
+
+/* Last checkbox in group */
+.sign-up-checkbox:last-of-type {
+  border-bottom: 1px solid #7f7f7f;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding-bottom: 20px;
+}
+
+/*First Checkbox*/
+.checkbox-group-start {
+  border-top: 1px solid #7f7f7f;
+  /* border-top-left-radius: 8px;
+  border-top-right-radius: 8px; */
+}
+
+/*Last Checkbox*/
+.checkbox-group-end {
+  border-bottom: 1px solid #7f7f7f;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  margin-bottom: 32px;
+}
+
+.sign-up-checkbox:has(#form-registerforupdates) {
+  border-bottom: 1px solid #7f7f7f;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding-bottom: 20px;
+}
+
+/* Top heading inside fake box */
+#form-1 {
+  margin: 0;
+  font-weight: 700;
+}
+/*Top Title */
+.plaintext-wrapper:has(#form-1) {
+  background: #edf3f6;
+  border-top: 1px solid #7f7f7f;
+  border-left: 1px solid #7f7f7f;
+  border-right: 1px solid #7f7f7f;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding: 20px;
+}
+
+/*Middle Chechboxes*/
+.middle-checkbox {
+ padding-left: 40px;
+
+}
+
+.sign-up-checkbox:has(#form-requestrep) {
+  border-top: none;
+}
+
+.sign-up-checkbox label {
+  font-weight: 600;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.checkbox-wrapper label {
+  margin-bottom: 0;
+  line-height: 1.5;
   display: block;
 }
 
-/*
- * The bulk of this form's visual styling (dropdowns, inputs, reCAPTCHA layout, error
- * states) is delivered by the vendor site clientlib CSS loaded at runtime in signup-form.js.
- * Keep block-local CSS minimal so it does not fight those vendor styles; refine in the
- * deferred styling pass if gaps remain.
- */
+/* ==========================================
+   TEXT BLOCKS
+========================================== */
+.required-first{
+  margin-bottom: 32px;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.plaintext-wrapper p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+#form-natureofinquiry {
+  font-weight: 700;
+}
+
+/* ==========================================
+   AUTHORIZATION BLOCK
+========================================== */
+
+#form-authorized-label {
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+/* ==========================================
+   CAPTCHA PLACEHOLDER
+========================================== */
+
+#form-captcha-placeholder {
+  min-height: 78px;
+  border: 1px solid #d3d3d3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 320px;
+  background: #fafafa;
+}
+
+.g-recaptcha{
+      transform: scale(1.35);
+    margin-left: 65px;
+    margin-top: 40px;
+}
+
+/* ==========================================
+   TERMS
+========================================== */
+
+#form-terms {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #444;
+}
+
+/* ==========================================
+   SUBMIT BUTTON
+========================================== */
+
+.button-wrapper {
+  text-align: center;
+}
+
+.button-wrapper label {
+  display: none;
+}
+
+#form-submitbtn {
+  width: 200px;
+  height: 50px;
+  border: none;
+  border-radius: 30px;
+  background: #c02863;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+#form-submitbtn:hover {
+  background: #a71f52;
+}
+
+
+/* ERROR Messages */
+
+.form-error {
+  color:red;
+}
+
+
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (min-width: 768px) {
+
+  .signup-form form {
+    grid-template-columns: repeat(2, 1fr);
+    /* gap: 20px; */
+  }
+
+  /* Full width sections */
+
+  .heading-wrapper,
+  .sign-up-header,
+  .sign-up-zip,
+  .sign-up-checkbox,
+  .button-wrapper,
+  .plaintext-wrapper {
+    grid-column: 1 / -1;
+  }
+
+  /* Email */
+  .text-wrapper:has(#form-email) {
+    grid-column: 1 / -1;
+  }
+
+  /* Address */
+  .text-wrapper:has(#form-address) {
+    grid-column: 1 / -1;
+  }
+
+  /* Zip */
+  .text-wrapper:has(#form-zipcode) {
+    grid-column: 1 / -1;
+  }
+
+  /* Specialty */
+  .select-wrapper:has(#form-speciality) {
+    grid-column: 1 / -1;
+  }
+
+  /* NPI */
+  .text-wrapper:has(#form-npi) {
+    grid-column: 1 / -1;
+  }
+
+  /* Phone */
+  .text-wrapper:has(#form-phone) {
+    grid-column: 1 / -1;
+  }
+
+  /* Authorization */
+  .checkbox-wrapper:has(#form-authorized) {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ==========================================
+   DESKTOP
+========================================== */
+
+@media (min-width: 1024px) {
+
+  .signup-form {
+    max-width: 960px;
+  }
+
+  .signup-form form {
+    padding: 48px;
+    /* gap: 24px; */
+  }
+
+  #form-formtitle {
+    font-size: 42px;
+  }
+
+  .sign-up-checkbox {
+    padding: 30px;
+  }
+
+  .text-wrapper input,
+  .select-wrapper select {
+    height: 56px;
+  }
+
+  .select-wrapper::after {
+    height: 56px;
+    width: 56px;
+  }
+
+  #form-submitbtn {
+    width: 220px;
+  }
+}
