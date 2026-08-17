@@ -1,4 +1,4 @@
-// distance.js
+// It calculate the miles/distance  which is selected from miles drop down 
 
 export function getMiles(lat1, lon1, lat2, lon2) {
   if (

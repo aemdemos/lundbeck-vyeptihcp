@@ -1,17 +1,16 @@
 import { getSettings } from '../../scripts/config.js';
 import { createLayout } from './layout.js';
-import { initializeMap } from './map.js';
+import { initializeAutocomplete, initializeMap } from './map.js';
 import { getApiInfo } from './api.js';
 import  registerEvents  from './events.js';
 import { initCustomDropdown } from './dropdown.js';
 import  getElements  from './ui.js';
+import { loadPdfMake } from './layout/pdf.js';
 
 export default async function decorate(block) {
   await renderForm(block);
 
   const apiInfo = getApiInfo(block);
-
-  console.log("API INFO :", apiInfo);
   const settings = getSettings(block, apiInfo);
 
 
@@ -21,6 +20,12 @@ export default async function decorate(block) {
   
 
   await initializeMap(apiInfo.apiKey);
+
+
+  //  It will in commented until we get the Proper End points
+  // const zipInput = block.querySelector('#form-zipcode');
+  // const autocomplete = initializeAutocomplete(zipInput);
+
 
   const ui = getElements(block);
 
@@ -45,3 +50,5 @@ function initializeDropdowns(ui) {
     'select',
   );
 }
+
+await loadPdfMake();

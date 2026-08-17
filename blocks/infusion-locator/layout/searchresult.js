@@ -1,3 +1,6 @@
+import { centerMapOnMarker } from "../map.js";
+
+
 
 function getFacilityIcon(result) {
   const combinedImage = 'https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/Combined-Image.svg';
@@ -51,6 +54,7 @@ export function searchResult(result, index, settings) {
     .filter(Boolean)
     .join(', ');
 
+  //  PreferredIC means which is true Vyepti infussion locator
   const gradientClass =
     result.preferredIc === 'TRUE' ? 'gradientBorder' : '';
 
@@ -100,9 +104,12 @@ export function searchResult(result, index, settings) {
   type.textContent = typeText;
 
   // Miles
-  const miles = document.createElement('p');
-  miles.className = 'milesText';
-  miles.textContent = '0.9 miles away';
+const miles = document.createElement('p');
+miles.className = 'milesText';
+
+if (result.miles !== null && result.miles !== undefined) {
+  miles.textContent = `${result.miles} miles away`;
+}
 
   // Address
   const addressP = document.createElement('p');
@@ -142,6 +149,14 @@ export function searchResult(result, index, settings) {
   right.append(type, miles, addressP, contactWrap);
   itemInner.append(left, right);
   listItem.append(itemInner);
+
+
+  // Event handler for the focus on specific card
+  listItem.addEventListener('click', () => {
+  centerMapOnMarker(index);
+});
+
+  
 
   return listItem;
 }

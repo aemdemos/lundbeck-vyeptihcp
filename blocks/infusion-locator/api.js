@@ -50,10 +50,9 @@ export function getApiInfo(block) {
 
 export async function searchLocations(
   zip,
-  distance,
   settings,
   apiInfo,
-  activeFilters = [],
+  filters,
 ) {
   const coords = await geocodeZip(zip);
   centerMap(coords, 10);
@@ -71,11 +70,11 @@ export async function searchLocations(
       showHCPData: settings.showHcpData,
     });
 
-    activeFilters.forEach((filter) => {
+    filters.forEach((filter) => {
       params.append("filter", filter);
     });
 
-    console.log(apiInfo.showHCPData);
+    
     const response = await fetch(`${apiInfo.apiEndpoint}?${params}`,{method: "POST"});
 
     if (!response.ok) {
