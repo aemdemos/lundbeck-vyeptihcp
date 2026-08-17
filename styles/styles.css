@@ -902,7 +902,7 @@ main .section.sitemap a:not(.button):hover {
 /* section metadata - references (bibliography list at the bottom of a page) */
 main .section.references p,
 main .section.references li {
-  font-size: 14px;
+  font-size: var(--body-font-size-xs);
   line-height: 18px;
 }
 
@@ -1163,7 +1163,7 @@ main > .section > div:not(.bg-image) { /* @libs */
   }
 
   main .section.references li {
-    margin-bottom: 8px;
+    margin-bottom: var(--spacing-xs);
   }
 
   .section.emboss, .section.emboss-heavy, .section.rounded {
