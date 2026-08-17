@@ -128,11 +128,11 @@
 /* vertical gutters for reactions table */
 .table.block.reactions table {
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .table.block.table.block.reactions table thead tr {
   background-image: none;
-  table-layout: fixed;
 }
 
 .table.block.reactions table th,
