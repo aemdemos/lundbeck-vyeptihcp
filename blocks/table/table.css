@@ -126,21 +126,31 @@
 }
 
 /* four-column reactions table */
-.table.block.reactions tr th:nth-child(2):nth-last-child(3),
-.table.block.reactions tr td:nth-child(2):nth-last-child(3) {
-  background-color: #a0b9c6;
+.table.block.reactions tr th:nth-child(1):nth-last-child(4),
+.table.block.reactions tr td:nth-child(1):nth-last-child(4) {
+  background-color: var(--table-reactions-col1-background);
+}
+
+.table.block.reactions tr th:nth-child(1):nth-last-child(4) ~ th:nth-child(2),
+.table.block.reactions tr td:nth-child(1):nth-last-child(4) ~ td:nth-child(2){
+  background-color: var(--table-reactions-col2-background);
+  color: var(--table-reactions-data-color);
+  text-align: center;
 }
 
 .table.block.reactions tr th:nth-child(2):nth-last-child(3) ~ th:nth-child(3),
 .table.block.reactions tr td:nth-child(2):nth-last-child(3) ~ td:nth-child(3) {
-  background-color: #41748d;
+  background-color: var(--table-reactions-col3-background);
+  color: var(--table-reactions-data-color);
+  text-align: center;
 }
 
 .table.block.reactions tr th:nth-child(2):nth-last-child(3) ~ th:nth-child(4),
 .table.block.reactions tr td:nth-child(2):nth-last-child(3) ~ td:nth-child(4) {
-  background-color: #b6b6b6;
+  background-color: var(--table-reactions-col4-background);
+  color: var(--table-reactions-data-color);
+  text-align: center;
 }
-
 
 @media (width >= 768px) { /* @libs */
   .table.block table td { /* @libs */
