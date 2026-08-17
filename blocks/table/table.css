@@ -198,8 +198,8 @@
 }
 
 /* data column background color for 2-column reactions table */
-.table.block.reactions tr th:nth-child(2):nth-last-child(2)
-.table.block.reactions tr td:nth-child(2):nth-last-child(2) {
+.table.block.reactions tr th:nth-child(2):nth-last-child(1),
+.table.block.reactions tr td:nth-child(2):nth-last-child(1) {
   background-color: var(--table-reactions-data2-background);
 }
 
