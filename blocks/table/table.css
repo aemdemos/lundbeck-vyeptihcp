@@ -125,7 +125,21 @@
   border: var(--table-row-border-width) solid var(--table-border-color); /* @libs */
 }
 
-/* four-column reactions table */
+/* vertical gutters for reactions table */
+.table.block.reactions table {
+  border-collapse: collapse;
+}
+
+.table.block.reactions th, td {
+  border-right: 30px solid transparent;
+  background-clip: padding-box;
+}
+
+.table.block.reactions th:last-child, td:last-child {
+  border-right: none;
+}
+
+/* colors for four-column reactions table */
 .table.block.reactions tr th:nth-child(1):nth-last-child(4),
 .table.block.reactions tr td:nth-child(1):nth-last-child(4) {
   background-color: var(--table-reactions-col1-background);
