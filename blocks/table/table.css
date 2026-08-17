@@ -143,6 +143,16 @@
   text-align: center;
 }
 
+/* reactions table borders, override base table */
+.table.block.reactions table tbody tr {
+  border-bottom: none;
+  border-top: var(--table-row-border-width) solid #fff;
+}
+
+.table.block.reactions table tbody tr td:first-child {
+  border-top: var(--table-row-border-width) solid #41748d;
+}
+
 .table.block.reactions table th:last-child,
 .table.block.reactions table td:last-child {
   border-right: none;
