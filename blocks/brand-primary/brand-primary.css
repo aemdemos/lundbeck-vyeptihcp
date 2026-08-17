@@ -1,0 +1,149 @@
+@import url('./brand-primary-tokens.css');
+
+/* Brand primary — brand-color header banner fused to a light body panel
+   below it (no gap — one continuous rounded shape). */
+
+main .brand-primary {
+  color: var(--text-color);
+  border-radius: var(--brand-primary-radius);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+main .brand-primary-header {
+  background: var(--brand-primary-dark);
+  color: var(--background-color);
+  padding: 20px 32px;
+}
+
+main .brand-primary-header p {
+  margin: 0;
+  font-size: var(--body-font-size-ms);
+  font-weight: 700;
+}
+
+main .brand-primary-title {
+  margin: 0;
+  color: var(--background-color);
+  font-size: var(--brand-primary-title-font-size);
+}
+
+main .brand-primary-header a {
+  color: var(--background-color);
+  text-decoration: underline;
+}
+
+main .brand-primary-body {
+  background: var(--brand-primary-body-bg);
+  padding: 20px 32px;
+}
+
+main .brand-primary-body p,
+main .brand-primary-body li {
+  font-size: var(--body-font-size-ms);
+}
+
+main .brand-primary-body p {
+  margin: 0 0 12px;
+}
+
+main .brand-primary-body p:last-child {
+  margin-bottom: 0;
+}
+
+main .brand-primary-body a {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+main .brand-primary-list {
+  list-style: none;
+  margin: 16px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+main .brand-primary-list li {
+  margin: 0;
+}
+
+main .brand-primary-body .small-text {
+  color: var(--text-color-light);
+}
+
+/* stat-box variant — header cell authored as a list: first li is a large
+   stat number, remaining li's are description columns laid out beside it. */
+main .brand-primary.stat-box .brand-primary-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 16px 24px 0;
+}
+
+main .brand-primary-stat-value {
+  margin: 0;
+  color: var(--background-color);
+  font-size: var(--brand-primary-stat-value-font-size);
+  line-height: 1;
+}
+
+main .brand-primary-stat-unit {
+  font-size: 0.6em;
+  font-weight: inherit;
+  vertical-align: super;
+}
+
+main .brand-primary-stat-description {
+  margin: 0 0 16px;
+  color: var(--background-color);
+  font-weight: 700;
+  font-size: var(--body-font-size-ms);
+}
+
+main .brand-primary.stat-box .brand-primary-body {
+  background: var(--light-color);
+  padding: 6px 24px 10px;
+  font-weight: 700;
+  font-size: var(--brand-primary-stat-source-font-size);
+}
+
+@media (width >= 600px) {
+  main .brand-primary-body {
+    padding: 14px 32px 32px;
+  }
+
+  main .brand-primary-header {
+    padding: 16px 32px;
+  }
+
+  main .brand-primary-list {
+    flex-direction: row;
+    gap: 40px;
+  }
+}
+
+@media (width >= 900px) {
+  main .brand-primary.stat-box .brand-primary-header {
+    flex-flow: row wrap;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 32px;
+  }
+
+  main .brand-primary-stat-value {
+    font-size: var(--brand-primary-stat-value-font-size-desktop);
+    flex: 0 0 auto;
+  }
+
+  main .brand-primary-stat-description {
+    margin: 0;
+    flex: 1 1 200px;
+  }
+
+  main .brand-primary.stat-box .brand-primary-body {
+    padding: 6px 32px 10px;
+  }
+}
