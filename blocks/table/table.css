@@ -146,6 +146,7 @@
 .table.block.reactions table th p,
 .table.block.reactions table td p {
   font-size: var(--table-reactions-data-font-size);
+  font-weight: var(--table-reactions-font-weight);
 }
 
 .table.block.reactions table td:first-child p {

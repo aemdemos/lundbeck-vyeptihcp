@@ -11,6 +11,7 @@
   --table-cell-padding-block: 16px; /* @libs */
   --table-cell-padding-inline: 16px; /* @libs */
   --table-cell-padding-block-desktop: 21px; /* @libs */
+  --table-reactions-font-weight: 400;
   --table-reactions-data1-background: #a0b9c6;
   --table-reactions-data2-background: var(--brand-teal-muted);
   --table-reactions-data3-background: #b6b6b6;
