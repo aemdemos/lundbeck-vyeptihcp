@@ -170,6 +170,9 @@
 
 .table.block.reactions table tbody tr td:first-child {
   border-top: var(--table-row-border-width) solid #41748d;
+  color: var(--text-reactions-label-color);
+  font-size: var(--table-reactions-label-font-size);
+  text-align: left;
 }
 
 .table.block.reactions table th:last-child,
