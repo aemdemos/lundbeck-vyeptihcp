@@ -177,15 +177,16 @@
   border-right: none;
 }
 
-/* colors for four-column reactions table */
-.table.block.reactions tr th:nth-child(1):nth-last-child(4),
-.table.block.reactions tr td:nth-child(1):nth-last-child(4) {
+/* label column of all reactions tables */
+.table.block.reactions tr th:nth-child(1)
+.table.block.reactions tr td:nth-child(1) {
   background-color: var(--table-reactions-label-background);
   color: var(--text-reactions-label-color);
   font-size: var(--table-reactions-label-font-size);
   text-align: left;
 }
 
+/* data columns background colors for 4-column reactions table */
 .table.block.reactions tr th:nth-child(1):nth-last-child(4) ~ th:nth-child(2),
 .table.block.reactions tr td:nth-child(1):nth-last-child(4) ~ td:nth-child(2){
   background-color: var(--table-reactions-data1-background);
@@ -201,17 +202,10 @@
   background-color: var(--table-reactions-data3-background);
 }
 
-.table.block.reactions tr th:nth-child(1):nth-last-child(2),
+/* data column background color for 2-column reactions table */
+.table.block.reactions tr th:nth-child(1):nth-last-child(2)
 .table.block.reactions tr td:nth-child(1):nth-last-child(2) {
-  background-color: var(--table-reactions-label-background);
-  color: var(--text-reactions-label-color);
-  font-size: var(--table-reactions-label-font-size);
-  text-align: left;
-}
-
-.table.block.reactions tr th:nth-child(1):nth-last-child(2) ~ th:nth-child(2),
-.table.block.reactions tr td:nth-child(1):nth-last-child(2) ~ td:nth-child(2){
-  background-color: var(--table-reactions-data1-background);
+  background-color: var(--table-reactions-data2-background);
 }
 
 @media (width >= 768px) { /* @libs */
