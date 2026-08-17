@@ -1162,6 +1162,10 @@ main > .section > div:not(.bg-image) { /* @libs */
     padding: 0 var(--spacing-l);
   }
 
+  main .section.references li {
+    margin-bottom: 8px;
+  }
+
   .section.emboss, .section.emboss-heavy, .section.rounded {
     padding: 24px 36px;
   }
