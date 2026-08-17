@@ -701,6 +701,8 @@ main .flex-group {
 display: flex;
 flex-direction: column;
 gap: var(--flex-group-gap);
+max-width: var(--max-width-site);
+margin: auto;
 }
 
 main .flex-group > .section.flex {
@@ -1065,6 +1067,11 @@ main .section.banner > div:not(.bg-image) {
   .top > div, .columns.top > div { /* only tested with Columns block */
   align-items: stretch;
     }
+
+  .middle, .section.flex.middle { /* only tested with flex sections */
+    align-content: center;
+  }
+
 
   /* ==== END alignment + display for desktop ==== */
   
