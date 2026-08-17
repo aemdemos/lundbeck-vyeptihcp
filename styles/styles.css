@@ -899,6 +899,21 @@ main .section.sitemap a:not(.button):hover {
   text-decoration: none;
 }
 
+/* section metadata - references (bibliography list at the bottom of a page) */
+main .section.references p,
+main .section.references li {
+  font-size: 14px;
+  line-height: 18px;
+}
+
+main .section.references ol {
+  padding-left: 15px;
+}
+
+main .section.references li::marker {
+  font-weight: var(--font-weight-bold);
+}
+
 /* section metadata - banner (hero replacement).
    A `banner`-styled section is the site-wide hero pattern: the former hero image is
    authored on the section metadata as `background-image` and rendered by
