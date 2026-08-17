@@ -691,13 +691,13 @@ main .section.highlight { /* @libs */
 main .section.connect-panel {
   background-color: #dfe9f1;
   border-radius: 20px;
+  max-width: var(--max-width-site);
   margin: 0 auto;
   padding: 24px 20px;
 }
 
 main .section.connect-panel > div {
   margin: 0 auto;
-  max-width: var(--max-width-site);
 }
 
 main .section.connect-panel .default-content-wrapper p {
