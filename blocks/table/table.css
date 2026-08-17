@@ -178,8 +178,8 @@
 }
 
 /* label column of all reactions tables */
-.table.block.reactions tr th:nth-child(1)
-.table.block.reactions tr td:nth-child(1) {
+.table.block.reactions table tr th:nth-child(1),
+.table.block.reactions table tr td:nth-child(1) {
   background-color: var(--table-reactions-label-background);
   color: var(--text-reactions-label-color);
   font-size: var(--table-reactions-label-font-size);
