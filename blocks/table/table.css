@@ -132,6 +132,7 @@
 
 .table.block.table.block.reactions table thead tr {
   background-image: none;
+  table-layout: fixed;
 }
 
 .table.block.reactions table th,
