@@ -98,12 +98,6 @@ main .section.options .default-content-wrapper h2 {
   font-size: 32px;
 }
 
-@media (width >= 768px) {
-  main .section.options .default-content-wrapper h2 {
-    font-size: var(--heading-font-size-xl);
-  }
-}
-
 /* Overrides the generic 24px `.columns-wrapper` top margin (styles.css); source uses 16px. */
 main .section.options .columns-wrapper {
   margin-top: 16px;
@@ -134,18 +128,6 @@ main .section.options .columns > div {
   flex-direction: column;
   align-items: stretch;
   gap: 16px; /* source value at every breakpoint; boilerplate default is 24px */
-}
-
-@media (width >= 992px) {
-  main .section.options .columns > div {
-    flex-direction: row;
-    align-items: stretch; /* equal-height cells so text starts at the top, not centered */
-  }
-
-  /* Sized to content (source: flex: 0 1 auto), not equal quarters — the boilerplate's flex: 1 over-wrapped the longest item. */
-  main .section.options .columns > div > div {
-    flex: 0 1 auto;
-  }
 }
 
 /* ────────────────────────────────────────────────────────────────
@@ -504,6 +486,11 @@ main .columns.logo-grid > div > div:last-child img {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px 32px;
   }
+
+  /* "options" section style: source's heading is a flat 32px below this breakpoint. */
+  main .section.options .default-content-wrapper h2 {
+    font-size: var(--heading-font-size-xl);
+  }
 }
 
 @media (width >= 992px) {
@@ -581,6 +568,17 @@ main .columns.logo-grid > div > div:last-child img {
 
   main .columns.icon-feature.callout > div {
     flex: 1;
+  }
+
+  /* "options" section style: source switches to side-by-side only here, not at 768px. */
+  main .section.options .columns > div {
+    flex-direction: row;
+    align-items: stretch; /* equal-height cells so text starts at the top, not centered */
+  }
+
+  /* Sized to content (source: flex: 0 1 auto), not equal quarters — the boilerplate's flex: 1 over-wrapped the longest item. */
+  main .section.options .columns > div > div {
+    flex: 0 1 auto;
   }
 }
 
