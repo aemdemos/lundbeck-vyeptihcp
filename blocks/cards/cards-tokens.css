@@ -188,6 +188,13 @@ main .cards.icon-feature.claims > ul > li {
   gap: 20px;
 }
 
+/* Center the copay-claims section's default content (the "Copay claims,
+   simplified" heading + intro, "You may submit…" line, EFT heading + intro),
+   matching the source. The icon-feature card rows stay left-aligned. */
+main .section:has(> div > .cards.icon-feature.claims) > .default-content-wrapper {
+  text-align: center;
+}
+
 main .cards.icon-feature.claims .cards-card-image {
   flex: 0 0 30%;
   max-width: 116px;
