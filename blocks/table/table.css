@@ -143,6 +143,15 @@
   text-align: center;
 }
 
+.table.block.reactions table th p,
+.table.block.reactions table td p {
+  font-size: var(--table-reactions-data-font-size);
+}
+
+.table.block.reactions table td:first-child p {
+  font-size: var(--table-reactions-label-font-size);
+}
+
 /* reactions table borders, override base table */
 .table.block.reactions table tbody tr {
   border-bottom: none;
