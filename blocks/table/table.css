@@ -130,7 +130,8 @@
   border-collapse: collapse;
 }
 
-.table.block.reactions th, td {
+.table.block.reactions table th,
+.table.block.reactions table td {
   border-right: 30px solid transparent;
   background-clip: padding-box;
   color: var(--table-reactions-data-color);
