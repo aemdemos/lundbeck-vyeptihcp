@@ -60,6 +60,17 @@
   margin: 0;
 }
 
+/* authors sometimes mark up the title as a heading (h1-h6) rather than a
+   plain paragraph. When the accordion is nested inside a tabs panel,
+   .tabs .tabs-panel h3 (blocks/tabs/tabs.css) is more specific than a plain
+   heading rule and overrides its color/size/margin — reset it back to the
+   label's own styling here, with enough specificity to always win. */
+.accordion .accordion-item .accordion-item-label :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+}
+
 /* lead phrase stays the same weight/color as the title (no separate emphasis) */
 .accordion .accordion-item-label strong,
 .accordion .accordion-item-label b {
@@ -200,9 +211,6 @@
 @media (width >= 768px) {
   .accordion > ul > li {
     padding-bottom: 32px;
-  }
-
-  .accordion > ul > li + li {
     margin-top: 32px;
   }
 
