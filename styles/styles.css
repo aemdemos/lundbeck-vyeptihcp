@@ -1163,7 +1163,7 @@ main > .section > div:not(.bg-image) { /* @libs */
   }
 
   main .section.references li {
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: 8px;
   }
 
   .section.emboss, .section.emboss-heavy, .section.rounded {
