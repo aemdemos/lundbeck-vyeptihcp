@@ -492,7 +492,7 @@ main .columns.logo-grid > div > div:last-child img {
   /* desktop: 3-across bordered grid; logo stacked above the download link, centered */
   main .columns.logo-grid {
     grid-template-columns: repeat(3, 1fr);
-    border-top: 1px solid #e2e2e2;
+    border-top: 1px solid var(--columns-logo-grid-border-color);
   }
 
   main .columns.logo-grid > div,
@@ -500,10 +500,10 @@ main .columns.logo-grid > div > div:last-child img {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    gap: 16px;
-    padding: 32px 24px;
-    border-right: 1px solid #e2e2e2;
-    border-bottom: 1px solid #e2e2e2;
+    gap: 8px;
+    padding: 16px 0;
+    border-right: 1px solid var(--columns-logo-grid-border-color);
+    border-bottom: 1px solid var(--columns-logo-grid-border-color);
   }
 
   main .columns.logo-grid > div:nth-child(3n) {
