@@ -116,6 +116,13 @@ main .cards.promo .cards-card-body a:hover {
    with percentage flex-basis so icons scale with the card and never stretch or
    squash. Aspect ratio is held on the picture, not on fixed icon dimensions. */
 
+/* Establish a query container so column counts respond to the block's own
+   width rather than the viewport (see @container rules below). */
+main .cards.icon-feature {
+  container-type: inline-size;
+  container-name: cards-icon-feature;
+}
+
 /* Neutralise the auto-added cards-N-cols sizing (cards.js adds cards-2-cols /
    cards-3-cols by card count): icon-feature cards always fill their grid cell
    and stay left-aligned, matching the source full-width rows. */
@@ -244,7 +251,7 @@ main .cards.icon-feature.icon-80 .cards-card-body p {
 
 /* Tablet+ : quicklink four across, promo two across, icon-feature claims two
    across, icon-80 two across */
-@media (width >= 600px) {
+@media (width >= 768px) {
   main .cards.quicklink > ul {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -253,13 +260,22 @@ main .cards.icon-feature.icon-80 .cards-card-body p {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  main .cards.icon-feature.claims > ul {
+  main .cards.icon-feature > ul {
     grid-template-columns: repeat(2, 1fr);
-    gap: 2.5rem;
+    gap: 20px;
   }
 
   main .cards.icon-feature.icon-80 > ul {
-    grid-template-columns: repeat(2, 1fr);
     gap: 16px 32px;
+  }
+}
+
+@container cards-icon-feature (width > 992px) {
+  main .cards.icon-feature.cards-2-cols > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  main .cards.icon-feature.cards-3-cols > ul {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
