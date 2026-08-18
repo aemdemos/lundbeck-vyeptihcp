@@ -366,13 +366,14 @@ main .section.single-dark .hero p {
   color: var(--hero-eyebrow-text-color);
   background: linear-gradient(90deg, hsl(0deg 0% 100% / 0%), #bcdce2 38.46%, #7ebcc6);
   border-radius: 0 16px 16px 0;
-  margin: 0 0 16px;
+  margin: 0 0 5px;
   box-shadow: 0 4px 4px 0 rgb(0 0 0 / 25%);
   padding: 6px 10px;
   width: fit-content;
   font-family: var(--page-title-font-family);
   font-weight: 700;
   font-size: var(--hero-single-dark-eyebrow-font-size);
+  line-height: 1;
 }
 
 /* ── single-light: teal headline, dark body ── */
@@ -495,6 +496,14 @@ main .section.single-dark .hero p {
     height: 336px;
 }
 
+  /* Source sits at left: 25% (measured stable at 1600/1920/2560px) vs our 18%
+     (set at >=992px, line 486) — shift the content block right to match, plus
+     a further 10px nudge per direct request. */
+  .section.single-light .hero > div:last-of-type,
+  .section.single-dark .hero > div:last-of-type {
+    left: calc(25% + 10px);
+  }
+
       .hero-panel-light .hero-panel-content {
         padding:40px;
       }
@@ -503,8 +512,15 @@ main .section.single-dark .hero p {
     font-size: 30px;
   }
 
+  /* Content wrapper is top-anchored (line 452) with fixed padding, and the tab row overlaps via a fixed negative margin — so redistributing the H1's own margin only shifted it, it didn't create room; zeroed to match source's own zero-margin heading instead. */
+
+  /* width: wrapper has no width cap above this breakpoint, so the H1 wraps later than source (source uses a hard-coded <br> in its copy, not width — a content change outside this repo). Explicit width (not max-width) since the wrapper is a flex column with align-items: flex-start, which shrink-fits its children instead of stretching — max-width alone let it collapse narrower than intended. 760px keeps "...NEXT STEP" on one line (measured live at 728px) while excluding "for" (809px), matching source's break. */
   .section.single-light .hero h1, .section.single-dark .hero h1 {
     font-size: var(--hero-single-heading-font-size-desktop);
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    width: 760px;
   }
 }
 
