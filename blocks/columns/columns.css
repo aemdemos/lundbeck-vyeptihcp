@@ -510,11 +510,6 @@ main .columns.logo-grid > div > div:last-child img {
     border-right: none;
   }
 
-  /* min-height is a mobile-row concern; desktop is content-driven */
-  main .columns.logo-grid > div > div:first-child {
-    min-height: 0;
-  }
-
   main .columns.icon-feature.connect {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px 32px;
