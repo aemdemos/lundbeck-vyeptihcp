@@ -270,7 +270,7 @@ main .cards.icon-feature.icon-80 .cards-card-body p {
   }
 }
 
-@container cards-icon-feature (width > 992px) {
+@container cards-icon-feature (width >=992px) {
   main .cards.icon-feature.cards-2-cols > ul {
     grid-template-columns: repeat(2, 1fr);
   }
