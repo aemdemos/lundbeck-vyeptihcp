@@ -394,7 +394,8 @@ main .columns.logo-grid > div > div:first-child {
   min-height: var(--columns-logo-item-height);
 }
 
-main .columns.logo-grid > div > div:last-child p {
+/* zero authored <p> margins so the flex gap governs internal spacing */
+main .columns.logo-grid > div p {
   margin: 0;
 }
 
@@ -492,7 +493,6 @@ main .columns.logo-grid > div > div:last-child img {
   /* desktop: 3-across bordered grid; logo stacked above the download link, centered */
   main .columns.logo-grid {
     grid-template-columns: repeat(3, 1fr);
-    border-top: 1px solid var(--columns-logo-grid-border-color);
   }
 
   main .columns.logo-grid > div,
