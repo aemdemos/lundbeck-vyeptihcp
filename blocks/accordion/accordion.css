@@ -105,7 +105,7 @@
 .accordion .accordion-item-label::before {
   content: '';
   position: absolute;
-  top: 50%;
+  top: 65%;
   right: var(--accordion-icon-right);
   width: var(--accordion-icon-size);
   height: var(--accordion-icon-size);
@@ -121,7 +121,7 @@
 .accordion .accordion-item-label::after {
   content: '';
   position: absolute;
-  top: 50%;
+  top: 65%;
   right: calc(var(--accordion-icon-right) + (var(--accordion-icon-size) - 10px) / 2);
   width: 10px;
   height: 10px;
