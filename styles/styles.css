@@ -222,7 +222,7 @@ body.appear { /* @libs */
 }
 
 .black {
-  color: var(--text-color);
+  color: var(--text-color) !important;
 }
 
 /* single-purpose text utility; !important so it reliably wins over
