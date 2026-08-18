@@ -1,7 +1,7 @@
 import { geocodeZip, centerMap } from "./map.js";
-import mockdata from "./mockData.js";
+// import mockdata from "./mockData.js";
 
-const USE_MOCK_DATA = true;
+// const USE_MOCK_DATA = true;
 
 export function getApiInfo(block) {
   const apiKeyElement = block.querySelector('#form-apikey');
@@ -55,9 +55,9 @@ export async function searchLocations(
   const coords = await geocodeZip(zip);
   centerMap(coords, 10);
 
-  if (USE_MOCK_DATA) {
-    return mockdata.result;
-  }
+  // if (USE_MOCK_DATA) {
+  //   return mockdata.result;
+  // }
 
   try {
     const params = new URLSearchParams({
