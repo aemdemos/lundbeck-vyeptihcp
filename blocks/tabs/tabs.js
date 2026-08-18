@@ -1,5 +1,6 @@
 import { moveInstrumentation, getBlockId } from '../../scripts/scripts.js';
 import { buildBlock, decorateBlock, loadBlock } from '../../scripts/aem.js';
+import { pushTabInteractionEventToDataLayer } from '../../scripts/datalayer.js';
 
 /**
  * The importer emits blocks nested inside a tabs panel (e.g. the study-design
@@ -74,6 +75,9 @@ function ensureTablistClickDelegation(block, tablist) {
     });
     tabpanel.setAttribute('aria-hidden', false);
     button.setAttribute('aria-selected', true);
+    // added tab selection tracking to data layer
+    const tabName = button.textContent.trim();
+    if (tabName) pushTabInteractionEventToDataLayer({ tabName });
   });
 }
 

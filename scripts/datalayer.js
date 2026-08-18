@@ -55,6 +55,8 @@ export const DATA_LAYER_CONFIG = {
   },
   pageEvents: { PAGE_VIEW: 'pageView' },
   pageMeta: { eventName: 'Global Page Load' },
+  tabEvents: { TAB_INTERACTION: 'tabInteraction' },
+  tabMeta: { eventNamePrefix: 'Viewing tab ' },
   modalEvents: { MODAL_CLICK: 'modalClick' },
   modalMeta: { eventName: 'Interacted with Modal Viewed' },
   infusionEvents: {
@@ -184,5 +186,15 @@ export function pushCoveragePlanCheckEventToDataLayer(data) {
       planName: data.planName || null,
       planType: data.planType || null,
     },
+  });
+}
+
+/** Tab interaction (tab expanded/viewed). */
+export function pushTabInteractionEventToDataLayer(data) {
+  const { tabName } = data;
+  pushToAdobeDataLayer({
+    event: DATA_LAYER_CONFIG.tabEvents.TAB_INTERACTION,
+    eventInfo: { eventName: `${DATA_LAYER_CONFIG.tabMeta.eventNamePrefix}${tabName}` },
+    tabInfo: { tabName: tabName || null },
   });
 }
