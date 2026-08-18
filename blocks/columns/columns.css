@@ -376,11 +376,22 @@ main .columns.logo-grid > div:first-child {
   padding: var(--columns-logo-grid-padding-first);
 }
 
+main .columns.logo-grid > div:last-child {
+  border-bottom: 0;
+}
+
 main .columns.logo-grid img {
   width: auto;
   max-width: var(--columns-logo-max-width);
   height: auto;
   object-fit: contain;
+}
+
+/* uniform item height: pin the (unpadded) logo cell so short logos still fill it */
+main .columns.logo-grid > div > div:first-child {
+  display: flex;
+  align-items: center;
+  min-height: var(--columns-logo-item-height);
 }
 
 main .columns.logo-grid > div > div:last-child p {
@@ -497,6 +508,11 @@ main .columns.logo-grid > div > div:last-child img {
 
   main .columns.logo-grid > div:nth-child(3n) {
     border-right: none;
+  }
+
+  /* min-height is a mobile-row concern; desktop is content-driven */
+  main .columns.logo-grid > div > div:first-child {
+    min-height: 0;
   }
 
   main .columns.icon-feature.connect {
