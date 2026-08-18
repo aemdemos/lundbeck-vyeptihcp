@@ -93,4 +93,9 @@
      white text stays legible regardless of the underlying image
      (source vyeptihcp.com homepage uses the same navy tone) */
   --hero-single-dark-scrim: rgb(7 51 72 / 55%);
+
+  /* single-dark eyebrow ribbon — same navy tone as --hero-single-dark-scrim,
+     solid instead of translucent (source's own eyebrow text color) */
+  --hero-eyebrow-text-color: #073348;
+  --hero-single-dark-eyebrow-font-size: 30px;
 }

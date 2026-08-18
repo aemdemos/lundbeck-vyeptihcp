@@ -12,6 +12,8 @@
 
    Source breakpoints (Bootstrap 4): 576 / 768 / 992 / 1200px. */
 
+@import url('./accordion-tokens.css');
+
 .accordion > ul {
   list-style: none;
   margin: 0;
@@ -60,6 +62,17 @@
   margin: 0;
 }
 
+/* authors sometimes mark up the title as a heading (h1-h6) rather than a
+   plain paragraph. When the accordion is nested inside a tabs panel,
+   .tabs .tabs-panel h3 (blocks/tabs/tabs.css) is more specific than a plain
+   heading rule and overrides its color/size/margin — reset it back to the
+   label's own styling here, with enough specificity to always win. */
+.accordion .accordion-item .accordion-item-label :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+}
+
 /* lead phrase stays the same weight/color as the title (no separate emphasis) */
 .accordion .accordion-item-label strong,
 .accordion .accordion-item-label b {
@@ -87,27 +100,49 @@
   color: var(--link-color);
 }
 
-/* chevron — CSS-drawn equivalent of the source icon-font "cheveron-down".
-   Points down when collapsed, flips up when active. Centered on the header row. */
+/* chevron badge — circle outline, CSS-drawn equivalent of the source
+   icon-cheveron-down/-up PNGs. Fills solid on hover (see :hover rules below). */
+.accordion .accordion-item-label::before {
+  content: '';
+  position: absolute;
+  top: 60%;
+  right: var(--accordion-icon-right);
+  width: var(--accordion-icon-size);
+  height: var(--accordion-icon-size);
+  margin-top: calc(var(--accordion-icon-size) / -2);
+  border: var(--accordion-icon-border-width) solid var(--accordion-icon-color);
+  border-radius: 50%;
+  background-color: transparent;
+  transition: background-color var(--accordion-icon-transition-duration);
+}
+
+/* chevron mark, centered inside the circle above.
+   Points down when collapsed, flips up when active. */
 .accordion .accordion-item-label::after {
   content: '';
   position: absolute;
-  top: 50%;
-  right: 6px;
-  width: 12px;
-  height: 12px;
-  margin-top: -9px;
-  border: solid var(--link-color);
-  border-width: 0 2px 2px 0;
+  top: 60%;
+  right: calc(var(--accordion-icon-right) + (var(--accordion-icon-size) - 10px) / 2);
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  border: solid var(--accordion-icon-color);
+  border-width: 0 var(--accordion-icon-thickness) var(--accordion-icon-thickness) 0;
   transform: rotate(45deg);
   transform-origin: center;
-  transition: transform 0.4s ease-in-out;
+  transition: transform 0.4s ease-in-out, border-color var(--accordion-icon-transition-duration);
+}
+
+.accordion .accordion-item-label:hover::before {
+  background-color: var(--accordion-icon-color);
+}
+
+.accordion .accordion-item-label:hover::after {
+  border-color: #fff;
 }
 
 .accordion li.active .accordion-item-label::after {
-  border-color: var(--link-color);
-  margin-top: -3px;
-  transform: rotate(-135deg);
+  transform: rotate(-135deg) translate(-2px, -2px);
 }
 
 /* body / panel — hidden until active */
@@ -200,9 +235,6 @@
 @media (width >= 768px) {
   .accordion > ul > li {
     padding-bottom: 32px;
-  }
-
-  .accordion > ul > li + li {
     margin-top: 32px;
   }
 

@@ -70,15 +70,12 @@ main .columns.arrow-nav a:any-link {
   text-decoration: none;
 }
 
-/* Hover highlight triggers across the whole column cell (not just the link's own
-   hit area) — matches source's `.cmp-teaser__content:hover a`. No underline. */
+/* Hover highlight spans the whole cell, matching source's `.cmp-teaser__content:hover a`. */
 main .columns.arrow-nav > div > div:hover a {
   color: var(--columns-arrow-nav-hover-color);
 }
 
-/* white right-arrow glyph after each link, thickened/enlarged to better match
-   the source's bolder arrow (source is a 46x48 PNG with a visually heavier
-   shaft than a default chevron at this box size). */
+/* white right-arrow glyph, thickened/enlarged to match the source's bolder arrow. */
 main .columns.arrow-nav a::after {
   content: '';
   flex: 0 0 auto;
@@ -89,6 +86,48 @@ main .columns.arrow-nav a::after {
   mask-repeat: no-repeat;
   mask-position: center;
   mask-size: contain;
+}
+
+/* "options" section style — centered intro text + a row of short bullet items (e.g. infusion-information). Section-scoped since it also styles the default-content-wrapper text, not just the columns block. */
+main .section.options .default-content-wrapper {
+  text-align: center;
+}
+
+/* Source's heading stays 32px below 768px, unlike the site's generic h2 24px→34px step. */
+main .section.options .default-content-wrapper h2 {
+  font-size: 32px;
+}
+
+/* Overrides the generic 24px `.columns-wrapper` top margin (styles.css); source uses 16px. */
+main .section.options .columns-wrapper {
+  margin-top: 16px;
+}
+
+main .section.options .default-content-wrapper p,
+main .section.options .columns li {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+main .section.options .default-content-wrapper p {
+  margin: 0;
+}
+
+main .section.options .columns strong {
+  font-weight: 600;
+}
+
+/* Reduced from the browser-default 40px indent — 0 causes the bullet to overlap the previous item in our flex layout. */
+main .section.options .columns ul {
+  padding-left: 16px;
+  margin: 0; /* default 8px margin was stacking with the 16px flex gap, doubling item spacing */
+}
+
+/* Stays stacked past the boilerplate's 768px row-switch (source switches at 992px) and resets align-items back from the boilerplate's `center`. */
+main .section.options .columns > div {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px; /* source value at every breakpoint; boilerplate default is 24px */
 }
 
 /* ────────────────────────────────────────────────────────────────
@@ -447,6 +486,11 @@ main .columns.logo-grid > div > div:last-child img {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px 32px;
   }
+
+  /* "options" section style: source's heading is a flat 32px below this breakpoint. */
+  main .section.options .default-content-wrapper h2 {
+    font-size: var(--heading-font-size-xl);
+  }
 }
 
 @media (width >= 992px) {
@@ -524,6 +568,17 @@ main .columns.logo-grid > div > div:last-child img {
 
   main .columns.icon-feature.callout > div {
     flex: 1;
+  }
+
+  /* "options" section style: source switches to side-by-side only here, not at 768px. */
+  main .section.options .columns > div {
+    flex-direction: row;
+    align-items: stretch; /* equal-height cells so text starts at the top, not centered */
+  }
+
+  /* Sized to content (source: flex: 0 1 auto), not equal quarters — the boilerplate's flex: 1 over-wrapped the longest item. */
+  main .section.options .columns > div > div {
+    flex: 0 1 auto;
   }
 }
 

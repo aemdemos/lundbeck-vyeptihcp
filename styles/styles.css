@@ -195,6 +195,13 @@
   src: local('Arial Bold'), local('Arial');
 }
 
+@font-face {
+  font-family: proxima-nova-fallback;
+  font-weight: 400;
+  size-adjust: 98%;
+  src: local('Arial');
+}
+
 body { /* @libs */
   display: none; /* @libs */
   margin: 0; /* @libs */
@@ -219,6 +226,10 @@ body.appear { /* @libs */
   color: var(--brand-secondary);
 
   --link-color: var(--brand-secondary);
+}
+
+.black {
+  color: var(--text-color) !important;
 }
 
 /* single-purpose text utility; !important so it reliably wins over
@@ -899,6 +910,21 @@ main .section.sitemap a:not(.button):hover {
   text-decoration: none;
 }
 
+/* section metadata - references (bibliography list at the bottom of a page) */
+main .section.references p,
+main .section.references li {
+  font-size: var(--body-font-size-xs);
+  line-height: 18px;
+}
+
+main .section.references ol {
+  padding-left: 15px;
+}
+
+main .section.references li::marker {
+  font-weight: var(--font-weight-bold);
+}
+
 /* section metadata - banner (hero replacement).
    A `banner`-styled section is the site-wide hero pattern: the former hero image is
    authored on the section metadata as `background-image` and rendered by
@@ -1145,6 +1171,10 @@ main > .section > div:not(.bg-image) { /* @libs */
 
   main .section.banner > div:not(.bg-image) {
     padding: 0 var(--spacing-l);
+  }
+
+  main .section.references li {
+    margin-bottom: 8px;
   }
 
   .section.emboss, .section.emboss-heavy, .section.rounded {
