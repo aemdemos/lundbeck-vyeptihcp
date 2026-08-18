@@ -194,7 +194,7 @@ async function autoPopulateAddress() {
 //         "form-control form-text pac-target-input valid";
 // }
 
-  await loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyC151t3a9h1G616XXEJENOR7G1cxd2r5uE&libraries=places");
+  await loadScript("https://maps.googleapis.com/maps/api/js?key=&libraries=places");
   initAddressAutocomplete();
 }
 
