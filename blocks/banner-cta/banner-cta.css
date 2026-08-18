@@ -1,9 +1,6 @@
 @import url('./banner-cta-tokens.css');
 
-/* Card: no padding here — the arrow band (a sibling of the padded content
-   cell, appended by JS) needs to span the card's full border-box edge to
-   edge, matching the source exactly (measured band height = card height
-   minus only the border, not the padding). */
+/* No padding here — the JS-appended arrow band must span the full border-box edge to edge. */
 main .banner-cta > div {
   position: relative;
   overflow: hidden;
@@ -17,15 +14,11 @@ main .banner-cta > div > div:not(.banner-cta-arrow) {
   display: flex;
   flex-direction: column;
 
-  /* Stacked (mobile) icon-to-content spacing; row layout below overrides
-     this back to 0 — source uses margin on the icon instead, from 992px. */
+  /* Stacked (mobile) icon-to-content spacing; row layout below resets this to 0. */
   gap: 30px;
   padding: 20px 15px;
 
-  /* Reserves space so content clears the arrow band; tuned per breakpoint
-     tier (below) to match source's measured text column width, not a
-     formula — source sizes this column via grid percentages, not a fixed
-     offset from the arrow width. */
+  /* Reserves space for the arrow band; tuned per breakpoint to match source's text column width. */
   padding-inline-end: 67px;
 }
 
@@ -40,8 +33,7 @@ main .banner-cta-content {
   flex: 1;
   min-width: 0;
 
-  /* Matches source's dedicated text gutter (.cmp-teaser__description) —
-     asymmetric below 992px, symmetric from 992px (overridden below). */
+  /* Matches source's text gutter — asymmetric below 992px, symmetric from 992px. */
   padding-inline: 0 10px;
 }
 
@@ -79,8 +71,7 @@ main .banner-cta p:has(a) a {
   text-decoration: none;
 }
 
-/* Arrow band — appended by banner-cta.js, reusing the first link's href.
-   Spans the full card height via the card's own position: relative. */
+/* Arrow band appended by banner-cta.js; spans the full card height via the card's position: relative. */
 .banner-cta-arrow {
   position: absolute;
   inset-block: 0;
@@ -109,11 +100,7 @@ main .banner-cta p:has(a) a {
   mask-size: contain;
 }
 
-/* Tablet+: source's card sits ~15px narrower per side than the rest of the
-   page content (measured 1110px card inside a 1140px page container). The
-   arrow band switches to its desktop size here (icon stays a flat 93px at
-   every breakpoint — see .banner-cta picture below), but source keeps its
-   mobile card padding until 992px — see the next media block. */
+/* Tablet+: card is ~15px narrower per side than the page content; arrow band switches to its desktop size. */
 @media (width >= 768px) {
   main .banner-cta-wrapper {
     max-width: calc(var(--max-width-site) - 30px);
@@ -131,9 +118,7 @@ main .banner-cta p:has(a) a {
   }
 }
 
-/* Desktop: card padding grows and the text gutter becomes symmetric —
-   confirmed via direct measurement that source holds off on both changes
-   until 992px, a step later than the icon/arrow-band swap above. */
+/* Desktop: card padding grows and the text gutter becomes symmetric, a step later than the 768px swap above. */
 @media (width >= 992px) {
   main .banner-cta > div > div:not(.banner-cta-arrow) {
     padding: 26px 20px;
@@ -144,9 +129,7 @@ main .banner-cta p:has(a) a {
     padding-inline: 30px;
   }
 
-  /* Source pushes the icon in from the card edge by 80px here (0 below
-     992px) — confirmed via computed-style inspection, not derivable from
-     width/padding alone. */
+  /* Source pushes the icon in from the card edge by 80px here (0 below 992px). */
   main .banner-cta-icon {
     margin-inline-start: 80px;
   }

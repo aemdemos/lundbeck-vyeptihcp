@@ -1,9 +1,4 @@
-/**
- * Splits the authored icon from the text/CTA content into two sibling
- * elements, so CSS can lay them out side by side (matching source) instead
- * of stacked (the default from a single authored cell).
- * @param {Element} row
- */
+// Splits the authored icon from the text/CTA content so CSS can lay them out side by side.
 function splitIconFromContent(row) {
   const cell = row.querySelector(':scope > div');
   if (!cell) return;
@@ -22,11 +17,7 @@ function splitIconFromContent(row) {
   cell.replaceChildren(icon, content);
 }
 
-/**
- * Appends an arrow-button div after the content, reusing the first link found
- * in the block for its href/label. If no link exists, no arrow div is added.
- * @param {Element} block
- */
+// Appends an arrow-button div reusing the first link's href; no-ops if no link exists.
 export default function decorate(block) {
   const row = block.querySelector(':scope > div') || block;
   splitIconFromContent(row);
