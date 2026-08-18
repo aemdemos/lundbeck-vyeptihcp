@@ -303,55 +303,10 @@ main .columns.icon-feature.callout > div > div:last-child p {
   line-height: 1.3;
 }
 
-/* icon-feature.claims — 4 items, icon + bold label + description, 2-col grid */
-main .columns.icon-feature.claims {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-}
-
-main .columns.icon-feature.claims img {
-  width: 58px;
-  height: 44px;
-  border-radius: 0;
-  background: none;
-  padding: 0;
-}
-
-main .columns.icon-feature.claims > div > div:last-child p:first-child {
-  color: var(--brand-primary);
-  font-size: 18px;
-  font-weight: 700;
-  margin: 0 0 4px;
-}
-
-main .columns.icon-feature.claims > div > div:last-child p {
-  font-size: 15px;
-  font-weight: 400;
-  margin: 4px 0;
-}
-
-/* icon-feature.connect — 4 items, circular icon + single description */
-main .columns.icon-feature.connect {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-}
-
-main .columns.icon-feature.connect img {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: none;
-  padding: 0;
-}
-
-main .columns.icon-feature.connect > div > div:last-child p {
-  color: var(--brand-primary);
-  font-size: 15px;
-  font-weight: 400;
-  margin: 0;
-}
+/* Note: the icon-feature.claims and icon-feature.connect columns sub-variants
+   were removed — their content moved to the cards (icon-feature claims) /
+   cards (icon-feature icon-80) blocks. The base icon-feature, .callout and
+   .emboss variants remain — still used on safety, infusion, and dosing. */
 
 /* ────────────────────────────────────────────────────────────────
  * logo-grid variant — bordered grid of logo + download-link ITEMS, each
@@ -469,22 +424,12 @@ main .columns.logo-grid > div > div:last-child img {
     font-size: var(--heading-font-size-s); /* 18px at >=768px (source) */
   }
 
-  main .columns.icon-feature.claims {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px 32px;
-  }
-
   main .columns.logo-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
   main .columns.logo-grid > div:nth-child(2n) {
     border-right: none;
-  }
-
-  main .columns.icon-feature.connect {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px 32px;
   }
 
   /* "options" section style: source's heading is a flat 32px below this breakpoint. */

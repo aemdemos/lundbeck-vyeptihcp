@@ -1,20 +1,19 @@
 import { getBlockId } from '../../scripts/scripts.js';
 
 /**
- * Connect support — the bespoke "VYEPTI CONNECT tailored support" composite
- * widget: a pale-blue box (lead sentence + 4 icon items), directly followed
- * by an attached two-tone banner (enrollment CTA line on teal, then a note +
- * 2-col contact info + fine print on pale blue). Kept as one block because
- * the three sub-panels are visually fused (no gap between enroll and note —
- * same rounded pill).
+ * Connect support — the two-tone enrollment banner that follows the VYEPTI
+ * CONNECT icon panel: a teal enrollment CTA line, directly fused to a pale-blue
+ * note panel (intro + "Note:" + 2-col contact info + fine print). Kept as one
+ * block because the two sub-panels are visually fused (no gap — same rounded
+ * pill). The lead sentence + 4 support icons that used to lead this block now
+ * live in the preceding `cards (icon-feature icon-80)` block within a styled
+ * `connect-panel` section.
  *
  * Authoring rows (positional):
- *   1. lead sentence cell
- *   2-5. one row per icon item — 2 cells: [icon], [description]
- *   6. enroll cell — "download the enrollment form" paragraph
- *   7. note cell — intro + "Note:" paragraphs
- *   8. contact-info row — 2 cells: [fax], [call]
- *   9. fine print cell
+ *   1. enroll cell — "download the enrollment form" paragraph
+ *   2. note cell — intro + "Note:" paragraphs
+ *   3. contact-info row — 2 cells: [fax], [call]
+ *   4. fine print cell
  *
  * @param {HTMLElement} block
  */
@@ -30,37 +29,7 @@ export default function decorate(block) {
   block.setAttribute('aria-roledescription', 'Connect support');
 
   const rows = [...block.children];
-  const [leadRow, r1, r2, r3, r4, enrollRow, noteRow, colsRow, fineRow] = rows;
-  const itemRows = [r1, r2, r3, r4];
-
-  const box = document.createElement('div');
-  box.className = 'connect-support-box';
-
-  if (leadRow) {
-    const cell = leadRow.firstElementChild;
-    const src = cell?.querySelector('h1, h2, h3, h4, h5, h6') || cell;
-    const lead = document.createElement('h5');
-    lead.className = 'connect-support-lead';
-    if (src) lead.append(...src.childNodes);
-    box.append(lead);
-  }
-
-  const grid = document.createElement('div');
-  grid.className = 'connect-support-grid';
-  itemRows.forEach((row) => {
-    if (!row) return;
-    const [iconCell, textCell] = cellsOf(row);
-    const item = document.createElement('div');
-    item.className = 'connect-support-item';
-    const pic = iconCell?.querySelector('picture, img');
-    if (pic) item.append(pic);
-    if (textCell) {
-      textCell.className = 'connect-support-item-text';
-      item.append(textCell);
-    }
-    grid.append(item);
-  });
-  box.append(grid);
+  const [enrollRow, noteRow, colsRow, fineRow] = rows;
 
   const enroll = document.createElement('div');
   enroll.className = 'connect-support-enroll';
@@ -86,5 +55,5 @@ export default function decorate(block) {
     note.append(fine);
   }
 
-  block.replaceChildren(box, enroll, note);
+  block.replaceChildren(enroll, note);
 }
