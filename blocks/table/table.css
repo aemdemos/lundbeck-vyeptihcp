@@ -150,7 +150,7 @@
 }
 
 .table.block.reactions table thead tr {
-  background-image: none;
+  background: none;
 }
 
 .table.block.reactions table th {
