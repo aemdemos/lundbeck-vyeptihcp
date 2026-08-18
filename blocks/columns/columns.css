@@ -387,14 +387,14 @@ main .columns.logo-grid img {
   object-fit: contain;
 }
 
-/* uniform item height: pin the (unpadded) logo cell so short logos still fill it */
+/* uniform logo area so short logos still fill it */
 main .columns.logo-grid > div > div:first-child {
   display: flex;
   align-items: center;
   min-height: var(--columns-logo-item-height);
 }
 
-/* zero authored <p> margins so the flex gap governs internal spacing */
+/* zero <p> margins so the flex gap governs spacing */
 main .columns.logo-grid > div p {
   margin: 0;
 }
@@ -490,13 +490,16 @@ main .columns.logo-grid > div > div:last-child img {
     gap: 16px 32px;
   }
 
-  /* desktop: 3-across bordered grid; logo stacked above the download link, centered */
+  /* desktop: 3-across; flex-wrap + center so a lone final item centers */
   main .columns.logo-grid {
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   main .columns.logo-grid > div,
   main .columns.logo-grid > div:first-child {
+    flex: 0 0 calc(100% / 3);
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
@@ -508,6 +511,12 @@ main .columns.logo-grid > div > div:last-child img {
 
   main .columns.logo-grid > div:nth-child(3n) {
     border-right: none;
+  }
+
+  /* centered final item: dividers on both sides */
+  main .columns.logo-grid > div:last-child {
+    border-left: 1px solid var(--columns-logo-grid-border-color);
+    border-right: 1px solid var(--columns-logo-grid-border-color);
   }
 
   main .columns.icon-feature.connect {
