@@ -164,7 +164,7 @@ export default async function decorate(block) {
   // loadScript is idempotent per URL in scripts.js; the clientlib self-registers the element.
   try {
     await loadScript(scriptUrl, { async: '' });
-  } catch (e) {
+  } catch {
     // Fail securely: leave the mount element in place; the vendor script may retry/CDN-cache.
   }
 }
