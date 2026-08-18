@@ -6,12 +6,12 @@
   --table-body-text-color: var(--brand-teal-muted);
   --table-header-font-size: 16px;
   --table-header-line-height: 24px;
-  --table-header-padding: 6px 16px;
+  --table-header-padding: 4px 16px;
   --table-accent-color: var(--brand-secondary); /* @libs */
   --table-row-border-width: 1px; /* @libs */
   --table-radius: 8px;
   --table-divider-inset: 8px;
-  --table-cell-padding-block: 16px; /* @libs */
+  --table-cell-padding-block: 8px;
   --table-cell-padding-inline: 16px; /* @libs */
-  --table-cell-padding-block-desktop: 21px; /* @libs */
+  --table-cell-padding-block-desktop: 8px;
 }
