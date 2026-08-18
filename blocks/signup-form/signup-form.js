@@ -12,6 +12,7 @@ export default async function decorate(block) {
       fixMarkdownText();
       // const captchaKey=
       renderCaptcha();
+      autoPopulateAddress();
 
       initializeRequestRepToggle();
       initValidationListeners();
@@ -111,8 +112,6 @@ function fixMarkdownText() {
   });  
 }
 
-
-
 // Fuction to load the js files necessary
 function loadScript(src) {
   return new Promise((resolve, reject) => {
@@ -149,4 +148,85 @@ async function renderCaptcha(){
     delete captchaTarget.dataset.fieldset;
   }
   await loadScript("https://www.google.com/recaptcha/api.js");
+}
+
+async function autoPopulateAddress() {
+//   const input = document.querySelector("#form-address");
+
+// if (input) {
+//     input.id = "address";
+//     input.name = "address";
+//     input.autocomplete = "off";
+//     // input.placeholder = " ";
+
+//     // input.setAttribute("onfocus", "geolocate()");
+//     // input.addEventListener("focus", geolocate);
+
+//     // input.setAttribute(
+//     //     "data-gapi",
+//     //     "https://maps.googleapis.com/maps/api/js"
+//     // );
+//     input.setAttribute(
+//         "data-error",
+//         "Please enter your address"
+//     );
+//     input.setAttribute(
+//         "data-invalid-address-error",
+//         "Please enter a valid address"
+//     );
+
+//     input.setAttribute(
+//         "island_form_infra_autocomplete",
+//         "none"
+//     );
+
+//     input.setAttribute(
+//         "island_field_signature",
+//         "text|address|address|none||parsed|0|visible"
+//     );
+
+//     input.setAttribute(
+//         "aria-invalid",
+//         "false"
+//     );
+
+//     input.className =
+//         "form-control form-text pac-target-input valid";
+// }
+
+  await loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyC151t3a9h1G616XXEJENOR7G1cxd2r5uE&libraries=places");
+  initAddressAutocomplete();
+}
+
+function initAddressAutocomplete() {
+  // alert("hereh");
+    const input = document.getElementById("form-address");
+    if (!input || !window.google?.maps?.places) {
+        return;
+    }
+
+    const autocomplete = new google.maps.places.Autocomplete(input, {
+        types: ["address"],
+        fields: [
+            "formatted_address",
+            "address_components",
+            "geometry"
+        ]
+    });
+
+    autocomplete.addListener("place_changed", () => {
+        const place = autocomplete.getPlace();
+
+        if (!place.geometry) {
+            console.warn("Invalid address selected");
+            return;
+        }
+
+        console.log("Selected address:", place.formatted_address);
+        console.log("Place details:", place);
+
+        // Save selected place object if needed
+        input.dataset.selectedAddress = place.formatted_address;
+    });
+alert("input");
 }

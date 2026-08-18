@@ -24,25 +24,18 @@ export function getFormData() {
     city: document.getElementById('form-city')?.value.trim(),
 
     state: stateSelect?.value || "",
-    state_label:
-      stateSelect?.options[stateSelect.selectedIndex]?.text || "",
+    state_label: stateSelect?.options[stateSelect.selectedIndex]?.text || "",
 
     zip: document.getElementById('form-zipcode')?.value.trim(),
 
     speciality: specialitySelect?.value || "",
-    speciality_label:
-      specialitySelect?.options[specialitySelect.selectedIndex]?.text || "",
+    speciality_label: specialitySelect?.options[specialitySelect.selectedIndex]?.text || "",
 
     npiNumber: document.getElementById('form-npi')?.value.trim(),
     phone: document.getElementById('form-phone')?.value.trim(),
-
     consent: document.getElementById('form-authorized')?.checked,
-
-    "g-recaptcha-response":
-      document.querySelector('[name="g-recaptcha-response"]')?.value || "",
-
-    "hidden-grecaptcha":
-      document.querySelector('[name="hidden-grecaptcha"]')?.value || ""
+    "g-recaptcha-response": document.querySelector('[name="g-recaptcha-response"]')?.value || "",
+    "hidden-grecaptcha": document.querySelector('[name="hidden-grecaptcha"]')?.value || ""
   };
 
   console.log("Form Payload:", formData);
