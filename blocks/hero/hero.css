@@ -495,11 +495,6 @@ main .section.single-dark .hero p {
     height: 336px;
 }
 
-.section.single-light .hero img, .section.single-dark .hero img  {
-    height: 336px;
-    width: auto;
-  }
-
       .hero-panel-light .hero-panel-content {
         padding:40px;
       }
