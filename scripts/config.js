@@ -3,9 +3,6 @@
 export const DEFAULT_DISTANCES = ['5', '10', '25', '50','100', '200', '400'];
 
 export function getSettings(block, apiInfo) {
-
- // const config = readConfig(block); 
- alert(apiInfo.showHcpData);
    return {
     apiKey: apiInfo.apiKey,
     apiEndpoint: apiInfo.apiEndpoint,

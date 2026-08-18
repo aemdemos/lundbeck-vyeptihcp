@@ -144,7 +144,7 @@ function createMarkerIcon(number, isNetwork) {
 
   return {
     url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`,
-    scaledSize: new googleMaps.maps.Size(48, 58),
+    scaledSize: new googleMaps.maps.Size(32, 38),
     anchor: new googleMaps.maps.Point(24, 57),
   };
 }

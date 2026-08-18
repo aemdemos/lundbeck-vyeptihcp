@@ -1,5 +1,4 @@
 // ui.js
-
 export default function getElements(block) {
   return {
     searchBtn: block.querySelector('#form-zipcodesubmit'),

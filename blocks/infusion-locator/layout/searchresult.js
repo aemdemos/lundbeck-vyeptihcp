@@ -1,7 +1,5 @@
 import { centerMapOnMarker } from "../map.js";
 
-
-
 function getFacilityIcon(result) {
   const combinedImage = 'https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/Combined-Image.svg';
   const iconHome = 'https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/icon_home_40px.svg';
@@ -23,7 +21,6 @@ function getFacilityIcon(result) {
   }
   return iconHospital;
 }
-
 
 export function noResult(resultsContainer) {
   const noResultsImg = document.createElement('img');
@@ -155,8 +152,6 @@ if (result.miles !== null && result.miles !== undefined) {
   listItem.addEventListener('click', () => {
   centerMapOnMarker(index);
 });
-
-  
 
   return listItem;
 }

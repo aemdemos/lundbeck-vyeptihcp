@@ -6,7 +6,7 @@ export function createFilters(form, inputField, inputFieldLabel) {
 
   appendFilterFields(form, filters);
 
-  createFilterDescription(form, inputField, inputFieldLabel);
+createFilterDescription(form, inputField, inputFieldLabel);
 
   const error = createErrorMessage();
 

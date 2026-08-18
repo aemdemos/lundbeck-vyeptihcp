@@ -23,23 +23,23 @@ export default function renderResults(results, resultsContainer, settings) {
   disclaimer.className = 'locator-result-disclaimer';
 
   disclaimer.append(
-    document.createTextNode('Results outlined in '),
+    document.createTextNode('Lundbeck does not recommend use of any specific infusion provider. Patients can receive their VYEPTI infusion from any infusion provider as appropriate. Patients may have payer-mandated or in-network infusion sites. This list is based on data available at the time of search; it may not be comprehensive. '),
   );
 
-  const redText = document.createElement('span');
-  redText.className = 'red-color';
+  // const redText = document.createElement('span');
+  // redText.className = 'red-color';
 
-  const bold = document.createElement('b');
-  bold.textContent = 'red';
+  // const bold = document.createElement('b');
+  // bold.textContent = 'red';
 
-  redText.append(bold);
+  // redText.append(bold);
 
-  disclaimer.append(
-    redText,
-    document.createTextNode(
-      ' are part of the VYEPTI Infusion Network. VYEPTI infusions are not limited to this network—patients can choose to receive their VYEPTI infusion from any provider based on convenience or insurance coverage.',
-    ),
-  );
+  // disclaimer.append(
+  //   redText,
+  //   document.createTextNode(
+  //     ' are part of the VYEPTI Infusion Network. VYEPTI infusions are not limited to this network—patients can choose to receive their VYEPTI infusion from any provider based on convenience or insurance coverage.',
+  //   ),
+  // );
 
   header.append(title, disclaimer);
 
@@ -47,7 +47,7 @@ export default function renderResults(results, resultsContainer, settings) {
   const list = document.createElement('ul');
   list.className = 'locator-results-list';
 
-  
+
 
   results.forEach((result, index) => {
     const item = searchResult(result, index, settings);
@@ -77,9 +77,6 @@ export default function renderResults(results, resultsContainer, settings) {
       .filter(Boolean)
       .join(', ');
   });
-
-
- 
 
   resultsContainer.append(header, list);
 }

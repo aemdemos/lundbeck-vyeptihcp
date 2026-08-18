@@ -1,5 +1,5 @@
 import { geocodeZip, centerMap } from "./map.js";
-import  mockdata  from "./mockData.js";
+import mockdata from "./mockData.js";
 
 const USE_MOCK_DATA = true;
 
@@ -9,7 +9,7 @@ export function getApiInfo(block) {
   const showInfusionCentersElement = block.querySelector('#form-infusion-center');
   const showHcpDataElement = block.querySelector('#form-hcp-data');
   const showFiltersElement = block.querySelector('#form-filter');
-  
+
 
   if (!apiKeyElement || !apiEndpointElement) {
     return null;
@@ -26,9 +26,6 @@ export function getApiInfo(block) {
 
   const showFilters =
     showFiltersElement?.textContent || '';
-
-    //alert(apiKey);
-
   [
     apiKeyElement,
     apiEndpointElement,
@@ -74,8 +71,8 @@ export async function searchLocations(
       params.append("filter", filter);
     });
 
-    
-    const response = await fetch(`${apiInfo.apiEndpoint}?${params}`,{method: "POST"});
+
+    const response = await fetch(`${apiInfo.apiEndpoint}?${params}`, { method: "POST" });
 
     if (!response.ok) {
       throw new Error(`API returned ${response.status}`);

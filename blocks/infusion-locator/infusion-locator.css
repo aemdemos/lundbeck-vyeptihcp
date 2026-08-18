@@ -1,10 +1,10 @@
-.infusion-locator-container{
-    max-width: 1140px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 15px;
-    padding-right: 15px;
-    width: 100%;
+.infusion-locator-container {
+  max-width: 1140px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 100%;
 }
 
 /* ------------------------------------------------------------------
@@ -16,15 +16,15 @@
 }
 
 .locator-header h2 {
-    color: #41748d;
-    text-align: center;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 16px;
-    line-height: 36px;
-    font-family: proxima-nova;
-    font-size: 26px;
-    margin: 0px;
+  color: #41748d;
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 16px;
+  line-height: 36px;
+  font-family: proxima-nova;
+  font-size: 26px;
+  margin: 0px;
 }
 
 .locator-header p {
@@ -33,20 +33,21 @@
 }
 
 .locator-header #form-subtitle {
-    font-weight: 700;
-    padding: 0px 30px;
-    font-size: 18px;
-    color: #484848;
-    line-height: 22px;
-    padding-bottom: 8px;;
+  font-weight: 700;
+  padding: 0px 30px;
+  font-size: 18px;
+  color: #484848;
+  line-height: 22px;
+  padding-bottom: 8px;
+  ;
 }
 
 #form-requiredtext {
-font-style: normal;
-font-weight: 400;
-line-height: 18px;
-padding: 0 !important;
-margin-bottom: 16px !important;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  padding: 0 !important;
+  margin-bottom: 16px !important;
 }
 
 /* ------------------------------------------------------------------
@@ -54,11 +55,12 @@ margin-bottom: 16px !important;
 ------------------------------------------------------------------- */
 
 .locator-search {
-      display: flex;
-    align-items: flex-end;
-    gap: 15px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .locator-search .field-wrapper {
@@ -66,33 +68,34 @@ margin-bottom: 16px !important;
 }
 
 .locator-search .field-wrapper.text-wrapper {
-    flex: 1;
-    max-width: 58.33%;
-    display: flex;
-    flex-direction: column;
-    position: relative;
+  flex: 1;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 .locator-search .field-wrapper.text-wrapper label {
-    position: absolute;
-    top: 0;
-    margin-top: 10px;
-    transition: all 0.4s ease;
-    font-size: 16px;
-    font-weight: 700;
-    padding: 4px 15px 0;
-    display: inline;
-    width: auto;
-    pointer-events: none;
+  position: absolute;
+  top: 0;
+  margin-top: 10px;
+  transition: all 0.4s ease;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 4px 15px 0;
+  display: inline;
+  width: auto;
+  pointer-events: none;
 }
 
 
 .locator-search .field-wrapper.text-wrapper label.focus {
-    margin-top: 3px;
-    font-size: 10px;
-    font-weight: 400;
+  margin-top: 3px;
+  font-size: 10px;
+  font-weight: 400;
 }
 
+.locator-filters input,
 .locator-search input,
 .locator-search select {
   width: 100%;
@@ -103,96 +106,104 @@ margin-bottom: 16px !important;
   font-size: 1rem;
 }
 
+.locator-filters input#form-zipcode,
 .locator-search input#form-zipcode {
-    border: 1px solid #484848;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 700;
-    height: 56px;
-    line-height: 24px;
-    padding: 16px;
-    margin-top: 0;
-    z-index: 2;
-    background: transparent;
-    color: #484848;
-    font-family: 'open-sans', sans-serif;
+  border: 1px solid #484848;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  height: 56px;
+  line-height: 24px;
+  padding: 16px;
+  margin-top: 0;
+  z-index: 2;
+  background: transparent;
+  color: #484848;
+  font-family: 'open-sans', sans-serif;
 }
 
 .locator-select-group.mile-block {
-    max-width: 158px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    height: 56px;
+  max-width: 50%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 56px;
 }
 
 .locator-select-group.mile-block .select {
-    border: 1px solid #484848;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 700;
-    padding: 14px 0 14px 16px;
-    line-height: 20px;
-    cursor: pointer;
-    height: 100%;
-    user-select: none;
-    background-color: #fff;
-    position: relative;
+  border: 1px solid #484848;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px 0 14px 16px;
+  line-height: 24px;
+  cursor: pointer;
+  height: 100%;
+  user-select: none;
+  background-color: #fff;
+  position: relative;
 }
 
 .locator-select-group.mile-block .select .select-arrow {
-    background-color: #3c7790;
-    display: inline-block;
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    border-top-right-radius: 9px;
-    border-bottom-right-radius: 9px;
-    padding: 9px 20px;
+  background-color: #3c7790;
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  border-top-right-radius: 9px;
+  border-bottom-right-radius: 9px;
+  padding: 9px 20px;
 }
 
 .locator-select-group.mile-block .select .select-arrow::after {
-    display: inline-block;
-    vertical-align: middle;
-    content: "";
-    border-right: 2px solid var(--background-color);
-    border-bottom: 2px solid var(--background-color);
-    width: 12px;
-    height: 12px;
-    transform: rotate(45deg) scale(1);
-    transition: transform 0.2s ease, margin-top 0.2s ease;
+  display: inline-block;
+  vertical-align: middle;
+  content: "";
+  border-right: 2px solid var(--background-color);
+  border-bottom: 2px solid var(--background-color);
+  width: 12px;
+  height: 12px;
+  transform: rotate(45deg) scale(1);
+  transition: transform 0.2s ease, margin-top 0.2s ease;
 }
 
 .locator-select-group.mile-block .selectHide {
-    display: none;
+  display: none;
 }
 
 .locator-select-group.mile-block .dropdown-items {
-    top: 52px;
-    border-radius: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    padding: 0.5rem 0;
+  top: 8px;
+  border-radius: 10px;
+  border: 1px solid #484848;
+  padding: 0.5rem 0;
+  position: relative;
+  background: #fff;
+  z-index: 2;
 }
 
 .locator-select-group.mile-block .dropdown-items .item {
-    font-size: 16px;
-    line-height: 20px;
+  font-size: 16px;
+    line-height: 24px;
     font-weight: 700;
-    padding: 0.5rem 1.5rem;
+    padding: 4px 8px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    white-space: normal;
     color: #212529;
     cursor: pointer;
     user-select: none;
-    transition: background-color 0.15s ease;
+    font-family: 'open-sans', sans-serif;
 }
 
 .locator-select-group.mile-block .dropdown-items .item.selectedMiles,
-.locator-select-group.mile-block .dropdown-items .item:hover{
-    background-color: #f8f9fa;
-    color: #b81d4a;
+.locator-select-group.mile-block .dropdown-items .item:hover {
+  background-color: #41748d;;
+  color: #fff
 }
 
+.locator-filters .button-wrapper input,
 .locator-search .button-wrapper input {
   width: 100%;
   height: 56px;
@@ -209,17 +220,61 @@ margin-bottom: 16px !important;
   color: #fff;
   display: inline-block;
   font-family: open-sans, sans-serif;
-  max-width: 345px;
   padding: 14px;
   transition: all .2s ease-in-out;
-  width: 100%;
 }
 
 .locator-search .button-wrapper :hover {
   background-color: #fff;
-    border-color: #c02c57;
-    color: #c02c57;
-    text-decoration: none;
+  border-color: #c02c57;
+  color: #c02c57;
+  text-decoration: none;
+}
+
+@media only screen and (min-width: 450px)
+and (max-width: 991px) { 
+  .field-wrapper.button-wrapper {
+    text-align: center;
+  }
+  .locator-filters .button-wrapper input {
+    max-width: 260px;
+    margin: auto;
+  }
+}
+
+@media (min-width: 989px) {
+  .locator-search {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+
+  .locator-search .button-wrapper {
+    width: 25%;
+    font-size: 16px;
+    margin: 0;
+    text-align: center;
+    line-height: 20px;
+  }
+
+  .locator-search .select-wrapper {
+    width: 180px;
+  }
+
+  .locator-search .field-wrapper.text-wrapper {
+    max-width: 58.33%;
+  }
+
+  .locator-search .button-wrapper input {
+    max-width: 345px;
+  }
+
+  .locator-select-group.mile-block {
+    max-width: 16%;
+  }
 }
 
 /* ------------------------------------------------------------------
@@ -241,7 +296,7 @@ margin-bottom: 16px !important;
 }
 
 .locator-filters input[type='checkbox'] {
-   position: absolute;
+  position: absolute;
   top: 0;
   left: 0;
   height: 18px;
@@ -251,7 +306,7 @@ margin-bottom: 16px !important;
 }
 
 .locator-filters .checkmark {
-    position: absolute;
+  position: absolute;
   top: 18.5px;
   left: 0;
   height: 18px;
@@ -265,6 +320,11 @@ margin-bottom: 16px !important;
   margin-left: 33px;
 }
 
+.filterDescpOne,
+.filterDescpTwo {
+  margin-left: -33px;
+}
+
 .locator-filters label {
   display: inline-block;
   cursor: pointer;
@@ -273,43 +333,52 @@ margin-bottom: 16px !important;
   margin-bottom: 16px;
 }
 
-.locator-filters  label span {
-      color: rgb(192, 44, 87);
-      font-weight: 700;
+.locator-filters label span {
+  color: rgb(192, 44, 87);
+  font-weight: 700;
 }
 
 .locator-filters label img {
   width: 17px;
-    position: relative;
-    vertical-align: middle;
-    bottom: 3px;
+  position: relative;
+  vertical-align: middle;
+  bottom: 3px;
 }
 
 
 
 .locator-filters .filterDescpOne img,
-.locator-filters .filterDescpTwo img{
+.locator-filters .filterDescpTwo img {
   width: 17px;
-    position: relative;
-    vertical-align: middle;
-    bottom: 3px;
-    
+  position: relative;
+  vertical-align: middle;
+  bottom: 3px;
+
 }
 
 .selectHide {
   display: none;
 }
 
-.locator-filters  .error {
+.locator-filters .error {
   text-align: center;
-    color: #c02c57;
-    margin: 24px 0 0;
-    width: 100%;
-    padding: 0 15px;
-    line-height: 24px;
-    position: relative;
-    font-family: 'open-sans', sans-serif;
+  color: #c02c57;
+  margin: 24px 0 0;
+  width: 100%;
+  padding: 0 15px;
+  line-height: 24px;
+  position: relative;
+  font-family: 'open-sans', sans-serif;
 }
+
+@media (min-width: 989px) {
+
+  .filterDescpOne,
+  .filterDescpTwo {
+    margin-left: 0;
+  }
+}
+
 /* ------------------------------------------------------------------
    Legend
 ------------------------------------------------------------------- */
@@ -321,6 +390,8 @@ margin-bottom: 16px !important;
   border-bottom: 1px solid #484848;
   border-top-right-radius: 10px;
   justify-content: space-around;
+  border-top-left-radius: 10px;
+  flex-direction: column;
 }
 
 .locator-legend .field-wrapper {
@@ -328,13 +399,25 @@ margin-bottom: 16px !important;
   align-items: center;
   font-size: 14px;
   font-family: 'open-sans', sans-serif;
-  max-width: 168px;
-   
+  max-width: 100%;
+  padding-bottom: 16px;
 }
 
 .locator-legend .field-wrapper img {
   width: 39px;
   margin-right: 8px;
+}
+
+@media (min-width: 989px) {
+  .locator-legend {
+    border-top-left-radius: 0;
+    flex-direction: row;
+  }
+
+  .locator-legend .field-wrapper {
+    max-width: 168px;
+    padding-bottom: 0;
+  }
 }
 
 /* ------------------------------------------------------------------
@@ -344,128 +427,118 @@ margin-bottom: 16px !important;
 .locator-main {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  border: 1px solid #484848;
+  border-radius: 10px;
 }
 
 .locator-map {
   min-height: 420px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  border: 1px solid #484848;
+  ;
+
   overflow: hidden;
   background: #f5f5f5;
-      padding: 0;
-    border-left: 1px solid #484848;
-    border-bottom: 1px solid #484848;
-    border-top: 1px solid #484848;
-    border-radius: 10px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+  padding: 0;
+
 }
 
 .locator-results {
   border-radius: 6px;
   padding: 20px;
-  height: 420px;
+  height: 560px;
   background: #fff;
   text-align: center;
   overflow: scroll;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.print-results {
+  font-weight: 700;
+  line-height: 24px;
+  border-bottom: 1px solid #41748d;
+  color: #41748d;
+  font-size: 16px;
+  text-decoration: none;
+  margin-bottom: 6px;
 }
 
 .locator-results .noResults-icon-img {
   width: 96px;
-    height: 96px;
-    margin-bottom: 8px;
+  height: 96px;
+  margin-bottom: 8px;
 }
 
 .locator-results .locator-no-results {
-      font-size: 18px;
-    line-height: 26px;
-    color: #484848;
-    margin: 0;
-    padding-bottom: 8px;
+  font-size: 18px;
+  line-height: 26px;
+  color: #484848;
+  margin: 0;
+  padding-bottom: 8px;
 }
 
 .locator-welcome-title {
   font-size: 18px;
-    line-height: 26px;
-    text-align: center;
-    color: #484848;
-    margin: 0;
-    padding-bottom: 8px !important;
+  line-height: 26px;
+  text-align: center;
+  color: #484848;
+  margin: 0;
+  padding-bottom: 8px !important;
 }
 
 .locator-welcome-text {
   font-size: 16px;
-    line-height: 24px;
-    text-align: center;
-    color: #484848;
-    font-weight: normal;
+  line-height: 24px;
+  text-align: center;
+  color: #484848;
+  font-weight: normal;
 }
 
 /* ------------------------------------------------------------------
-   Tablet
+  Desktop
 ------------------------------------------------------------------- */
 
 @media (min-width: 989px) {
-  .locator-search {
-    display: flex;
-    align-items: flex-end;
-    gap: 15px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-  }
 
-  .locator-search .button-wrapper {
-    width: 25%;
-    font-size: 16px;
-    margin: 0;
-    text-align: center;
-    line-height: 20px;
-  }
-
-  .locator-search .select-wrapper {
-    width: 180px;
-  }
-
-  .locator-legend {
-    flex-direction: row;
-    flex-wrap: nowrap;
-  }
-}
-
-/* ------------------------------------------------------------------
-   Desktop
-------------------------------------------------------------------- */
-
-@media (min-width: 1024px) {
   .locator-main {
     display: grid;
     grid-template-columns: minmax(0, 2fr) 555px;
     gap: 0px;
     align-items: start;
+    border: 0;
   }
 
   .locator-map,
   .locator-results-wrap {
     min-height: 650px;
     border: 1px solid #484848;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-left: 0;
   }
+
 
   .locator-map {
+    border-radius: 6px;
     max-width: 555px;
+    border-left: 1px solid #484848;
+    border-bottom: 1px solid #484848;
+    border-top: 1px solid #484848;
+    border-radius: 10px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
 
-  .locator-header h2  {
+  .locator-header h2 {
     font-size: 36px;
   }
 }
-
 
 /* Locator results */
 
 /* --- Results Panel & Map Layout --- */
 .locator-results .locator-results-list {
-  padding: 16px 36px 0 2px;
+  padding: 16px 0px 16px 0px;
 }
 
 
@@ -559,31 +632,32 @@ margin-bottom: 16px !important;
   color: var(--brand-dark);
 }
 
-.locator-results  .typeText {
+.locator-results .typeText {
   font-size: 16px;
   line-height: 16px;
   color: var(--brand-teal-muted);
   font-style: italic;
 }
+
 .locator-results .milesText {
-    font-size: 16px;
-    line-height: 16px;
-    padding-bottom: 8px;
-    font-style: italic;
+  font-size: 16px;
+  line-height: 16px;
+  padding-bottom: 8px;
+  font-style: italic;
 }
 
 .locator-result-address {
-    display: block;
-    padding-bottom: 8px;
-    font-family: "proxima-nova", sans-serif;
-    font-size: 16px;
-    line-height: 19px;
-    padding-right: 88px;
-    font-weight: 700;
-    color: var(--brand-teal-muted);
-    text-decoration: underline;
-    text-underline-position: under;
-    margin-top: 0px;
+  display: block;
+  padding-bottom: 8px;
+  font-family: "proxima-nova", sans-serif;
+  font-size: 16px;
+  line-height: 19px;
+  padding-right: 88px;
+  font-weight: 700;
+  color: var(--brand-teal-muted);
+  text-decoration: underline;
+  text-underline-position: under;
+  margin-top: 0px;
 }
 
 .locator-result-phone {
@@ -596,10 +670,10 @@ margin-bottom: 16px !important;
 }
 
 .locator-result-phone span {
-    text-decoration: none;
-    font-weight: normal;
-    font-size: 16px;
-    color: var(--border-color-dark);
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 16px;
+  color: var(--border-color-dark);
 }
 
 .weblink {
@@ -647,4 +721,15 @@ margin-bottom: 16px !important;
   color: var(--border-color-dark);
   font-weight: normal;
   margin: 0;
+}
+
+
+@media(min-width:989px) {
+  .locator-results .locator-results-list {
+    padding: 16px 36px 0 2px;
+  }
+  .print-result-btn {
+        display: flex;
+    justify-content: end;
+  }
 }

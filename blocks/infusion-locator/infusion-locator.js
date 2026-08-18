@@ -2,9 +2,9 @@ import { getSettings } from '../../scripts/config.js';
 import { createLayout } from './layout.js';
 import { initializeAutocomplete, initializeMap } from './map.js';
 import { getApiInfo } from './api.js';
-import  registerEvents  from './events.js';
+import registerEvents from './events.js';
 import { initCustomDropdown } from './dropdown.js';
-import  getElements  from './ui.js';
+import getElements from './ui.js';
 import { loadPdfMake } from './layout/pdf.js';
 
 export default async function decorate(block) {
@@ -17,7 +17,7 @@ export default async function decorate(block) {
   await renderForm(block);
   await createLayout(block);
 
-  
+
 
   await initializeMap(apiInfo.apiKey);
 

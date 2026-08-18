@@ -13,7 +13,6 @@ export default function createMain(form) {
   const results = document.createElement('div');
   results.className = 'locator-results';
 
-  
 
   // Legend
   const legend = document.createElement('div');

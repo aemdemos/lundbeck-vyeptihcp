@@ -84,15 +84,15 @@ export default async function handleSearch({
   /*
    * Get currently selected filters.
    */
-const filters = {
-  networkOnly: block.querySelector(
-    '#form-networkonly',
-  )?.checked ?? false,
+  const filters = {
+    networkOnly: block.querySelector(
+      '#form-networkonly',
+    )?.checked ?? false,
 
-  hideHospital: block.querySelector(
-    '#form-hidehospital',
-  )?.checked ?? false,
-};
+    hideHospital: block.querySelector(
+      '#form-hidehospital',
+    )?.checked ?? false,
+  };
 
 
   const radius = Number(
@@ -132,12 +132,12 @@ const filters = {
      * 2. Get facility data
      */
     const results = await searchLocations(
-  zip,
-  settings,
-  apiInfo,
-  [],
-  radius,
-);
+      zip,
+      settings,
+      apiInfo,
+      [],
+      radius,
+    );
 
     /*
      * 3. Calculate distance.
@@ -168,7 +168,7 @@ const filters = {
       filters,
     );
 
-   
+
 
 
     /*
@@ -179,7 +179,7 @@ const filters = {
         a.miles - b.miles,
     );
 
- renderMarkers(filteredResults);
+    renderMarkers(filteredResults);
 
     /*
      * 6. Center map.
@@ -197,16 +197,16 @@ const filters = {
     );
 
     resultsContainer.addEventListener('click', (event) => {
-  const card = event.target.closest('.result-card');
+      const card = event.target.closest('.result-card');
 
-  if (!card) {
-    return;
-  }
+      if (!card) {
+        return;
+      }
 
-  const index = Number(card.dataset.index);
+      const index = Number(card.dataset.index);
 
-  centerMapOnMarker(index);
-});
+      centerMapOnMarker(index);
+    });
 
 
     /*
@@ -255,7 +255,7 @@ const filters = {
       );
 
     if (headerElement) {
-      headerElement.append(
+      headerElement.prepend(
         printElement,
       );
     }

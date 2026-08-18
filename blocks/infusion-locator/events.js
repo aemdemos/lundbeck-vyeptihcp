@@ -1,4 +1,4 @@
-import handleSearch  from './search.js';
+import handleSearch from './search.js';
 
 export default function registerEvents({
   block,
@@ -19,8 +19,8 @@ export default function registerEvents({
 
   }
 
-  if(ui.infoIcon) {
-    ui.infoIcon.addEventListener('click', (el) => { 
+  if (ui.infoIcon) {
+    ui.infoIcon.addEventListener('click', (el) => {
       el.preventDefault();
       ui.filterDescpTwo.classList.toggle('selectHide');
       ui.filterDescpOne.classList.toggle('selectHide');
@@ -30,14 +30,14 @@ export default function registerEvents({
   ui.searchBtn.addEventListener(
     'click',
     (el) => {
-            el.preventDefault();
-            handleSearch({
-              block,
-              ui,
-              settings,
-              apiInfo,
-            });
-        } 
+      el.preventDefault();
+      handleSearch({
+        block,
+        ui,
+        settings,
+        apiInfo,
+      });
+    }
   );
 
   ui.zipInput.addEventListener('keydown', (e) => {
