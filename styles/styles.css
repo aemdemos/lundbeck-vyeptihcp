@@ -195,6 +195,13 @@
   src: local('Arial Bold'), local('Arial');
 }
 
+@font-face {
+  font-family: proxima-nova-fallback;
+  font-weight: 400;
+  size-adjust: 98%;
+  src: local('Arial');
+}
+
 body { /* @libs */
   display: none; /* @libs */
   margin: 0; /* @libs */
