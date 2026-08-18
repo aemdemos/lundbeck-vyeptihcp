@@ -1,10 +1,10 @@
 import { initValidationListeners } from "./validations.js";
 
-
+let googleMapKey;
 export default async function decorate(block) {
 
   const vyeptiHCPCode=[...block.children][2].children[1].children[0].textContent;
-  const googleMapKey=[...block.children][3].children[1].children[0].textContent;
+  googleMapKey=[...block.children][3].children[1].children[0].textContent;
 
   
   try {
@@ -196,7 +196,8 @@ async function autoPopulateAddress() {
 //         "form-control form-text pac-target-input valid";
 // }
 
-  await loadScript(`https://maps.googleapis.com/maps/api/js?key${googleMapKey}=&libraries=places`);
+// alert(googleMapKey);
+  await loadScript(`https://maps.googleapis.com/maps/api/js?key=${googleMapKey}=&libraries=places`);
   initAddressAutocomplete();
 }
 
