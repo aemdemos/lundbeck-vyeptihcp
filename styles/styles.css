@@ -795,34 +795,6 @@ main .section.highlight { /* @libs */
   }
 }
 
-/* section metadata - connect-panel (VYEPTI CONNECT support): pale-blue rounded
-   panel wrapping the lead sentence + the cards (icon-feature icon-80) icon grid.
-   Colors/spacing match the source (#dfe9f1 panel, 40px vertical padding). */
-main .section.connect-panel {
-  background-color: #dfe9f1;
-  border-radius: 20px;
-  max-width: var(--max-width-site);
-  margin: 0 auto;
-  padding: 24px 20px;
-}
-
-main .section.connect-panel > div {
-  margin: 0 auto;
-}
-
-main .section.connect-panel .default-content-wrapper p {
-  margin: 0 0 16px;
-  color: var(--brand-primary-dark, #41748d);
-  font-size: 20px;
-  font-weight: 700;
-}
-
-@media (width >= 768px) {
-  main .section.connect-panel {
-    padding: 40px 32px;
-  }
-}
-
 /* section metadata - center (centers heading/body copy in the section) */
 main .section.center {
   text-align: center;
