@@ -50,6 +50,7 @@ export async function searchLocations(
   settings,
   apiInfo,
   filters,
+  distance
 ) {
   const coords = await geocodeZip(zip);
   centerMap(coords, 10);

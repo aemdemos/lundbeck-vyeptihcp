@@ -1,23 +1,13 @@
 import renderDescription from "./regex.js";
 
-export function createFilters(form, inputField, inputFieldLabel) {
-  const filters = document.createElement('div');
-  filters.className = 'locator-filters';
-
-  appendFilterFields(form, filters);
-
-createFilterDescription(form, inputField, inputFieldLabel);
-
-  const error = createErrorMessage();
-
-  filters.append(error);
-
-  return filters;
-}
-
 
 
 function appendFilterFields(form, filters) {
+  const checkboxOne = form.querySelector('#form-networkonly');
+  checkboxOne.removeAttribute('required');
+  const checkboxTwo = form.querySelector('#form-hidehospital');
+  checkboxTwo.removeAttribute('required');
+
   const fields = [
     form.querySelector('#form-networkonly')?.closest('.field-wrapper'),
     form.querySelector('#form-hidehospital')?.closest('.field-wrapper'),
@@ -49,10 +39,9 @@ function createFilterDescription(form, inputField, inputFieldLabel) {
 
   const label = document.createElement('label');
   label.htmlFor = 'form-networkonly';
-
-  label.innerHTML = renderDescription(
-    inputFieldLabel.textContent.trim(),
-  );
+  const lebelDecsp = inputFieldLabel.textContent.trim();
+  // eslint-disable-next-line browser-security/no-innerhtml
+  label.innerHTML = renderDescription(lebelDecsp,);
 
   const infoIcon = label.querySelector('img');
 
@@ -62,12 +51,14 @@ function createFilterDescription(form, inputField, inputFieldLabel) {
 
   const filterDescriptionOne = document.createElement('div');
   filterDescriptionOne.className = 'filterDescpOne';
+  // eslint-disable-next-line browser-security/no-innerhtml
   filterDescriptionOne.innerHTML = renderDescription(
     descriptionOne.textContent.trim(),
   );
 
   const filterDescriptionTwo = document.createElement('div');
   filterDescriptionTwo.className = 'filterDescpTwo selectHide';
+  // eslint-disable-next-line browser-security/no-innerhtml
   filterDescriptionTwo.innerHTML = renderDescription(
     descriptionTwo.textContent.trim(),
   );
@@ -96,4 +87,22 @@ function createErrorMessage() {
 
   return error;
 }
+
+export default function createFilters(form, inputField, inputFieldLabel) {
+  const filters = document.createElement('div');
+  filters.className = 'locator-filters';
+
+  appendFilterFields(form, filters);
+
+createFilterDescription(form, inputField, inputFieldLabel);
+
+  const error = createErrorMessage();
+
+  filters.append(error);
+
+  return filters;
+}
+
+
+
 

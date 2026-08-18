@@ -169,17 +169,6 @@ export function addMarker(
       .trim()
       .toUpperCase() === 'TRUE';
 
-  console.log(
-    'Creating marker:',
-    title,
-    'number:',
-    number,
-    'preferredIc:',
-    preferredIc,
-    'isNetwork:',
-    isNetwork,
-  );
-
   const marker =
     new googleMaps.maps.Marker({
       position: location,

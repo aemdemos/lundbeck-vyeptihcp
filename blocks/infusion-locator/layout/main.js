@@ -24,6 +24,7 @@ export default function createMain(form) {
     form.querySelector('#form-network')?.closest('.field-wrapper'),
   ].forEach((el) => {
     if (el) {
+      // eslint-disable-next-line browser-security/no-innerhtml
       el.innerHTML = renderDescription(el.textContent)
       legend.append(el);
     }

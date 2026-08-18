@@ -2,6 +2,14 @@
 
 export const DEFAULT_DISTANCES = ['5', '10', '25', '50','100', '200', '400'];
 
+/**
+* Evaluates truthy string configurations into booleans.
+*/
+export function parseBool(value, fallback) {
+  if (value === undefined) return fallback;
+  return /^(true|yes|1|on)$/i.test(value);
+}
+
 export function getSettings(block, apiInfo) {
    return {
     apiKey: apiInfo.apiKey,
@@ -15,11 +23,4 @@ export function getSettings(block, apiInfo) {
   };
 }
  
-/**
-* Evaluates truthy string configurations into booleans.
-*/
-export function parseBool(value, fallback) {
-  if (value === undefined) return fallback;
-  return /^(true|yes|1|on)$/i.test(value);
-}
 // Code Ends for locator block configuration

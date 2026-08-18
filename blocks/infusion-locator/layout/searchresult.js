@@ -47,6 +47,7 @@ export function searchResult(result, index, settings) {
   const phone = result.phone || result.phoneNumber || '';
   const website = result.website || '';
   const typeText = result.type || '';
+  const enrollmentForm = result.enrollmentForm || '';
   const fullAddress = [address, city, state, zip]
     .filter(Boolean)
     .join(', ');
@@ -109,9 +110,12 @@ if (result.miles !== null && result.miles !== undefined) {
 }
 
   // Address
-  const addressP = document.createElement('p');
-  addressP.className = 'locator-result-address';
-  addressP.textContent = fullAddress;
+  const addressLink = document.createElement('a');
+  addressLink.className = 'locator-result-address';
+  addressLink.target = '_blank';
+  addressLink.rel = 'noopener noreferrer';
+  addressLink.href = `https://maps.google.com/?q=${encodeURIComponent(fullAddress)}`;
+  addressLink.textContent = fullAddress;
 
   // Contact wrapper
   const contactWrap = document.createElement('div');
@@ -132,6 +136,16 @@ if (result.miles !== null && result.miles !== undefined) {
     contactWrap.append(phoneP);
   }
 
+   if (enrollmentForm) {
+    const enrollmentFormLink = document.createElement('a');
+    enrollmentFormLink.href = enrollmentForm;
+    enrollmentFormLink.target = "_blank";
+    enrollmentFormLink.className = 'weblink';
+    enrollmentFormLink.textContent = "Patient Referral Form";
+
+    contactWrap.append(enrollmentFormLink);
+  }
+
   if (website) {
     const websiteLink = document.createElement('a');
     websiteLink.href = website;
@@ -143,13 +157,19 @@ if (result.miles !== null && result.miles !== undefined) {
     contactWrap.append(websiteLink);
   }
 
-  right.append(type, miles, addressP, contactWrap);
+ 
+
+  right.append(type, miles, addressLink, contactWrap);
   itemInner.append(left, right);
   listItem.append(itemInner);
 
 
   // Event handler for the focus on specific card
-  listItem.addEventListener('click', () => {
+  listItem.addEventListener('click', (event) => {
+  if (event.target.closest('a')) {
+    return;
+  }
+
   centerMapOnMarker(index);
 });
 

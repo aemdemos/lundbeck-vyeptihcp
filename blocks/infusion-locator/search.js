@@ -3,15 +3,18 @@ import {
   geocodeZip,
   centerMap,
   renderMarkers,
+  centerMapOnMarker
 } from './map.js';
 
 import { searchLocations } from './api.js';
 
-import { getMiles } from './distance.js';
+import  getMiles  from './distance.js';
 
 import renderResults from './template.js';
 
 import { downloadResultsPdf } from './layout/pdf.js';
+
+
 
 
 
@@ -104,7 +107,7 @@ export default async function handleSearch({
   // It is for the autocomplete of search field
   // in zipcode input.
 
-  let selectedLocation = null;
+  // let selectedLocation = null;
 
   // autocomplete?.addListener('place_changed', () => {
   //   const place = autocomplete.getPlace();

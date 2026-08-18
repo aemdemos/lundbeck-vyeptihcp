@@ -1,6 +1,6 @@
 // It calculate the miles/distance  which is selected from miles drop down 
 
-export function getMiles(lat1, lon1, lat2, lon2) {
+export default function getMiles(lat1, lon1, lat2, lon2) {
   if (
     !Number.isFinite(lat1) ||
     !Number.isFinite(lon1) ||

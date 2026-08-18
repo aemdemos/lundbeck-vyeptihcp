@@ -16,7 +16,7 @@
 }
 
 .locator-header h2 {
-  color: #41748d;
+  color: var(--brand-teal-muted);
   text-align: center;
   padding-left: 15px;
   padding-right: 15px;
@@ -36,7 +36,7 @@
   font-weight: 700;
   padding: 0px 30px;
   font-size: 18px;
-  color: #484848;
+  color: var(--text-color);
   line-height: 22px;
   padding-bottom: 8px;
   ;
@@ -108,7 +108,7 @@
 
 .locator-filters input#form-zipcode,
 .locator-search input#form-zipcode {
-  border: 1px solid #484848;
+  border: 1px solid var(--text-color);
   border-radius: 10px;
   font-size: 16px;
   font-weight: 700;
@@ -118,7 +118,7 @@
   margin-top: 0;
   z-index: 2;
   background: transparent;
-  color: #484848;
+  color: var(--text-color);
   font-family: 'open-sans', sans-serif;
 }
 
@@ -132,7 +132,7 @@
 }
 
 .locator-select-group.mile-block .select {
-  border: 1px solid #484848;
+  border: 1px solid var(--text-color);
   border-radius: 10px;
   font-size: 16px;
   font-weight: 700;
@@ -141,7 +141,7 @@
   cursor: pointer;
   height: 100%;
   user-select: none;
-  background-color: #fff;
+  background-color: var(--background-color);
   position: relative;
 }
 
@@ -176,10 +176,10 @@
 .locator-select-group.mile-block .dropdown-items {
   top: 8px;
   border-radius: 10px;
-  border: 1px solid #484848;
+  border: 1px solid var(--text-color);
   padding: 0.5rem 0;
   position: relative;
-  background: #fff;
+  background: var(--background-color);
   z-index: 2;
 }
 
@@ -199,8 +199,8 @@
 
 .locator-select-group.mile-block .dropdown-items .item.selectedMiles,
 .locator-select-group.mile-block .dropdown-items .item:hover {
-  background-color: #41748d;;
-  color: #fff
+  background-color: var(--link-color);
+  color: var(--background-color);
 }
 
 .locator-filters .button-wrapper input,
@@ -209,15 +209,15 @@
   height: 56px;
   border: 0;
   border-radius: 4px;
-  background: #c02c57;
-  color: #fff;
+  background: var(--brand-rose);
+  color: var(--background-color);
   cursor: pointer;
   font-weight: 700;
   text-transform: uppercase;
-  background-color: #c02c57;
-  border: 2px solid #fff;
+  background-color: var(--brand-rose);
+  border: 2px solid var(--background-color);
   border-radius: 75pt;
-  color: #fff;
+  color: var(--background-color);
   display: inline-block;
   font-family: open-sans, sans-serif;
   padding: 14px;
@@ -225,9 +225,9 @@
 }
 
 .locator-search .button-wrapper :hover {
-  background-color: #fff;
-  border-color: #c02c57;
-  color: #c02c57;
+  background-color: var(--background-color);
+  border-color: var(--brand-rose);
+  color: var(--brand-rose);
   text-decoration: none;
 }
 
@@ -334,7 +334,7 @@ and (max-width: 991px) {
 }
 
 .locator-filters label span {
-  color: rgb(192, 44, 87);
+  color: var(--brand-rose);
   font-weight: 700;
 }
 
@@ -362,7 +362,7 @@ and (max-width: 991px) {
 
 .locator-filters .error {
   text-align: center;
-  color: #c02c57;
+  color: var(--brand-rose);
   margin: 24px 0 0;
   width: 100%;
   padding: 0 15px;
@@ -385,9 +385,9 @@ and (max-width: 991px) {
 
 .locator-legend {
   display: flex;
-  background: #eff6f9;
+  background: var(--card-bg-light);
   padding: 12px 0 12px 9px;
-  border-bottom: 1px solid #484848;
+  border-bottom: 1px solid var(--text-color);
   border-top-right-radius: 10px;
   justify-content: space-around;
   border-top-left-radius: 10px;
@@ -427,13 +427,13 @@ and (max-width: 991px) {
 .locator-main {
   display: flex;
   flex-direction: column;
-  border: 1px solid #484848;
+  border: 1px solid var(--text-color);
   border-radius: 10px;
 }
 
 .locator-map {
   min-height: 420px;
-  border: 1px solid #484848;
+  border: 1px solid var(--text-color);
   ;
 
   overflow: hidden;
@@ -446,7 +446,7 @@ and (max-width: 991px) {
   border-radius: 6px;
   padding: 20px;
   height: 560px;
-  background: #fff;
+  background: var(--background-color);
   text-align: center;
   overflow: scroll;
   border-bottom-left-radius: 10px;
@@ -456,8 +456,8 @@ and (max-width: 991px) {
 .print-results {
   font-weight: 700;
   line-height: 24px;
-  border-bottom: 1px solid #41748d;
-  color: #41748d;
+  border-bottom: 1px solid var(--link-color);
+  color: var(--link-color);
   font-size: 16px;
   text-decoration: none;
   margin-bottom: 6px;
@@ -472,7 +472,7 @@ and (max-width: 991px) {
 .locator-results .locator-no-results {
   font-size: 18px;
   line-height: 26px;
-  color: #484848;
+  color: var(--text-color);
   margin: 0;
   padding-bottom: 8px;
 }
@@ -481,16 +481,16 @@ and (max-width: 991px) {
   font-size: 18px;
   line-height: 26px;
   text-align: center;
-  color: #484848;
+  color: var(--text-color);
   margin: 0;
-  padding-bottom: 8px !important;
+  padding-bottom: 8px;
 }
 
 .locator-welcome-text {
   font-size: 16px;
   line-height: 24px;
   text-align: center;
-  color: #484848;
+  color: var(--text-color);
   font-weight: normal;
 }
 
@@ -511,7 +511,7 @@ and (max-width: 991px) {
   .locator-map,
   .locator-results-wrap {
     min-height: 650px;
-    border: 1px solid #484848;
+    border: 1px solid var(--text-color);
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     border-left: 0;
@@ -521,9 +521,9 @@ and (max-width: 991px) {
   .locator-map {
     border-radius: 6px;
     max-width: 555px;
-    border-left: 1px solid #484848;
-    border-bottom: 1px solid #484848;
-    border-top: 1px solid #484848;
+    border-left: 1px solid var(--text-color);
+    border-bottom: 1px solid var(--text-color);
+    border-top: 1px solid var(--text-color);
     border-radius: 10px;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
@@ -535,7 +535,6 @@ and (max-width: 991px) {
 }
 
 /* Locator results */
-
 /* --- Results Panel & Map Layout --- */
 .locator-results .locator-results-list {
   padding: 16px 0px 16px 0px;
@@ -553,7 +552,7 @@ and (max-width: 991px) {
 }
 
 .locator-results .locator-results-list .locator-result-item.gradientBorder {
-  background: linear-gradient(to right, #f16464, #c02c57);
+  background: linear-gradient(to right, #f16464, var(--brand-rose));
 }
 
 .locator-result-item-inner {
@@ -612,7 +611,7 @@ and (max-width: 991px) {
 .locator-result-right h3 {
   margin-top: 0px;
   color: var(--brand-teal-muted);
-  max-width: 100% !important;
+  max-width: 100%;
   word-break: break-word;
   font-size: 18px;
   padding-bottom: 8px;
@@ -695,7 +694,7 @@ and (max-width: 991px) {
 .locator-results .locator-title-wrap .locator-result-disclaimer {
   text-align: left;
   line-height: 22px;
-  font-size: 18px !important;
+  font-size: 18px;
   text-align: left;
   margin-bottom: 24px;
   color: var(--text-color);
@@ -732,4 +731,12 @@ and (max-width: 991px) {
         display: flex;
     justify-content: end;
   }
+}
+
+.locator-search input[type="text"]:focus {
+    background-color: #fff;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+    color: #495057;
+    outline: 0;
 }

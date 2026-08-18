@@ -1,6 +1,11 @@
-import { createDropdown } from "../dropdown.js";
+import  { createDropdown } from "../dropdown.js";
 
-export function createSearch(block, form) {
+function removeRadiusField(form) {
+    form.querySelector('#form-radius')?.remove();
+    form.querySelector('#form-radius-label')?.remove();
+}
+
+export default function createSearch(block, form) {
     const search = document.createElement('div');
     search.className = 'locator-search';
 
@@ -27,7 +32,3 @@ export function createSearch(block, form) {
     return search;
 }
 
-function removeRadiusField(form) {
-    form.querySelector('#form-radius')?.remove();
-    form.querySelector('#form-radius-label')?.remove();
-}
