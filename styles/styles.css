@@ -539,10 +539,15 @@ main img { /* @libs */
 }
 
 /* icon bullet lists — :has() prevents FOUC before JS adds .icon-bullets */
-main ul:has(> li > .icon, > li > :is(strong, em, a) > .icon, > li > h6 > .icon) { /* @libs */
-  list-style: none; /* @libs */
-  margin: 0; /* @libs */
-  padding: 0; /* @libs */
+main ul:has(> li > .icon, > li > :is(strong, em, a) > .icon, > li > h6 > .icon) {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* enough specificity for legend variant to override standard icon bullet list spacing handling */
+main ul.legend:has(> li > span.icon) {
+  padding: 0 0 16px;
 }
 
 main ul.icon-bullets > li,
@@ -600,9 +605,10 @@ main .columns.resource-list .icon.icon-bullet {
 main ul.legend {
   display: flex;
   flex-direction: column;
+  width: fit-content;
   gap: 12px;
   padding-bottom: 16px;
-  border-bottom: 1px solid var(--text-color);
+  border-bottom: 1px solid #a4a4a4;
 }
 
 main ul.legend > li.icon-bullet-item {
@@ -618,6 +624,8 @@ main ul.legend .icon.icon-bullet {
 
 main ul.legend h6 {
   margin: 0;
+  font-size: var(--body-font-size-xs);
+  font-weight: unset;
 }
 
 /* responsive visibility utilities (authorable via [hide-mobile] / [hide-desktop] bracket spans) */
@@ -1159,11 +1167,6 @@ div[class^="width-"], div[class*=" width-"] {
 main .section.page-title h1, .size-h2 {
   max-width: var(--h1-max-width);
 }
-
-main ul.legend {
-  flex-flow: row wrap;
-  column-gap: 24px;
-}
   }
 
 @media (width >= 992px) {
@@ -1171,6 +1174,11 @@ main ul.legend {
     --max-width-site: 930px;
     --button-wide-width: 345px;
     --h1-max-width: 80%;
+  }
+
+  main ul.legend {
+    flex-flow: row wrap;
+    gap: 16px;
   }
 
   body[data-breadcrumbs] { /* @libs */
