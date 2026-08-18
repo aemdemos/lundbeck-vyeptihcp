@@ -8,23 +8,32 @@
 .table.block table { /* @libs */
   width: 100%; /* @libs */
   max-width: 100%; /* @libs */
-  border-collapse: collapse; /* @libs */
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
   font-family: var(--body-font-family); /* @libs */
   font-size: var(--body-font-size-s); /* @libs */
   line-height: 1.5; /* @libs */
-  color: var(--text-color); /* @libs */
+  color: var(--table-body-text-color);
+  border: var(--table-row-border-width) solid var(--table-border-color);
+  border-radius: var(--table-radius);
+  overflow: hidden;
 }
 
 .table.block table th,
 .table.block table td { /* @libs */
   padding: var(--table-cell-padding-block) var(--table-cell-padding-inline); /* @libs */
-  text-align: left; /* @libs */
+  text-align: center;
   vertical-align: top; /* @libs */
 }
 
-/* header band — compact teal gradient strip with bold teal label */
+.table.block table td {
+  background: var(--background-color);
+}
+
+/* header band — solid teal strip with bold white label */
 .table.block table thead tr { /* @libs */
-  background-image: var(--table-header-bg); /* @libs */
+  background: var(--table-header-bg);
 }
 
 .table.block table th { /* @libs */
@@ -35,8 +44,17 @@
   color: var(--table-header-text-color); /* @libs */
 }
 
-.table.block table tbody tr { /* @libs */
-  border-bottom: var(--table-row-border-width) solid var(--table-border-color); /* @libs */
+/* inset vertical divider between body cells (small gap top/bottom) */
+.table.block table tbody td + td {
+  position: relative;
+}
+
+.table.block table tbody td + td::before {
+  content: '';
+  position: absolute;
+  inset: var(--table-divider-inset) auto var(--table-divider-inset) 0;
+  width: var(--table-row-border-width);
+  background: var(--table-border-color);
 }
 
 .table table th p,
@@ -72,7 +90,7 @@
 .table.block.heading-11 table tbody tr:nth-child(11),
 .table.block.heading-12 table tbody tr:nth-child(12) { /* @libs */
   border-bottom: 0; /* @libs */
-  background-image: var(--table-header-bg); /* @libs */
+  background: var(--table-header-bg);
 }
 
 /* remove the separator above a heading row (the preceding row's bottom border) */
