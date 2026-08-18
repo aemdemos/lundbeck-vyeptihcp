@@ -358,21 +358,27 @@ main > .section.hero-container > .hero-wrapper {
 }
 
 /* Eyebrow ribbon — light gradient pill behind the italic lead-in line
-   (source vyeptihcp.com homepage treatment) */
-.section.single-dark .hero p {
+   (source vyeptihcp.com homepage treatment). `main` prefix matches the
+   specificity of `.hero.single > div:last-of-type p` (line 130, font-weight:
+   400) so this override actually wins. */
+main .section.single-dark .hero p {
   display: inline-block;
-  color: var(--brand-primary);
+  color: var(--hero-eyebrow-text-color);
   background: linear-gradient(90deg, hsl(0deg 0% 100% / 0%), #bcdce2 38.46%, #7ebcc6);
-  border-radius: 0 100px 100px 0;
+  border-radius: 0 16px 16px 0;
   margin: 0 0 16px;
   box-shadow: 0 4px 4px 0 rgb(0 0 0 / 25%);
   padding: 6px 10px;
-  width: 330px;
+  width: fit-content;
+  font-family: var(--page-title-font-family);
+  font-weight: 700;
+  font-size: var(--hero-single-dark-eyebrow-font-size);
 }
 
 /* ── single-light: teal headline, dark body ── */
 .section.single-light .hero h1 {
   color: var(--brand-primary);
+  font-family: var(--page-title-font-family);
 }
 
 .section.single-light .hero > div:last-of-type p {
