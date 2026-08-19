@@ -369,6 +369,70 @@ main .columns.logo-grid > div > div:last-child img {
   max-height: none;
 }
 
+/* ────────────────────────────────────────────────────────────────
+ * teal variant — solid teal callout box: document image beside a white
+ * heading + pill CTA (e.g. copay-support "Download the brochure").
+ * Mobile-first: stacked & centered; image left / text right at desktop.
+ * Button color stays author-controlled via link formatting (bold →
+ * rose primary); this variant only guarantees legibility on the dark
+ * background, it does not hardcode the button color.
+ * ──────────────────────────────────────────────────────────────── */
+main .columns.teal {
+  background: var(--columns-teal-bg);
+  border-radius: var(--columns-teal-radius);
+  padding: var(--columns-teal-padding);
+  color: var(--background-color);
+}
+
+main .columns.teal > div {
+  gap: var(--columns-teal-gap);
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+main .columns.teal .columns-img-col {
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
+main .columns.teal .columns-img-col img {
+  width: var(--columns-teal-img-width);
+  height: auto;
+}
+
+/* Descriptive copy matches the source heading: 26px/32px bold white.
+   Covers both a real heading and a plain paragraph (content varies). */
+main .columns.teal :is(h1, h2, h3, h4, h5, h6),
+main .columns.teal p:not(.button-wrapper) {
+  margin: 0 0 var(--columns-teal-gap);
+  color: var(--background-color);
+  font-size: var(--columns-teal-text-size);
+  font-weight: 700;
+  line-height: var(--columns-teal-text-line-height);
+}
+
+main .columns.teal .button-wrapper {
+  margin: 0;
+}
+
+/* On the teal background, the CTA renders as the contrasting rose pill
+   (mirrors the section.dark button-remap precedent so a filled button stays
+   legible on a colored box). Outline/secondary buttons keep their own style. */
+main .columns.teal a.button:not(.secondary),
+main .columns.teal a.button:not(.secondary):hover,
+main .columns.teal a.button:not(.secondary):focus {
+  background-color: var(--brand-secondary);
+  border-color: var(--brand-secondary);
+  color: var(--background-color);
+}
+
+/* Match the source CTA: uppercase label, wider pill (source ≈ 345×56px). */
+main .columns.teal a.button {
+  padding: var(--columns-teal-button-padding);
+  text-transform: uppercase;
+}
+
 @media (width >= 576px) {
   main .columns.arrow-nav > div {
     max-width: 540px;
@@ -389,6 +453,26 @@ main .columns.logo-grid > div > div:last-child img {
   .columns > div > div { /* @boilerplate */
     flex: 1; /* @boilerplate */
     order: unset; /* @boilerplate */
+  }
+
+  /* teal box: image left / text right, larger padding + gap, left-aligned */
+  main .columns.teal {
+    padding: var(--columns-teal-padding-desktop);
+  }
+
+  /* source centers the image+text group in the box, rather than
+     stretching text to fill — so center the row and cap the text column */
+  main .columns.teal > div {
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--columns-teal-gap-desktop);
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  /* text column sized to the source's ≈567px, not flex-filled */
+  main .columns.teal > div > div:last-child {
+    flex: 0 1 var(--columns-teal-text-max-width);
   }
 
   .columns.divider.columns-2-cols > div {
