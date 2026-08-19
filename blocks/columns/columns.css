@@ -399,6 +399,9 @@ main .columns.teal .columns-img-col {
 main .columns.teal .columns-img-col img {
   width: var(--columns-teal-img-width);
   height: auto;
+
+  /* clip the asset's larger baked-in corners to the source's 20px radius */
+  border-radius: var(--columns-teal-radius);
 }
 
 /* Descriptive copy matches the source heading: 26px/32px bold white.
