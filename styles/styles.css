@@ -706,7 +706,7 @@ margin: auto;
 }
 
 main .flex-group > .section.flex {
-margin: 0;
+margin: 24px 16px;
 }
 
 main > .section.page-title {
@@ -979,7 +979,7 @@ main .section.banner > div:not(.bg-image) {
   }
   
   .section.emboss, .section.emboss-heavy, .section.rounded,
-  main .section.light > div {
+  main .section.light > div, .flex-group {
     margin-left: auto;
     margin-right: auto;
   }

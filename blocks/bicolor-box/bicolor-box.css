@@ -1,14 +1,14 @@
-@import url('./brand-primary-tokens.css');
+@import url('./bicolor-box-tokens.css');
 
-/* Brand primary — brand-color header banner fused to a light body panel
+/* Bicolor box — brand-color header banner fused to a light body panel
    below it (no gap — one continuous rounded shape). */
 
-main .brand-primary {
+main .bicolor-box {
   position: relative;
   color: var(--text-color);
-  border-radius: var(--brand-primary-radius);
+  border-radius: var(--bicolor-box-radius);
   overflow: hidden;
-  margin-bottom: 24px;
+  margin: 16px auto;
 }
 
 /* .emboss / .emboss-heavy (styles/styles.css) add their own white background
@@ -19,16 +19,15 @@ main .brand-primary {
    edges, and re-paint the shadow on an absolutely-positioned ::after: taking
    it out of normal flow makes it stack above the (static-positioned)
    header/body content instead of underneath it. */
-main .brand-primary.emboss,
-main .brand-primary.emboss-heavy {
+main .bicolor-box.emboss,
+main .bicolor-box.emboss-heavy {
   background: transparent;
   padding: 0;
   max-width: 485px; /* hardcode match to customer site */
-  margin: auto;
 }
 
-main .brand-primary.emboss::after,
-main .brand-primary.emboss-heavy::after {
+main .bicolor-box.emboss::after,
+main .bicolor-box.emboss-heavy::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -36,67 +35,67 @@ main .brand-primary.emboss-heavy::after {
   pointer-events: none;
 }
 
-main .brand-primary.emboss::after {
+main .bicolor-box.emboss::after {
   box-shadow: inset 0 0 8px 2px rgb(0 0 0 / 20%);
 }
 
-main .brand-primary.emboss-heavy::after {
+main .bicolor-box.emboss-heavy::after {
   box-shadow: inset 0 0 8px 4px rgb(0 0 0 / 40%);
 }
 
-main .brand-primary-header {
+main .bicolor-box-header {
   background: var(--brand-primary-dark);
   color: var(--background-color);
-  border-radius: var(--brand-primary-radius) var(--brand-primary-radius) 0 0;
+  border-radius: var(--bicolor-box-radius) var(--bicolor-box-radius) 0 0;
   padding: 20px 32px;
 }
 
-main .brand-primary-header p {
+main .bicolor-box-header p {
   margin: 0;
   font-size: var(--body-font-size-ms);
   font-weight: 700;
 }
 
-main .brand-primary-title {
+main .bicolor-box-title {
   margin: 0;
   color: var(--background-color);
-  font-size: var(--brand-primary-title-font-size);
+  font-size: var(--bicolor-box-title-font-size);
 }
 
-main .brand-primary-header a {
+main .bicolor-box-header a {
   color: var(--background-color);
   text-decoration: underline;
 }
 
-main .brand-primary-body {
-  background: var(--brand-primary-body-bg);
-  border-radius: 0 0 var(--brand-primary-radius) var(--brand-primary-radius);
+main .bicolor-box-body {
+  background: var(--bicolor-box-body-bg);
+  border-radius: 0 0 var(--bicolor-box-radius) var(--bicolor-box-radius);
   padding: 20px 32px;
 }
 
-main .brand-primary-body p,
-main .brand-primary-body li {
+main .bicolor-box-body p,
+main .bicolor-box-body li {
   font-size: var(--body-font-size-ms);
 }
 
-main .brand-primary-body p {
+main .bicolor-box-body p {
   margin: 0 0 12px;
 }
 
-main .brand-primary-body p:last-child {
+main .bicolor-box-body p:last-child {
   margin-bottom: 0;
 }
 
-main .brand-primary.stat-box .brand-primary-body p:last-child {
-  font-size: var(--brand-primary-stat-source-font-size);
+main .bicolor-box.stat-box .bicolor-box-body p:last-child {
+  font-size: var(--bicolor-box-stat-source-font-size);
 }
 
-main .brand-primary-body a {
+main .bicolor-box-body a {
   color: var(--link-color);
   text-decoration: underline;
 }
 
-main .brand-primary-list {
+main .bicolor-box-list {
   list-style: none;
   margin: 16px 0;
   padding: 0;
@@ -105,17 +104,17 @@ main .brand-primary-list {
   gap: 16px;
 }
 
-main .brand-primary-list li {
+main .bicolor-box-list li {
   margin: 0;
 }
 
-main .brand-primary-body .small-text {
+main .bicolor-box-body .small-text {
   color: var(--text-color-light);
 }
 
 /* stat-box variant — header cell authored as a list: first li is a large
    stat number, remaining li's are description columns laid out beside it. */
-main .brand-primary.stat-box .brand-primary-header {
+main .bicolor-box.stat-box .bicolor-box-header {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -123,28 +122,28 @@ main .brand-primary.stat-box .brand-primary-header {
   padding: 16px 24px 0;
 }
 
-main .brand-primary-stat-value {
+main .bicolor-box-stat-value {
   margin: 0;
   color: var(--background-color);
-  font-size: var(--brand-primary-stat-value-font-size);
+  font-size: var(--bicolor-box-stat-value-font-size);
   font-family: var(--body-font-family);
   line-height: 1;
 }
 
-main .brand-primary-stat-unit {
+main .bicolor-box-stat-unit {
   font-size: 0.6em;
   font-weight: inherit;
   vertical-align: super;
 }
 
-main .brand-primary-stat-description {
+main .bicolor-box-stat-description {
   margin: 0 0 16px;
   color: var(--background-color);
   font-weight: 700;
   font-size: var(--body-font-size-ms);
 }
 
-main .brand-primary-stat-description sup {
+main .bicolor-box-stat-description sup {
   position: relative;
   top: -0.7em;
   font-family: var(--body-font-family);
@@ -153,48 +152,48 @@ main .brand-primary-stat-description sup {
   vertical-align: baseline;
 }
 
-main .brand-primary.stat-box .brand-primary-body {
+main .bicolor-box.stat-box .bicolor-box-body {
   background: var(--light-color);
   padding: 6px 24px 10px;
   font-weight: 700;
-  font-size: var(--brand-primary-stat-source-font-size);
+  font-size: var(--bicolor-box-stat-source-font-size);
   text-align: center;
 }
 
 @media (width >= 600px) {
-  main .brand-primary-body {
+  main .bicolor-box-body {
     padding: 14px 32px 32px;
   }
 
-  main .brand-primary-header {
+  main .bicolor-box-header {
     padding: 16px 32px;
   }
 
-  main .brand-primary-list {
+  main .bicolor-box-list {
     flex-direction: row;
     gap: 40px;
   }
 }
 
 @media (width >= 900px) {
-  main .brand-primary.stat-box .brand-primary-header {
+  main .bicolor-box.stat-box .bicolor-box-header {
     flex-flow: row wrap;
     align-items: center;
     gap: 20px;
     padding: 16px 24px;
   }
 
-  main .brand-primary-stat-value {
-    font-size: var(--brand-primary-stat-value-font-size-desktop);
+  main .bicolor-box-stat-value {
+    font-size: var(--bicolor-box-stat-value-font-size-desktop);
     flex: 0 0 auto;
   }
 
-  main .brand-primary-stat-description {
+  main .bicolor-box-stat-description {
     margin: 0;
     flex: 1 1 200px;
   }
 
-  main .brand-primary.stat-box .brand-primary-body {
+  main .bicolor-box.stat-box .bicolor-box-body {
     padding: 6px 32px 10px;
   }
 }
