@@ -539,10 +539,15 @@ main img { /* @libs */
 }
 
 /* icon bullet lists — :has() prevents FOUC before JS adds .icon-bullets */
-main ul:has(> li > .icon, > li > :is(strong, em, a) > .icon) { /* @libs */
-  list-style: none; /* @libs */
-  margin: 0; /* @libs */
-  padding: 0; /* @libs */
+main ul:has(> li > .icon, > li > :is(strong, em, a) > .icon, > li > h6 > .icon) {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* enough specificity for legend variant to override standard icon bullet list spacing handling */
+main ul.legend:has(> li > span.icon) {
+  padding: 0 0 16px;
 }
 
 main ul.icon-bullets > li,
@@ -592,6 +597,35 @@ main .columns.resource-list .icon-bullet-text {
 
 main .columns.resource-list .icon.icon-bullet {
   margin-top: 0;
+}
+
+/* Legend — an H6 icon-bullet list (colored dot + series name) that annotates a
+   nearby chart image. Stacked on mobile, single row on desktop; a shared
+   underline sits beneath the whole unit regardless of layout. */
+main ul.legend {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #a4a4a4;
+}
+
+main ul.legend > li.icon-bullet-item {
+  align-items: center;
+  gap: 8px;
+}
+
+main ul.legend .icon.icon-bullet {
+  width: 20px;
+  height: 20px;
+  margin-top: 0;
+}
+
+main ul.legend h6 {
+  margin: 0;
+  font-size: var(--body-font-size-xs);
+  font-weight: unset;
 }
 
 /* responsive visibility utilities (authorable via [hide-mobile] / [hide-desktop] bracket spans) */
@@ -1147,6 +1181,11 @@ main .section.page-title h1, .size-h2 {
     --max-width-site: 930px;
     --button-wide-width: 345px;
     --h1-max-width: 80%;
+  }
+
+  main ul.legend {
+    flex-flow: row wrap;
+    gap: 16px;
   }
 
   body[data-breadcrumbs] { /* @libs */

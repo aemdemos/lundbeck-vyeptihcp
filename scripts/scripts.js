@@ -683,7 +683,8 @@ export function decorateColonIcons(element) {
 
 /**
  * Returns the leading icon in a list item, searching recursively through
- * leading strong/em/a wrappers at any depth (e.g. em > strong > span.icon).
+ * leading strong/em/a/h6 wrappers at any depth (e.g. em > strong > span.icon,
+ * or h6 > span.icon for an H6 "legend" bullet list).
  * @param {HTMLLIElement} li List item element
  * @returns {HTMLSpanElement|null}
  */
@@ -695,7 +696,7 @@ function getLeadingListIcon(li) {
         if (node.textContent.trim()) return null;
       } else if (node.nodeType === Node.ELEMENT_NODE) {
         if (node.matches('span.icon')) return node;
-        if (node.matches('strong, em, a')) return findIcon(node);
+        if (node.matches('strong, em, a, h6')) return findIcon(node);
         return null;
       } else {
         return null;
@@ -714,7 +715,8 @@ function getLeadingListIcon(li) {
  */
 export function iconsToBullets(element) {
   const lists = [...element.querySelectorAll(
-    'ul:has(> li > .icon, > li > :is(strong, em, a) > .icon, > li > :is(strong, em) > :is(strong, em) > .icon)',
+    'ul:has(> li > .icon, > li > :is(strong, em, a) > .icon, '
+    + '> li > :is(strong, em) > :is(strong, em) > .icon, > li > h6 > .icon)',
   )].slice(0, MAX_ICON_BULLET_LISTS);
 
   lists.forEach((ul) => {
@@ -763,6 +765,20 @@ export function iconsToBullets(element) {
 }
 
 /**
+ * Wraps icon-bullet lists whose items are H6 headings into a `.legend` — a chart
+ * legend pattern (e.g. colored dot + series name) styled as a single row-on-desktop /
+ * stacked-on-mobile unit with a shared underline. Runs after {@link iconsToBullets}.
+ * @param {Element} element Container element
+ */
+export function decorateLegends(element) {
+  const lists = [...element.querySelectorAll('ul.icon-bullets')]
+    .filter((ul) => ul.querySelector(':scope > li h6'));
+  lists.forEach((ul) => {
+    ul.classList.add('legend');
+  });
+}
+
+/**
  * Decorates icons and applies icon-bullet styling to qualifying lists.
  * @param {Element} element Container element
  * @param {string} [prefix] Optional prefix for icon src
@@ -771,6 +787,7 @@ export function decorateIconsAndBullets(element, prefix = '') {
   decorateColonIcons(element);
   decorateIcons(element, prefix);
   iconsToBullets(element);
+  decorateLegends(element);
 }
 
 /* === BRACKET TAGS v3 ===
