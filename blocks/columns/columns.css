@@ -394,8 +394,8 @@ main .columns-wrapper:has(> .columns.teal) {
 
 main .columns.teal > div {
   gap: var(--columns-teal-gap);
-  align-items: center;
-  text-align: center;
+  align-items: center; /* centers the image column; text stays left per source */
+  text-align: left;
   flex-direction: column;
 }
 
@@ -458,6 +458,7 @@ main .columns.teal a.button {
   width: 100%;
   margin: 0;
   padding: 16px 14px;
+  text-align: center;
   text-transform: uppercase;
 }
 
