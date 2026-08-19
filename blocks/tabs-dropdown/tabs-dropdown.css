@@ -23,7 +23,7 @@
   justify-content: space-between;
   width: 100%;
   margin: 0;
-  padding: 12px 17px 12px 16px;
+  padding: 16px 17px 16px 16px;
   border: 0;
   border-radius: 0;
   background-color: var(--link-color);
@@ -147,12 +147,22 @@
 
 /* Desktop+ */
 @media (width >= 992px) {
+  
+  /*
   .tabs-dropdown .tabs-dropdown-list button.tabs-dropdown-tab {
-    line-height: 40px;
+    line-height: 20px;
   }
+  */
 
   .tabs-dropdown .tabs-dropdown-list button.tabs-dropdown-tab:hover {
     background-color: var(--link-color);
     color: #fff;
+  }
+}
+
+/* Wide+ */
+@media (width >= 1440px) {
+  .tabs-dropdown .tabs-dropdown-list button.tabs-dropdown-tab {
+    line-height: 40px;
   }
 }
