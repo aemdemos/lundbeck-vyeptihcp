@@ -538,6 +538,11 @@ main img { /* @libs */
   object-fit: contain; /* @libs */
 }
 
+/* explicit disc marker at every list depth — browser default demotes nested lists to circle/square */
+main ul {
+  list-style-type: disc;
+}
+
 /* icon bullet lists — :has() prevents FOUC before JS adds .icon-bullets */
 main ul:has(> li > .icon, > li > :is(strong, em, a) > .icon, > li > h6 > .icon) {
   list-style: none;
