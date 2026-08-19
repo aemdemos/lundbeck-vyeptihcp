@@ -14,15 +14,16 @@
 
 @import url('./accordion-tokens.css');
 
-.accordion > ul {
+.accordion > ul,
+.accordion .accordion-sublist {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-/* each item is a flat row divided from the next by a thin grey rule
-   (source: border-bottom 1px solid #a4a4a4; no background, no radius, no padding) */
-.accordion > ul > li {
+/* each item (at any nesting depth) is a flat row divided from the next by a thin
+   grey rule (source: border-bottom 1px solid #a4a4a4; no background, no radius, no padding) */
+.accordion .accordion-item {
   background-color: transparent;
   border-radius: 0;
   border-bottom: 1px solid #a4a4a4;
@@ -31,8 +32,13 @@
   cursor: pointer;
 }
 
-.accordion > ul > li + li {
+.accordion .accordion-item + .accordion-item {
   margin-top: 24px;
+}
+
+/* nested accordions sit inside a parent's body; drop the divider once opened */
+.accordion .accordion-item-body > .accordion-sublist > .accordion-item.active {
+  border-bottom: none;
 }
 
 .accordion p {
@@ -86,17 +92,17 @@
   display: none;
 }
 
-.accordion li.active .accordion-item-label-detail {
+.accordion .accordion-item.active > .accordion-item-label .accordion-item-label-detail {
   display: inline;
 }
 
 /* active title keeps the teal (source does not recolor on expand) */
-.accordion li.active .accordion-item-label {
+.accordion .accordion-item.active > .accordion-item-label {
   color: var(--link-color);
 }
 
-.accordion li.active .accordion-item-label strong,
-.accordion li.active .accordion-item-label b {
+.accordion .accordion-item.active > .accordion-item-label strong,
+.accordion .accordion-item.active > .accordion-item-label b {
   color: var(--link-color);
 }
 
@@ -141,7 +147,7 @@
   border-color: #fff;
 }
 
-.accordion li.active .accordion-item-label::after {
+.accordion .accordion-item.active > .accordion-item-label::after {
   transform: rotate(-135deg) translate(-2px, -2px);
 }
 
@@ -150,7 +156,7 @@
   display: none;
 }
 
-.accordion li.active .accordion-item-body {
+.accordion .accordion-item.active > .accordion-item-body {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -233,7 +239,7 @@
 
 /* tablet+ (source uses Bootstrap 768px breakpoint) */
 @media (width >= 768px) {
-  .accordion > ul > li {
+  .accordion .accordion-item {
     padding-bottom: 32px;
     margin-top: 32px;
   }
