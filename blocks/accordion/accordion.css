@@ -36,8 +36,8 @@
   margin-top: 24px;
 }
 
-/* nested accordions sit inside a parent's body; drop the divider once opened */
-.accordion .accordion-item-body > .accordion-sublist > .accordion-item.active {
+/* nested (child) accordions sit inside a parent's body — no divider, open or closed */
+.accordion .accordion-item-body > .accordion-sublist > .accordion-item {
   border-bottom: none;
 }
 
