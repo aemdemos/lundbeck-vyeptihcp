@@ -414,6 +414,7 @@ main .columns.teal p:not(.button-wrapper) {
 
 main .columns.teal .button-wrapper {
   margin: 0;
+  line-height: 0; /* collapse the inline-block button's line-box descent */
 }
 
 /* On the teal background, the CTA renders as the contrasting rose pill
@@ -427,8 +428,11 @@ main .columns.teal a.button:not(.secondary):focus {
   color: var(--background-color);
 }
 
-/* Match the source CTA: uppercase label, wider pill (source ≈ 345×56px). */
+/* Match the source CTA: uppercase label, wider pill (source ≈ 345×56px).
+   margin:0 drops the global button margin so the box height matches the
+   source (the 40px heading-to-button gap is set on the heading). */
 main .columns.teal a.button {
+  margin: 0;
   padding: var(--columns-teal-button-padding);
   text-transform: uppercase;
 }
@@ -468,6 +472,11 @@ main .columns.teal a.button {
     gap: var(--columns-teal-gap-desktop);
     align-items: flex-start;
     text-align: left;
+  }
+
+  /* source's heading-to-button gap is 40px at desktop */
+  main .columns.teal :is(h1, h2, h3, h4, h5, h6) {
+    margin-bottom: var(--columns-teal-gap-desktop);
   }
 
   /* text column sized to the source's ≈567px, not flex-filled */
