@@ -423,12 +423,19 @@ main .columns.teal .button-wrapper {
 /* On the teal background, the CTA renders as the contrasting rose pill
    (mirrors the section.dark button-remap precedent so a filled button stays
    legible on a colored box). Outline/secondary buttons keep their own style. */
-main .columns.teal a.button:not(.secondary),
-main .columns.teal a.button:not(.secondary):hover,
-main .columns.teal a.button:not(.secondary):focus {
+main .columns.teal a.button:not(.secondary) {
   background-color: var(--brand-secondary);
   border-color: var(--brand-secondary);
   color: var(--background-color);
+}
+
+/* Hover/focus inverts the pill to match the source CTA: white fill, rose text
+   and rose border. */
+main .columns.teal a.button:not(.secondary):hover,
+main .columns.teal a.button:not(.secondary):focus {
+  background-color: var(--background-color);
+  border-color: var(--brand-secondary);
+  color: var(--brand-secondary);
 }
 
 /* Match the source CTA: uppercase label, wider pill (source ≈ 345×56px).
