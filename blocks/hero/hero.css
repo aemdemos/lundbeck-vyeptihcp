@@ -493,9 +493,8 @@ main .section.single-dark .hero p {
   }
 
   .section.single-light .hero, .section.single-dark .hero {
-    height: 336px;
-}
-
+    /* height: 336px;*/
+  }
   /* Source sits at left: 25% (measured stable at 1600/1920/2560px) vs our 18%
      (set at >=992px, line 486) — shift the content block right to match, plus
      a further 10px nudge per direct request. */
