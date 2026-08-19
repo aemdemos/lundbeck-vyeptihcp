@@ -1,0 +1,158 @@
+/* ---- Tablist / triggers --------------------------------------------------
+   Mobile-first: base rules render the "fake select" — only the active tab
+   shows, styled as a closed dropdown trigger with a chevron; tapping it
+   reveals the full stacked list (`.is-open`). Tablet+ (768px) reverts to a
+   normal always-visible tab row; desktop+ (992px) adds the hover state. */
+
+.tabs-dropdown .tabs-dropdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 100%;
+  margin: 0; 
+  padding: 0;
+  overflow: hidden;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.tabs-dropdown .tabs-dropdown-list button.tabs-dropdown-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+  padding: 12px 17px 12px 16px;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--link-color);
+  color: rgb(255 255 255 / 70%);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: normal;
+  cursor: pointer;
+  transition: background-color var(--transition-duration, 0.2s), color var(--transition-duration, 0.2s);
+}
+
+.tabs-dropdown .tabs-dropdown-list button.tabs-dropdown-tab p {
+  margin: 0;
+}
+
+/* Only the active trigger shows until the list is opened. */
+.tabs-dropdown .tabs-dropdown-list:not(.is-open) button.tabs-dropdown-tab:not([aria-selected='true']) {
+  display: none;
+}
+
+/* The active row is always bright; every other row (visible once the list is open)
+   is dimmed — matches source, where this split holds whether the list is open or
+   closed (the closed trigger, being the active row, is always bright). */
+.tabs-dropdown .tabs-dropdown-list button.tabs-dropdown-tab[aria-selected='true'] {
+  color: #fff;
+}
+
+/* Chevron, closed: shown on the (only visible) active trigger, pointing down
+   (accordion.css's border-drawn arrow technique, reused for a consistent CSS-only icon). */
+.tabs-dropdown .tabs-dropdown-list:not(.is-open) button.tabs-dropdown-tab[aria-selected='true']::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  width: 8px;
+  height: 8px;
+  margin-top: -6px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Chevron, open: pinned to the physically-first row (matches source), pointing up —
+   regardless of which row is active. */
+.tabs-dropdown .tabs-dropdown-list.is-open button.tabs-dropdown-tab:first-child::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  width: 8px;
+  height: 8px;
+  margin-top: -2px;
+  border: solid rgb(255 255 255 / 70%);
+  border-width: 0 2px 2px 0;
+  transform: rotate(225deg);
+  transition: transform 0.2s ease-in-out;
+}
+
+.tabs-dropdown .tabs-dropdown-list.is-open button.tabs-dropdown-tab:first-child[aria-selected='true']::after {
+  border-color: #fff;
+}
+
+/* ---- Panel -------------------------------------------------------------- */
+
+.tabs-dropdown .tabs-dropdown-panel {
+  margin-top: 0;
+  padding: 24px 0 0;
+  border: 0;
+  overflow: visible;
+  color: var(--text-color);
+}
+
+.tabs-dropdown .tabs-dropdown-panel[aria-hidden='true'] {
+  display: none;
+}
+
+.tabs-dropdown .tabs-dropdown-panel > div {
+  padding: 0;
+}
+
+/* Tablet+ */
+@media (width >= 768px) {
+  .tabs-dropdown .tabs-dropdown-list {
+    flex-flow: row wrap;
+    gap: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    background-color: rgb(223 233 241);
+  }
+
+  .tabs-dropdown .tabs-dropdown-list:not(.is-open) button.tabs-dropdown-tab:not([aria-selected='true']) {
+    display: flex;
+  }
+
+  .tabs-dropdown .tabs-dropdown-list button.tabs-dropdown-tab {
+    flex: 1 1 0;
+    justify-content: center;
+    width: auto;
+    padding: 8px;
+    border-bottom: 0;
+    background-color: transparent;
+    color: rgb(65 116 141 / 70%); /* --link-color @ 70% */
+    text-align: center;
+  }
+
+  .tabs-dropdown .tabs-dropdown-list button.tabs-dropdown-tab[aria-selected='true'] {
+    background-color: var(--link-color);
+    color: #fff;
+    cursor: default;
+  }
+
+  .tabs-dropdown .tabs-dropdown-list button.tabs-dropdown-tab::after {
+    display: none;
+  }
+}
+
+/* Desktop+ */
+@media (width >= 992px) {
+  .tabs-dropdown .tabs-dropdown-list button.tabs-dropdown-tab {
+    line-height: 40px;
+  }
+
+  .tabs-dropdown .tabs-dropdown-list button.tabs-dropdown-tab:hover {
+    background-color: var(--link-color);
+    color: #fff;
+  }
+}

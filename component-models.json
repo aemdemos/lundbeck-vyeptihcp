@@ -850,6 +850,26 @@
     ]
   },
   {
+    "id": "tabs-dropdown-item",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "name",
+        "value": "name",
+        "valueType": "string",
+        "label": "Tab Name",
+        "required": true
+      },
+      {
+        "component": "richtext",
+        "name": "content",
+        "value": "content",
+        "label": "Content",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
     "id": "tabs-item",
     "fields": [
       {
