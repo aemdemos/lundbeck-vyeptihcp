@@ -136,11 +136,11 @@ main .bicolor-box-stat-unit {
   vertical-align: super;
 }
 
-main .bicolor-box-stat-description {
+main .bicolor-box-header .bicolor-box-stat-description {
   margin: 0 0 16px;
   color: var(--background-color);
   font-weight: 700;
-  font-size: var(--body-font-size-ms);
+  font-size: var(--bicolor-box-stat-description-font-size);
 }
 
 main .bicolor-box-stat-description sup {
