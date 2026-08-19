@@ -160,7 +160,7 @@ main .bicolor-box.stat-box .bicolor-box-body {
   text-align: center;
 }
 
-@media (width >= 600px) {
+@media (width >= 768px) {
   main .bicolor-box-body {
     padding: 14px 32px 32px;
   }
@@ -175,7 +175,7 @@ main .bicolor-box.stat-box .bicolor-box-body {
   }
 }
 
-@media (width >= 900px) {
+@media (width >= 992px) {
   main .bicolor-box.stat-box .bicolor-box-header {
     flex-flow: row wrap;
     align-items: center;
