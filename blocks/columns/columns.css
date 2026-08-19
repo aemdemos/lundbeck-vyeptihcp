@@ -384,6 +384,14 @@ main .columns.teal {
   color: var(--background-color);
 }
 
+/* The generic .columns-wrapper adds a 16px horizontal margin on top of the
+   section's 16px padding, caging the box to ~32px gutters. The source box
+   sits at ~15px gutters, so drop the wrapper's side margin for the teal box
+   (mobile only — desktop centers it in a wide section). */
+main .columns-wrapper:has(> .columns.teal) {
+  margin-inline: 0;
+}
+
 main .columns.teal > div {
   gap: var(--columns-teal-gap);
   align-items: center;
@@ -417,6 +425,7 @@ main .columns.teal p:not(.button-wrapper) {
 
 main .columns.teal .button-wrapper {
   margin: 0;
+  width: 100%;
   line-height: 0; /* collapse the inline-block button's line-box descent */
 }
 
@@ -438,12 +447,17 @@ main .columns.teal a.button:not(.secondary):focus {
   color: var(--brand-secondary);
 }
 
-/* Match the source CTA: uppercase label, wider pill (source ≈ 345×56px).
+/* Match the source CTA: uppercase label.
    margin:0 drops the global button margin so the box height matches the
-   source (the 40px heading-to-button gap is set on the heading). */
+   source (the 40px heading-to-button gap is set on the heading).
+   Mobile: the pill stretches to the full content width (source is a
+   full-width block button, flush with the heading edges); desktop reverts
+   to an auto-width pill with the wider 60px inline padding. */
 main .columns.teal a.button {
+  display: block;
+  width: 100%;
   margin: 0;
-  padding: var(--columns-teal-button-padding);
+  padding: 16px 14px;
   text-transform: uppercase;
 }
 
@@ -484,14 +498,28 @@ main .columns.teal a.button {
     text-align: left;
   }
 
-  /* source's heading-to-button gap is 40px at desktop */
-  main .columns.teal :is(h1, h2, h3, h4, h5, h6) {
+  /* source's heading-to-button gap is 40px at desktop; heading is 26px there */
+  main .columns.teal :is(h1, h2, h3, h4, h5, h6),
+  main .columns.teal p:not(.button-wrapper) {
     margin-bottom: var(--columns-teal-gap-desktop);
+    font-size: var(--columns-teal-text-size-desktop);
   }
 
   /* text column sized to the source's ≈567px, not flex-filled */
   main .columns.teal > div > div:last-child {
     flex: 0 1 var(--columns-teal-text-max-width);
+  }
+
+  /* desktop CTA reverts to an auto-width pill (source ≈ 345×56px) with the
+     wider 60px inline padding, no longer stretched full-width */
+  main .columns.teal .button-wrapper {
+    width: auto;
+  }
+
+  main .columns.teal a.button {
+    display: inline-block;
+    width: auto;
+    padding: var(--columns-teal-button-padding);
   }
 
   .columns.divider.columns-2-cols > div {

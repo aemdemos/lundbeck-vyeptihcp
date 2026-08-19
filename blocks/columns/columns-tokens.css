@@ -20,12 +20,13 @@
   /* teal variant — solid teal callout box (image + heading + CTA) */
   --columns-teal-bg: var(--brand-teal-muted); /* #41748d */
   --columns-teal-radius: 20px;
-  --columns-teal-padding: 32px;
+  --columns-teal-padding: 20px 15px; /* mobile: source content inset ≈ 20px/15px */
   --columns-teal-padding-desktop: 36px 50px;
   --columns-teal-gap: 20px;
   --columns-teal-gap-desktop: 40px;
   --columns-teal-img-width: 195px;
-  --columns-teal-text-size: 26px;
+  --columns-teal-text-size: 24px; /* mobile heading size in source */
+  --columns-teal-text-size-desktop: 26px;
   --columns-teal-text-line-height: 32px; /* fixed px in source, not a ratio */
   --columns-teal-text-max-width: 570px; /* source text column ≈ 567px */
   --columns-teal-button-padding: 16px 60px; /* source CTA ≈ 345×56px */
