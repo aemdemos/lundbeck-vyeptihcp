@@ -1,6 +1,6 @@
 /* Header design tokens — everything header.css consumes resolves to a token here. */
 :root {
-  /* Feeds --header-height (used by modal sizing) — approximates real per-breakpoint header height. */
+  /* Feeds --header-height (used by modal sizing) — approximates the mobile header height. */
   --nav-height: 352px;
 
   /* ---- color roles (reference global brand/semantic tokens) ---- */
@@ -214,23 +214,4 @@
 
   /* Must match header.css's @media (width >= 992px) and header.js's matchMedia call. */
   --header-mobile-breakpoint: 992px;
-}
-
-/* Per-tier --nav-height; boundaries match header.css's own @media rules (600/992/1200). */
-@media (width >= 600px) {
-  :root {
-    --nav-height: 310px;
-  }
-}
-
-@media (width >= 992px) {
-  :root {
-    --nav-height: 338px;
-  }
-}
-
-@media (width >= 1200px) {
-  :root {
-    --nav-height: 303px;
-  }
 }
