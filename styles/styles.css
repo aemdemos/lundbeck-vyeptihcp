@@ -317,21 +317,18 @@ h2, .size-h2 {
 
 h3, .size-h3 {
   font-size: var(--heading-font-size-l);
-  font-weight: var(--font-weight-bold);
   line-height: 1.2;
   color: var(--brand-primary-dark);
 }
 
 h4, .size-h4 {
   font-size: var(--heading-font-size-m);
-  font-weight: var(--font-weight-bold);
   line-height: 1.22;
   color: var(--brand-primary-dark);
 }
 
 h5, .size-h5 { /* @libs */
   font-size: var(--heading-font-size-s); /* @libs */
-  font-weight: var(--font-weight-bold); /* @libs */
   line-height: 1.22; /* @libs */
   color: var(--brand-primary-dark); /* @libs */
 }
@@ -339,6 +336,11 @@ h5, .size-h5 { /* @libs */
 h6, .size-h6 { /* @libs */
   font-size: var(--heading-font-size-xs); /* @libs */
   font-weight: var(--font-weight-bold); /* @libs */
+}
+
+strong,
+b {
+  font-weight: var(--font-weight-bold);
 }
 
 p,
