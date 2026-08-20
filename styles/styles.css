@@ -796,7 +796,7 @@ main > .section.page-title {
    plus one closing the set — drawn as the top border of the section that follows
    the last group. (EDS reserves <hr> for section breaks, so the rule can't be
    authored as content.) Scoped to those sections so nothing else is affected. */
-main .section:has(.columns.resource-list) {
+main .section.divider {
   border-bottom: 1px solid #a4a4a4;
   padding-bottom: 16px;
 }
