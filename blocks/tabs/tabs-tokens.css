@@ -9,10 +9,10 @@
   --tabs-blockquote-bg: #e5f2f5;
   --tabs-blockquote-color: var(--link-color);
   --tabs-blockquote-padding: 16px;
-  --tabs-blockquote-font-size: 16px;
-  --tabs-blockquote-line-height: 20px;
-  --tabs-blockquote-stat-font-size: 34px;
-  --tabs-blockquote-stat-line-height: 34px;
+  --tabs-blockquote-font-size: 23px;
+  --tabs-blockquote-line-height: 28px;
+  --tabs-blockquote-stat-font-size: 50px;
+  --tabs-blockquote-stat-line-height: 50px;
   --tabs-blockquote-width: 230px;
   --tabs-blockquote-mark-size: 56px;
   --tabs-blockquote-mark-gutter: 56px;
