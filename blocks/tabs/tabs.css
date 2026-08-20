@@ -200,9 +200,16 @@ main .section.trial-data blockquote .size-h1 {
   line-height: var(--tabs-blockquote-stat-line-height);
 }
 
-main .section.trial-data blockquote sup {
+/* footnote reference marks (¹,², *) are tiny — but NOT a % that's part of a stat */
+main .section.trial-data blockquote sup:not(.size-h1 sup, .size-h3 sup) {
   font-size: var(--tabs-blockquote-sup-font-size);
   line-height: var(--tabs-blockquote-sup-line-height);
+}
+
+/* a % inside a stat scales with the stat, not the footnote size */
+main .section.trial-data blockquote :is(.size-h1, .size-h3) sup {
+  font-size: 0.5em;
+  line-height: normal;
 }
 
 /* per-tab stat sizes (tab 1 uses the base; tabs 2-4 differ in the source).
