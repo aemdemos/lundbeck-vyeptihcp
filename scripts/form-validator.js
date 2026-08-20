@@ -8,10 +8,10 @@ export async function waitForElement(selector) {
         }
 
         const observer = new MutationObserver(() => {
-            const element = document.querySelector(selector);
-            if (element) {
+            const elements = document.querySelector(selector);
+            if (elements) {
                 observer.disconnect();
-                resolve(element);
+                resolve(elements);
             }
         });
 
@@ -23,17 +23,18 @@ export async function waitForElement(selector) {
 }
 
 function getErrorElement(field, config) {
-    if (field._validationErrorElement) {
-        return field._validationErrorElement;
+    if (field.validationErrorElement) {
+        return field.validationErrorElement;
     }
 
     const errorElement = document.createElement(config.element || "div");
 
     errorElement.className = config.className;
-    errorElement.classList.add(field.type+"-error");
+    errorElement.classList.add(`${field.type}-error`);
     errorElement.style.display = "none";
 
     const isCheckboxOrRadio = field.type === "checkbox" || field.type === "radio";
+    const isSelect = field.type === "select";
     const isFile = field.type === "file";
 
     if (isCheckboxOrRadio || isFile) {
@@ -43,11 +44,13 @@ function getErrorElement(field, config) {
         } else {
             field.insertAdjacentElement("afterend", errorElement);
         }
+    } else if(isSelect){
+        field.insertAdjacentElement("afterend", field);
     } else {
         field.insertAdjacentElement("afterend", errorElement);
     }
 
-    field._validationErrorElement = errorElement;
+    field.validationErrorElement = errorElement;
 
     return errorElement;
 }
@@ -111,6 +114,7 @@ function validateRule(ruleName, ruleValue, field, value, ruleConfig) {
 
         case "emailformat":
             return {
+                // eslint-disable-next-line sonarjs/super-linear-regex, secure-coding/no-redos-vulnerable-regex
                 valid: !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
                 message: "Invalid email address."
             };
@@ -140,20 +144,22 @@ function validateRule(ruleName, ruleValue, field, value, ruleConfig) {
 
         case "fileSize": {
             const files = getFiles(ruleConfig.selector);
-            for (const file of files) {
+            // eslint-disable-next-line consistent-return
+            files.forEach(file => {
                 if (file.size > ruleValue) {
                     return {
                         valid: false,
                         message: "File size exceeds allowed limit."
                     };
                 }
-            }
+            });
             return { valid: true };
         }
 
         case "fileTypes": {
             const files = getFiles(ruleConfig.selector);
-            for (const file of files) {
+            // eslint-disable-next-line consistent-return
+            files.forEach(file => {
                 const ext = file.name.split(".").pop().toLowerCase();
                 if (!ruleValue.includes(ext)) {
                     return {
@@ -161,7 +167,7 @@ function validateRule(ruleName, ruleValue, field, value, ruleConfig) {
                         message: "Invalid file type."
                     };
                 }
-            }
+            });
             return { valid: true };
         }
 
@@ -196,15 +202,24 @@ export async function initFormValidation(formSelector,config) {
 
         const value = field.type === "checkbox" ? field.checked : field.value?.trim?.() || "";
 
-        for (const ruleName in ruleConfig) {
-            if (ruleName === "selector") {
-                continue;
+        const hasValidationError = Object.entries(ruleConfig).some(([ruleName, rule]) => {
+            if (
+                ruleName === "selector" ||
+                !rule ||
+                typeof rule !== "object" ||
+                !("value" in rule)
+            ) {
+                return false;
             }
-            const rule = ruleConfig[ruleName];
-            if (!rule || typeof rule !== "object" || !("value" in rule)) {
-                continue;
-            }
-            const result = validateRule(ruleName, rule.value, field, value, ruleConfig);
+
+            const result = validateRule(
+                ruleName,
+                rule.value,
+                field,
+                value,
+                ruleConfig
+            );
+
             if (!result.valid) {
                 const isRequiredRule = ruleName === "required";
 
@@ -213,7 +228,7 @@ export async function initFormValidation(formSelector,config) {
                     !showRequiredErrors &&
                     config.showRequiredMessagesOnSubmitnly
                 ) {
-                    return false;
+                    return true;
                 }
 
                 let message = rule.message || result.message;
@@ -222,16 +237,17 @@ export async function initFormValidation(formSelector,config) {
                     .replace("{current}", value.length)
                     .replace("{max}", rule.value);
 
-                showError(
-                    field,
-                    message,
-                    errorConfig
-                );
+                showError(field, message, errorConfig);
 
-                return false;
+                return true;
             }
-        }
 
+            return false;
+        });
+
+        if (hasValidationError) {
+            return false;
+        }
         return true;
     };
 

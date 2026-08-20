@@ -1,7 +1,44 @@
 import { initFormValidation } from "../../scripts/form-validator.js";
-import { getFormData } from "./form-submission.js";
+import { getFormData, submitForm } from "./form-submission.js";
 
-export async function initValidationListeners() {
+export const showError = (el, msg) => {
+  let err = el.parentNode.querySelector('.form-error');
+  if (!err) {
+    err = document.createElement('div');
+    err.className = 'form-error text-error';
+    err.style.display = 'block';
+    el.after(err);
+  }
+  err.textContent = msg;
+};
+
+const hideError = (el) => el.parentNode.querySelector('.form-error')?.remove();
+
+function isAtLeastOneChecked(id1, id2) {
+  const checkbox1 = document.getElementById(id1);
+  const checkbox2 = document.getElementById(id2);
+  const response = (checkbox1?.checked || checkbox2?.checked) ?? false;
+  const input = document.querySelector('#form-registerforupdates');
+  if(response){
+    hideError(input);
+  }else{
+    showError(input, 'Please select one or more options above');
+  }
+  return response;
+}
+
+function isCaptchaCleared(){
+    // eslint-disable-next-line no-undef
+    const validResponse=grecaptcha.getResponse().length !== 0;
+    const input = document.querySelector('#g-recaptcha div');
+    if(validResponse){ hideError(input);  }else{
+        showError(input, 'Please check the box to proceed')
+    }
+    return validResponse;
+}
+
+
+export async function initValidationListeners(config) {
 
     const validator = await initFormValidation(".signup-form form", {
         showRequiredMessagesOnSubmitnly: true,
@@ -88,17 +125,18 @@ export async function initValidationListeners() {
         }
 
     });
-    // let submitValidationTriggered = false;
     document.getElementById("form-submitbtn").addEventListener("click", (event) => {
-
-//   document.addEventListener('submit',
-//     (event) => {
         event.preventDefault();
-        if (validator.validateForm()) {     
+        const formVlidated=validator.validateForm();
+        const captchaCleared=isCaptchaCleared();
+        const checkboxChedked=isAtLeastOneChecked("form-requestrep","form-registerforupdates");
+        if ( formVlidated && captchaCleared  && checkboxChedked ) {     
             console.log(" Validated");
-            console.log(getFormData());
-        } else {console.log("Not Validated");
-            
+            const formData=getFormData(config)
+            console.log(formData);
+            submitForm(formData,config);
+        } else {
+            console.log("Not Validated");
         }
     }
   );

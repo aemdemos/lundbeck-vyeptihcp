@@ -1,30 +1,16 @@
+// asdafsfdsdeslint-disable-next-line import/no-cycle
 import { initValidationListeners } from "./validations.js";
+// import { config } from "./config.js";
 
-let googleMapKey;
-export default async function decorate(block) {
+ const config={};
 
-  const vyeptiHCPCode=[...block.children][2].children[1].children[0].textContent;
-  googleMapKey=[...block.children][3].children[1].children[0].textContent;
-
-  
-  try {
-    const module = await import("../form/form.js");
-    if (typeof module.default === 'function') {
-      await module.default(block);
-      fixMarkdownText();
-      // const captchaKey=
-      renderCaptcha();
-      autoPopulateAddress();
-
-      initializeRequestRepToggle();
-      initValidationListeners();
-      
-    }
-  } catch (error) {
-    console.error('Failed to load form block:',error);
-  }
-  
+function buildConfig(block) {
+  config.vyeptiHCPCode=[...block.children][2].children[1].children[0].textContent;
+  config.googleMapKey=[...block.children][3].children[1].children[0].textContent;
+  config.apiEndPoint= [...block.children][1].children[1].children[0].textContent; 
+  config.thankYouPageUrl= [...block.children][4].children[1].children[0].textContent; 
 }
+
 
 function initializeRequestRepToggle() {
   const requestRep = document.getElementById('form-requestrep');
@@ -47,9 +33,7 @@ function initializeRequestRepToggle() {
 function toggleInquiryOptions() {
   const show = requestRep.checked;
 
-  const heading = document
-    .getElementById('form-natureofinquiry')
-    ?.closest('.field-wrapper');
+  const heading = document.getElementById('form-natureofinquiry')?.closest('.field-wrapper');
 
   if (heading) {
     heading.style.display = show ? 'block' : 'none';
@@ -60,37 +44,36 @@ function toggleInquiryOptions() {
   });
 }
 
-  // Hide on initial load
   toggleInquiryOptions();
-
-  // Toggle on checkbox change
   requestRep.addEventListener('change', toggleInquiryOptions);
 }
 
-// // Handle dynamically rendered forms
-// const interval = setInterval(() => {
-//   const requestRep = document.getElementById('form-requestrep');
 
-//   if (requestRep) {
-//     clearInterval(interval);
-//     initializeRequestRepToggle();
-//   }
-// }, 300);
+function mdToHtml(str) {
+  const d = document.createElement('div');
+  const parts = str.split(']');
+  
+  return parts.map((p, i) => {
+    const b = p.split('[');
+    if (b.length < 2 || i === parts.length - 1) return p;
+    
+    const [text, url] = [b.pop(), parts[i + 1].split(')')[0].slice(1)];
+    Object.assign(d.appendChild(document.createElement('a')), { href: url, textContent: text });
+    
+    parts[i + 1] = parts[i + 1].split(')').slice(1).join(')');
+    return b.join('[') + d.innerHTML;
+  }).join('');
+}
 
 
 function fixMarkdownText() {
-
-  // document.querySelectorAll('input[required]').forEach(el => el.placeholder += '*');
-
-  //Fix Markdown Links
+  // Fix Markdown Links
   document.querySelectorAll('.plaintext-wrapper p').forEach(el => {
-    const regex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
-    if (regex.test(el.innerHTML)) {
-      el.innerHTML = el.innerHTML.replace(regex, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-    }
+    el.innerHTML = mdToHtml(el.innerHTML);
   });
 
-  //Fix Markdown Label
+
+  // Fix Markdown Label
   document.querySelectorAll('.field-wrapper label').forEach((label) => {
     if (label.dataset.labelEnhanced === 'true') {
       return;
@@ -102,16 +85,10 @@ function fixMarkdownText() {
 
     label.dataset.labelEnhanced = 'true';
     const [labelText, helperText] = label.textContent.split('|');
-    label.innerHTML = `<span class="ugc-label-text"> ${labelText}  </span><span class="ugc-label-helper"> &nbsp;${helperText} </span>`;
+    // eslint-disable-next-line browser-security/no-innerhtml
+    label.innerHTML = `<span class="sign-up-label-text"> ${labelText}  </span><span class="sign-up-label-helper"> &nbsp;${helperText} </span>`;
   });
 
-  //Fix Bold Text
-  document.querySelectorAll('.plaintext-wrapper p').forEach((el) => {
-    el.innerHTML = el.innerHTML.replace(
-      /\*\*(.*?)\*\*/g,
-      '<strong>$1</strong>',
-    );
-  });  
 }
 
 // Fuction to load the js files necessary
@@ -144,8 +121,9 @@ function loadScript(src) {
 
 async function renderCaptcha(){
   document.getElementById('form-captcha-placeholder').remove();
-  var captchaTarget = document.getElementsByClassName('g-recaptcha')[0];
-    if (captchaTarget.dataset.fieldset) {
+  const captchaTarget = document.getElementsByClassName('g-recaptcha')[0];
+  captchaTarget.id='g-recaptcha';
+  if (captchaTarget.dataset.fieldset) {
     captchaTarget.dataset.sitekey = captchaTarget.dataset.fieldset;
     delete captchaTarget.dataset.fieldset;
   }
@@ -153,61 +131,14 @@ async function renderCaptcha(){
 }
 
 async function autoPopulateAddress() {
-//   const input = document.querySelector("#form-address");
+  await loadScript(`https://maps.googleapis.com/maps/api/js?key=${config.googleMapKey}=&libraries=places`);
 
-// if (input) {
-//     input.id = "address";
-//     input.name = "address";
-//     input.autocomplete = "off";
-//     // input.placeholder = " ";
-
-//     // input.setAttribute("onfocus", "geolocate()");
-//     // input.addEventListener("focus", geolocate);
-
-//     // input.setAttribute(
-//     //     "data-gapi",
-//     //     "https://maps.googleapis.com/maps/api/js"
-//     // );
-//     input.setAttribute(
-//         "data-error",
-//         "Please enter your address"
-//     );
-//     input.setAttribute(
-//         "data-invalid-address-error",
-//         "Please enter a valid address"
-//     );
-
-//     input.setAttribute(
-//         "island_form_infra_autocomplete",
-//         "none"
-//     );
-
-//     input.setAttribute(
-//         "island_field_signature",
-//         "text|address|address|none||parsed|0|visible"
-//     );
-
-//     input.setAttribute(
-//         "aria-invalid",
-//         "false"
-//     );
-
-//     input.className =
-//         "form-control form-text pac-target-input valid";
-// }
-
-// alert(googleMapKey);
-  await loadScript(`https://maps.googleapis.com/maps/api/js?key=${googleMapKey}=&libraries=places`);
-  initAddressAutocomplete();
-}
-
-function initAddressAutocomplete() {
-  // alert("hereh");
-    const input = document.getElementById("form-address");
+  const input = document.getElementById("form-address");
     if (!input || !window.google?.maps?.places) {
         return;
     }
 
+    // eslint-disable-next-line no-undef
     const autocomplete = new google.maps.places.Autocomplete(input, {
         types: ["address"],
         fields: [
@@ -231,5 +162,41 @@ function initAddressAutocomplete() {
         // Save selected place object if needed
         input.dataset.selectedAddress = place.formatted_address;
     });
-// alert("input");
+}
+
+
+
+function selectLabel(id){
+  const specialtySelect = document.getElementById(id);
+  const specialtyLabel = document.getElementById(`${id}-label`);
+
+  specialtySelect.addEventListener('change', function() {
+    if (this.value !== "") {
+      specialtyLabel.style.visibility = 'visible';
+    }
+  });
+} 
+
+
+export default async function decorate(block) {
+
+  buildConfig(block);
+  
+  try {
+    const module = await import("../form/form.js");
+    if (typeof module.default === 'function') {
+      await module.default(block);
+      selectLabel("form-speciality");
+      selectLabel("form-state");
+      fixMarkdownText();
+      renderCaptcha();
+      autoPopulateAddress();
+      initializeRequestRepToggle();
+      initValidationListeners(config);
+      
+    }
+  } catch (error) {
+    console.error('Failed to load form block:',error);
+  }
+  
 }
