@@ -130,6 +130,9 @@
   /* ---- pill CTA padding ---- */
   --header-cta-padding: 16px 32px;
   --header-hcp-continue-padding: 6px 22px;
+
+  /* Source shrinks the CONTINUE button's padding at the >=1200px tier only. */
+  --header-hcp-continue-padding-wide: 3px 20px;
   --header-nav-link-padding: 24px 0;
 
   /* Tightened for the narrow 992-1199px tier only; --header-nav-link-gap-wide restores it at 1200px. */

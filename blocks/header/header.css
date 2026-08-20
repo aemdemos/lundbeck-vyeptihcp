@@ -1020,11 +1020,34 @@ header nav.nav-mobile-open .nav-hamburger-icon::after {
 /* WIDE (>=1200px): restore the 992-1199px tier's max-width/gap reductions once there's room to spare. */
 @media (width >= 1200px) {
   :root {
-    --header-container-max-width: var(--max-width-site);
+    /* Header-specific, matching source's own Bootstrap xl container — wider than --max-width-site. */
+    --header-container-max-width: 1140px;
+  }
+
+  header nav .nav-hcp-container {
+    padding-block: 12px;
+  }
+
+  header nav .nav-hcp-continue {
+    padding: var(--header-hcp-continue-padding-wide);
   }
 
   header nav .nav-brand-container {
     gap: var(--header-brand-gap);
+  }
+
+  header nav .nav-tools-row {
+    /* The 992px tier's own bottom padding is redundant once nav-brand-right's gap supplies the gap below. */
+    padding-bottom: 0;
+  }
+
+  header nav .nav-brand-right {
+    gap: 8px;
+  }
+
+  header nav .nav-brand {
+    /* Source nudges the logo down (not up, unlike the 992px tier) at this wider tier — reset then re-nudge. */
+    transform: translate(0, 7px);
   }
 
   header nav .nav-links-list > li {
