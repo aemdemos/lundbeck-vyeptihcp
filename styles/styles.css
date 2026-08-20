@@ -176,15 +176,6 @@
   --button-on-dark-secondary-hover-background: var(--background-color); /* @libs */
   --button-on-dark-secondary-hover-border-color: var(--background-color); /* @libs */
   --button-on-dark-secondary-hover-color: var(--brand-primary); /* @libs */
-
-  /* on colored boxes (e.g. columns.teal) — inverse of on-dark: rose fill,
-     hover swaps to a white pill with rose text/border */
-  --button-on-teal-background: var(--brand-secondary);
-  --button-on-teal-border-color: var(--brand-secondary);
-  --button-on-teal-color: var(--background-color);
-  --button-on-teal-hover-background: var(--background-color);
-  --button-on-teal-hover-border-color: var(--brand-secondary);
-  --button-on-teal-hover-color: var(--brand-secondary);
   --button-wide-width: 100%;
 
 }
@@ -920,22 +911,6 @@ main .section.dark a.button.secondary:focus { /* @libs */
   background-color: var(--button-on-dark-secondary-hover-background); /* @libs */
   border-color: var(--button-on-dark-secondary-hover-border-color); /* @libs */
   color: var(--button-on-dark-secondary-hover-color); /* @libs */
-}
-
-/* colored callout box (e.g. columns.teal) — filled buttons remap to the
-   contrasting rose pill so they stay legible on the box; outline/secondary
-   buttons keep their own style. Mirrors the .section.dark remap above. */
-main .columns.teal a.button:not(.secondary) {
-  background-color: var(--button-on-teal-background);
-  border-color: var(--button-on-teal-border-color);
-  color: var(--button-on-teal-color);
-}
-
-main .columns.teal a.button:not(.secondary):hover,
-main .columns.teal a.button:not(.secondary):focus {
-  background-color: var(--button-on-teal-hover-background);
-  border-color: var(--button-on-teal-hover-border-color);
-  color: var(--button-on-teal-hover-color);
 }
 
 main > .section.hero-tabs {

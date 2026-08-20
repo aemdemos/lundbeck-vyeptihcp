@@ -373,9 +373,9 @@ main .columns.logo-grid > div > div:last-child img {
  * teal variant — solid teal callout box: document image beside a white
  * heading + pill CTA (e.g. copay-support "Download the brochure").
  * Mobile-first: stacked & centered; image left / text right at desktop.
- * The button's on-teal color remap (rose fill / white-pill hover) lives in
- * styles.css alongside the analogous .section.dark remap — this file only
- * owns the box's layout (background, sizing, pill dimensions).
+ * Button color stays author-controlled via link formatting (bold →
+ * rose primary); this variant only guarantees legibility on the dark
+ * background, it does not hardcode the button color.
  * ──────────────────────────────────────────────────────────────── */
 main .columns.teal {
   background: var(--columns-teal-bg);
@@ -423,6 +423,24 @@ main .columns.teal .button-wrapper {
   margin: 0;
   width: 100%;
   line-height: 0; /* collapse the inline-block button's line-box descent */
+}
+
+/* On the teal background, the CTA renders as the contrasting rose pill
+   (mirrors the section.dark button-remap precedent so a filled button stays
+   legible on a colored box). Outline/secondary buttons keep their own style. */
+main .columns.teal a.button:not(.secondary) {
+  background-color: var(--brand-secondary);
+  border-color: var(--brand-secondary);
+  color: var(--background-color);
+}
+
+/* Hover/focus inverts the pill to match the source CTA: white fill, rose text
+   and rose border. */
+main .columns.teal a.button:not(.secondary):hover,
+main .columns.teal a.button:not(.secondary):focus {
+  background-color: var(--background-color);
+  border-color: var(--brand-secondary);
+  color: var(--brand-secondary);
 }
 
 /* margin:0 drops the global button margin so the box height matches the
