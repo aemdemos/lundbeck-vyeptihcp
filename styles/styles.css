@@ -217,13 +217,13 @@ body.appear { /* @libs */
 }
 
 .color-primary, .brand-primary, .teal {
-  color: var(--brand-primary);
+  color: var(--brand-primary) !important;
 
   --link-color: var(--brand-primary);
 }
 
 .color-secondary, .brand-secondary, .rose {
-  color: var(--brand-secondary);
+  color: var(--brand-secondary) !important;
 
   --link-color: var(--brand-secondary);
 }
@@ -1136,9 +1136,10 @@ main .section.banner > div:not(.bg-image) {
     }
   }
 
-  .top > div, .columns.top > div { /* only tested with Columns block */
-  align-items: stretch;
-    }
+  .top > div, .columns.top > div,
+  .cards.top > ul > li { /* only tested with Columns block */
+    align-items: stretch !important;
+  }
 
   .middle, .section.flex.middle { /* only tested with flex sections */
     align-content: center;
