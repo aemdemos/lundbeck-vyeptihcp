@@ -484,31 +484,11 @@ main .columns.teal a.button {
     order: unset; /* @boilerplate */
   }
 
-  /* teal box: image left / text right, larger padding + gap, left-aligned */
+  /* teal box (tablet): still stacked & centered like the source below 992px,
+     but with the wider box padding (source inset ≈ 50px). The image+heading
+     stay stacked here; the side-by-side row only kicks in at >=992px. */
   main .columns.teal {
     padding: var(--columns-teal-padding-desktop);
-  }
-
-  /* source centers the image+text group in the box, rather than
-     stretching text to fill — so center the row and cap the text column */
-  main .columns.teal > div {
-    flex-direction: row;
-    justify-content: center;
-    gap: var(--columns-teal-gap-desktop);
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  /* source's heading-to-button gap is 40px at desktop; heading is 26px there */
-  main .columns.teal :is(h1, h2, h3, h4, h5, h6),
-  main .columns.teal p:not(.button-wrapper) {
-    margin-bottom: var(--columns-teal-gap-desktop);
-    font-size: var(--columns-teal-text-size-desktop);
-  }
-
-  /* text column sized to the source's ≈567px, not flex-filled */
-  main .columns.teal > div > div:last-child {
-    flex: 0 1 var(--columns-teal-text-max-width);
   }
 
   /* restore the wrapper's auto side margins so the max-width box re-centers
@@ -517,10 +497,11 @@ main .columns.teal a.button {
     margin-inline: auto;
   }
 
-  /* desktop CTA reverts to an auto-width pill (source ≈ 345×56px) with the
+  /* CTA reverts to an auto-width centered pill (source ≈ 345×56px) with the
      wider 60px inline padding, no longer stretched full-width */
   main .columns.teal .button-wrapper {
     width: auto;
+    text-align: center;
   }
 
   main .columns.teal a.button {
@@ -624,6 +605,32 @@ main .columns.teal a.button {
 }
 
 @media (width >= 992px) {
+  /* teal box: source switches to image left / text right side-by-side only
+     at >=992px (stacked & centered below that). Center the image+text group,
+     cap the text column, and bump the heading to 26px. */
+  main .columns.teal > div {
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--columns-teal-gap-desktop);
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  main .columns.teal :is(h1, h2, h3, h4, h5, h6),
+  main .columns.teal p:not(.button-wrapper) {
+    margin-bottom: var(--columns-teal-gap-desktop);
+    font-size: var(--columns-teal-text-size-desktop);
+  }
+
+  main .columns.teal > div > div:last-child {
+    flex: 0 1 var(--columns-teal-text-max-width);
+  }
+
+  /* in the row layout the CTA is left-aligned under the text, not centered */
+  main .columns.teal .button-wrapper {
+    text-align: left;
+  }
+
   main .columns.jump-nav > div {
     flex-direction: row;
     border-radius: 20px;
