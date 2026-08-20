@@ -241,9 +241,27 @@ main .section.trial-data blockquote sup {
     --tabs-blockquote-sup-line-height: 4px;
     --tabs-blockquote-mark-size: 70px;
     --tabs-blockquote-width: 177px;
+    --tabs-blockquote-cut-height: 42px;
   }
 
   main .section.trial-data blockquote {
     padding: 30px 12px 10px;
+  }
+
+  /* diagonally cut the top-right corner: a page-colored triangle under the ribbon */
+  main .section.trial-data blockquote::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: var(--tabs-blockquote-mark-size);
+    height: var(--tabs-blockquote-cut-height);
+    background: var(--background-color);
+    clip-path: polygon(9% 0, 100% 0, 100% 100%);
+  }
+
+  /* keep the ribbon above the corner cut */
+  main .section.trial-data blockquote::before {
+    z-index: 1;
   }
 }
