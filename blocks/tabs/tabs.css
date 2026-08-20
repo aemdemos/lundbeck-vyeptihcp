@@ -200,6 +200,10 @@ main .section.trial-data blockquote .size-h1 {
   line-height: var(--tabs-blockquote-stat-line-height);
 }
 
+main .section.trial-data blockquote sup {
+  font-size: var(--tabs-blockquote-sup-font-size);
+}
+
 /* tablet+: narrow the callout, mark to top-right corner; font sizes stay put */
 @media (width >= 768px) {
   main .section.trial-data blockquote {
