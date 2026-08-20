@@ -16,6 +16,7 @@ header nav {
 /* Every header control is a native <button>, which inherits the global .button margin — reset it. */
 header nav button {
   margin: 0;
+  border-radius: 0;
 }
 
 header nav .nav-visually-hidden {
@@ -942,10 +943,12 @@ header nav.nav-mobile-open .nav-hamburger-icon::after {
     font-size: var(--header-font-size-s);
   }
 
-  /* Current-page indicator: underline the matching nav item or its dropdown trigger. */
-  header nav .nav-links-list > li.nav-link-current > a,
-  header nav .nav-links-list > li.nav-link-current > .nav-dropdown-trigger {
-    box-shadow: 0 2px 0 var(--header-lumi-header-bg);
+  /* Current-page indicator: underline the matching nav item (never a dropdown trigger, per source).
+     A real border, not box-shadow — box-shadow paints outside the box and gets covered by the
+     content below, which sits flush against the header's bottom edge with no gap. */
+  header nav .nav-links-list > li.nav-link-current > a {
+    padding-bottom: 18px;
+    border-bottom: 6px solid var(--link-hover-color);
   }
 
   /* Desktop dropdown chevron: rotated-square caret instead of the mobile V image, matching source's bigger/thinner caret. */

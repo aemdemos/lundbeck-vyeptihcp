@@ -217,13 +217,12 @@ function pagePath(href) {
 }
 
 // Marks the nav item matching the current page with .nav-link-current, so CSS can underline it.
+// Source never underlines a dropdown trigger, even when the active page is one of its children.
 function markCurrentPage(list) {
   const current = pagePath(window.location.href);
   [...list.children].forEach((li) => {
     const link = li.querySelector(':scope > a');
-    const subLinks = [...li.querySelectorAll('.nav-dropdown-menu a')];
-    const isCurrent = (link && pagePath(link.href) === current)
-      || subLinks.some((a) => pagePath(a.href) === current);
+    const isCurrent = link && pagePath(link.href) === current;
     if (isCurrent) li.classList.add('nav-link-current');
   });
 }
