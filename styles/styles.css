@@ -111,10 +111,12 @@
   /* CLS reservation for the multi-row VYEPTI header. Defined here (eager,
      LCP-critical CSS) so the correct space is reserved from first paint —
      the header block's own CSS loads lazily and would apply too late. Values =
-     real first-load header height (HCP bar present) per breakpoint. */
-  --header-reserve-height-mobile: 312px;
+     real first-load header height (HCP bar present) per breakpoint, remeasured
+     directly against the live header. */
+  --header-reserve-height-mobile: 288px;
   --header-reserve-height-tablet: 246px;
-  --header-reserve-height-desktop: 244px;
+  --header-reserve-height-desktop: 263px;
+  --header-reserve-height-wide: 228px;
 
   /* fixed-width / code */
   --fixed-font-family: menlo, consolas, monospace; /* @libs */
@@ -1050,6 +1052,14 @@ main .section.banner > div:not(.bg-image) {
   }
 }
 
+/* 600px (not 576/768, matching header.css's own tablet breakpoint where the
+   tool CTAs go 2-up and shrink the reserved header height) */
+@media (width >= 600px) {
+  header {
+    min-height: var(--header-reserve-height-tablet);
+  }
+}
+
 @media (width >= 768px) {
   :root {
     /* heading sizes scale up on desktop — source: typography.json responsive.desktopSizes */
@@ -1257,6 +1267,10 @@ main > .section > div:not(.bg-image) { /* @libs */
 @media (width >= 1200px) {
   :root {
     --max-width-site: 1110px;
+  }
+
+  header {
+    min-height: var(--header-reserve-height-wide);
   }
 
   main > .section.hero-tabs {
