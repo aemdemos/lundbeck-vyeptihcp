@@ -369,6 +369,94 @@ main .columns.logo-grid > div > div:last-child img {
   max-height: none;
 }
 
+/* ────────────────────────────────────────────────────────────────
+ * teal variant — solid teal callout box: document image beside a white
+ * heading + pill CTA (e.g. copay-support "Download the brochure").
+ * Mobile-first: stacked & centered; image left / text right at desktop.
+ * Button color stays author-controlled via link formatting (bold →
+ * rose primary); this variant only guarantees legibility on the dark
+ * background, it does not hardcode the button color.
+ * ──────────────────────────────────────────────────────────────── */
+main .columns.teal {
+  background: var(--columns-teal-bg);
+  border-radius: var(--columns-teal-radius);
+  padding: var(--columns-teal-padding);
+  color: var(--background-color);
+}
+
+/* The generic .columns-wrapper adds a 16px horizontal margin on top of the
+   section's 16px padding, caging the box to ~32px gutters. The source box
+   sits at ~15px gutters, so drop the wrapper's side margin for the teal box
+   (mobile only — desktop centers it in a wide section). */
+main .columns-wrapper:has(> .columns.teal) {
+  margin-inline: 0;
+}
+
+main .columns.teal > div {
+  gap: var(--columns-teal-gap);
+  align-items: center; /* centers the image column; text alignment stays author-controlled */
+  flex-direction: column;
+}
+
+main .columns.teal .columns-img-col {
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
+main .columns.teal .columns-img-col img {
+  width: var(--columns-teal-img-width);
+  height: auto;
+
+  /* clip the asset's larger baked-in corners to the source's 20px radius */
+  border-radius: var(--columns-teal-radius);
+}
+
+/* Only guarantee legibility on the dark box and the source's spacing;
+   size/weight/line-height stay author-controlled. */
+main .columns.teal :is(h1, h2, h3, h4, h5, h6),
+main .columns.teal p:not(.button-wrapper) {
+  margin: 0 0 var(--columns-teal-gap);
+  color: var(--background-color);
+}
+
+main .columns.teal .button-wrapper {
+  margin: 0;
+  width: 100%;
+  line-height: 0; /* collapse the inline-block button's line-box descent */
+}
+
+/* On the teal background, the CTA renders as the contrasting rose pill
+   (mirrors the section.dark button-remap precedent so a filled button stays
+   legible on a colored box). Outline/secondary buttons keep their own style. */
+main .columns.teal a.button:not(.secondary) {
+  background-color: var(--brand-secondary);
+  border-color: var(--brand-secondary);
+  color: var(--background-color);
+}
+
+/* Hover/focus inverts the pill to match the source CTA: white fill, rose text
+   and rose border. */
+main .columns.teal a.button:not(.secondary):hover,
+main .columns.teal a.button:not(.secondary):focus {
+  background-color: var(--background-color);
+  border-color: var(--brand-secondary);
+  color: var(--brand-secondary);
+}
+
+/* margin:0 drops the global button margin so the box height matches the
+   source (the 40px heading-to-button gap is set on the heading).
+   Mobile: the pill stretches to the full content width (source is a
+   full-width block button, flush with the heading edges); desktop reverts
+   to an auto-width pill with the wider 60px inline padding.
+   Label casing stays author-controlled (no text-transform). */
+main .columns.teal a.button {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 16px 14px;
+  text-align: center; /* center the label inside the full-width pill */
+}
+
 @media (width >= 576px) {
   main .columns.arrow-nav > div {
     max-width: 540px;
@@ -389,6 +477,32 @@ main .columns.logo-grid > div > div:last-child img {
   .columns > div > div { /* @boilerplate */
     flex: 1; /* @boilerplate */
     order: unset; /* @boilerplate */
+  }
+
+  /* teal box (tablet): still stacked & centered like the source below 992px,
+     but with the wider box padding (source inset ≈ 50px). The image+heading
+     stay stacked here; the side-by-side row only kicks in at >=992px. */
+  main .columns.teal {
+    padding: var(--columns-teal-padding-desktop);
+  }
+
+  /* restore the wrapper's auto side margins so the max-width box re-centers
+     in the wide section (the mobile rule zeroes them to kill the double gutter) */
+  main .columns-wrapper:has(> .columns.teal) {
+    margin-inline: auto;
+  }
+
+  /* CTA reverts to an auto-width centered pill (source ≈ 345×56px) with the
+     wider 60px inline padding, no longer stretched full-width */
+  main .columns.teal .button-wrapper {
+    width: auto;
+    text-align: center;
+  }
+
+  main .columns.teal a.button {
+    display: inline-block;
+    width: auto;
+    padding: var(--columns-teal-button-padding);
   }
 
   .columns.divider.columns-2-cols > div {
@@ -486,6 +600,31 @@ main .columns.logo-grid > div > div:last-child img {
 }
 
 @media (width >= 992px) {
+  /* teal box: source switches to image left / text right side-by-side only
+     at >=992px (stacked & centered below that). Center the image+text group,
+     cap the text column, and bump the heading to 26px. */
+  main .columns.teal > div {
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--columns-teal-gap-desktop);
+    align-items: flex-start;
+  }
+
+  /* desktop only widens the heading-to-button gap; size/weight stay author-controlled */
+  main .columns.teal :is(h1, h2, h3, h4, h5, h6),
+  main .columns.teal p:not(.button-wrapper) {
+    margin-bottom: var(--columns-teal-gap-desktop);
+  }
+
+  main .columns.teal > div > div:last-child {
+    flex: 0 1 var(--columns-teal-text-max-width);
+  }
+
+  /* in the row layout the CTA is left-aligned under the text, not centered */
+  main .columns.teal .button-wrapper {
+    text-align: left;
+  }
+
   main .columns.jump-nav > div {
     flex-direction: row;
     border-radius: 20px;
