@@ -21,6 +21,6 @@
   /* mobile: mark overhangs the box's left edge by half its width (blue starts at the mark's midline) */
   --tabs-blockquote-mark-overhang: 52px;
 
-  /* mobile: left inset for text = the mark's in-box portion (size − overhang) + a gap */
-  --tabs-blockquote-text-inset: 76px;
+  /* mobile: left inset for text = clears the mark's in-box portion; kept tight so the intro stays on one line */
+  --tabs-blockquote-text-inset: 60px;
 }
