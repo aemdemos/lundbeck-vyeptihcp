@@ -12,7 +12,7 @@
   --tabs-blockquote-font-size: 23px;
   --tabs-blockquote-line-height: 28px;
   --tabs-blockquote-stat-font-size: 50px;
-  --tabs-blockquote-stat-line-height: 50px;
+  --tabs-blockquote-stat-line-height: 44px;
   --tabs-blockquote-sup-font-size: 11.5px;
   --tabs-blockquote-width: 230px;
   --tabs-blockquote-mark-size: 104px;
@@ -22,5 +22,5 @@
   --tabs-blockquote-mark-overhang: 52px;
 
   /* mobile: left inset for text = clears the mark's in-box portion; kept tight so the intro stays on one line */
-  --tabs-blockquote-text-inset: 60px;
+  --tabs-blockquote-text-inset: 50px;
 }
