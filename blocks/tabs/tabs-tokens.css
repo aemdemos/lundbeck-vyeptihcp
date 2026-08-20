@@ -8,7 +8,7 @@
   /* trial-data blockquote callout */
   --tabs-blockquote-bg: #e5f2f5;
   --tabs-blockquote-color: var(--link-color);
-  --tabs-blockquote-padding: 22px;
+  --tabs-blockquote-padding: 4px;
   --tabs-blockquote-font-size: 16px;
   --tabs-blockquote-line-height: 20px;
   --tabs-blockquote-stat-font-size: 34px;
@@ -23,5 +23,5 @@
   --tabs-blockquote-mark-overhang: 38px;
 
   /* mobile: left inset for text = clears the mark's in-box portion; kept tight so the intro stays on one line */
-  --tabs-blockquote-text-inset: 38px;
+  --tabs-blockquote-text-inset: 40px;
 }
