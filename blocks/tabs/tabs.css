@@ -202,6 +202,7 @@ main .section.trial-data blockquote .size-h1 {
 
 main .section.trial-data blockquote sup {
   font-size: var(--tabs-blockquote-sup-font-size);
+  line-height: var(--tabs-blockquote-sup-line-height);
 }
 
 /* tablet+: narrow the callout, mark to top-right corner; font sizes stay put */
@@ -226,5 +227,23 @@ main .section.trial-data blockquote sup {
 
   .tabs .tabs-panel p:has(> picture) {
     text-align: center;
+  }
+}
+
+/* wide: source shrinks the callout — smaller fonts, 70px mark, narrow box */
+@media (width >= 1200px) {
+  :root {
+    --tabs-blockquote-font-size: 16px;
+    --tabs-blockquote-line-height: 20px;
+    --tabs-blockquote-stat-font-size: 35px;
+    --tabs-blockquote-stat-line-height: 35px;
+    --tabs-blockquote-sup-font-size: 8px;
+    --tabs-blockquote-sup-line-height: 4px;
+    --tabs-blockquote-mark-size: 70px;
+    --tabs-blockquote-width: 177px;
+  }
+
+  main .section.trial-data blockquote {
+    padding: 30px 12px 10px;
   }
 }
