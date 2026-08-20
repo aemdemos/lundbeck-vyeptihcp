@@ -770,7 +770,7 @@ header nav.nav-mobile-open .nav-hamburger-icon::after {
 @media (width >= 992px) {
   :root {
     /* Wider than the shared site max-width — the narrow 992-1199px tier needs the room. */
-    --header-container-max-width: 990px;
+    --header-container-max-width: 943px;
   }
 
   header nav .nav-hcp-container, header nav .nav-utility-container, header nav .nav-brand-container, header nav .nav-links-container {
@@ -788,7 +788,7 @@ header nav.nav-mobile-open .nav-hamburger-icon::after {
   }
 
   header nav .nav-utility {
-    background-color: var(--header-utility-bg);
+    background-color: var(--header-mobile-util-band-bg);
   }
 
   header nav .nav-utility-container {
@@ -853,7 +853,7 @@ header nav.nav-mobile-open .nav-hamburger-icon::after {
   header nav .nav-brand {
     /* Nudges the logo up and right of dead-center to match source's off-center placement.
        A transform (not margin) so the shift doesn't consume flex-row space or move the nav links. */
-    transform: translate(15px, -20px);
+    transform: translate(-8.5px, -20px);
   }
 
   header nav .nav-brand .nav-brand-logo-desktop {
@@ -904,28 +904,32 @@ header nav.nav-mobile-open .nav-hamburger-icon::after {
     font-size: var(--header-font-size-s);
   }
 
-  /* Nav goes horizontal; gap/font tightened here (restored at 1200px) so everything fits one line. */
+  /* Nav goes horizontal; gap/font tightened here (restored at 1200px) so everything fits one line.
+     Source's nav-links row isn't indented past the logo like the CTA row above it — it spans the
+     full container width independently, since the logo has already ended above this row's own
+     vertical position. Break out of nav-brand-right's column by the logo's own fixed rendered
+     width (134.9375px at this tier's logo height) to match. */
   header nav .nav-links-row {
     display: flex;
     align-items: center;
-    gap: var(--header-space-3xs);
-    width: auto;
+    gap: var(--header-nav-link-gap);
+    width: calc(100% + 134.9375px);
+    margin-left: -134.9375px;
     padding-bottom: 0;
   }
 
   header nav .nav-links-list {
     flex-flow: row nowrap;
     width: auto;
+
+    /* Source doesn't start the nav flush at the container edge — it's indented past the logo. */
+    margin-left: 44px;
   }
 
   header nav .nav-links-list > li {
     width: auto;
     margin-right: var(--header-nav-link-gap);
     border-bottom: 0;
-  }
-
-  header nav .nav-links-list > li:last-child {
-    margin-right: 0;
   }
 
   header nav .nav-links-list > li > a,
@@ -938,24 +942,19 @@ header nav.nav-mobile-open .nav-hamburger-icon::after {
     font-size: var(--header-font-size-s);
   }
 
-  /* Tighter text-to-chevron gap — the narrow 992-1199px tier needs every pixel. */
-  header nav .nav-dropdown-trigger {
-    gap: var(--header-space-3xs);
-  }
-
   /* Current-page indicator: underline the matching nav item or its dropdown trigger. */
   header nav .nav-links-list > li.nav-link-current > a,
   header nav .nav-links-list > li.nav-link-current > .nav-dropdown-trigger {
     box-shadow: 0 2px 0 var(--header-lumi-header-bg);
   }
 
-  /* Desktop dropdown chevron: rotated-square caret instead of the mobile V image (6px — the narrow 992-1199px tier needs every pixel). */
+  /* Desktop dropdown chevron: rotated-square caret instead of the mobile V image, matching source's bigger/thinner caret. */
   header nav .nav-links-list .nav-dropdown-trigger::after {
     top: var(--header-chevron-offset-y);
-    width: 6px;
-    height: 6px;
-    border-right: var(--header-border-width) solid currentcolor;
-    border-bottom: var(--header-border-width) solid currentcolor;
+    width: 8px;
+    height: 8px;
+    border-right: var(--header-chevron-border-width) solid currentcolor;
+    border-bottom: var(--header-chevron-border-width) solid currentcolor;
     background: none;
     transform: rotate(45deg);
   }
@@ -983,6 +982,7 @@ header nav.nav-mobile-open .nav-hamburger-icon::after {
 
   header nav .nav-lumi {
     position: relative;
+    margin-left: 0;
     margin-right: 0;
     align-self: auto;
   }
@@ -1052,5 +1052,13 @@ header nav.nav-mobile-open .nav-hamburger-icon::after {
 
   header nav .nav-links-list > li {
     margin-right: var(--header-nav-link-gap-wide);
+  }
+
+  /* The 992px tier's logo-breakout isn't needed here (this tier already fits without it) and would
+     collide with the logo, which sits lower at this wider tier — revert to the constrained width. */
+  header nav .nav-links-row {
+    width: auto;
+    margin-left: 0;
+    gap: var(--header-nav-link-gap-wide);
   }
 }

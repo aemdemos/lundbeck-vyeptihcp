@@ -15,7 +15,6 @@
   --header-mobile-hamburger-label-color: rgb(77 77 77);
   --header-mobile-logo-height: 70px;
   --header-accent-color: var(--brand-primary-dark);
-  --header-utility-bg: var(--light-color);
   --header-hcp-bg: var(--background-color);
   --header-hcp-font-size: var(--header-font-size-s);
   --header-hcp-actions-gap: 12px;
@@ -59,6 +58,9 @@
   --header-dropdown-gap: 6px;
   --header-chevron-gap: 8px;
   --header-chevron-offset-y: -2px;
+
+  /* Thinner than the shared --header-border-width (2px) — a caret this small needs a lighter stroke. */
+  --header-chevron-border-width: 1px;
   --header-brand-gap: 24px;
 
   /* Defaults to the shared site max-width; widened at the narrow 992-1199px tier only (see header.css). */
@@ -136,7 +138,7 @@
   --header-nav-link-padding: 24px 0;
 
   /* Tightened for the narrow 992-1199px tier only; --header-nav-link-gap-wide restores it at 1200px. */
-  --header-nav-link-gap: 6px;
+  --header-nav-link-gap: 12px;
   --header-nav-link-gap-wide: 20px;
   --header-dropdown-link-padding: 10px 18px;
 
