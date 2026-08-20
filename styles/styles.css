@@ -836,6 +836,11 @@ main .section.highlight { /* @libs */
   }
 }
 
+/* section metadata - wide (background bleeds full width, no side margin) */
+main .section.wide {
+  margin: 0;
+}
+
 /* section metadata - center (centers heading/body copy in the section) */
 main .section.center {
   text-align: center;
