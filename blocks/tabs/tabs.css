@@ -205,6 +205,23 @@ main .section.trial-data blockquote sup {
   line-height: var(--tabs-blockquote-sup-line-height);
 }
 
+/* per-tab stat sizes (tab 1 uses the base; tabs 2-4 differ in the source).
+   attribute selector because the JS-generated id ("tabs_0") isn't kebab-case */
+main .section.trial-data [id$='-tab-2'] blockquote .size-h1 {
+  font-size: var(--tabs-blockquote-stat-font-size-tab2);
+  line-height: var(--tabs-blockquote-stat-font-size-tab2);
+}
+
+main .section.trial-data [id$='-tab-3'] blockquote .size-h3 {
+  font-size: var(--tabs-blockquote-stat-font-size-tab3);
+  line-height: var(--tabs-blockquote-stat-font-size-tab3);
+}
+
+main .section.trial-data [id$='-tab-4'] blockquote .size-h1 {
+  font-size: var(--tabs-blockquote-stat-font-size-tab4);
+  line-height: var(--tabs-blockquote-stat-font-size-tab4);
+}
+
 /* tablet+: narrow the callout, mark to top-right corner; font sizes stay put */
 @media (width >= 768px) {
   main .section.trial-data blockquote {
