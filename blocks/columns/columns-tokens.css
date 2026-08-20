@@ -25,9 +25,6 @@
   --columns-teal-gap: 20px;
   --columns-teal-gap-desktop: 40px;
   --columns-teal-img-width: 195px;
-  --columns-teal-text-size: 24px; /* mobile heading size in source */
-  --columns-teal-text-size-desktop: 26px;
-  --columns-teal-text-line-height: 32px; /* fixed px in source, not a ratio */
   --columns-teal-text-max-width: 570px; /* source text column ≈ 567px */
   --columns-teal-button-padding: 16px 60px; /* source CTA ≈ 345×56px */
 }

@@ -394,8 +394,7 @@ main .columns-wrapper:has(> .columns.teal) {
 
 main .columns.teal > div {
   gap: var(--columns-teal-gap);
-  align-items: center; /* centers the image column; text stays left per source */
-  text-align: left;
+  align-items: center; /* centers the image column; text alignment stays author-controlled */
   flex-direction: column;
 }
 
@@ -412,15 +411,12 @@ main .columns.teal .columns-img-col img {
   border-radius: var(--columns-teal-radius);
 }
 
-/* Descriptive copy matches the source heading: 26px/32px bold white.
-   Covers both a real heading and a plain paragraph (content varies). */
+/* Only guarantee legibility on the dark box and the source's spacing;
+   size/weight/line-height stay author-controlled. */
 main .columns.teal :is(h1, h2, h3, h4, h5, h6),
 main .columns.teal p:not(.button-wrapper) {
   margin: 0 0 var(--columns-teal-gap);
   color: var(--background-color);
-  font-size: var(--columns-teal-text-size);
-  font-weight: 700;
-  line-height: var(--columns-teal-text-line-height);
 }
 
 main .columns.teal .button-wrapper {
@@ -447,19 +443,18 @@ main .columns.teal a.button:not(.secondary):focus {
   color: var(--brand-secondary);
 }
 
-/* Match the source CTA: uppercase label.
-   margin:0 drops the global button margin so the box height matches the
+/* margin:0 drops the global button margin so the box height matches the
    source (the 40px heading-to-button gap is set on the heading).
    Mobile: the pill stretches to the full content width (source is a
    full-width block button, flush with the heading edges); desktop reverts
-   to an auto-width pill with the wider 60px inline padding. */
+   to an auto-width pill with the wider 60px inline padding.
+   Label casing stays author-controlled (no text-transform). */
 main .columns.teal a.button {
   display: block;
   width: 100%;
   margin: 0;
   padding: 16px 14px;
-  text-align: center;
-  text-transform: uppercase;
+  text-align: center; /* center the label inside the full-width pill */
 }
 
 @media (width >= 576px) {
@@ -613,13 +608,12 @@ main .columns.teal a.button {
     justify-content: center;
     gap: var(--columns-teal-gap-desktop);
     align-items: flex-start;
-    text-align: left;
   }
 
+  /* desktop only widens the heading-to-button gap; size/weight stay author-controlled */
   main .columns.teal :is(h1, h2, h3, h4, h5, h6),
   main .columns.teal p:not(.button-wrapper) {
     margin-bottom: var(--columns-teal-gap-desktop);
-    font-size: var(--columns-teal-text-size-desktop);
   }
 
   main .columns.teal > div > div:last-child {
