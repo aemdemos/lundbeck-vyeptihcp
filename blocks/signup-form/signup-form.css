@@ -37,6 +37,27 @@
   color: #333;
 }
 
+/* Error visible */
+.field-wrapper.text-wrapper:has(.form-error[style*="display: block"]) label {
+  top: 36%;
+}
+
+/* Error hidden */
+.field-wrapper.text-wrapper:has(.form-error[style*="display: none"]) label {
+/* top: 5%; */
+}
+
+.field-wrapper.text-wrapper:has(.form-error[style*="display: block"]) #form-email-label {
+top: 2%;
+}
+
+/* Error + Empty Email */
+.field-wrapper.text-wrapper:has(.form-error[style*="display: block"]):has(input:placeholder-shown) #form-email-label {
+ top: 36%;
+}
+
+
+
 .select-wrapper {
   position: relative;
   margin: 20px 0;
@@ -85,9 +106,8 @@
 .select-wrapper label {
   position: absolute;
   left: 12px;
-  top: 30%;
+  top: 20%;
   transform: translateY(-50%);
-  font-weight: bold;
   font-size: var(--body-font-size-s);
   color: #999;
   pointer-events: none;
@@ -516,6 +536,24 @@ select{
 /* DESKTOP */
 
 @media (width >= 992px) {
+  /* .text-wrapper:has(input:focus) label,
+.text-wrapper:has(input:not(:placeholder-shown)) label {
+  top: 7px;
+  transform: translateY(-20px);
+  font-size: 12px;
+  font-weight: normal;
+  color: #333;
+} */
+
+/* Error visible */
+/* .field-wrapper.text-wrapper:has(.form-error[style*="display: block"]) label {
+  top: 36%;
+} */
+
+  .field-wrapper.text-wrapper:has(.form-error[style*="display: block"]):has(input:placeholder-shown) label {
+  /* top: 2%; */
+  }
+
   .select-wrapper:has(select#form-state):has(.form-error[style*="display" i][style*="none" i])::after {
     bottom: 0;
   }
@@ -528,6 +566,12 @@ select{
   .field-wrapper:has(#form-city):has(.form-error[style*="display: block"])
   + .field-wrapper:has(#form-state)::after {
     bottom: 19px;
+  }
+
+  
+  .field-wrapper:has(#form-city):has(.form-error[style*="display: none"])
+  + .field-wrapper:has(#form-state)::after {
+    bottom: 24px;
   }
 
   #form-lastname + .form-error{
