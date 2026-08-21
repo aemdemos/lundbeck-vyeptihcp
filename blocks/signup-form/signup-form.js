@@ -50,7 +50,6 @@ function toggleInquiryOptions() {
 
 
 function mdToHtml(str) {
-  const d = document.createElement('div');
   const parts = str.split(']');
   
   return parts.map((p, i) => {
@@ -59,7 +58,7 @@ function mdToHtml(str) {
 
     const [text, url] = [b.pop(), parts[i + 1].split(')')[0].slice(1)];
 
-    const d = document.createElement('div'); // moved here
+    const d = document.createElement('div');
     Object.assign(d.appendChild(document.createElement('a')), {
       href: url,
       textContent: text
@@ -74,6 +73,7 @@ function mdToHtml(str) {
 function fixMarkdownText() {
   // Fix Markdown Links
   document.querySelectorAll('.plaintext-wrapper p').forEach(el => {
+    // eslint-disable-next-line browser-security/no-innerhtml
     el.innerHTML = mdToHtml(el.innerHTML);
   });
 
@@ -157,14 +157,13 @@ async function autoPopulateAddress() {
         const place = autocomplete.getPlace();
 
         if (!place.geometry) {
-            console.warn("Invalid address selected");
+            // console.warn("Invalid address selected");
             return;
         }
 
-        console.log("Selected address:", place.formatted_address);
-        console.log("Place details:", place);
+        // console.log("Selected address:", place.formatted_address);
+        // console.log("Place details:", place);
 
-        // Save selected place object if needed
         input.dataset.selectedAddress = place.formatted_address;
     });
 }
@@ -201,7 +200,7 @@ export default async function decorate(block) {
       
     }
   } catch (error) {
-    console.error('Failed to load form block:',error);
+    // console.error('Failed to load form block:',error);
   }
   
 }

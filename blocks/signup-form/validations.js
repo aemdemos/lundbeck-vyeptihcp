@@ -131,12 +131,10 @@ export async function initValidationListeners(config) {
         const captchaCleared=isCaptchaCleared();
         const checkboxChedked=isAtLeastOneChecked("form-requestrep","form-registerforupdates");
         if ( formVlidated && captchaCleared  && checkboxChedked ) {     
-            console.log(" Validated");
             const formData=getFormData(config)
-            console.log(formData);
             submitForm(formData,config);
         } else {
-            console.log("Not Validated");
+            // console.log("Not Validated");
         }
     }
   );
