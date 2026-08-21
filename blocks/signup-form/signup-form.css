@@ -247,21 +247,22 @@ select{
 /* CUSTOM SELECT */
 
 .select-wrapper::after {
-  content: "v";
+  content: "";
   position: absolute;
-  right: 18px;
-  bottom: 0;
+  right: 20px;
+  top: 0;
   width: 54px;
   height: 54px;
   background: #4f7d9d;
-  color: var(--background-color);
   border-radius: 0 8px 8px 0;
+  pointer-events: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: none;
-  font-size: var(--body-font-size-m);
+  background: #4f7d9d url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat center center;
+  background-size: 70%;
 }
+
 
 /* INTEREST BOX */
 
@@ -554,14 +555,18 @@ select{
   /* top: 2%; */
   }
 
-  .select-wrapper:has(select#form-state):has(.form-error[style*="display" i][style*="none" i])::after {
+  /* .select-wrapper:has(select#form-state):has(.form-error[style*="display" i][style*="none" i])::after {
     bottom: 0;
   }
 
   .select-wrapper:has(select#form-state):has(.form-error)::after {
     bottom: 24px;
-  }
+  } */
 
+  .field-wrapper:has(#form-city):has(.form-error[style*="display: block"])
+select:invalid::after {
+    bottom: 24px;
+}
 
   .field-wrapper:has(#form-city):has(.form-error[style*="display: block"])
   + .field-wrapper:has(#form-state)::after {

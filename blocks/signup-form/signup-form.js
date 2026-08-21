@@ -56,10 +56,15 @@ function mdToHtml(str) {
   return parts.map((p, i) => {
     const b = p.split('[');
     if (b.length < 2 || i === parts.length - 1) return p;
-    
+
     const [text, url] = [b.pop(), parts[i + 1].split(')')[0].slice(1)];
-    Object.assign(d.appendChild(document.createElement('a')), { href: url, textContent: text });
-    
+
+    const d = document.createElement('div'); // moved here
+    Object.assign(d.appendChild(document.createElement('a')), {
+      href: url,
+      textContent: text
+    });
+
     parts[i + 1] = parts[i + 1].split(')').slice(1).join(')');
     return b.join('[') + d.innerHTML;
   }).join('');
