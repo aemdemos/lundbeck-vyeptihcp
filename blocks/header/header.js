@@ -299,7 +299,7 @@ function buildLumi(section) {
   actions.className = 'nav-lumi-popup-actions';
   popupLinks.forEach((a) => {
     const btn = a.cloneNode(true);
-    btn.className = 'nav-lumi-popup-btn';
+    btn.className = 'nav-lumi-popup-btn11';
     actions.append(btn);
   });
   popup.append(header, actions);
