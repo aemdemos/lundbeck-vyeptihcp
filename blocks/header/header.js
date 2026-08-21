@@ -1,5 +1,6 @@
 import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
+import { initializeLumi } from '../../scripts/lumi-assistant-widget.js';
 
 const SESSION_HCP_DISMISSED = 'vyepti-hcp-bar-dismissed';
 
@@ -262,7 +263,7 @@ function buildLumi(section) {
   const avatarImg = contentRoot.querySelector('p img');
   if (!avatarImg) return null;
   // p[0]=avatar image, p[1]=button label, p[2]=popup title.
-  const labelText = 'LuMi AI Assistant11';
+  const labelText = paragraphs[1] ? paragraphs[1].textContent.trim() : 'LuMi AI Assistant';
   const popupTitle = paragraphs[2] ? paragraphs[2].textContent.trim() : '';
   const popupLinks = [...contentRoot.querySelectorAll(':scope > ul > li > a')];
 
@@ -299,9 +300,26 @@ function buildLumi(section) {
   actions.className = 'nav-lumi-popup-actions';
   popupLinks.forEach((a) => {
     const btn = a.cloneNode(true);
-    btn.className = 'nav-lumi-popup-btn11';
+    btn.className = 'nav-lumi-popup-btn';
     actions.append(btn);
   });
+
+  const startChat = actions.querySelector(
+    '.nav-lumi-popup-btn'
+  );
+
+  if (startChat) {
+    startChat.addEventListener('click', (e) => {
+      e.preventDefault();
+      close();
+      const lumi = window.lumiAssistantWidget;
+
+      if (lumi) {
+        lumi.startChatting();
+      }
+    });
+  }
+
   popup.append(header, actions);
   wrapper.append(popup);
 
@@ -381,6 +399,7 @@ function decorateBrandBand(brandSection, navLinksSection, lumiSection) {
 
 // Loads and decorates the header block.
 export default async function decorate(block) {
+  initializeLumi();
   const navMeta = getMetadata('nav');
   // Local serves the nav fragment under /content; DA/EDS production serves it at /nav.
   const candidates = [];
