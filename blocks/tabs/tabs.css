@@ -262,12 +262,9 @@ main .section.trial-data [id$='-tab-4'] blockquote .size-h2 {
 /* wide: source shrinks the callout — smaller fonts, 70px mark, narrow box */
 @media (width >= 1200px) {
   :root {
-    --tabs-blockquote-font-size: 16px;
-    --tabs-blockquote-line-height: 20px;
+    /* only values that differ from the base; unchanged tokens (body 16/20, sup 8/4) inherit */
     --tabs-blockquote-stat-font-size: 35px;
     --tabs-blockquote-stat-line-height: 35px;
-    --tabs-blockquote-sup-font-size: 8px;
-    --tabs-blockquote-sup-line-height: 4px;
     --tabs-blockquote-mark-size: 70px;
     --tabs-blockquote-width: 177px;
     --tabs-blockquote-cut-height: 42px;
