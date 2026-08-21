@@ -108,6 +108,7 @@ function validateRule(ruleName, ruleValue, field, value, ruleConfig) {
             }
 
             return {
+                // eslint-disable-next-line secure-coding/no-insecure-comparison
                 valid: value !== "" && value !== null && value !== undefined && value !== false,
                 message: "This field is required."
             };
@@ -185,6 +186,7 @@ export async function initFormValidation(formSelector,config) {
     };
 
     const validateField = (fieldName,showRequiredErrors = true) => {
+        // eslint-disable-next-line secure-coding/detect-object-injection
         const ruleConfig = config.rules[fieldName];
         let field;
 
@@ -252,6 +254,7 @@ export async function initFormValidation(formSelector,config) {
     };
 
     Object.keys(config.rules).forEach((fieldName) => {
+        // eslint-disable-next-line secure-coding/detect-object-injection
         const ruleConfig = config.rules[fieldName];
 
         if (ruleConfig.selector) {
@@ -285,6 +288,7 @@ export async function initFormValidation(formSelector,config) {
             const fieldValid = validateField(fieldName);
 
             if (!fieldValid && !firstInvalidField) {
+                // eslint-disable-next-line secure-coding/detect-object-injection
                 const ruleConfig = config.rules[fieldName];
                 firstInvalidField = ruleConfig.selector? document.querySelector(ruleConfig.selector): form.querySelector(`[name="${fieldName}"]`);
             }

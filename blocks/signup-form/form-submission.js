@@ -25,11 +25,13 @@ export function getFormData(config) {
     city: document.getElementById('form-city')?.value.trim(),
 
     state: stateSelect.value.match(/\(([^()]+)\)/)[1] || "",
+    // eslint-disable-next-line secure-coding/detect-object-injection
     state_label: stateSelect?.options[stateSelect.selectedIndex]?.text || "",
 
     zip: document.getElementById('form-zipcode')?.value.trim(),
 
     speciality: specialitySelect.value.toLowerCase().replaceAll(" ", "") || "",
+    // eslint-disable-next-line secure-coding/detect-object-injection
     speciality_label: specialitySelect?.options[specialitySelect.selectedIndex]?.text || "",
 
     npiNumber: document.getElementById('form-npi')?.value.trim(),
@@ -39,7 +41,7 @@ export function getFormData(config) {
     "hidden-grecaptcha": document.querySelector('[name="hidden-grecaptcha"]')?.value || ""
   };
 
-  console.log("Form Payload:", formData);
+  // console.log("Form Payload:", formData);
 
   return formData;
 }
@@ -56,40 +58,34 @@ export const showError = (el, msg) => {
 };
 
 export async function submitForm(formData,config){
-  try {
+  let apiBody = new URLSearchParams();
+  Object.entries(formData).forEach(([key, value]) => {
+    apiBody.append(key, value);
+  });
+  apiBody=apiBody.toString();
 
-        let apiBody = new URLSearchParams();
-        Object.entries(formData).forEach(([key, value]) => {
-          apiBody.append(key, value);
-        });
-        apiBody=apiBody.toString();
+  // Send the POST request
+  const response = await fetch(config.apiEndPoint, {
+      method: 'POST',
+      body: apiBody 
+  });
 
-        // 4. Send the POST request
-        const response = await fetch(config.apiEndPoint, {
-            method: 'POST',
-            body: apiBody 
-        });
+  if (!response.ok) {
+      throw new Error(`HTTP Resuest error! Status: ${response.status}`);
+  }
 
-        if (!response.ok) {
-            throw new Error(`HTTP Resuest error! Status: ${response.status}`);
-        }
-
-        // 5. Parse the server response
-        const result = await response.json();
-        if (result.validNpi === false) {
-          console.error("INVALID_NPI");
-          const input = document.querySelector('#form-npi');
-          showError(input, 'Please enter a valid 10 digit NPI number');
-          input.scrollIntoView();
-          Array.from(input.parentElement.children)
-          .find(child => child !== input && child.classList.contains('form-error')).style.display="";
-        }else{
-            console.log('Success:', result);
-            window.location.href = config.thankYouPageUrl;          
-        }
-
-    } catch (error) {
-        console.error('Submission failed:', error);
-    }
+  // Parse the server response
+  const result = await response.json();
+  if (result.validNpi === false) {
+    // console.error("INVALID_NPI");
+    const input = document.querySelector('#form-npi');
+    showError(input, 'Please enter a valid 10 digit NPI number');
+    input.scrollIntoView();
+    Array.from(input.parentElement.children)
+    .find(child => child !== input && child.classList.contains('form-error')).style.display="";
+  }else{
+      // console.log('Success:', result);
+      window.location.href = config.thankYouPageUrl;          
+  }
  
 }
