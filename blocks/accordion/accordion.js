@@ -58,6 +58,7 @@ export default function decorate(block) {
     const depth = cells.findIndex((cell) => !isEmpty(cell));
     if (depth === -1) return;
 
+    // eslint-disable-next-line secure-coding/detect-object-injection -- `depth` is a bounded array index from findIndex(), not an untrusted string key; no prototype pollution risk
     const li = buildAccordionItem(row, cells[depth], cells[depth + 1]);
     const parentItem = depth > 0 ? lastItemAtDepth.get(depth - 1) : null;
     const parentBody = parentItem?.querySelector(':scope > .accordion-item-body');

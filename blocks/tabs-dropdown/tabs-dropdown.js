@@ -136,6 +136,7 @@ function activateTab(block, tablist, index, { updateHash = true } = {}) {
 
   if (updateHash) {
     const { slug } = buttons[index].dataset;
+    // eslint-disable-next-line secure-coding/no-insecure-comparison -- comparing the public URL hash fragment to a tab slug, not a secret
     if (slug && window.location.hash !== `#${slug}`) {
       window.history.pushState(null, '', `#${slug}`);
     }
@@ -192,6 +193,7 @@ export default async function decorate(block) {
 
   const buttons = [...tablist.querySelectorAll(':scope > button.tabs-dropdown-tab')];
   const hashSlug = window.location.hash.slice(1);
+  // eslint-disable-next-line secure-coding/no-insecure-comparison -- matching the public URL hash fragment against a tab slug, not a secret
   const deepLinkIndex = buttons.findIndex((btn) => btn.dataset.slug === hashSlug);
   activateTab(block, tablist, deepLinkIndex !== -1 ? deepLinkIndex : 0, { updateHash: false });
 }
