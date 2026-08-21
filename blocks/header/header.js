@@ -290,10 +290,11 @@ function buildLumi(section) {
 
   const trigger = document.createElement('button');
   trigger.type = 'button';
-  trigger.className = 'nav-lumi-button';
+  trigger.className = 'nav-lumi-button lumi-assistant-button';
+  trigger.id = 'lumi-assistant-btn'; // Add matching ID
   trigger.setAttribute('aria-expanded', 'false');
   const avatar = document.createElement('span');
-  avatar.className = 'nav-lumi-avatar';
+  avatar.className = 'lumi-avatar nav-lumi-avatar';
   avatar.append(avatarImg.cloneNode(true));
   const label = document.createElement('span');
   label.className = 'nav-lumi-label';
