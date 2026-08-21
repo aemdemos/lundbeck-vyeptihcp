@@ -1,6 +1,5 @@
 import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
-import { initializeLumi } from '../../scripts/lumi-assistant-widget.js';
 
 const SESSION_HCP_DISMISSED = 'vyepti-hcp-bar-dismissed';
 
@@ -255,6 +254,25 @@ function buildNavLinksList(section) {
   return list;
 }
 
+function initializeLumi() {
+  return new Promise((resolve) => {
+    if (window.lumiAssistantWidget) {
+      resolve(window.lumiAssistantWidget);
+      return;
+    }
+
+    const script = document.createElement('script');
+
+    script.src = '../../scripts/lumi-assistant-widget.js';
+
+    script.onload = () => {
+      resolve(window.lumiAssistantWidget);
+    };
+
+    document.head.appendChild(script);
+  });
+}
+
 // Builds the LuMi AI Assistant widget: avatar + label toggling a popup, content-first from the fragment.
 function buildLumi(section) {
   if (!section) return null;
@@ -309,14 +327,11 @@ function buildLumi(section) {
   );
 
   if (startChat) {
-    startChat.addEventListener('click', (e) => {
+    startChat.addEventListener('click', async (e) => {
       e.preventDefault();
       close();
-      const lumi = window.lumiAssistantWidget;
-
-      if (lumi) {
-        lumi.startChatting();
-      }
+      const lumi = await initializeLumi();
+      lumi?.startChatting?.();
     });
   }
 
@@ -327,6 +342,8 @@ function buildLumi(section) {
   trigger.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
+
+    initializeLumi();
     const open = trigger.getAttribute('aria-expanded') === 'true';
     trigger.setAttribute('aria-expanded', open ? 'false' : 'true');
   });
@@ -399,7 +416,6 @@ function decorateBrandBand(brandSection, navLinksSection, lumiSection) {
 
 // Loads and decorates the header block.
 export default async function decorate(block) {
-  initializeLumi();
   const navMeta = getMetadata('nav');
   // Local serves the nav fragment under /content; DA/EDS production serves it at /nav.
   const candidates = [];
