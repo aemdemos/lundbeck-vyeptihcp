@@ -262,7 +262,7 @@ function buildLumi(section) {
   const avatarImg = contentRoot.querySelector('p img');
   if (!avatarImg) return null;
   // p[0]=avatar image, p[1]=button label, p[2]=popup title.
-  const labelText = paragraphs[1] ? paragraphs[1].textContent.trim() : 'LuMi AI Assistant';
+  const labelText = 'LuMi AI Assistant11';
   const popupTitle = paragraphs[2] ? paragraphs[2].textContent.trim() : '';
   const popupLinks = [...contentRoot.querySelectorAll(':scope > ul > li > a')];
 
