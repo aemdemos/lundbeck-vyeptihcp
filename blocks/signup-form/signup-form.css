@@ -38,7 +38,7 @@
 }
 
 /* Error visible */
-.field-wrapper.text-wrapper:has(.form-error[style*="display: block"]) label {
+.field-wrapper.text-wrapper:has(.form-error[style*="display: block"]):not(:has(input:focus)) label {
   top: 36%;
 }
 
@@ -47,12 +47,12 @@
 /* top: 5%; */
 }
 
-.field-wrapper.text-wrapper:has(.form-error[style*="display: block"]) #form-email-label {
+.field-wrapper.text-wrapper:has(.form-error[style*="display: block"]):not(:has(input:focus)) #form-email-label {
 top: 2%;
 }
 
 /* Error + Empty Email */
-.field-wrapper.text-wrapper:has(.form-error[style*="display: block"]):has(input:placeholder-shown) #form-email-label {
+.field-wrapper.text-wrapper:has(.form-error[style*="display: block"]):has(input:placeholder-shown):not(:has(input:focus)) #form-email-label {
  top: 36%;
 }
 
