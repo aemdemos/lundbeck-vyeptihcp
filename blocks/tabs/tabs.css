@@ -159,6 +159,96 @@
   padding-bottom: 12px;
 }
 
+/* trial-data blockquote → teal-on-light-blue stat callout (styling only, no positioning) */
+main .section.trial-data blockquote {
+  position: relative;
+
+  /* mobile: inset the box so the mark overhangs its left edge (blue starts at the mark's midline) */
+  margin: 16px 0 0 var(--tabs-blockquote-mark-overhang);
+
+  /* reserve just enough left inset to clear the mark's in-box portion */
+  padding: var(--tabs-blockquote-padding) var(--tabs-blockquote-padding)
+    var(--tabs-blockquote-padding) var(--tabs-blockquote-text-inset);
+  background-color: var(--tabs-blockquote-bg);
+  color: var(--tabs-blockquote-color);
+  font-size: var(--tabs-blockquote-font-size);
+  line-height: var(--tabs-blockquote-line-height);
+  text-align: left;
+}
+
+/* decorative brand ribbon — top-left on mobile, overhanging the box edge */
+main .section.trial-data blockquote::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: calc(var(--tabs-blockquote-mark-overhang) * -1);
+  width: var(--tabs-blockquote-mark-size);
+  height: var(--tabs-blockquote-mark-size);
+  background: url('/icons/callout-mark.svg') no-repeat center / contain;
+}
+
+main .section.trial-data blockquote p {
+  margin: 0;
+  font-size: var(--tabs-blockquote-font-size);
+  line-height: var(--tabs-blockquote-line-height);
+  color: var(--tabs-blockquote-color);
+}
+
+main .section.trial-data blockquote .size-h1 {
+  color: var(--tabs-blockquote-color);
+  font-size: var(--tabs-blockquote-stat-font-size);
+  line-height: var(--tabs-blockquote-stat-line-height);
+}
+
+/* footnote reference marks (¹,², *) are tiny — but NOT a % that's part of a stat */
+main .section.trial-data blockquote sup:not(.size-h1 sup, .size-h3 sup) {
+  font-size: var(--tabs-blockquote-sup-font-size);
+  line-height: var(--tabs-blockquote-sup-line-height);
+}
+
+/* a % inside a stat scales with the stat, not the footnote size */
+main .section.trial-data blockquote :is(.size-h1, .size-h3) sup {
+  font-size: 0.5em;
+  line-height: normal;
+}
+
+/* per-tab stat sizes (tab 1 uses the base; tabs 2-4 differ in the source).
+   attribute selector because the JS-generated id ("tabs_0") isn't kebab-case */
+main .section.trial-data [id$='-tab-2'] blockquote .size-h1 {
+  font-size: var(--tabs-blockquote-stat-font-size-tab2);
+  line-height: var(--tabs-blockquote-stat-font-size-tab2);
+}
+
+main .section.trial-data [id$='-tab-3'] blockquote .size-h3 {
+  font-size: var(--tabs-blockquote-stat-font-size-tab3);
+  line-height: var(--tabs-blockquote-stat-font-size-tab3);
+}
+
+main .section.trial-data [id$='-tab-4'] blockquote .size-h1 {
+  font-size: var(--tabs-blockquote-stat-font-size-tab4);
+  line-height: var(--tabs-blockquote-stat-font-size-tab4);
+}
+
+main .section.trial-data [id$='-tab-4'] blockquote .size-h2 {
+  font-size: var(--tabs-blockquote-stat-font-size-tab4-h2);
+  line-height: var(--tabs-blockquote-stat-font-size-tab4-h2);
+}
+
+/* tablet+: narrow the callout, mark to top-right corner; font sizes stay put */
+@media (width >= 768px) {
+  main .section.trial-data blockquote {
+    max-width: var(--tabs-blockquote-width);
+    margin: 16px 0 0;
+    padding: var(--tabs-blockquote-mark-gutter) var(--tabs-blockquote-padding)
+      var(--tabs-blockquote-padding);
+  }
+
+  main .section.trial-data blockquote::before {
+    right: 0;
+    left: auto;
+  }
+}
+
 @media (width >= 992px) {
   .tabs .tabs-panel picture img {
     max-width: 466px;
@@ -166,5 +256,49 @@
 
   .tabs .tabs-panel p:has(> picture) {
     text-align: center;
+  }
+}
+
+/* wide: source shrinks the callout — smaller fonts, 70px mark, narrow box */
+@media (width >= 1200px) {
+  :root {
+    /* only values that differ from the base; unchanged tokens (body 16/20, sup 8/4) inherit */
+    --tabs-blockquote-stat-font-size: 35px;
+    --tabs-blockquote-stat-line-height: 35px;
+    --tabs-blockquote-mark-size: 70px;
+    --tabs-blockquote-width: 177px;
+    --tabs-blockquote-cut-height: 42px;
+
+    /* tabs 2 & 4 use larger stat + text at this width */
+    --tabs-blockquote-stat-font-size-tab2: 50px;
+    --tabs-blockquote-stat-font-size-tab4: 50px;
+    --tabs-blockquote-tab24-font-size: 18px;
+  }
+
+  main .section.trial-data blockquote {
+    padding: 30px 12px 10px;
+  }
+
+  /* tabs 2 & 4: 18px body text (tab 1 stays base, tab 3 unchanged) */
+  main .section.trial-data [id$='-tab-2'] blockquote p,
+  main .section.trial-data [id$='-tab-4'] blockquote p {
+    font-size: var(--tabs-blockquote-tab24-font-size);
+  }
+
+  /* diagonally cut the top-right corner: a page-colored triangle under the ribbon */
+  main .section.trial-data blockquote::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: var(--tabs-blockquote-mark-size);
+    height: var(--tabs-blockquote-cut-height);
+    background: var(--background-color);
+    clip-path: polygon(9% 0, 100% 0, 100% 100%);
+  }
+
+  /* keep the ribbon above the corner cut */
+  main .section.trial-data blockquote::before {
+    z-index: 1;
   }
 }
