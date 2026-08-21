@@ -287,7 +287,7 @@
             if (currentScript && currentScript.src) {
                 try {
                     const url = new URL(currentScript.src);
-                    scriptUrl = `${url.origin}/parent-window-link-handler.js`;
+                    scriptUrl = `https://lumichat.norta.ai/parent-window-link-handler.js`;
                 } catch (e) {
                     this.debugLog('Could not parse script URL, using default:', e);
                 }
@@ -2893,6 +2893,38 @@
             }
             this.cookieBannerObserverInitialized = true;
 
+            const observeCookieBanner = () => {
+        const banner = this.findCookieBanner();
+        const overlay = this.findCookieOverlay();
+        if (!banner) {
+            const retryCount = observeCookieBanner.retryCount || 0;
+            if (retryCount < 10) {
+                observeCookieBanner.retryCount = retryCount + 1;
+                setTimeout(observeCookieBanner, 500);
+            } else {
+                startCookieBannerPolling();
+            }
+            return;
+        }
+
+        if (this.cookieBannerMutationObserver) this.cookieBannerMutationObserver.disconnect();
+        this.cookieBannerMutationObserver = new MutationObserver(() => evaluateCookieBannerState());
+        this.cookieBannerMutationObserver.observe(banner, {
+            attributes: true,
+            attributeFilter: ['class', 'style', 'aria-hidden']
+        });
+
+        if (overlay) {
+            if (this.cookieBannerOverlayObserver) this.cookieBannerOverlayObserver.disconnect();
+            this.cookieBannerOverlayObserver = new MutationObserver(() => evaluateCookieBannerState());
+            this.cookieBannerOverlayObserver.observe(overlay, {
+                attributes: true,
+                attributeFilter: ['class', 'style', 'aria-hidden']
+            });
+        }
+        evaluateCookieBannerState();
+    };
+
             this.cookieBannerState = {
                 active: false,
                 landingWasVisible: false,
@@ -3237,55 +3269,55 @@
 
             this.debugLog('Tab visibility handler set up - avatar session will continue running in background');
 
-            const observeCookieBanner = () => {
-                const banner = this.findCookieBanner();
-                const overlay = this.findCookieOverlay();
+            // const observeCookieBanner = () => {
+            //     const banner = this.findCookieBanner();
+            //     const overlay = this.findCookieOverlay();
 
-                if (!banner) {
-                    const retryCount = observeCookieBanner.retryCount || 0;
-                    if (retryCount < 10) {
-                        observeCookieBanner.retryCount = retryCount + 1;
-                        setTimeout(observeCookieBanner, 500);
-                    } else {
-                        this.debugLog('Cookie banner not found after 10 attempts, using polling fallback');
-                        startCookieBannerPolling();
-                    }
-                    return;
-                }
+            //     if (!banner) {
+            //         const retryCount = observeCookieBanner.retryCount || 0;
+            //         if (retryCount < 10) {
+            //             observeCookieBanner.retryCount = retryCount + 1;
+            //             setTimeout(observeCookieBanner, 500);
+            //         } else {
+            //             this.debugLog('Cookie banner not found after 10 attempts, using polling fallback');
+            //             startCookieBannerPolling();
+            //         }
+            //         return;
+            //     }
 
-                if (this.cookieBannerMutationObserver) {
-                    this.cookieBannerMutationObserver.disconnect();
-                }
-                this.cookieBannerMutationObserver = new MutationObserver(() => {
-                    evaluateCookieBannerState();
-                });
-                this.cookieBannerMutationObserver.observe(banner, {
-                    attributes: true,
-                    attributeFilter: ['class', 'style', 'aria-hidden']
-                });
+            //     if (this.cookieBannerMutationObserver) {
+            //         this.cookieBannerMutationObserver.disconnect();
+            //     }
+            //     this.cookieBannerMutationObserver = new MutationObserver(() => {
+            //         evaluateCookieBannerState();
+            //     });
+            //     this.cookieBannerMutationObserver.observe(banner, {
+            //         attributes: true,
+            //         attributeFilter: ['class', 'style', 'aria-hidden']
+            //     });
 
-                if (overlay) {
-                    if (this.cookieBannerOverlayObserver) {
-                        this.cookieBannerOverlayObserver.disconnect();
-                    }
-                    this.cookieBannerOverlayObserver = new MutationObserver(() => {
-                        evaluateCookieBannerState();
-                    });
-                    this.cookieBannerOverlayObserver.observe(overlay, {
-                        attributes: true,
-                        attributeFilter: ['class', 'style', 'aria-hidden']
-                    });
-                }
+            //     if (overlay) {
+            //         if (this.cookieBannerOverlayObserver) {
+            //             this.cookieBannerOverlayObserver.disconnect();
+            //         }
+            //         this.cookieBannerOverlayObserver = new MutationObserver(() => {
+            //             evaluateCookieBannerState();
+            //         });
+            //         this.cookieBannerOverlayObserver.observe(overlay, {
+            //             attributes: true,
+            //             attributeFilter: ['class', 'style', 'aria-hidden']
+            //         });
+            //     }
 
-                evaluateCookieBannerState();
-            };
+            //     evaluateCookieBannerState();
+            // };
 
             if (!this.cookieBannerResizeHandler) {
                 this.cookieBannerResizeHandler = () => evaluateCookieBannerState();
                 window.addEventListener('resize', this.cookieBannerResizeHandler, { passive: true });
             }
 
-            observeCookieBanner();
+            // observeCookieBanner();
         }
 
         createWidget() {
