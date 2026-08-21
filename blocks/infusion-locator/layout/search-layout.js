@@ -1,0 +1,34 @@
+import  { createDropdown } from "../dropdown.js";
+
+function removeRadiusField(form) {
+    form.querySelector('#form-radius')?.remove();
+    form.querySelector('#form-radius-label')?.remove();
+}
+
+export default function createSearch(block, form) {
+    const search = document.createElement('div');
+    search.className = 'locator-search';
+
+    const mileBlock = document.createElement('div');
+
+    createDropdown(block, mileBlock);
+
+    removeRadiusField(form);
+
+    const searchFields = [
+        form.querySelector('#form-zipcode')?.closest('.field-wrapper'),
+        mileBlock,
+        form.querySelector('#form-zipcodesubmit')?.closest('.field-wrapper'),
+    ];
+
+    form.querySelector('#form-zipcodesubmit-label').remove();
+
+    searchFields.forEach((field) => {
+        if (field) {
+            search.append(field);
+        }
+    });
+
+    return search;
+}
+
