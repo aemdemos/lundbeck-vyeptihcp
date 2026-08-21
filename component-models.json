@@ -556,6 +556,20 @@
         "label": "Author (optional)",
         "valueType": "string",
         "description": "Use italics for [cite] tag"
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Headshot (optional)",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Headshot Alt",
+        "multi": false
       }
     ]
   },
@@ -832,6 +846,26 @@
         "name": "table",
         "value": "",
         "label": "Table Content"
+      }
+    ]
+  },
+  {
+    "id": "tabs-dropdown-item",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "name",
+        "value": "name",
+        "valueType": "string",
+        "label": "Tab Name",
+        "required": true
+      },
+      {
+        "component": "richtext",
+        "name": "content",
+        "value": "content",
+        "label": "Content",
+        "valueType": "string"
       }
     ]
   },

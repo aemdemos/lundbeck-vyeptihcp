@@ -120,15 +120,54 @@ export function getBrightcoveIds(url) {
 }
 
 /**
- * Loads the Brightcove player script for the given account and player.
- * The script is only injected once per account/player combination.
+ * Builds a Brightcove <video-js> element for the given ids. Brightcove's player script
+ * (see {@link getBrightcoveScriptTag}) only auto-initializes <video-js> elements present
+ * the first time it runs, so this element's id is passed back to that script so it can be
+ * initialized explicitly too — needed when the script was already loaded for an earlier player.
+ * @param {{accountId: string, playerId: string, videoId: string}} ids
+ * @param {Object} [options]
+ * @param {boolean} [options.autoplay=false]
+ * @param {boolean} [options.playsinline=false] Inline playback on mobile Safari
+ * @param {boolean} [options.fluid=false] Responsive sizing handled by the player's own JS
+ * @param {boolean} [options.background=false] Ambient mode: loop + muted instead of controls
+ * @returns {HTMLElement}
+ */
+export function createBrightcovePlayer({ accountId, playerId, videoId }, options = {}) {
+  const {
+    autoplay = false, playsinline = false, fluid = false, background = false,
+  } = options;
+  const player = document.createElement('video-js');
+  player.id = `bc-${accountId}-${videoId}`;
+  player.setAttribute('data-account', accountId);
+  player.setAttribute('data-player', playerId);
+  player.setAttribute('data-embed', 'default');
+  player.setAttribute('data-video-id', videoId);
+  if (playsinline) player.setAttribute('playsinline', '');
+  if (autoplay) player.setAttribute('autoplay', '');
+  if (background) {
+    player.setAttribute('loop', '');
+    player.setAttribute('muted', '');
+  } else {
+    player.setAttribute('controls', '');
+  }
+  if (fluid) player.classList.add('vjs-fluid');
+  return player;
+}
+
+/**
+ * Loads the Brightcove player script for the given account and player, then explicitly
+ * initializes videoEl. The script is only injected once per account/player combination
+ * (loadScript resolves immediately for an already-loaded src), so the explicit init is what
+ * makes it safe to add more <video-js> elements for the same account/player after the fact.
  * @param {string} accountId The Brightcove account id
  * @param {string} playerId The Brightcove player id
- * @returns {Promise} Resolves when the player script has loaded
+ * @param {HTMLElement} videoEl The <video-js> element to initialize
+ * @returns {Promise<void>}
  */
-export function getBrightcoveScriptTag(accountId, playerId) {
+export async function getBrightcoveScriptTag(accountId, playerId, videoEl) {
   const src = `https://players.brightcove.net/${accountId}/${playerId}_default/index.min.js`;
-  return loadScript(src, { async: '' });
+  await loadScript(src, { async: '' });
+  if (window.bc) window.bc(videoEl);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -178,6 +217,30 @@ function findWrappingLink(el, root) {
     node = node.parentElement;
   }
   return null;
+}
+
+/**
+ * True if `node` is a whitespace-only text node (insignificant between authored elements).
+ * @param {Node} node
+ * @returns {boolean}
+ */
+function isWhitespaceTextNode(node) {
+  return node.nodeType === Node.TEXT_NODE && node.textContent.trim() === '';
+}
+
+/**
+ * True if `node` renders only an image: a bare `<picture>`/`<img>`, or a wrapper
+ * (e.g. `<p>`, `<a>`) containing nothing else but whitespace.
+ * @param {Node} node
+ * @returns {boolean}
+ */
+function isImageOnlyNode(node) {
+  if (node.nodeType !== Node.ELEMENT_NODE) return false;
+  if (node.matches('picture, img')) return true;
+  if (!node.querySelector('picture, img')) return false;
+  return [...node.childNodes].every(
+    (child) => isWhitespaceTextNode(child) || isImageOnlyNode(child),
+  );
 }
 
 /**
@@ -270,7 +333,9 @@ export function createArtDirectionPicture(sources, eager) {
  */
 
 /**
- * Builds a fragment for a block image cell: pass-through (no images), `createOptimizedPicture` (one image), or art-direction picture (2–5).
+ * Builds a fragment for a block image cell, preserving non-image content in place. Each
+ * contiguous run of images (whitespace between them is fine) becomes one picture —
+ * `createOptimizedPicture` (one image) or art-direction (2–5); other content passes through.
  * @param {HTMLElement} cell
  * @param {BuildPictureCellOptions} [options]
  * @returns {DocumentFragment}
@@ -282,30 +347,46 @@ export function buildPictureContentFromImageCell(cell, options = {}) {
     singlePictureBreakpoints = DEFAULT_BLOCK_SINGLE_PICTURE_BREAKPOINTS,
   } = options;
 
-  const sources = collectBlockCellImageSources(cell);
   const frag = document.createDocumentFragment();
+  const children = [...cell.childNodes];
+  let i = 0;
 
-  if (sources.length === 0) {
-    frag.append(...cell.childNodes);
-    return frag;
-  }
+  while (i < children.length) {
+    if (!isImageOnlyNode(children[i])) {
+      frag.append(children[i]);
+      i += 1;
+    } else {
+      // gather images adjacent to this one (whitespace allowed between)
+      const run = document.createElement('div');
+      run.append(children[i]);
+      let j = i + 1;
+      while (j < children.length
+        && (isWhitespaceTextNode(children[j]) || isImageOnlyNode(children[j]))) {
+        run.append(children[j]);
+        j += 1;
+      }
 
-  const picture = sources.length === 1
-    ? createOptimizedPicture(
-      sources[0].src,
-      sources[0].alt,
-      eagerSingle,
-      singlePictureBreakpoints,
-    )
-    : createArtDirectionPicture(sources, eagerArtDirection);
+      const sources = collectBlockCellImageSources(run);
+      const picture = sources.length === 1
+        ? createOptimizedPicture(
+          sources[0].src,
+          sources[0].alt,
+          eagerSingle,
+          singlePictureBreakpoints,
+        )
+        : createArtDirectionPicture(sources, eagerArtDirection);
 
-  const { link } = sources[0];
-  if (link) {
-    const anchor = link.cloneNode(false);
-    anchor.append(picture);
-    frag.append(anchor);
-  } else {
-    frag.append(picture);
+      const { link } = sources[0];
+      if (link) {
+        const anchor = link.cloneNode(false);
+        anchor.append(picture);
+        frag.append(anchor);
+      } else {
+        frag.append(picture);
+      }
+
+      i = j;
+    }
   }
 
   return frag;
