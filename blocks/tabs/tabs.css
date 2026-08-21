@@ -229,6 +229,11 @@ main .section.trial-data [id$='-tab-4'] blockquote .size-h1 {
   line-height: var(--tabs-blockquote-stat-font-size-tab4);
 }
 
+main .section.trial-data [id$='-tab-4'] blockquote .size-h2 {
+  font-size: var(--tabs-blockquote-stat-font-size-tab4-h2);
+  line-height: var(--tabs-blockquote-stat-font-size-tab4-h2);
+}
+
 /* tablet+: narrow the callout, mark to top-right corner; font sizes stay put */
 @media (width >= 768px) {
   main .section.trial-data blockquote {
