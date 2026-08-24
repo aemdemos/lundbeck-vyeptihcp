@@ -263,13 +263,9 @@ main > .section > .columns-wrapper:has(> .columns.icon-feature) {
 
 main .columns.icon-feature > div {
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   gap: 16px;
   text-align: left;
-}
-
-main .columns.icon-feature.align-center > div {
-  align-items: center;
 }
 
 main .columns.icon-feature > div > .columns-img-col {
