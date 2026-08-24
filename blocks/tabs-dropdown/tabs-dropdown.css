@@ -315,6 +315,7 @@ main .section.trial-data .tabs-dropdown-panel:nth-child(5) blockquote {
 @media (width >= 1200px) {
   main .section.trial-data blockquote {
     padding: 30px 12px 10px;
+    margin-top: 30px;
   }
 
   /* tabs 2 & 4: 18px body text (tab 1 stays base, tab 3 unchanged) */
@@ -339,6 +340,10 @@ main .section.trial-data .tabs-dropdown-panel:nth-child(5) blockquote {
   main .section.trial-data blockquote::before {
     z-index: 1;
   }
+
+  main .section.trial-data .trial-data-stat-pair .trial-data-stat-pair-picture {
+    width: calc(60% - 42px - var(--tabs-blockquote-width));
+}
 }
 
 /* Wide+ */

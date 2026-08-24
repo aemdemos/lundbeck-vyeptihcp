@@ -49,8 +49,9 @@
       --tabs-blockquote-mark-size: 70px;
       --tabs-blockquote-width: 177px;
       --tabs-blockquote-cut-height: 42px;
-      --tabs-blockquote-height-tab3: 252px;
-      --tabs-blockquote-height-tab4: 276px;
+      --tabs-blockquote-height-tab2: 260px;
+      --tabs-blockquote-height-tab3: 288px;
+      --tabs-blockquote-height-tab4: 288px;
   
       /* tabs 2 & 4 use larger stat + text at this width */
       --tabs-blockquote-stat-font-size-tab2: 50px;
