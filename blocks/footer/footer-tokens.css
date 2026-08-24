@@ -91,6 +91,8 @@
   /* right column (column 2) */
   --footer-right-width: 33.3333%; /* desktop 1/3 split (source col-sm-4) */
 
+  --footer-columns-inner-padding-desktop: 15px 0; /* left inset aligns legal copy with the links row */
+
   /* ---- divider-column gutters (Onfi 2-col row) -----------------------
      asymmetric gutters so the vertical rule lands at the 2/3 split:
      15px on the legal side, 40px on the logo side; 15px outer each edge. */
@@ -106,7 +108,7 @@
   --footer-logo-width: 140px; /* natural aspect (height auto) */
   --footer-logo-width-mobile: 150px; /* cap the bare-picture logo to source size */
   --footer-social-row-gap: 4px; /* gap between social icons */
-  --footer-logo-social-gap: 26px; /* gap below logo, down to the social row */
+  --footer-logo-social-gap: 20px; /* gap below logo, down to the social row */
 
   /* logo left offset within its column (source: ~71px from the column content
      edge — left-aligned with an extra indent rather than centred) */
@@ -219,6 +221,9 @@ footer .footer .columns.divider img {
     --footer-legal-margin-bottom: var(--footer-legal-margin-bottom-desktop);
     --footer-linkbar-padding: 30px 0 0;
     --footer-linkbar-inner-padding: 30px 150px 23px 15px; /* left matches vyeptihcp.com (was 0) */
+
+    --footer-social-row-gap: 8px; /* desktop icon gaps (source) */
+    --footer-logo-social-gap: 31px; /* renders ~40px below the logo (source) */
   }
 
   /* [LIBS GAP] footer.css lays the desktop links out as inline-block <p>s, so

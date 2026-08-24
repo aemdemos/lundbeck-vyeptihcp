@@ -185,11 +185,9 @@ footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):nt
   opacity: 0.6;
 }
 
-/* Site extension — Vyepti logo column is a bare <picture> + a
-   ul.icon-bullets of social SVGs; the <p>-based rules above don't match it. */
+/* Site extension: Vyepti logo column is a bare <picture> + ul.icon-bullets. */
 
-/* link section: flex column with a 24px gap; each link a 24px-tall block
-   (reset to the boilerplate's inline-block row at >=768px, below) */
+/* mobile link section: stacked column (reset to inline row at >=768px) */
 footer .footer .section:first-child .default-content-wrapper {
   display: flex;
   flex-direction: column;
@@ -209,7 +207,7 @@ footer .footer .columns > div > .columns-img-col {
   order: 1;
 }
 
-/* cap the bare-picture logo to source size (was rendering at intrinsic width) */
+/* cap the bare-picture logo to source size */
 footer .footer .columns > div > div > picture img {
   width: var(--footer-logo-width-mobile);
   height: auto;
@@ -221,8 +219,7 @@ footer .footer .columns > div > div > picture {
   margin-bottom: var(--footer-logo-social-gap);
 }
 
-/* social icons: horizontal row, left-aligned under the logo
-   (global icon-bullet rules are main-scoped) */
+/* social icons: horizontal row, left-aligned under the logo */
 footer .footer .columns ul.icon-bullets {
   display: flex;
   flex: 100%;
@@ -335,4 +332,13 @@ footer .footer .columns ul.icon-bullets a:hover {
     order: 3; /* @boilerplate */
     margin-top: var(--footer-social-row-margin-top); /* @boilerplate */
   } /* @boilerplate */
+
+  /* Site extension (desktop): right-align social row under the logo, inset legal copy */
+  footer .footer .columns ul.icon-bullets {
+    justify-content: flex-end;
+  }
+
+  footer .footer .columns-container > * {
+    padding-inline: var(--footer-columns-inner-padding-desktop);
+  }
 } /* @boilerplate */
