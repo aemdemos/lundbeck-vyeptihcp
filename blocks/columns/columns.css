@@ -257,30 +257,32 @@ main .columns.icon-feature {
   gap: 24px;
 }
 
+main > .section > .columns-wrapper:has(> .columns.icon-feature) {
+  margin-bottom: 0;
+}
+
 main .columns.icon-feature > div {
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
   text-align: left;
 }
 
-main .columns.icon-feature img {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: var(--card-bg-light);
-  padding: 12px;
-  object-fit: contain;
+main .columns.icon-feature > div > .columns-img-col {
+  flex: 0 0 80px;
 }
 
-main .columns.icon-feature > div > div:last-child p {
-  margin: 4px 0;
-  font-weight: 700;
+main .columns.icon-feature > div > div:last-child :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+}
+
+main .columns.icon-feature > div > div:last-child > :first-child {
+  margin-top: 0;
 }
 
 main .columns.icon-feature > div > div:last-child ul {
   margin: 0;
   padding-left: 18px;
-  font-size: 14px;
-  font-weight: 400;
 }
 
 /* icon-feature.callout — magenta rounded band, white circular icon */
@@ -671,12 +673,6 @@ main .columns.teal a.button {
 
   main .columns.jump-nav a {
     font-size: 18px;
-  }
-
-  main .columns.icon-feature {
-    flex-flow: row wrap;
-    justify-content: center;
-    gap: 48px;
   }
 
   main .columns.icon-feature.callout {
