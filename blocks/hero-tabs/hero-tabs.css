@@ -98,13 +98,14 @@
   line-height: 28px;
 }
 
-/* Subtitle line under the h2. */
+/* Subtitle line under the h2. 
 .hero-tabs .tabs-panel h2 + p {
   margin: 4px 0 0;
   font-size: 18px;
   font-weight: 700;
   color: var(--text-color);
 }
+  */
 
 .hero-tabs .tabs-panel h3 {
   margin: 16px 0 8px;
@@ -115,10 +116,12 @@
 }
 
 .hero-tabs .tabs-panel p {
-  margin: 8px 0 0;
-  font-size: 16px;
-  line-height: 24px;
-  color: var(--text-color);
+  font-weight: 600;
+  line-height: 1.25;
+
+  .small-text {
+    font-weight: 400;
+  }
 }
 
 .hero-tabs button#tab-tabpanel-tabs_0-tab-1 {
@@ -166,6 +169,14 @@ background-image: linear-gradient(180deg, #c02b58, #962244);
 }
 
 @media (width >= 992px) {
+  .hero-tabs .tabs-panel > div {
+    padding: 48px 36px 16px;
+  }
+
+  .hero-tabs .tabs-panel h2 {
+    font-size: 28px;
+  }
+
   .hero-tabs .tabs-panel picture img {
     max-width: 120px;
   }
@@ -173,7 +184,6 @@ background-image: linear-gradient(180deg, #c02b58, #962244);
   .hero-tabs .tabs-panel p:has(> picture) {
     text-align: center;
   }
-
 }
 
 @media (width >= 1200px) {
