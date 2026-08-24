@@ -129,6 +129,7 @@ main .section.trial-data blockquote {
   align-content: center;
   text-wrap-style: balance;
   min-height: var(--tabs-blockquote-height-tab1);
+  border-radius: 0;
 }
 
 /* decorative brand ribbon — top-left on mobile, overhanging the box edge */
@@ -155,8 +156,12 @@ main .section.trial-data blockquote .size-h1 {
   line-height: var(--tabs-blockquote-stat-line-height);
 }
 
+main .section.trial-data sup {
+  font-size: .6em;
+}
+
 /* footnote reference marks (¹,², *) are tiny — but NOT a % that's part of a stat */
-main .section.trial-data blockquote sup:not(.size-h1 sup, .size-h3 sup) {
+main .section.trial-data blockquote sup {
   font-size: var(--tabs-blockquote-sup-font-size);
   line-height: var(--tabs-blockquote-sup-line-height);
 }
@@ -170,6 +175,8 @@ main .section.trial-data blockquote :is(.size-h1, .size-h3) sup {
 /* per-tab stat sizes (tab 1 uses the base; tabs 2-4 differ in the source).
    attribute selector because the JS-generated id ("tabs_0") isn't kebab-case */
 main .section.trial-data .tabs-dropdown-panel:nth-child(3) blockquote {
+  min-height: var(--tabs-blockquote-height-tab2);
+
 .size-h1 {
   font-size: var(--tabs-blockquote-stat-font-size-tab2);
   line-height: var(--tabs-blockquote-stat-font-size-tab2);
@@ -200,8 +207,13 @@ main .section.trial-data .tabs-dropdown-panel:nth-child(5) blockquote {
  }
 }
 
+ main .section.trial-data .tabs-dropdown-panel picture.trial-data-stat-pair-picture img {
+    max-width: unset;
+    width: 100%;
+ }
+
 /* Tablet+ */
-@media (width >= 992px) {
+@media (width >= 768px) {
   .tabs-dropdown .tabs-dropdown-list {
     flex-flow: row wrap;
     gap: 0;
@@ -234,7 +246,9 @@ main .section.trial-data .tabs-dropdown-panel:nth-child(5) blockquote {
   .tabs-dropdown .tabs-dropdown-list button.tabs-dropdown-tab::after {
     display: none;
   }
+}
 
+@media (width >= 992px) {
   main .section.trial-data blockquote::before {
     right: 0;
     left: auto;
@@ -250,13 +264,70 @@ main .section.trial-data .tabs-dropdown-panel:nth-child(5) blockquote {
   padding: var(--tabs-blockquote-mark-gutter) var(--tabs-blockquote-padding)
   var(--tabs-blockquote-padding);
   align-content: flex-end;
-  margin: 0;
+  margin: 24px 0;
+  }
+
+  main .section.trial-data .tabs-dropdown-panel .trial-data-stat-segment {
+  margin-bottom: 40px;
+  }
+
+  /* an author-inserted <hr> splits a panel into independent stat segments
+     (scripts.js wraps each run into `.trial-data-stat-segment`); the rule
+     itself is only a structural marker here, so it's hidden at this width */
+  main .section.trial-data .tabs-dropdown-panel > div > hr {
+    display: none;
+  }
+
+  main .section.trial-data :is(.trial-data-stat-pair, .trial-data-stat-solo) {
+    display: flow-root;
+    position: relative;
+    margin-top: 24px;
+  }
+
+  main .section.trial-data :is(.trial-data-stat-pair, .trial-data-stat-solo) > * {
+    width: 40%;
+  }
+
+  main .section.trial-data .accordion-sublist {
+    width: unset;
+  }
+
+  main .section.trial-data .trial-data-stat-pair-picture {
+    width: calc(60% - 24px);
+    float: right;
+    margin-top: -100px;
+
+    img {
+      max-width: unset;
+      width: 100%;
+    }
+  }
+
+  main .section.trial-data .trial-data-stat-pair:has(blockquote) .trial-data-stat-pair-picture {
+    position: absolute;
+    top: 12px;
+    left: calc(60% - var(--tabs-blockquote-width));
+    margin-top: 0;
+  }
+
+  /* paired with a blockquote: narrow the picture to leave room on the right
+     for it — the blockquote floats right too and, appearing earlier in the
+     DOM, claims the rightmost strip first, landing beside the picture
+     rather than stacked above/below it, without moving either in the DOM */
+  main .section.trial-data .trial-data-stat-pair .trial-data-stat-pair-picture {
+    width: calc(60% - 16px - var(--tabs-blockquote-width));
+  }
+
+  main .section.trial-data .trial-data-stat-pair-quote {
+    float: right;
+    width: var(--tabs-blockquote-width);
   }
 }
 
 @media (width >= 1200px) {
   main .section.trial-data blockquote {
     padding: 30px 12px 10px;
+    margin-top: 30px;
   }
 
   /* tabs 2 & 4: 18px body text (tab 1 stays base, tab 3 unchanged) */
@@ -281,6 +352,10 @@ main .section.trial-data .tabs-dropdown-panel:nth-child(5) blockquote {
   main .section.trial-data blockquote::before {
     z-index: 1;
   }
+
+  main .section.trial-data .trial-data-stat-pair .trial-data-stat-pair-picture {
+    width: calc(60% - 42px - var(--tabs-blockquote-width));
+}
 }
 
 /* Wide+ */
