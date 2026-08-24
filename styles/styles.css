@@ -1226,14 +1226,6 @@ div[class^="width-"], div[class*=" width-"] {
   width: 23.5%;
 }
 
-.columns > div:has(> div[class^="width-"],> div[class*=" width-"]) {
-  align-items: var(--div-width-align-items);
-
-  > div[class^="width-"],> div[class*=" width-"] {
-    flex: none;
-  }
-}
-
 /* ==== End widths ==== */
 
 main .section.page-title h1, .size-h2 {
