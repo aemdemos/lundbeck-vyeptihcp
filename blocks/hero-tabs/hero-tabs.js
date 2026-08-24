@@ -81,9 +81,10 @@ function ensureTablistClickDelegation(block, tablist) {
     }
 
     const isAccordion = !window.matchMedia(DESKTOP_TABS_QUERY).matches;
-    if (isAccordion && button.getAttribute('aria-selected') === 'true') {
-      tabpanel.setAttribute('aria-hidden', true);
-      button.setAttribute('aria-selected', false);
+    if (isAccordion) {
+      const isOpen = button.getAttribute('aria-selected') === 'true';
+      tabpanel.setAttribute('aria-hidden', isOpen);
+      button.setAttribute('aria-selected', !isOpen);
       return;
     }
 
