@@ -44,13 +44,13 @@
   --footer-link-font-size: 16px; /* mobile */
   --footer-link-font-size-desktop: 16px; /* Onfi keeps 20px on desktop */
   --footer-link-font-weight: 700;
-  --footer-link-line-height: 16px;
+  --footer-link-line-height: 24px;
   --footer-link-gap: 0; /* Onfi separates links with a pipe (p + p border-left), not a margin */
-  --footer-link-mobile-gap: 10px; /* @boilerplate */
+  --footer-link-mobile-gap: 24px; /* vertical gap between stacked links (source) */
   --footer-transition: 0.2s ease; /* @boilerplate */
 
   /* ---- Onfi link extras (consumed by the overrides section) ---------- */
-  --footer-link-padding: 0 35px 10px 0; /* inline-block padding on each link */
+  --footer-link-padding: 0 35px 0 0; /* inline-block padding on each link */
   --footer-link-separator: 0;
 
   /* word-space the source gets between inline-block <li>s: 4.5px space + 2px
@@ -104,8 +104,8 @@
 
   /* ---- logo (Lundbeck) ----------------------------------------------- */
   --footer-logo-width: 140px; /* natural aspect (height auto) */
-  --footer-logo-width-mobile: 212px; /* cap the bare-picture logo to source size */
-  --footer-social-row-gap: 16px; /* gap between social icons */
+  --footer-logo-width-mobile: 150px; /* cap the bare-picture logo to source size */
+  --footer-social-row-gap: 4px; /* gap between social icons */
 
   /* logo left offset within its column (source: ~71px from the column content
      edge — left-aligned with an extra indent rather than centred) */

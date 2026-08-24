@@ -188,6 +188,22 @@ footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):nt
 /* Site extension — Vyepti logo column is a bare <picture> + a
    ul.icon-bullets of social SVGs; the <p>-based rules above don't match it. */
 
+/* link section: flex column with a 24px gap; each link a 24px-tall block
+   (reset to the boilerplate's inline-block row at >=768px, below) */
+footer .footer .section:first-child .default-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--footer-link-mobile-gap);
+}
+
+footer .footer .section:first-child p {
+  margin: 0;
+}
+
+footer .footer .section:first-child a {
+  display: block;
+}
+
 /* keep the logo/social column after the legal copy on mobile */
 footer .footer .columns > div > .columns-img-col {
   order: 1;
@@ -199,10 +215,13 @@ footer .footer .columns > div > div > picture img {
   height: auto;
 }
 
-/* social icons: horizontal row (global icon-bullet rules are main-scoped) */
+/* social icons: horizontal row, left-aligned under the logo
+   (global icon-bullet rules are main-scoped) */
 footer .footer .columns ul.icon-bullets {
   display: flex;
+  flex: 100%;
   flex-wrap: wrap;
+  justify-content: flex-start;
   gap: var(--footer-social-row-gap);
   margin: 0;
   padding: 0;
@@ -231,6 +250,15 @@ footer .footer .columns ul.icon-bullets a:hover {
   footer .footer .columns-container { /* @boilerplate */
     padding: var(--footer-body-padding); /* @boilerplate */
   } /* @boilerplate */
+
+  /* reset the mobile flex-column; desktop links flow inline in a row */
+  footer .footer .section:first-child .default-content-wrapper {
+    flex-direction: row;
+  }
+
+  footer .footer .section:first-child a {
+    display: inline-block;
+  }
 
   /* desktop: the mobile assistance wrapper is empty (its content is hidden),
      so drop its mobile bottom margin to avoid dead space above the columns */
