@@ -308,6 +308,9 @@ h1, .size-h1 {
   line-height: 1.21;
   color: var(--brand-primary-dark);
   margin-top: 0;
+}
+
+h1 {
   font-family: var(--page-title-font-family);
 }
 
