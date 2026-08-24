@@ -273,7 +273,8 @@ main .columns.icon-feature.align-center > div {
 }
 
 main .columns.icon-feature > div > .columns-img-col {
-  flex: 0 0 80px;
+  flex: 0 0 auto;
+  width: 80px;
 }
 
 main .columns.icon-feature > div > div:last-child :is(h1, h2, h3, h4, h5, h6) {
@@ -329,21 +330,6 @@ main .columns.text-top > div > div:first-child {
 
 main .columns.text-bottom > div > div:last-child {
   order: 1;
-}
-
-/* icon-feature's fixed-width icon never stacks — source keeps it row-aligned
-   at every breakpoint, so text-top/text-bottom must not apply here even if
-   authored on the same block. */
-main .columns.icon-feature.text-top > div,
-main .columns.icon-feature.text-bottom > div {
-  flex-direction: row;
-  align-items: flex-start;
-}
-
-main .columns.icon-feature.text-top > div > div:last-child,
-main .columns.icon-feature.text-top > div > div:first-child,
-main .columns.icon-feature.text-bottom > div > div:last-child {
-  order: unset;
 }
 
 /* Note: the icon-feature.claims and icon-feature.connect columns sub-variants
@@ -663,6 +649,14 @@ main .columns.teal a.button {
   main .columns.text-top > div > div:first-child,
   main .columns.text-bottom > div > div:last-child {
     order: unset;
+  }
+
+  /* icon-feature keeps its own tight row styling once text-top/text-bottom
+     return to a row at 992px, instead of the generic stacked-text look. */
+  main .columns.icon-feature.text-top > div,
+  main .columns.icon-feature.text-bottom > div {
+    align-items: flex-start;
+    gap: 16px;
   }
 
   /* teal box: source switches to image left / text right side-by-side only
