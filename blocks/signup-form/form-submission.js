@@ -1,4 +1,3 @@
-
 export function getFormData(config) {
   const stateSelect = document.getElementById('form-state');
   const specialitySelect = document.getElementById('form-speciality');
