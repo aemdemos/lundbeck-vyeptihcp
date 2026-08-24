@@ -5,6 +5,59 @@ import { moveInstrumentation, getBlockId } from '../../scripts/scripts.js';
 const DESKTOP_TABS_QUERY = '(width >= 1200px)';
 
 /**
+ * Slugifies tab label text into a URL-safe anchor id: lowercase, non-alphanumeric
+ * runs collapsed to a single hyphen, leading/trailing hyphens trimmed.
+ * @param {string} text
+ * @returns {string}
+ */
+function slugify(text) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+/**
+ * Marks `button`'s panel as the active one, deselecting all others.
+ * @param {Element} block
+ * @param {Element} tablist
+ * @param {Element} button
+ */
+function activateTab(block, tablist, button) {
+  const panelId = button.getAttribute('aria-controls');
+  const tabpanel = panelId && document.getElementById(panelId);
+  if (!tabpanel || !block.contains(tabpanel)) {
+    return;
+  }
+
+  block.querySelectorAll('[role=tabpanel]').forEach((panel) => {
+    panel.setAttribute('aria-hidden', true);
+  });
+  tablist.querySelectorAll('button.tabs-tab').forEach((btn) => {
+    btn.setAttribute('aria-selected', false);
+  });
+  tabpanel.setAttribute('aria-hidden', false);
+  button.setAttribute('aria-selected', true);
+}
+
+/**
+ * Pushes the active tab's slug onto the URL as a hash, without scrolling — but only at the
+ * >=1200px tab-strip breakpoint. Accordion clicks (narrower viewports) never touch the URL,
+ * matching the source site's behavior.
+ * @param {Element} button
+ */
+function updateHashForTab(button) {
+  if (!window.matchMedia(DESKTOP_TABS_QUERY).matches) {
+    return;
+  }
+  const { slug } = button.dataset;
+  // eslint-disable-next-line secure-coding/no-insecure-comparison -- comparing the public URL hash fragment to a tab slug, not a secret
+  if (slug && window.location.hash !== `#${slug}`) {
+    window.history.pushState(null, '', `#${slug}`);
+  }
+}
+
+/**
  * @param {Element} block
  * @param {Element} tablist
  */
@@ -34,14 +87,8 @@ function ensureTablistClickDelegation(block, tablist) {
       return;
     }
 
-    block.querySelectorAll('[role=tabpanel]').forEach((panel) => {
-      panel.setAttribute('aria-hidden', true);
-    });
-    tablist.querySelectorAll('button.tabs-tab').forEach((btn) => {
-      btn.setAttribute('aria-selected', false);
-    });
-    tabpanel.setAttribute('aria-hidden', false);
-    button.setAttribute('aria-selected', true);
+    activateTab(block, tablist, button);
+    updateHashForTab(button);
   });
 }
 
@@ -102,17 +149,19 @@ export function resyncTabsBlock(block) {
     buttons.push(btn);
   }
 
+  const usedSlugs = new Set();
   rows.forEach((row, i) => {
     const id = `tabpanel-${blockId}-tab-${i + 1}`;
     const buttonId = `tab-${id}`;
     const button = buttons[i];
+    let labelText;
 
     if (!row.matches('.tabs-panel[role="tabpanel"]')) {
       const tabCell = row.firstElementChild;
       if (!tabCell || !tabCell.children.length) {
         return;
       }
-      const labelText = tabCell.textContent;
+      labelText = tabCell.textContent;
       tabCell.remove();
 
       row.className = 'tabs-panel';
@@ -125,6 +174,7 @@ export function resyncTabsBlock(block) {
     } else {
       row.className = 'tabs-panel';
       row.setAttribute('role', 'tabpanel');
+      labelText = button.textContent;
     }
 
     row.id = id;
@@ -134,6 +184,13 @@ export function resyncTabsBlock(block) {
     button.id = buttonId;
     button.setAttribute('aria-controls', id);
     button.setAttribute('aria-selected', 'false');
+
+    let slug = slugify(labelText) || `tab-${i + 1}`;
+    while (usedSlugs.has(slug)) {
+      slug = `${slug}-2`;
+    }
+    usedSlugs.add(slug);
+    button.dataset.slug = slug;
   });
 
   let activeIdx = 0;
@@ -161,6 +218,30 @@ export function resyncTabsBlock(block) {
   ensureTablistClickDelegation(block, tablist);
 }
 
+/**
+ * On load, activates the tab matching the URL hash — but only at the >=1200px tab-strip
+ * breakpoint. On narrower viewports the block is an accordion and, like the source site,
+ * never reads (or writes) the hash there, so it's left untouched.
+ * @param {Element} block
+ * @param {Element} tablist
+ */
+function activateDeepLinkedTab(block, tablist) {
+  if (!window.matchMedia(DESKTOP_TABS_QUERY).matches) {
+    return;
+  }
+  const hashSlug = window.location.hash.slice(1);
+  if (!hashSlug) {
+    return;
+  }
+  const buttons = [...tablist.querySelectorAll(':scope > button.tabs-tab')];
+  // eslint-disable-next-line secure-coding/no-insecure-comparison -- matching the public URL hash fragment against a tab slug, not a secret
+  const button = buttons.find((btn) => btn.dataset.slug === hashSlug);
+  if (!button || button.getAttribute('aria-selected') === 'true') {
+    return;
+  }
+  activateTab(block, tablist, button);
+}
+
 export default async function decorate(block) {
   const blockId = getBlockId('tabs');
   block.setAttribute('id', blockId);
@@ -179,4 +260,5 @@ export default async function decorate(block) {
 
   ensureTablistClickDelegation(block, tablist);
   resyncTabsBlock(block);
+  activateDeepLinkedTab(block, tablist);
 }
