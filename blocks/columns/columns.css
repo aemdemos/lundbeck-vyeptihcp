@@ -276,6 +276,10 @@ main .columns.icon-feature > div > div:last-child :is(h1, h2, h3, h4, h5, h6) {
   margin: 0;
 }
 
+main .columns.icon-feature > div > div:last-child > :first-child {
+  margin-top: 0;
+}
+
 main .columns.icon-feature > div > div:last-child ul {
   margin: 0;
   padding-left: 18px;
