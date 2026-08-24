@@ -37,7 +37,6 @@ function isCaptchaCleared(){
     return validResponse;
 }
 
-
 export async function initValidationListeners(config) {
 
     const validator = await initFormValidation(".signup-form form", {
@@ -133,8 +132,6 @@ export async function initValidationListeners(config) {
         if ( formVlidated && captchaCleared  && checkboxChedked ) {     
             const formData=getFormData(config)
             submitForm(formData,config);
-        } else {
-            // console.log("Not Validated");
         }
     }
   );

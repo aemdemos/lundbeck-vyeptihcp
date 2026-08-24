@@ -98,11 +98,7 @@ function fixMarkdownText() {
 
   // Fix Markdown Label
 document.querySelectorAll('.field-wrapper label').forEach((label) => {
-  if (label.dataset.labelEnhanced === 'true') {
-    return;
-  }
-
-  if (!label.textContent.includes('|')) {
+  if (label.dataset.labelEnhanced === 'true' || !label.textContent.includes('|')) {
     return;
   }
 
@@ -167,7 +163,7 @@ async function autoPopulateAddress() {
 
   const input = document.getElementById("form-address");
     if (!input || !window.google?.maps?.places) {
-        return;
+      return;
     }
 
     /* global google */
@@ -181,21 +177,15 @@ async function autoPopulateAddress() {
     });
 
     autocomplete.addListener("place_changed", () => {
-        const place = autocomplete.getPlace();
+      const place = autocomplete.getPlace();
 
-        if (!place.geometry) {
-            // console.warn("Invalid address selected");
-            return;
-        }
+      if (!place.geometry) {
+        return;
+      }
 
-        // console.log("Selected address:", place.formatted_address);
-        // console.log("Place details:", place);
-
-        input.dataset.selectedAddress = place.formatted_address;
+      input.dataset.selectedAddress = place.formatted_address;
     });
 }
-
-
 
 function selectLabel(id){
   const specialtySelect = document.getElementById(id);
@@ -207,7 +197,6 @@ function selectLabel(id){
     }
   });
 } 
-
 
 export default async function decorate(block) {
 

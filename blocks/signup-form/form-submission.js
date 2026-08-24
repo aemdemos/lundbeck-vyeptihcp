@@ -41,8 +41,6 @@ export function getFormData(config) {
     "hidden-grecaptcha": document.querySelector('[name="hidden-grecaptcha"]')?.value || ""
   };
 
-  // console.log("Form Payload:", formData);
-
   return formData;
 }
 
@@ -77,15 +75,13 @@ export async function submitForm(formData,config){
   // Parse the server response
   const result = await response.json();
   if (result.validNpi === false) {
-    // console.error("INVALID_NPI");
     const input = document.querySelector('#form-npi');
     showError(input, 'Please enter a valid 10 digit NPI number');
     input.scrollIntoView();
     Array.from(input.parentElement.children)
     .find(child => child !== input && child.classList.contains('form-error')).style.display="";
   }else{
-      // console.log('Success:', result);
-      window.location.href = config.thankYouPageUrl;          
+    window.location.href = config.thankYouPageUrl;          
   }
  
 }

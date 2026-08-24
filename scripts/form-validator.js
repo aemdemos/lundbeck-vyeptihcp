@@ -39,11 +39,7 @@ function getErrorElement(field, config) {
 
     if (isCheckboxOrRadio || isFile) {
         const wrapper = field.closest(".field-wrapper") || field.parentElement;
-        if (wrapper) {
-            wrapper.insertAdjacentElement("afterend", errorElement);
-        } else {
-            field.insertAdjacentElement("afterend", errorElement);
-        }
+        wrapper ? wrapper.insertAdjacentElement("afterend", errorElement) : field.insertAdjacentElement("afterend", errorElement);
     } else if(isSelect){
         field.insertAdjacentElement("afterend", field);
     } else {
