@@ -1,4 +1,5 @@
 import { moveInstrumentation, getBlockId } from '../../scripts/scripts.js';
+import { buildPictureContentFromImageCell } from '../../scripts/utils.js';
 
 /**
  * Slugifies tab label text into a URL-safe anchor id: lowercase, non-alphanumeric
@@ -83,6 +84,12 @@ export function resyncTabsDropdownBlock(block) {
       button.textContent = labelText;
       if (button.firstElementChild) {
         moveInstrumentation(button.firstElementChild, null);
+      }
+
+      // merges adjacent-image runs into art-direction pictures; other content stays put
+      const contentCell = row.firstElementChild;
+      if (contentCell && contentCell.querySelector('picture')) {
+        contentCell.replaceChildren(buildPictureContentFromImageCell(contentCell));
       }
     } else {
       labelText = button.textContent;

@@ -185,6 +185,32 @@ export const DEFAULT_BLOCK_SINGLE_PICTURE_BREAKPOINTS = [
 const ART_DIRECTION_DEFAULT_IMG_WIDTH = '750';
 
 /**
+ * Tags that `wrapTextNodes` (aem.js) recognizes as already block-formatted, minus
+ * `PICTURE` — a `<p><picture>...</picture></p>` is normal, parser-built markup, but a
+ * `<p>` can never legitimately contain any of these via HTML parsing (the parser closes
+ * an open `<p>` before them). Finding one here means `wrapTextNodes` forced the *whole*
+ * cell into one `<p>` because its first child (e.g. a leading `<blockquote>`) wasn't on
+ * its own allow-list — not that this is a genuine single authored paragraph.
+ */
+const FORCED_WRAP_TELLTALE_TAGS = new Set(['P', 'PRE', 'UL', 'OL', 'TABLE', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6']);
+
+/**
+ * Undoes a `wrapTextNodes` (aem.js) forced wrap: when a cell's first authored child isn't
+ * one of its recognized block tags (e.g. a leading `<blockquote>`), it moves the cell's
+ * entire content into one new `<p>`, hiding later siblings — including image runs — one
+ * level deeper than callers expect.
+ * @param {HTMLElement} cell
+ * @returns {HTMLElement} `cell`, or the unwrapped `<p>` if a forced wrap was detected
+ */
+function unwrapForcedParagraph(cell) {
+  const { firstElementChild } = cell;
+  const isForcedWrap = cell.children.length === 1
+    && firstElementChild.tagName === 'P'
+    && [...firstElementChild.children].some((el) => FORCED_WRAP_TELLTALE_TAGS.has(el.tagName));
+  return isForcedWrap ? firstElementChild : cell;
+}
+
+/**
  * Art-direction `media` + CDN `width` for source index 1..4 (whitelist).
  * @param {number} imageIndex
  * @returns {{ media: string, width: string }}
@@ -336,6 +362,8 @@ export function createArtDirectionPicture(sources, eager) {
  * Builds a fragment for a block image cell, preserving non-image content in place. Each
  * contiguous run of images (whitespace between them is fine) becomes one picture —
  * `createOptimizedPicture` (one image) or art-direction (2–5); other content passes through.
+ * Also undoes a `wrapTextNodes` forced wrap (see `unwrapForcedParagraph`) so a leading
+ * `<blockquote>` or similar doesn't hide later image runs one level too deep.
  * @param {HTMLElement} cell
  * @param {BuildPictureCellOptions} [options]
  * @returns {DocumentFragment}
@@ -348,7 +376,7 @@ export function buildPictureContentFromImageCell(cell, options = {}) {
   } = options;
 
   const frag = document.createDocumentFragment();
-  const children = [...cell.childNodes];
+  const children = [...unwrapForcedParagraph(cell).childNodes];
   let i = 0;
 
   while (i < children.length) {

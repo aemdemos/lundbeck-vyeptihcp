@@ -1209,6 +1209,26 @@ function appendNestedSectionContent(fragment, sectionData) {
   });
 }
 
+/**
+ * Climbs from an inline wrapper (e.g. <code>) up to the enclosing block
+ * element (e.g. <p>) as long as each ancestor's entire content is the
+ * placeholder text, so the whole block can be swapped out instead of
+ * leaving block-level content (like divs) nested inside it.
+ * @param {Element} el The innermost element wrapping the placeholder text
+ * @param {string} text The placeholder text
+ * @returns {Element} The element to replace
+ */
+function getNestedSectionOnlyContainer(el, text) {
+  let target = el;
+  while (target.parentElement
+    && target.tagName !== 'P'
+    && target.tagName !== 'LI'
+    && target.parentElement.textContent.trim() === text.trim()) {
+    target = target.parentElement;
+  }
+  return target;
+}
+
 function replaceNestedSectionNode(textNode, sectionMap, usedSectionIds) {
   const text = textNode.nodeValue;
   const parent = textNode.parentElement;
@@ -1219,10 +1239,11 @@ function replaceNestedSectionNode(textNode, sectionMap, usedSectionIds) {
     const sectionData = sectionMap.get(sectionId);
     if (!sectionData) return;
 
+    const target = getNestedSectionOnlyContainer(parent, text);
     const fragment = document.createDocumentFragment();
     appendNestedSectionContent(fragment, sectionData);
-    parent.before(fragment);
-    parent.remove();
+    target.before(fragment);
+    target.remove();
     usedSectionIds.add(sectionId);
     return;
   }
@@ -1336,6 +1357,134 @@ async function loadEager(doc) {
   }
 }
 
+/** 
+ * True for a nested block's wrapper div (`decorateBlocks` in aem.js adds a
+ * `{blockName}-wrapper` class to every block's parent) — e.g. the accordion
+ * embedded via a `[#tab1]`-style bracket tag inside a tabs-dropdown panel.
+ * These must stay out of the trial-data grid entirely: squeezed into its 40%
+ * column they'd render far too narrow, and their own deeply-nested pictures
+ * could otherwise be mismatched as the "closest" picture to a blockquote.
+ * @param {Element} el
+ */
+function isNestedBlockWrapper(el) {
+  return [...el.classList].some((c) => c.endsWith('-wrapper'));
+}
+
+/**
+ * Moves `startEl` and every later sibling out of their current parent and
+ * into a new wrapper div inserted in `startEl`'s place — earlier siblings
+ * are left untouched. Returns the wrapper.
+ * @param {Element} startEl
+ */
+function wrapFromChild(startEl) {
+  const wrapper = document.createElement('div');
+  startEl.before(wrapper);
+  while (wrapper.nextSibling) wrapper.append(wrapper.nextSibling);
+  return wrapper;
+}
+
+/**
+ *  * .SECTION.TRIAL-DATA SPECIFIC
+ * Within a trial-data stat section, finds a direct-child blockquote and
+ * its closest picture-bearing sibling *at or after* it, then wraps the
+ * blockquote-onward range in its own grid so CSS can place the pair beside
+ * the rest of that range — content before the blockquote is left alone,
+ * rendering at the normal full width above the grid. With no blockquote,
+ * `allowSolo` lets the closest-to-start picture stand in alone instead,
+ * with the *whole* container as the grid (used for the content after a
+ * `<hr>` inside a tabs-dropdown panel, which never has its own quote).
+ * Any nested block (see `isNestedBlockWrapper`) is excluded from matching
+ * and, once a pairing is found, moved out to render full-width after the grid.
+ * @param {Element} container
+ * @param {{ allowSolo?: boolean }} [options]
+ */
+function decorateStatPairing(container, { allowSolo = false } = {}) {
+  const blockquote = container.querySelector(':scope > blockquote');
+  if (!blockquote && !allowSolo) return;
+
+  const children = [...container.children];
+  const anchorIndex = blockquote ? children.indexOf(blockquote) : -1;
+
+  let picture;
+  let closestDistance = Infinity;
+  children.forEach((child, index) => {
+    if (child === blockquote || isNestedBlockWrapper(child)) return;
+    const distance = anchorIndex === -1 ? index : index - anchorIndex;
+    if (distance < 0) return; // before the blockquote — out of range, not a candidate
+    const hasPicture = child.tagName === 'PICTURE' || child.querySelector('picture');
+    if (!hasPicture) return;
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      picture = child;
+    }
+  });
+  if (!picture) return;
+
+  const gridRoot = blockquote ? wrapFromChild(blockquote) : container;
+  const gridChildren = [...gridRoot.children];
+
+  gridRoot.classList.add(blockquote ? 'trial-data-stat-pair' : 'trial-data-stat-solo');
+  picture.classList.add('trial-data-stat-pair-picture');
+  if (blockquote) blockquote.classList.add('trial-data-stat-pair-quote');
+
+  let insertAfter = gridRoot;
+  gridChildren.filter(isNestedBlockWrapper).forEach((wrapper) => {
+    insertAfter.after(wrapper);
+    insertAfter = wrapper;
+  });
+}
+
+/**
+ *  * .SECTION.TRIAL-DATA SPECIFIC
+ * A trial-data stat container (an `.accordion-item-body` or a
+ * `.tabs-dropdown-panel > div`) with no direct-child `<hr>` is paired as a
+ * whole. Otherwise, an author-inserted `<hr>` splits its content into
+ * independent segments (each wrapped in its own `.trial-data-stat-segment`
+ * div, order-preserving) — a segment may have no blockquote, so its nearest
+ * picture is allowed to stand in alone (see `decorateStatPairing`).
+ * @param {Element} container
+ */
+function decorateStatContainer(container) {
+  if (!container.querySelector(':scope > hr')) {
+    decorateStatPairing(container);
+    return;
+  }
+
+  let segmentChildren = [];
+  const flushSegment = () => {
+    if (!segmentChildren.length) return;
+    const wrapper = document.createElement('div');
+    wrapper.className = 'trial-data-stat-segment';
+    segmentChildren[0].before(wrapper);
+    segmentChildren.forEach((child) => wrapper.append(child));
+    decorateStatPairing(wrapper, { allowSolo: true });
+    segmentChildren = [];
+  };
+  [...container.children].forEach((child) => {
+    if (child.tagName === 'HR') {
+      flushSegment();
+    } else {
+      segmentChildren.push(child);
+    }
+  });
+  flushSegment();
+}
+
+/**
+ *  * .SECTION.TRIAL-DATA SPECIFIC
+ * Trial-data section only: pairs each blockquote with its nearest chart so
+ * CSS can lay them beside the rest of the content at wide viewports, in both
+ * accordion bodies and tabs-dropdown panels (see `decorateStatContainer`).
+ * @param {Element} main The main element
+ */
+function decorateTrialDataStatPairs(main) {
+  const section = main.querySelector('.section.trial-data');
+  if (!section) return;
+
+  section.querySelectorAll('.accordion-item-body').forEach(decorateStatContainer);
+  section.querySelectorAll('.tabs-dropdown-panel > div').forEach(decorateStatContainer);
+}
+
 /**
  * Loads everything that doesn't need to be delayed.
  * @param {Element} doc The container element
@@ -1345,6 +1494,7 @@ async function loadLazy(doc) {
 
   const main = doc.querySelector('main');
   await loadSections(main);
+  decorateTrialDataStatPairs(main);
 
   enableSmoothAnchorScroll(doc);
 
