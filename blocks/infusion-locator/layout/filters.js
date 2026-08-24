@@ -1,0 +1,108 @@
+import renderDescription from "./regex.js";
+
+
+
+function appendFilterFields(form, filters) {
+  const checkboxOne = form.querySelector('#form-networkonly');
+  checkboxOne.removeAttribute('required');
+  const checkboxTwo = form.querySelector('#form-hidehospital');
+  checkboxTwo.removeAttribute('required');
+
+  const fields = [
+    form.querySelector('#form-networkonly')?.closest('.field-wrapper'),
+    form.querySelector('#form-hidehospital')?.closest('.field-wrapper'),
+  ];
+
+  fields.forEach((field) => {
+    if (field) {
+      filters.append(field);
+    }
+  });
+}
+
+function createFilterDescription(form, inputField, inputFieldLabel) {
+
+  const descriptionOne = form.querySelector('#form-filter-description');
+  const descriptionTwo = form.querySelector('#form-child-info');
+
+  if (
+    !inputFieldLabel
+    || !inputField
+    || !descriptionOne
+    || !descriptionTwo
+  ) {
+    return;
+  }
+
+  const labelWrapper = document.createElement('div');
+  labelWrapper.className = 'labelWraper';
+
+  const label = document.createElement('label');
+  label.htmlFor = 'form-networkonly';
+  const lebelDecsp = inputFieldLabel.textContent.trim();
+  // eslint-disable-next-line browser-security/no-innerhtml
+  label.innerHTML = renderDescription(lebelDecsp,);
+
+  const infoIcon = label.querySelector('img');
+
+  if (infoIcon) {
+    infoIcon.className = 'info-icon';
+  }
+
+  const filterDescriptionOne = document.createElement('div');
+  filterDescriptionOne.className = 'filterDescpOne';
+  // eslint-disable-next-line browser-security/no-innerhtml
+  filterDescriptionOne.innerHTML = renderDescription(
+    descriptionOne.textContent.trim(),
+  );
+
+  const filterDescriptionTwo = document.createElement('div');
+  filterDescriptionTwo.className = 'filterDescpTwo selectHide';
+  // eslint-disable-next-line browser-security/no-innerhtml
+  filterDescriptionTwo.innerHTML = renderDescription(
+    descriptionTwo.textContent.trim(),
+  );
+
+  inputFieldLabel.parentNode.insertBefore(
+    labelWrapper,
+    inputFieldLabel,
+  );
+
+  labelWrapper.append(
+    label,
+    filterDescriptionOne,
+    filterDescriptionTwo,
+  );
+
+  inputFieldLabel.remove();
+  descriptionOne.remove();
+  descriptionTwo.remove();
+}
+
+function createErrorMessage() {
+  const error = document.createElement('p');
+
+  error.className = 'error selectHide';
+  error.textContent = 'Please enter a valid city, state, or ZIP code, and try again.';
+
+  return error;
+}
+
+export default function createFilters(form, inputField, inputFieldLabel) {
+  const filters = document.createElement('div');
+  filters.className = 'locator-filters';
+
+  appendFilterFields(form, filters);
+
+createFilterDescription(form, inputField, inputFieldLabel);
+
+  const error = createErrorMessage();
+
+  filters.append(error);
+
+  return filters;
+}
+
+
+
+
