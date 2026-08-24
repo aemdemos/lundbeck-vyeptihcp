@@ -404,6 +404,8 @@ a:hover { /* @libs */
 main p a:not(.button),
 main li a:not(.button) {
   text-decoration: underline;
+  display: inline-flex;
+  gap:12px;
 }
 
 main p a:not(.button):hover,
