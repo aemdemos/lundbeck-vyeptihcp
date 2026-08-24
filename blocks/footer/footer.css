@@ -215,6 +215,12 @@ footer .footer .columns > div > div > picture img {
   height: auto;
 }
 
+/* gap below the logo, down to the social row */
+footer .footer .columns > div > div > picture {
+  display: block;
+  margin-bottom: var(--footer-logo-social-gap);
+}
+
 /* social icons: horizontal row, left-aligned under the logo
    (global icon-bullet rules are main-scoped) */
 footer .footer .columns ul.icon-bullets {
