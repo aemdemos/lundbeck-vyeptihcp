@@ -412,6 +412,11 @@ a:hover { /* @libs */
 main p a:not(.button),
 main li a:not(.button) {
   text-decoration: underline;
+
+  > .icon {
+    margin-left: 8px;
+    vertical-align: bottom;
+  }
 }
 
 main p a:not(.button):hover,
