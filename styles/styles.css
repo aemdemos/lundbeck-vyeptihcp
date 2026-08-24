@@ -364,6 +364,10 @@ blockquote,
   font-size: var(--body-font-size-s); /* @libs */
 }
 
+li > p {
+  margin: 0;
+}
+
 code,
 pre { /* @libs */
   font-family: var(--fixed-font-family); /* @libs */

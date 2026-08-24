@@ -22,7 +22,7 @@
 .accordion .accordion-sublist {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding-left: 0;
 }
 
 /* each item (at any nesting depth) is a flat row divided from the next by a thin
@@ -64,7 +64,7 @@
   margin: 0;
 }
 
-.accordion-sublist li.accordion-item {
+.accordion-sublist li.accordion-item:last-child {
   border-bottom: 0;
   padding-bottom: 0;
 }
@@ -158,7 +158,6 @@
 .accordion .accordion-item.active > .accordion-item-body {
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
   color: var(--text-color);
   font-size: var(--body-font-size-s);
   line-height: 1.5;
@@ -172,13 +171,8 @@
   margin: auto;
 }
 
-.accordion .accordion-item-body a .icon > img {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  max-width: 20px;
-  vertical-align: text-bottom;
-  margin-left: 16px;
+.accordion .accordion-item-body > picture {
+  margin: 16px auto;
 }
 
 /* tablet+ (source uses Bootstrap 768px breakpoint) */
@@ -205,5 +199,9 @@
 @media (width >= 992px) {
   main .section.trial-data .accordion-item-body > hr {
     display: none;
+  }
+
+  .accordion .accordion-sublist {
+    clear: both;
   }
 }

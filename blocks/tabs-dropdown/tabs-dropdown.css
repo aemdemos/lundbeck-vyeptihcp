@@ -129,6 +129,7 @@ main .section.trial-data blockquote {
   align-content: center;
   text-wrap-style: balance;
   min-height: var(--tabs-blockquote-height-tab1);
+  border-radius: 0;
 }
 
 /* decorative brand ribbon — top-left on mobile, overhanging the box edge */
@@ -155,14 +156,14 @@ main .section.trial-data blockquote .size-h1 {
   line-height: var(--tabs-blockquote-stat-line-height);
 }
 
-/* footnote reference marks (¹,², *) are tiny — but NOT a % that's part of a stat */
 main .section.trial-data sup {
-  font-size: var(--tabs-blockquote-sup-font-size);
-  line-height: var(--tabs-blockquote-sup-line-height);
+  font-size: .6em;
 }
 
-main .section.trial-data h4 sup {
-  font-size: 0.7em;
+/* footnote reference marks (¹,², *) are tiny — but NOT a % that's part of a stat */
+main .section.trial-data blockquote sup {
+  font-size: var(--tabs-blockquote-sup-font-size);
+  line-height: var(--tabs-blockquote-sup-line-height);
 }
 
 /* a % inside a stat scales with the stat, not the footnote size */
@@ -205,6 +206,11 @@ main .section.trial-data .tabs-dropdown-panel:nth-child(5) blockquote {
   line-height: var(--tabs-blockquote-stat-font-size-tab4-h2);
  }
 }
+
+ main .section.trial-data .tabs-dropdown-panel picture.trial-data-stat-pair-picture img {
+    max-width: unset;
+    width: 100%;
+ }
 
 /* Tablet+ */
 @media (width >= 768px) {
@@ -258,7 +264,7 @@ main .section.trial-data .tabs-dropdown-panel:nth-child(5) blockquote {
   padding: var(--tabs-blockquote-mark-gutter) var(--tabs-blockquote-padding)
   var(--tabs-blockquote-padding);
   align-content: flex-end;
-  margin: 24px 0 0;
+  margin: 24px 0;
   }
 
   main .section.trial-data .tabs-dropdown-panel .trial-data-stat-segment {
@@ -288,14 +294,20 @@ main .section.trial-data .tabs-dropdown-panel:nth-child(5) blockquote {
 
   main .section.trial-data .trial-data-stat-pair-picture {
     width: calc(60% - 24px);
-    position: absolute;
-    top: 12px;
-    left: calc(60% - var(--tabs-blockquote-width));
+    float: right;
+    margin-top: -100px;
 
     img {
       max-width: unset;
       width: 100%;
     }
+  }
+
+  main .section.trial-data .trial-data-stat-pair:has(blockquote) .trial-data-stat-pair-picture {
+    position: absolute;
+    top: 12px;
+    left: calc(60% - var(--tabs-blockquote-width));
+    margin-top: 0;
   }
 
   /* paired with a blockquote: narrow the picture to leave room on the right
