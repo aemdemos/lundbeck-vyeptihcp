@@ -374,6 +374,14 @@ pre { /* @libs */
   white-space: pre; /* @libs */
 }
 
+blockquote {
+  background-color: var(--light-color);
+  padding: 10px 24px;
+  border-radius: 20px;
+  margin-left: 0;
+  margin-right: 0;
+}
+
 main > div { /* @libs */
   margin: var(--section-padding-vertical) 16px; /* @libs */
 }
