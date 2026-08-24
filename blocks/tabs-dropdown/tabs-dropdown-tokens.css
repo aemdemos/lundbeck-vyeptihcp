@@ -34,10 +34,11 @@
     :root {
         --tabs-blockquote-width: 170px;
         --tabs-blockquote-height-tab1: 211px;
-        --tabs-blockquote-height-tab2: 211px;
-        --tabs-blockquote-height-tab3: 211px;
-        --tabs-blockquote-height-tab4: 211px;
+        --tabs-blockquote-height-tab2: 220px;
+        --tabs-blockquote-height-tab3: 248px;
+        --tabs-blockquote-height-tab4: 228px;
         --tabs-blockquote-padding: 10px;
+        --tabs-blockquote-stat-font-size-tab4-h2: 32px;
     }
 }
 

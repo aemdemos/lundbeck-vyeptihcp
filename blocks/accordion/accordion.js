@@ -1,4 +1,5 @@
 import { moveInstrumentation } from '../../scripts/scripts.js';
+import { buildPictureContentFromImageCell } from '../../scripts/utils.js';
 
 function isEmpty(cell) {
   return !cell || (!cell.firstElementChild && !cell.textContent.trim());
@@ -30,7 +31,11 @@ function buildAccordionItem(row, label, body) {
       if (detail.textContent.trim()) labelText.append(detail);
     }
   }
-  if (body) body.className = 'accordion-item-body';
+  if (body) {
+    body.className = 'accordion-item-body';
+    // merges adjacent-image runs into art-direction pictures; other content stays put
+    if (body.querySelector('picture')) body.replaceChildren(buildPictureContentFromImageCell(body));
+  }
 
   // The whole card toggles the item; clicks inside the open body are ignored
   // so links stay clickable and body text stays selectable.
