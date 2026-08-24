@@ -104,6 +104,8 @@
 
   /* ---- logo (Lundbeck) ----------------------------------------------- */
   --footer-logo-width: 140px; /* natural aspect (height auto) */
+  --footer-logo-width-mobile: 212px; /* cap the bare-picture logo to source size */
+  --footer-social-row-gap: 16px; /* gap between social icons */
 
   /* logo left offset within its column (source: ~71px from the column content
      edge — left-aligned with an extra indent rather than centred) */

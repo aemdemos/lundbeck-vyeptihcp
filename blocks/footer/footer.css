@@ -185,6 +185,48 @@ footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):nt
   opacity: 0.6;
 }
 
+/* Site extension — Vyepti logo column is a bare <picture> + a
+   ul.icon-bullets of social SVGs; the <p>-based rules above don't match it. */
+
+/* keep the logo/social column after the legal copy on mobile */
+footer .footer .columns > div > .columns-img-col {
+  order: 1;
+}
+
+/* cap the bare-picture logo to source size (was rendering at intrinsic width) */
+footer .footer .columns > div > div > picture img {
+  width: var(--footer-logo-width-mobile);
+  height: auto;
+}
+
+/* social icons: horizontal row (global icon-bullet rules are main-scoped) */
+footer .footer .columns ul.icon-bullets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--footer-social-row-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+footer .footer .columns ul.icon-bullets > li {
+  margin: 0;
+}
+
+footer .footer .columns ul.icon-bullets .icon {
+  width: var(--footer-social-icon-width);
+  height: var(--footer-social-icon-height);
+}
+
+footer .footer .columns ul.icon-bullets .icon img {
+  width: 100%;
+  height: 100%;
+}
+
+footer .footer .columns ul.icon-bullets a:hover {
+  opacity: 0.6;
+}
+
 @media (width >= 768px) { /* @boilerplate */
   footer .footer .columns-container { /* @boilerplate */
     padding: var(--footer-body-padding); /* @boilerplate */
