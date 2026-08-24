@@ -227,6 +227,24 @@ background-image: linear-gradient(180deg, #c02b58, #962244);
     width: 1110px;
   }
 
+  .hero-tabs .tabs-panel#tabpanel-tabs_0-tab-3 > div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0 24px;
+
+  .default-content-wrapper {
+    grid-row: 1;
+  }
+
+  .cards-wrapper {
+    grid-row: 2;
+  }
+
+> p {
+  grid-column: 1 / 4
+  }
+ }
+
   .hero-tabs .tabs-list button.tabs-tab[aria-selected='true'] {
     background-color: var(--link-color); /* rgb(65,116,141) */
     color: #fff;
