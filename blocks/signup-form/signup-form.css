@@ -489,35 +489,15 @@ select{
     grid-column: 1 / -1;
   }
 
-  /* Email */
-  .text-wrapper:has(#form-email) {
-    grid-column: 1 / -1;
-  }
-
-  /* Address */
-  .text-wrapper:has(#form-address) {
-    grid-column: 1 / -1;
-  }
-
-  /* Zip */
-  .text-wrapper:has(#form-zipcode) {
-    grid-column: 1 / -1;
-  }
-
-  /* Specialty */
+  .text-wrapper:has(#form-email),
+  .text-wrapper:has(#form-address),
+  .text-wrapper:has(#form-zipcode),
+  .text-wrapper:has(#form-npi),
+  .text-wrapper:has(#form-phone),
   .select-wrapper:has(#form-speciality) {
     grid-column: 1 / -1;
   }
 
-  /* NPI */
-  .text-wrapper:has(#form-npi) {
-    grid-column: 1 / -1;
-  }
-
-  /* Phone */
-  .text-wrapper:has(#form-phone) {
-    grid-column: 1 / -1;
-  }
 }
 
 /* iPad Mini and other iPads */
@@ -549,16 +529,7 @@ select{
     bottom: 19px;
   }
 
-  .field-wrapper:has(#form-city):has(.form-error[style*="display: none"])
-  + .field-wrapper:has(#form-state)::after {
-    bottom: 24px;
-  }
-
   #form-lastname + .form-error{
-    margin-left:20px;
-  }
-
-  #form-state + .form-error{
     margin-left:20px;
   }
 
@@ -566,20 +537,8 @@ select{
     margin-top: 15px;
   }
 
-  #form-lastname-label{
-    margin-left: 20px;
-  }
-
-  #form-state-label{
-    margin-left: 15px;
-  }
-
   .text-wrapper {
     padding-right:0;
-  }
-
-  #form-firstname{
-    width: 93%;
   }
 
   #form-lastname{
@@ -587,7 +546,7 @@ select{
     width: 93%;
   }
 
-  #form-city{
+  #form-city, #form-firstname{
       width: 93%;
   }
 
@@ -595,6 +554,15 @@ select{
     margin-left: 18px;
     width: 93%;
   }
+
+  #form-state + .form-error{
+    margin-left:20px;
+  }
+
+  .field-wrapper:has(#form-city):has(.form-error[style*="display: none"])
+  + .field-wrapper:has(#form-state)::after {
+    bottom: 24px;
+  }  
 
   .select-wrapper::after {
       right: 0;
@@ -613,12 +581,16 @@ select{
     font-size: 36px;
   }
 
-  .checkbox-group-heading{
+  .checkbox-group-heading, .sign-up-checkbox{
     width: 100%;
   }
 
-  .sign-up-checkbox {
-    width: 100%;
+  #form-lastname-label{
+    margin-left: 20px;
+  }
+
+  #form-state-label{
+    margin-left: 15px;
   }
 
   .checkbox-wrapper:has(#form-authorized) {
