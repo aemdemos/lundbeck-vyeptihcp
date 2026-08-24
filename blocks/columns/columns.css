@@ -301,23 +301,24 @@ main .columns.icon-feature.callout > div > div:last-child p {
   line-height: 1.3;
 }
 
-/* stack-text — authored as Columns (stack-text), with [text-top] or
-   [text-bottom] in the text cell. The two cells stack through 991px, then
-   return to their authored row order at 992px. */
+/* stack-text — authored as Columns (stack-text, text-top) or Columns
+   (stack-text, text-bottom). The two cells stack through 991px, then return
+   to their authored row order at 992px. */
 main .columns.stack-text > div {
   flex-direction: column;
   align-items: stretch;
+  gap: 40px;
 }
 
-main .columns.stack-text > div > .text-top {
+main .columns.stack-text.text-top > div > div:last-child {
   order: 0;
 }
 
-main .columns.stack-text > div:has(> .text-top) > :not(.text-top) {
+main .columns.stack-text.text-top > div > div:first-child {
   order: 1;
 }
 
-main .columns.stack-text > div > .text-bottom {
+main .columns.stack-text.text-bottom > div > div:last-child {
   order: 1;
 }
 
@@ -476,12 +477,20 @@ main .columns.teal a.button {
 }
 
 @media (width >= 576px) {
+  main .columns.stack-text > div {
+    gap: 36px;
+  }
+
   main .columns.arrow-nav > div {
     max-width: 540px;
   }
 }
 
 @media (width >= 768px) {
+  main .columns.stack-text > div {
+    gap: 36px;
+  }
+
   .columns > div { /* @boilerplate */
     flex-direction: unset; /* @boilerplate */
     gap: var(--columns-gap); /* @boilerplate */
@@ -623,13 +632,9 @@ main .columns.teal a.button {
     align-items: center;
   }
 
-  main .columns.stack-text > div > div {
-    order: unset;
-  }
-
-  main .columns.stack-text > div > .text-top,
-  main .columns.stack-text > div > .text-bottom,
-  main .columns.stack-text > div:has(> .text-top) > :not(.text-top) {
+  main .columns.stack-text.text-top > div > div:last-child,
+  main .columns.stack-text.text-top > div > div:first-child,
+  main .columns.stack-text.text-bottom > div > div:last-child {
     order: unset;
   }
 
