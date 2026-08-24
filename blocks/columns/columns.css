@@ -273,8 +273,7 @@ main .columns.icon-feature.align-center > div {
 }
 
 main .columns.icon-feature > div > .columns-img-col {
-  flex: 0 0 auto;
-  width: 80px;
+  flex: 0 0 80px;
 }
 
 main .columns.icon-feature > div > div:last-child :is(h1, h2, h3, h4, h5, h6) {
@@ -310,25 +309,24 @@ main .columns.icon-feature.callout > div > div:last-child p {
   line-height: 1.3;
 }
 
-/* text-top / text-bottom — authored as Columns (text-top) or
-   Columns (text-bottom). The two cells stack through 991px, then return
+/* stack-text — authored as Columns (stack-text, text-top) or Columns
+   (stack-text, text-bottom). The two cells stack through 991px, then return
    to their authored row order at 992px. */
-main .columns.text-top > div,
-main .columns.text-bottom > div {
+main .columns.stack-text > div {
   flex-direction: column;
   align-items: stretch;
   gap: 40px;
 }
 
-main .columns.text-top > div > div:last-child {
+main .columns.stack-text.text-top > div > div:last-child {
   order: 0;
 }
 
-main .columns.text-top > div > div:first-child {
+main .columns.stack-text.text-top > div > div:first-child {
   order: 1;
 }
 
-main .columns.text-bottom > div > div:last-child {
+main .columns.stack-text.text-bottom > div > div:last-child {
   order: 1;
 }
 
@@ -487,8 +485,7 @@ main .columns.teal a.button {
 }
 
 @media (width >= 576px) {
-  main .columns.text-top > div,
-  main .columns.text-bottom > div {
+  main .columns.stack-text > div {
     gap: 36px;
   }
 
@@ -498,8 +495,7 @@ main .columns.teal a.button {
 }
 
 @media (width >= 768px) {
-  main .columns.text-top > div,
-  main .columns.text-bottom > div {
+  main .columns.stack-text > div {
     gap: 36px;
   }
 
@@ -639,24 +635,15 @@ main .columns.teal a.button {
 }
 
 @media (width >= 992px) {
-  main .columns.text-top > div,
-  main .columns.text-bottom > div {
+  main .columns.stack-text > div {
     flex-direction: row;
     align-items: center;
   }
 
-  main .columns.text-top > div > div:last-child,
-  main .columns.text-top > div > div:first-child,
-  main .columns.text-bottom > div > div:last-child {
+  main .columns.stack-text.text-top > div > div:last-child,
+  main .columns.stack-text.text-top > div > div:first-child,
+  main .columns.stack-text.text-bottom > div > div:last-child {
     order: unset;
-  }
-
-  /* icon-feature keeps its own tight row styling once text-top/text-bottom
-     return to a row at 992px, instead of the generic stacked-text look. */
-  main .columns.icon-feature.text-top > div,
-  main .columns.icon-feature.text-bottom > div {
-    align-items: flex-start;
-    gap: 16px;
   }
 
   /* teal box: source switches to image left / text right side-by-side only
