@@ -81,10 +81,6 @@ top: 2%;
   background-color: #7ebcc6;
 }
 
-.select-wrapper::after {
-  background-color: var(--background-color);
-}
-
 .select-wrapper:has(.form-error)::after {
   bottom: 24px;
 }
@@ -118,7 +114,6 @@ input[type="checkbox"]:checked {
   left: 12px;
   top: 20%;
   transform: translateY(-50%);
-  font-size: var(--body-font-size-s);
   pointer-events: none;
   visibility: hidden;
   font-size: 80%;
@@ -500,9 +495,8 @@ select{
 
 }
 
-/* iPad Mini and other iPads */
-
-@media screen and (min-width: 768px) and (max-width: 1024px) {
+/* iPad Mini specific */
+@media screen and (768px <= width <= 1024px) {
   .text-wrapper:has(#form-firstname), .text-wrapper:has(#form-lastname) {
     grid-column: auto;
   }
@@ -515,10 +509,10 @@ select{
 /* DESKTOP */
 
 @media (width >= 992px) {
-
   .checkbox-group-end .form-error {
     padding-top: 0;
   }
+
   .field-wrapper:has(#form-city):has(.form-error[style*="display: block"])
   select:invalid::after {
       bottom: 24px;
