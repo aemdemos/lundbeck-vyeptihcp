@@ -27,6 +27,8 @@
   --columns-teal-img-width: 195px;
   --columns-teal-text-max-width: 570px; /* source text column ≈ 567px */
   --columns-teal-button-padding: 16px 60px; /* source CTA ≈ 345×56px */
+  --columns-quote-dose-gap: 30px;
+  --columns-quote-dose-img-width: 300px;
 }
 
 /* ────────────────────────────────────────────────────────────────
@@ -138,9 +140,30 @@ main .columns.resource-list img {
   flex-shrink: 0;
 }
 
+main .section.quote-dose .columns.center-mobile > div {
+  gap: var(--columns-quote-dose-gap);
+}
+
+main .section.quote-dose .columns.center-mobile .columns-img-col {
+  width: auto;
+}
+
+main .section.quote-dose .columns.center-mobile > div > div {
+  flex: initial;
+}
+
+main .section.quote-dose img {
+  max-width: unset;
+  width: var(--columns-quote-dose-img-width);
+}
+
 
 /* Tablet+ : two columns side by side */
 @media (width >= 768px) {
+  :root {
+    --columns-quote-dose-gap: 30px;
+  }
+
   main .columns.teaser-cta > div {
     gap: 2.5rem;
   }
@@ -151,6 +174,10 @@ main .columns.resource-list img {
 }
 
 @media (width >= 992px) {
+  :root {
+    --columns-quote-dose-gap: 70px;
+  }
+
   main .columns.resource-list > div {
     gap: 60px;
   }
