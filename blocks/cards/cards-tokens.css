@@ -376,13 +376,12 @@ main .cards.border .cards-card-body {
    matching the source; here it only goes to a 2-up grid (still column-internal). */
 @media (width >= 600px) {
   /* fixed gap (not justify-content: space-between) keeps it consistent row to
-     row regardless of how wide each row's link text happens to be */
+     row regardless of how wide each row's link text happens to be. align-items
+     and padding already match the base rule above, so aren't repeated here. */
   main .cards.divider > ul > li {
     flex-direction: row;
-    align-items: center;
     justify-content: flex-start;
     gap: 70px;
-    padding: 20px 8px;
   }
 
   main .cards.divider .cards-card-image {
@@ -435,21 +434,21 @@ main .cards.border .cards-card-body {
 
   /* justify-items: stretch (not the boilerplate's cards-2-cols center) so each
      card fills its column at full width, with a generous gap between them.
+     grid-template-columns already matches the 600px rule, so isn't repeated.
      This is also where the source itself flips each card to row layout. */
   main .cards.border > ul,
   main .cards.border.cards-2-cols > ul,
   main .cards.border.cards-3-cols > ul {
-    grid-template-columns: repeat(2, 1fr);
     justify-items: stretch;
     gap: 48px;
   }
 
   /* tighter horizontal padding/gap than the column layout above — frees just
      enough room so "Orsini Specialty Pharmacy" fits on one line at this width
-     instead of wrapping (which was making the card taller than at 1200px) */
+     instead of wrapping (which was making the card taller than at 1200px).
+     align-items already matches the base rule, so isn't repeated here. */
   main .cards.border > ul > li {
     flex-direction: row;
-    align-items: center;
     gap: 8px;
     padding: 20px 10px;
   }
