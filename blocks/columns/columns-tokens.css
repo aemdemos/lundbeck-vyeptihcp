@@ -123,12 +123,19 @@ main .columns.resource-list > div > div {
 
 main .columns.resource-list a {
   display: inline-flex;
+  align-items: center;
   gap: 8px;
   min-height: 32px;
   color: var(--brand-teal-muted);
   font-size: 18px;
   font-weight: 700;
   line-height: 1.2;
+}
+
+/* Icon-last links stretch full width so the icon sits at the right edge. */
+main .columns.resource-list a.icon-trailing {
+  display: flex;
+  justify-content: space-between;
 }
 
 main .columns.resource-list a:hover {
@@ -164,6 +171,66 @@ main .section.quote-dose .columns.center-mobile img {
 
 main .section.quote-dose .columns-wrapper p span.small-text {
   padding: var(--columns-quote-dose-small-text-padding);
+}
+
+/* ────────────────────────────────────────────────────────────────
+ * trial-links variant - keeps links inline and not wrap until <=992px. At <=768px they text doesn't wrap, but stacks vertically instead of horizontally and doesn't wrap. The heading is always on the left, and the links are always on the right.
+ * ──────────────────────────────────────────────────────────────── */
+main .columns.trial-links > div {
+  flex-direction: column;
+  gap: 0;
+}
+
+main .columns.trial-links h3 {
+  color: var(--link-color);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+/* plain inline flow (not flex) so the icon rides along with the last
+   wrapped line of text instead of floating beside the whole text block */
+main .columns.trial-links a {
+  display: inline;
+  font-size: 16px;
+  line-height: 24px;
+  text-decoration: underline;
+  text-decoration-thickness: 0.5px;
+}
+
+main .columns.trial-links a .icon {
+  margin-left: 8px;
+  vertical-align: bottom;
+}
+
+@media (width >= 768px) {
+  main .columns.trial-links > div {
+    flex-flow: row nowrap;
+    align-items: center;
+  }
+
+  main .columns.trial-links > div > div {
+    flex: 0 1 auto;
+  }
+
+  main .columns.trial-links > div > div:not(:first-child) {
+    padding-left: 16px;
+  }
+
+  /* source bumps the heading size at this breakpoint regardless of wrap */
+  main .columns.trial-links h3 {
+    border-right: 1px solid #a4a4a4;
+    padding-right: 16px;
+    font-size: 22px;
+    line-height: 28px;
+  }
+}
+
+/* row has enough width from here up that nothing needs to shrink/wrap */
+@media (width >= 992px) {
+  main .columns.trial-links > div > div {
+    flex-shrink: 0;
+  }
 }
 
 

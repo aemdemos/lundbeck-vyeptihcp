@@ -164,6 +164,17 @@
   cursor: auto;
 }
 
+/* Space below the header row, matching the source's gap before the first row */
+.accordion-item-body:has(> .cards-wrapper > .cards.divider) {
+  margin-top: 40px;
+}
+
+/* Closing divider line drawn by the next sibling, not a border-bottom here. */
+.accordion-item-body:has(> .cards-wrapper > .cards.divider) > .columns-wrapper {
+  border-top: 1px solid var(--cards-divider-color, #a4a4a4);
+  padding-top: 50px;
+}
+
 /* study-design chart images fill the available width and keep their ratio */
 .accordion .accordion-item-body picture,
 .accordion .accordion-item-body p:has(> picture) {
@@ -203,5 +214,16 @@
 
   .accordion .accordion-sublist {
     clear: both;
+  }
+
+  /* Pairs two "Cards (divider)" blocks side by side (mobile/tablet just stack them) */
+  .accordion-item.active .accordion-item-body:has(> .cards-wrapper > .cards.divider) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 48px;
+  }
+
+  .accordion-item-body:has(> .cards-wrapper > .cards.divider) > :not(.cards-wrapper) {
+    grid-column: 1 / -1;
   }
 }
