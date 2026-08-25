@@ -17,13 +17,13 @@ export function createDropdown(block, mileBlock) {
 
   const dropdown = document.createElement('div');
   dropdown.id = 'locator-distance';
-  dropdown.className = 'dropdown-items selectHide';
+  dropdown.className = 'dropdown-items select-hide';
 
   radiusValues.forEach((distance) => {
     const item = document.createElement('div');
     item.className = 'item';
     if (String(distance) === '25') {
-      item.classList.add('selectedMiles');
+      item.classList.add('selected-miles');
     }
     item.dataset.value = distance;
     item.textContent = `${distance} miles`;
@@ -44,7 +44,7 @@ export function initCustomDropdown(dropdownContainer, type = 'select', onSelectC
   // Click handler to open/close menu options panels
   selectTrigger.addEventListener('click', (e) => {
     e.stopPropagation();
-    itemsContainer.classList.toggle('selectHide');
+    itemsContainer.classList.toggle('select-hide');
     selectTrigger.classList.toggle('active');
   });
 
@@ -56,8 +56,8 @@ export function initCustomDropdown(dropdownContainer, type = 'select', onSelectC
       const targetItem = e.target.closest('.item');
       if (!targetItem) return;
 
-      itemsContainer.querySelectorAll('.item').forEach((item) => item.classList.remove('selectedMiles'));
-      targetItem.classList.add('selectedMiles');
+      itemsContainer.querySelectorAll('.item').forEach((item) => item.classList.remove('selected-miles'));
+      targetItem.classList.add('selected-miles');
 
       const textValue = targetItem.textContent;
       const dataValue = targetItem.getAttribute('data-value');
@@ -72,7 +72,7 @@ export function initCustomDropdown(dropdownContainer, type = 'select', onSelectC
       selectTrigger.appendChild(arrow);
       dropdownContainer.setAttribute('data-value', dataValue);
 
-      itemsContainer.classList.add('selectHide');
+      itemsContainer.classList.add('select-hide');
       selectTrigger.classList.remove('active');
 
       if (onSelectCallback) onSelectCallback(dataValue);
@@ -96,7 +96,7 @@ export function initCustomDropdown(dropdownContainer, type = 'select', onSelectC
   // Interface utility signature for cleaner execution closures
   return {
     close: () => {
-      itemsContainer.classList.add('selectHide');
+      itemsContainer.classList.add('select-hide');
       selectTrigger.classList.remove('active');
     }
   };
