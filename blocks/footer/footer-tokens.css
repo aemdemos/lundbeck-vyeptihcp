@@ -44,13 +44,13 @@
   --footer-link-font-size: 16px; /* mobile */
   --footer-link-font-size-desktop: 16px; /* Onfi keeps 20px on desktop */
   --footer-link-font-weight: 700;
-  --footer-link-line-height: 16px;
+  --footer-link-line-height: 24px;
   --footer-link-gap: 0; /* Onfi separates links with a pipe (p + p border-left), not a margin */
-  --footer-link-mobile-gap: 10px; /* @boilerplate */
+  --footer-link-mobile-gap: 24px; /* vertical gap between stacked links (source) */
   --footer-transition: 0.2s ease; /* @boilerplate */
 
   /* ---- Onfi link extras (consumed by the overrides section) ---------- */
-  --footer-link-padding: 0 35px 10px 0; /* inline-block padding on each link */
+  --footer-link-padding: 0 35px 0 0; /* inline-block padding on each link */
   --footer-link-separator: 0;
 
   /* word-space the source gets between inline-block <li>s: 4.5px space + 2px
@@ -91,6 +91,8 @@
   /* right column (column 2) */
   --footer-right-width: 33.3333%; /* desktop 1/3 split (source col-sm-4) */
 
+  --footer-columns-inner-padding-desktop: 15px 0; /* left inset aligns legal copy with the links row */
+
   /* ---- divider-column gutters (Onfi 2-col row) -----------------------
      asymmetric gutters so the vertical rule lands at the 2/3 split:
      15px on the legal side, 40px on the logo side; 15px outer each edge. */
@@ -104,6 +106,9 @@
 
   /* ---- logo (Lundbeck) ----------------------------------------------- */
   --footer-logo-width: 140px; /* natural aspect (height auto) */
+  --footer-logo-width-mobile: 150px; /* cap the bare-picture logo to source size */
+  --footer-social-row-gap: 4px; /* gap between social icons */
+  --footer-logo-social-gap: 20px; /* gap below logo, down to the social row */
 
   /* logo left offset within its column (source: ~71px from the column content
      edge — left-aligned with an extra indent rather than centred) */
@@ -114,8 +119,8 @@
      source's 88px divider height; the logo lands 40px below the text top. */
   --footer-logo-col-margin-top: 30px;
   --footer-logo-col-padding-bottom: 8px; /* sets the vertical divider height (logo box + this) */
-  --footer-logo-col-margin-top-mobile: 10px;
-  --footer-logo-col-margin-top-desktop: -120px;
+  --footer-logo-col-margin-top-mobile: 32px; /* gap above logo (legal copy → logo) */
+  --footer-logo-col-margin-top-desktop: -88px; /* logo lands ~17px below the links row (source) */
   --footer-logo-margin-bottom: 20px;
 
   /* ---- UNUSED BY ONFI (no phone pill / social icons / assistance label).
@@ -216,6 +221,10 @@ footer .footer .columns.divider img {
     --footer-legal-margin-bottom: var(--footer-legal-margin-bottom-desktop);
     --footer-linkbar-padding: 30px 0 0;
     --footer-linkbar-inner-padding: 30px 150px 23px 15px; /* left matches vyeptihcp.com (was 0) */
+
+    --footer-social-row-gap: 8px; /* desktop icon gaps (source) */
+    --footer-logo-social-gap: 31px; /* renders ~40px below the logo (source) */
+    --footer-link-padding: 0; /* drop the link padding 768–1200 (restored >=1200) */
   }
 
   /* [LIBS GAP] footer.css lays the desktop links out as inline-block <p>s, so
@@ -278,5 +287,6 @@ footer .footer .columns.divider img {
    :root {
       --footer-max-width: 855pt;
       --footer-linkbar-inner-padding: 30px 0 23px 15px; /* left matches vyeptihcp.com (was 0) */
+      --footer-link-padding: 0 35px 0 0; /* restore link padding at wide widths */
    }
 }

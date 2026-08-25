@@ -698,7 +698,7 @@ header nav .nav-hamburger-icon::after {
 }
 
 header nav .nav-hamburger-label {
-  font-size: var(--header-font-size-xs);
+  font-size: 12px;
   font-weight: var(--header-font-weight-medium);
   line-height: var(--header-hamburger-label-line-height);
   color: var(--header-mobile-hamburger-label-color);
