@@ -8,6 +8,7 @@
   --cards-card-body-margin: var(--spacing-s); /* @boilerplate */
   --cards-image-aspect-ratio: 4 / 3; /* @boilerplate */
   --cards-image-object-fit: cover; /* @boilerplate */
+  --cards-divider-color: #a4a4a4;
 }
 
 /* ────────────────────────────────────────────────────────────────
@@ -249,6 +250,159 @@ main .cards.icon-feature.icon-80 .cards-card-body p {
   color: var(--text-color, #484848);
 }
 
+/* divider — logo + link-list rows separated by a hairline rule (no box) */
+main .cards.divider > ul {
+  grid-template-columns: 1fr;
+  gap: 0;
+  justify-items: stretch; /* overrides boilerplate's cards-2-cols center */
+}
+
+/* border-top only: draws a line above every row, incl. the seam between two
+   adjacent divider blocks, with no risk of a doubled line at that seam */
+main .cards.divider > ul > li {
+  width: auto;
+  border: none;
+  border-top: 1px solid var(--cards-divider-color);
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 8px;
+}
+
+/* The first row of a divider block needs extra image padding */
+main .accordion-item-body .cards-wrapper:first-of-type .cards.divider > ul > li:first-of-type .cards-card-image{
+  margin:20px 0;
+}
+
+/* The last row of a divider block needs (different)extra image padding */
+main .accordion-item:first-child > .accordion-item-body > .cards-wrapper + .cards-wrapper > .cards.divider > ul > li:last-child > .cards-card-image {
+  margin: 10px 0;
+}
+
+/* mobile (stacked): centered. 600px+ (row, table-style) switches to left. */
+main .cards.divider .cards-card-image {
+  text-align: center;
+}
+
+main .cards.divider .cards-card-image img {
+  width: 220px;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
+main .cards.divider .cards-card-body {
+  margin: 0;
+  text-align: center;
+}
+
+main .cards.divider .cards-card-body p {
+  margin: 0;
+}
+
+/* source lists each link as its own padded paragraph; replicate that by
+   making each authored <a> (not the <br> between them) its own block with a
+   fixed gap below — keeps that gap constant even when a link wraps, since
+   line-height (below) only governs spacing between a link's own wrapped lines */
+main .cards.divider .cards-card-body p a {
+  display: block;
+  line-height: 24px;
+  margin-bottom: 16px;
+}
+
+main .cards.divider .cards-card-body p a:last-of-type {
+  margin-bottom: 4px;
+}
+
+main .cards.divider .cards-card-body p br {
+  display: none;
+}
+
+/* border — logo + link/phone rows, each in its own rounded embossed box
+   (same recipe as the .emboss utility in styles.css, scoped per row).
+   Stacked below 992px; the 992px query below restores the 2-up grid. */
+main .cards.border {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+main .cards.border > ul,
+main .cards.border.cards-2-cols > ul,
+main .cards.border.cards-3-cols > ul {
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+main .cards.border > ul > li {
+  width: auto;
+  border: none;
+  border-radius: 20px;
+  box-shadow: inset 0 0 8px 2px rgb(0 0 0 / 20%);
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px;
+}
+
+/* flex: 0 0 auto so the row-layout image doesn't get squeezed by the text
+   column competing for space — sizes purely from the img's own max-width/height */
+main .cards.border .cards-card-image {
+  flex: 0 0 auto;
+}
+
+/* fixed height (flat at every breakpoint, matching the source) + auto width
+   scales logos by their real ratio; aspect-ratio: auto overrides the
+   boilerplate's forced 4/3 default. */
+main .cards.border .cards-card-image img {
+  width: auto;
+  max-width: 100%;
+  height: 70px;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
+main .cards.border .cards-card-body {
+  margin: 0;
+  text-align: center;
+}
+
+/* 600px matches the source's own divider row-flip breakpoint — narrower than
+   the other variants' 768px. Border's own row-flip is later, at 992px below,
+   matching the source; here it only goes to a 2-up grid (still column-internal). */
+@media (width >= 600px) {
+  /* fixed gap (not justify-content: space-between) keeps it consistent row to
+     row regardless of how wide each row's link text happens to be */
+  main .cards.divider > ul > li {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 70px;
+    padding: 20px 8px;
+  }
+
+  main .cards.divider .cards-card-image {
+    flex: 0 0 220px;
+    text-align: left;
+  }
+
+  main .cards.divider .cards-card-body {
+    text-align: left;
+  }
+
+  /* source pairs the two cards side by side here (still column-internal,
+     compact width); the row-flip + full-width stretch below is at 992px */
+  main .cards.border > ul,
+  main .cards.border.cards-2-cols > ul,
+  main .cards.border.cards-3-cols > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* Tablet+ : quicklink four across, promo two across, icon-feature claims two
    across, icon-80 two across */
 @media (width >= 768px) {
@@ -267,6 +421,54 @@ main .cards.icon-feature.icon-80 .cards-card-body p {
 
   main .cards.icon-feature.icon-80 > ul {
     gap: 16px 32px;
+  }
+}
+
+/* 992px matches the boilerplate's own cards-2-cols grid breakpoint (cards.css)
+   so the border row-flip lines up with the boilerplate's column switch;
+   divider widens its gap here too (its row-flip itself starts at 600px above) */
+@media (width >= 992px) {
+  main .cards.divider > ul > li {
+    gap: 40px;
+    padding: 24px 8px;
+  }
+
+  /* justify-items: stretch (not the boilerplate's cards-2-cols center) so each
+     card fills its column at full width, with a generous gap between them.
+     This is also where the source itself flips each card to row layout. */
+  main .cards.border > ul,
+  main .cards.border.cards-2-cols > ul,
+  main .cards.border.cards-3-cols > ul {
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: stretch;
+    gap: 48px;
+  }
+
+  /* tighter horizontal padding/gap than the column layout above — frees just
+     enough room so "Orsini Specialty Pharmacy" fits on one line at this width
+     instead of wrapping (which was making the card taller than at 1200px) */
+  main .cards.border > ul > li {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding: 20px 10px;
+  }
+
+  main .cards.border .cards-card-body {
+    text-align: left;
+  }
+}
+
+/* 1200px+ (wide desktop): source widens the image-to-text gap further here */
+@media (width >= 1200px) {
+  main .cards.divider > ul > li {
+    gap: 80px;
+  }
+
+  main .cards.border > ul,
+  main .cards.border.cards-2-cols > ul,
+  main .cards.border.cards-3-cols > ul {
+    gap: 64px;
   }
 }
 
