@@ -146,16 +146,7 @@ main .columns.trial-links > div {
   gap: 0;
 }
 
-main .columns.trial-links > div > div {
-  margin-bottom: 16px;
-}
-
-main .columns.trial-links > div > div:last-child {
-  margin-bottom: 0;
-}
-
 main .columns.trial-links h3 {
-  margin: 0;
   color: var(--link-color);
   font-size: 18px;
   font-weight: 700;
@@ -185,7 +176,6 @@ main .columns.trial-links a .icon {
 
   main .columns.trial-links > div > div {
     flex: 0 1 auto;
-    margin-bottom: 0;
   }
 
   main .columns.trial-links > div > div:not(:first-child) {
