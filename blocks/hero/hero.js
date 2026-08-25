@@ -1,4 +1,5 @@
 import { buildPictureContentFromImageCell } from '../../scripts/utils.js';
+/** ADCL events handling for hero */
 
 function decorateSinglePanel(block) {
   block.classList.add('single');
