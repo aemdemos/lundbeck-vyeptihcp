@@ -138,6 +138,92 @@ main .columns.resource-list img {
   flex-shrink: 0;
 }
 
+/* ────────────────────────────────────────────────────────────────
+ * trial-links variant — a heading ("PIVOTAL TRIALS" / "PREVAIL") plus one
+ * or more "Read full … clinical publication" external links, each authored
+ * as its own row. Stacked (one item per line, no wrapping) below 768px —
+ * full-width stacked items always have room for the text on one line. At
+ * >=768px the heading and links share a single row (never dropping to a
+ * new line) with the source's right-hand divider on the heading and 16px
+ * of spacing before each link, with the second link getting double that
+ * (32px) to match source. Items keep a shrinkable flex basis so that when
+ * the row is too narrow for every item's natural width (768–991px) the
+ * text wraps to a second line in place rather than the item dropping below
+ * the row; flex-shrink is turned back off at >=992px, where the row always
+ * has enough width, so nothing wraps (relying on shrink alone left it one
+ * fraction short of the source's own numbers at exactly 992px).
+ * ──────────────────────────────────────────────────────────────── */
+main .columns.trial-links > div {
+  flex-direction: column;
+  gap: 0;
+}
+
+main .columns.trial-links > div > div {
+  margin-bottom: 16px;
+}
+
+main .columns.trial-links > div > div:last-child {
+  margin-bottom: 0;
+}
+
+main .columns.trial-links h3 {
+  margin: 0;
+  color: var(--link-color);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+/* plain inline flow (not flex) so the icon rides along with the last
+   wrapped line of text instead of floating beside the whole text block */
+main .columns.trial-links a {
+  display: inline;
+  font-size: 16px;
+  line-height: 24px;
+  text-decoration: underline;
+  text-decoration-thickness: 0.5px;
+}
+
+main .columns.trial-links a .icon {
+  margin-left: 8px;
+  vertical-align: bottom;
+}
+
+@media (width >= 768px) {
+  main .columns.trial-links > div {
+    flex-flow: row nowrap;
+    align-items: center;
+  }
+
+  main .columns.trial-links > div > div {
+    flex: 0 1 auto;
+    margin-bottom: 0;
+  }
+
+  main .columns.trial-links > div > div:nth-child(2) {
+    padding-left: 16px;
+  }
+
+  main .columns.trial-links > div > div:nth-child(n+3) {
+    padding-left: 32px;
+  }
+
+  /* source bumps the heading size at this breakpoint regardless of wrap */
+  main .columns.trial-links h3 {
+    border-right: 1px solid #a4a4a4;
+    padding-right: 16px;
+    font-size: 22px;
+    line-height: 28px;
+  }
+}
+
+/* row has enough width from here up that nothing needs to shrink/wrap */
+@media (width >= 992px) {
+  main .columns.trial-links > div > div {
+    flex-shrink: 0;
+  }
+}
+
 
 /* Tablet+ : two columns side by side */
 @media (width >= 768px) {
