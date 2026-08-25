@@ -749,7 +749,7 @@ header nav.nav-mobile-open .nav-hamburger-icon::after {
 /* Bootstrap's own md container (720px, centered) governs source's HCP/utility/brand row insets
    from 768px up until the 992px desktop tier takes over with its own wider container. */
 @media (width >= 768px) {
-  header nav .nav-hcp-container, header nav .nav-utility-container, header nav .nav-brand-container, header nav .nav-links-container {
+  header nav .nav-hcp-container, header nav .nav-brand-container, header nav .nav-links-container {
     max-width: 720px;
   }
 
@@ -758,13 +758,13 @@ header nav.nav-mobile-open .nav-hamburger-icon::after {
     gap: 177px;
   }
 
-  /* The light-blue PI/Patient Info strip must bleed full-bleed past the 720px container, unlike its content. */
+  /* The light-blue PI/Patient Info strip must bleed full-bleed past the 720px container, unlike its content. 
   header nav .nav-utility-links {
     position: relative;
     left: 50%;
     width: calc(100vw - 16px);
     margin-left: -50vw;
-  }
+  }*/
 }
 
 /* DESKTOP (>=992px): teal brand band, single-row utility bar, horizontal CTAs + nav, hamburger hidden. */
