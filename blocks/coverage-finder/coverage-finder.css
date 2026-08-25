@@ -21,12 +21,12 @@
 
 @media (width <= 1200px) {
     .norstella-cf-flexAlignFilterBar {
-        display: block !important;
+        display: block;
     }
    
     .norstella-cf-flexAlignFilterBar > * {
-        display: block !important;
-        width: 100% !important;
+        display: block;
+        width: 100%;
         margin-bottom: 10px;
     }
 }
