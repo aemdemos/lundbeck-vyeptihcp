@@ -1,9 +1,9 @@
 import { centerMapOnMarker } from "../map.js";
 
 function getFacilityIcon(result) {
-  const combinedImage = 'https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/Combined-Image.svg';
-  const iconHome = 'https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/icon_home_40px.svg';
-  const iconHospital = 'https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/icon_hospital_40px.svg';
+  const combinedImage = 'icons/Combined-Image.svg';
+  const iconHome = 'icons/icon_home_40px.svg';
+  const iconHospital = 'icons/icon_hospital_40px.svg';
 
   if (
     result.preferredIc === 'TRUE' &&
@@ -24,8 +24,8 @@ function getFacilityIcon(result) {
 
 export function noResult(resultsContainer) {
   const noResultsImg = document.createElement('img');
-  noResultsImg.src = 'https://www.vyeptihcp.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/search-plus.png';
- noResultsImg.className ='noResults-icon-img';
+  noResultsImg.src = 'icons/search-plus.png';
+ noResultsImg.className ='no-results-icon-img';
 
   const title = document.createElement('h2');
   title.className = 'locator-no-results';
@@ -54,7 +54,7 @@ export function searchResult(result, index, settings) {
 
   //  PreferredIC means which is true Vyepti infussion locator
   const gradientClass =
-    result.preferredIc === 'TRUE' ? 'gradientBorder' : '';
+    result.preferredIc === 'TRUE' ? 'gradient-border' : '';
 
   const listItem = document.createElement('li');
   listItem.className = `locator-result-item ${gradientClass}`.trim();
@@ -98,12 +98,12 @@ export function searchResult(result, index, settings) {
 
   // Type
   const type = document.createElement('p');
-  type.className = 'typeText';
+  type.className = 'type-text';
   type.textContent = typeText;
 
   // Miles
 const miles = document.createElement('p');
-miles.className = 'milesText';
+miles.className = 'miles-text';
 
 if (result.miles !== null && result.miles !== undefined) {
   miles.textContent = `${result.miles} miles away`;

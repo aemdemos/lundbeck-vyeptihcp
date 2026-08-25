@@ -4,8 +4,7 @@ export default function registerEvents({
   block,
   ui,
   settings,
-  apiInfo,
-  allLocations,
+  loadAllLocations,
 }) {
   /*
    * ZIP floating label.
@@ -30,11 +29,11 @@ export default function registerEvents({
       event.preventDefault();
 
       ui.filterDescpTwo.classList.toggle(
-        'selectHide',
+        'select-hide',
       );
 
       ui.filterDescpOne.classList.toggle(
-        'selectHide',
+        'select-hide',
       );
     });
   }
@@ -42,32 +41,39 @@ export default function registerEvents({
   /*
    * Search button.
    */
-  ui.searchBtn.addEventListener('click', (event) => {
+ if (ui.searchBtn) {
+  ui.searchBtn.addEventListener('click', async (event) => {
     event.preventDefault();
+
+    const allLocations = await loadAllLocations();
 
     handleSearch({
       block,
       ui,
       settings,
-      apiInfo,
       allLocations,
     });
   });
+}
 
   /*
    * Search using Enter.
    */
-  ui.zipInput.addEventListener('keydown', (event) => {
-    if (event.key !== 'Enter') return;
+  const ENTER_KEYS = new Set(['Enter']);
+  ui.zipInput.addEventListener('keydown', async (event) => {
+  const { key } = event;
 
+  if (ENTER_KEYS.has(key)) {
     event.preventDefault();
+
+    const allLocations = await loadAllLocations();
 
     handleSearch({
       block,
       ui,
       settings,
-      apiInfo,
       allLocations,
     });
-  });
+  }
+});
 }

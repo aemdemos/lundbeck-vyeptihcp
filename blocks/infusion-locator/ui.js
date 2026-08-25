@@ -7,9 +7,9 @@ export default function getElements(block) {
     zipLabel: block.querySelector('label[for="form-zipcode"]'),
     mileBlock: block.querySelector('.mile-block'),
     filterBlock: block.querySelector('.filter-block'),
-    errorLabel: block.querySelector('.error.selectHide'),
+    errorLabel: block.querySelector('.error.select-hide'),
     infoIcon: block.querySelector('label .info-icon'),
-    filterDescpOne: block.querySelector('.filterDescpOne'),
-    filterDescpTwo: block.querySelector('.filterDescpTwo'),
+    filterDescpOne: block.querySelector('.filter-descp-one'),
+    filterDescpTwo: block.querySelector('.filter-descp-two'),
   };
 }
