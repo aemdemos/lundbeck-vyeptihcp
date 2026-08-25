@@ -757,14 +757,7 @@ header nav.nav-mobile-open .nav-hamburger-icon::after {
   header nav .nav-hcp-actions {
     gap: 177px;
   }
-
-  /* The light-blue PI/Patient Info strip must bleed full-bleed past the 720px container, unlike its content. 
-  header nav .nav-utility-links {
-    position: relative;
-    left: 50%;
-    width: calc(100vw - 16px);
-    margin-left: -50vw;
-  }*/
+  
 }
 
 /* DESKTOP (>=992px): teal brand band, single-row utility bar, horizontal CTAs + nav, hamburger hidden. */
