@@ -119,8 +119,7 @@ main .columns.resource-list > div > div {
 }
 
 main .columns.resource-list a {
-  display: flex;
-  justify-content: space-between;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   min-height: 32px;
@@ -128,6 +127,12 @@ main .columns.resource-list a {
   font-size: 18px;
   font-weight: 700;
   line-height: 1.2;
+}
+
+/* Icon-last links stretch full width so the icon sits at the right edge. */
+main .columns.resource-list a:has(> .icon:last-child) {
+  display: flex;
+  justify-content: space-between;
 }
 
 main .columns.resource-list a:hover {
