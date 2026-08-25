@@ -217,7 +217,7 @@
   }
 
   /* Pairs two "Cards (divider)" blocks side by side (mobile/tablet just stack them) */
-  .accordion-item-body:has(> .cards-wrapper > .cards.divider) {
+  .accordion-item.active .accordion-item-body:has(> .cards-wrapper > .cards.divider) {
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 48px;
