@@ -130,7 +130,7 @@ main .columns.resource-list a {
 }
 
 /* Icon-last links stretch full width so the icon sits at the right edge. */
-main .columns.resource-list a:has(> .icon:last-child) {
+main .columns.resource-list a.icon-trailing {
   display: flex;
   justify-content: space-between;
 }
