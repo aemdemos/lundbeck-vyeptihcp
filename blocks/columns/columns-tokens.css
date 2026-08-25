@@ -144,9 +144,11 @@ main .columns.resource-list img {
  * as its own row. Stacked (one item per line, no wrapping) below 768px —
  * full-width stacked items always have room for the text on one line. At
  * >=768px the heading and links share a single row (never dropping to a
- * new line) with the source's right-hand divider on the heading and 16px
- * of spacing before each link, with the second link getting double that
- * (32px) to match source. Items keep a shrinkable flex basis so that when
+ * new line) with the source's right-hand divider on the heading and a
+ * uniform 16px of spacing before each link (source itself isn't consistent
+ * between instances here — PIVOTAL TRIALS doubles the gap before its 2nd
+ * link, PREVAIL doesn't — so a single flat value is used rather than
+ * encoding that as a rule). Items keep a shrinkable flex basis so that when
  * the row is too narrow for every item's natural width (768–991px) the
  * text wraps to a second line in place rather than the item dropping below
  * the row; flex-shrink is turned back off at >=992px, where the row always
@@ -200,12 +202,8 @@ main .columns.trial-links a .icon {
     margin-bottom: 0;
   }
 
-  main .columns.trial-links > div > div:nth-child(2) {
+  main .columns.trial-links > div > div:not(:first-child) {
     padding-left: 16px;
-  }
-
-  main .columns.trial-links > div > div:nth-child(n+3) {
-    padding-left: 32px;
   }
 
   /* source bumps the heading size at this breakpoint regardless of wrap */
