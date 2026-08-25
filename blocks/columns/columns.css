@@ -18,6 +18,7 @@
 }
 
 main .section:has(.columns.arrow-nav) {
+  margin-top: 0;
   margin-left: 0;
   margin-right: 0;
 
@@ -530,14 +531,22 @@ main .columns.teal a.button {
     max-width: 720px;
   }
 
+  /* Shrink-to-fit (not flex: 1) so each link hugs the shared divider instead of
+     centering within half the row; --columns-divider-spacing is the same token
+     the `divider` variant above uses for its padding on either side of its edge. */
   main .columns.arrow-nav > div > div {
-    text-align: center;
+    flex: 0 0 auto;
+  }
+
+  main .columns.arrow-nav > div > div:first-child {
+    padding-inline-end: var(--columns-divider-spacing);
   }
 
   /* Fixed-height divider, vertically centered — a border would stretch to the
      column's full height, which is taller than the source's actual divider. */
   main .columns.arrow-nav > div > div:not(:first-child) {
     position: relative;
+    padding-inline-start: var(--columns-divider-spacing);
   }
 
   main .columns.arrow-nav > div > div:not(:first-child)::before {
@@ -554,6 +563,7 @@ main .columns.teal a.button {
   main .columns.arrow-nav a,
   main .columns.arrow-nav a:any-link {
     font-size: var(--heading-font-size-s); /* 18px at >=768px (source) */
+    text-align: left;
   }
 
   main .columns.icon-feature.claims {
