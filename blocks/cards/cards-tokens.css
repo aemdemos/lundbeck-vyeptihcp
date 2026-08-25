@@ -400,12 +400,15 @@ main .cards.border .cards-card-body {
   main .cards.border.cards-2-cols > ul,
   main .cards.border.cards-3-cols > ul {
     grid-template-columns: repeat(2, 1fr);
-main .hero-tabs .cards.icon-feature {
-margin-top:16px;
-margin-bottom: 24px;
+  }
+}
 
- ul > li {
-    align-items:flex-start;
+main .hero-tabs .cards.icon-feature {
+  margin-top: 16px;
+  margin-bottom: 24px;
+
+  ul > li {
+    align-items: flex-start;
   }
 
   .cards-card-image {
