@@ -762,7 +762,7 @@ header nav.nav-mobile-open .nav-hamburger-icon::after {
   header nav .nav-utility-links {
     position: relative;
     left: 50%;
-    width: 100vw;
+    width: calc(100vw - 16px);
     margin-left: -50vw;
   }
 }
