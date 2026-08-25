@@ -141,6 +141,10 @@ main .columns.resource-list img {
   flex-shrink: 0;
 }
 
+main .section.quote-dose .columns.center-mobile {
+  padding: 50px 0 10px;
+}
+
 main .section.quote-dose .columns.center-mobile > div {
   gap: var(--columns-quote-dose-gap);
 }
