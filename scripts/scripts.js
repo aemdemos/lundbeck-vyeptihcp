@@ -392,15 +392,22 @@ export function enableSmoothAnchorScroll(scope = document) {
   });
 }
 
+// Proper casing for icon names that aren't just a capitalized slug.
+const ICON_LABELS = { linkedin: 'LinkedIn', youtube: 'YouTube' };
+
 function a11yLinks(main) {
   const links = main.querySelectorAll('a');
   links.forEach((link) => {
-    let label = link.textContent;
-    if (!label && link.querySelector('span.icon')) {
-      const icon = link.querySelector('span.icon');
-      label = icon ? icon.classList[1]?.split('-')[1] : label;
+    let label = link.textContent.trim();
+    if (!label) {
+      // Icon-only link: name it from its icon class, which may sit outside the link.
+      const icon = link.querySelector('span.icon') || link.closest('li')?.querySelector('span.icon');
+      const iconClass = icon && [...icon.classList].find((c) => c.startsWith('icon-') && c !== 'icon-bullet');
+      const name = iconClass?.slice(5).replace(/-/g, ' ');
+      if (name) label = ICON_LABELS[name] || name.charAt(0).toUpperCase() + name.slice(1);
     }
-    link.setAttribute('aria-label', label);
+    // An empty aria-label strips the accessible name, so only set a real one.
+    if (label) link.setAttribute('aria-label', label);
   });
 }
 
