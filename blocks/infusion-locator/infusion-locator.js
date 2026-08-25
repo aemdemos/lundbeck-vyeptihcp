@@ -11,7 +11,6 @@ import {
 import registerEvents from './events.js';
 import { initCustomDropdown } from './dropdown.js';
 import getElements from './ui.js';
-import { loadPdfMake } from './layout/pdf.js';
 
 async function renderForm(block) {
   const formModule = await import('../form/form.js');
@@ -38,6 +37,7 @@ function getDocumentSettings(block) {
       .toLowerCase()
       .replace(/\s+/g, '-');
 
+    // eslint-disable-next-line secure-coding/detect-object-injection
     config[key] = cells[1].textContent.trim();
   });
 
@@ -61,8 +61,6 @@ function initializeDropdowns(ui) {
   );
 }
 
-await loadPdfMake();
-
 export default async function decorate(block) {
   /*
    * 1. Read document configuration first.
@@ -83,6 +81,7 @@ export default async function decorate(block) {
   );
 
   if (!apiInfo) {
+    /* eslint-disable-next-line no-console */
     console.error('API configuration is missing');
     return;
   }
@@ -95,13 +94,7 @@ export default async function decorate(block) {
     ...documentSettings,
   };
 
-  /*
-   * 5. Load all facility data.
-   */
-  const allLocations = await loadLocations(
-    apiInfo,
-    settings,
-  );
+ 
 
   /*
    * 6. Create locator layout.
@@ -132,6 +125,19 @@ export default async function decorate(block) {
    */
   initializeDropdowns(ui);
 
+   /*
+   * 5. Load all facility data.
+   */
+  let allLocationsPromise;
+  const loadAllLocations = () => {
+  if (!allLocationsPromise) {
+    allLocationsPromise = loadLocations(
+      apiInfo,
+      settings,);
+  }
+  return allLocationsPromise;
+  };
+
   /*
    * 11. Register events.
    */
@@ -140,6 +146,6 @@ export default async function decorate(block) {
     ui,
     settings,
     apiInfo,
-    allLocations,
+    loadAllLocations,
   });
 }
