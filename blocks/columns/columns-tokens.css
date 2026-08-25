@@ -152,7 +152,7 @@ main .section.quote-dose .columns.center-mobile > div > div {
   flex: initial;
 }
 
-main .section.quote-dose img {
+main .section.quote-dose .columns.center-mobile img {
   max-width: unset;
   width: var(--columns-quote-dose-img-width);
 }
