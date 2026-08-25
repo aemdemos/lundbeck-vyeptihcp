@@ -128,7 +128,8 @@ main .cards.icon-feature {
    and stay left-aligned, matching the source full-width rows. */
 main .cards.icon-feature.cards-2-cols > ul,
 main .cards.icon-feature.cards-3-cols > ul,
-main .cards.icon-feature > ul {
+main .cards.icon-feature > ul,
+main .hero-tabs .cards.icon-feature > ul {
   grid-template-columns: 1fr;
   justify-items: stretch;
   gap: 2rem;
@@ -247,6 +248,19 @@ main .cards.icon-feature.icon-80 .cards-card-image img {
 
 main .cards.icon-feature.icon-80 .cards-card-body p {
   color: var(--text-color, #484848);
+}
+
+main .hero-tabs .cards.icon-feature {
+margin-top:16px;
+margin-bottom: 24px;
+
+ ul > li {
+    align-items:flex-start;
+  }
+
+  .cards-card-image {
+    flex: 0 0 50px;
+  }
 }
 
 /* Tablet+ : quicklink four across, promo two across, icon-feature claims two
