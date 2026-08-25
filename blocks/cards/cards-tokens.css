@@ -371,10 +371,10 @@ main .cards.border .cards-card-body {
   text-align: center;
 }
 
-/* 600px matches the source's own divider row-flip breakpoint — narrower than
+/* 576px matches the source's own divider row-flip breakpoint — narrower than
    the other variants' 768px. Border's own row-flip is later, at 992px below,
    matching the source; here it only goes to a 2-up grid (still column-internal). */
-@media (width >= 600px) {
+@media (width >= 576px) {
   /* fixed gap (not justify-content: space-between) keeps it consistent row to
      row regardless of how wide each row's link text happens to be. align-items
      and padding already match the base rule above, so aren't repeated here. */
