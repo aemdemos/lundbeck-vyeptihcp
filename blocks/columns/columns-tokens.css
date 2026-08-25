@@ -139,21 +139,7 @@ main .columns.resource-list img {
 }
 
 /* ────────────────────────────────────────────────────────────────
- * trial-links variant — a heading ("PIVOTAL TRIALS" / "PREVAIL") plus one
- * or more "Read full … clinical publication" external links, each authored
- * as its own row. Stacked (one item per line, no wrapping) below 768px —
- * full-width stacked items always have room for the text on one line. At
- * >=768px the heading and links share a single row (never dropping to a
- * new line) with the source's right-hand divider on the heading and a
- * uniform 16px of spacing before each link (source itself isn't consistent
- * between instances here — PIVOTAL TRIALS doubles the gap before its 2nd
- * link, PREVAIL doesn't — so a single flat value is used rather than
- * encoding that as a rule). Items keep a shrinkable flex basis so that when
- * the row is too narrow for every item's natural width (768–991px) the
- * text wraps to a second line in place rather than the item dropping below
- * the row; flex-shrink is turned back off at >=992px, where the row always
- * has enough width, so nothing wraps (relying on shrink alone left it one
- * fraction short of the source's own numbers at exactly 992px).
+ * trial-links variant - keeps links inline and not wrap until <=992px. At <=768px they text doesn't wrap, but stacks vertically instead of horizontally and doesn't wrap. The heading is always on the left, and the links are always on the right.
  * ──────────────────────────────────────────────────────────────── */
 main .columns.trial-links > div {
   flex-direction: column;
