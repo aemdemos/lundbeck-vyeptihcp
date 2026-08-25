@@ -2893,38 +2893,6 @@
             }
             this.cookieBannerObserverInitialized = true;
 
-            const observeCookieBanner = () => {
-        const banner = this.findCookieBanner();
-        const overlay = this.findCookieOverlay();
-        if (!banner) {
-            const retryCount = observeCookieBanner.retryCount || 0;
-            if (retryCount < 10) {
-                observeCookieBanner.retryCount = retryCount + 1;
-                setTimeout(observeCookieBanner, 500);
-            } else {
-                startCookieBannerPolling();
-            }
-            return;
-        }
-
-        if (this.cookieBannerMutationObserver) this.cookieBannerMutationObserver.disconnect();
-        this.cookieBannerMutationObserver = new MutationObserver(() => evaluateCookieBannerState());
-        this.cookieBannerMutationObserver.observe(banner, {
-            attributes: true,
-            attributeFilter: ['class', 'style', 'aria-hidden']
-        });
-
-        if (overlay) {
-            if (this.cookieBannerOverlayObserver) this.cookieBannerOverlayObserver.disconnect();
-            this.cookieBannerOverlayObserver = new MutationObserver(() => evaluateCookieBannerState());
-            this.cookieBannerOverlayObserver.observe(overlay, {
-                attributes: true,
-                attributeFilter: ['class', 'style', 'aria-hidden']
-            });
-        }
-        evaluateCookieBannerState();
-    };
-
             this.cookieBannerState = {
                 active: false,
                 landingWasVisible: false,
@@ -2933,28 +2901,23 @@
             };
             this.cookieBannerPollingInterval = null;
 
+            // 1. Define hide/restore action helpers first
             const hideWindowsForCookieBanner = () => {
-                if (this.cookieBannerState.active) {
-                    return;
-                }
-                if (window.innerWidth > 768) {
-                    return;
-                }
+                if (this.cookieBannerState.active) return;
+                if (window.innerWidth > 768) return;
 
                 const landingWindow = this.container.querySelector('#lumi-landing-window') || document.querySelector('#lumi-landing-window');
                 const chatWindow = this.container.querySelector('.lumi-chat-window');
                 const polygon = this.container.querySelector('.lumi-chat-polygon') || document.querySelector('.lumi-chat-polygon');
 
-                // Check if widget has active chat session (has messages and chat-active class)
-                // This ensures we properly track chat window state even if visibility check fails due to timing
                 const hasActiveChat = this.messages && this.messages.length > 0 && 
-                                        this.container.classList.contains('chat-active');
+                                      this.container.classList.contains('chat-active');
 
                 this.cookieBannerState.landingWasVisible = this.isElementVisible(landingWindow);
                 this.cookieBannerState.chatWasVisible = this.isElementVisible(chatWindow) || hasActiveChat;
                 this.cookieBannerState.polygonWasVisible = this.isElementVisible(polygon);
                 this.cookieBannerState.active = true;
-                
+
                 if (this.cookieBannerUserOverride) {
                     this.debugLog('Cookie banner active but user override enabled - keeping LuMi windows visible');
                     return;
@@ -2968,15 +2931,12 @@
                 }
 
                 if (chatWindow) {
-                    // Don't hide chat window if there's an active chat session
-                    // This ensures chat window stays visible even when cookie banner is active
                     if (!hasActiveChat) {
                         chatWindow.style.setProperty('display', 'none', 'important');
                         chatWindow.style.setProperty('visibility', 'hidden', 'important');
                         chatWindow.style.setProperty('opacity', '0', 'important');
                         chatWindow.style.setProperty('pointer-events', 'none', 'important');
                     } else {
-                        // Keep chat window visible but ensure it has proper z-index and pointer-events
                         const chatZIndex = this.getZIndexAboveNavBar(10001);
                         chatWindow.style.setProperty('display', 'flex', 'important');
                         chatWindow.style.setProperty('visibility', 'visible', 'important');
@@ -2987,14 +2947,12 @@
                 }
 
                 if (polygon) {
-                    // Keep polygon visible if there's an active chat session
                     if (!hasActiveChat) {
                         polygon.style.setProperty('display', 'none', 'important');
                         polygon.style.setProperty('visibility', 'hidden', 'important');
                         polygon.style.setProperty('opacity', '0', 'important');
                         polygon.style.setProperty('pointer-events', 'none', 'important');
                     } else {
-                        // Keep polygon visible with proper z-index
                         const polygonZIndex = this.getZIndexAboveNavBar(10002);
                         polygon.style.setProperty('display', 'block', 'important');
                         polygon.style.setProperty('visibility', 'visible', 'important');
@@ -3012,9 +2970,7 @@
             };
 
             const restoreWindowsAfterCookieBanner = () => {
-                if (!this.cookieBannerState.active) {
-                    return;
-                }
+                if (!this.cookieBannerState.active) return;
                 
                 this.cookieBannerUserOverride = false;
 
@@ -3046,12 +3002,9 @@
 
                 if (chatWindow) {
                     chatWindow.style.setProperty('pointer-events', 'auto', 'important');
-                    // Check if widget has active chat session (has messages and chat-active class)
-                    // This ensures chat window is restored even if visibility check failed due to timing
                     const hasActiveChat = this.messages && this.messages.length > 0 && 
-                                            this.container.classList.contains('chat-active');
+                                          this.container.classList.contains('chat-active');
                     if (chatWasVisible || hasActiveChat) {
-                        // Restore chat window - get z-index that's above nav bar
                         const chatZIndex = this.getZIndexAboveNavBar(10001);
                         chatWindow.style.setProperty('display', 'flex', 'important');
                         chatWindow.style.setProperty('visibility', 'visible', 'important');
@@ -3078,7 +3031,6 @@
                 }
 
                 this.debugLog('Cookie banner dismissed - restoring LuMi windows');
-
                 this.updatePopupPosition();
                 if (window.innerWidth <= 768) {
                     const chatWindowElement = this.container.querySelector('.lumi-chat-window');
@@ -3091,11 +3043,8 @@
             this.hideWindowsForCookieBanner = hideWindowsForCookieBanner;
             this.restoreWindowsAfterCookieBanner = restoreWindowsAfterCookieBanner;
 
-            // Method to restore windows when user override is set (called when user clicks button)
             this.restoreWindowsForUserOverride = () => {
-                if (window.innerWidth > 768) {
-                    return; // Only needed on mobile
-                }
+                if (window.innerWidth > 768) return;
 
                 const landingWindow = this.container.querySelector('#lumi-landing-window') || document.querySelector('#lumi-landing-window');
                 const chatWindow = this.container.querySelector('.lumi-chat-window');
@@ -3105,20 +3054,14 @@
                 const avatarIframe = this.container.querySelector('#lumi-avatar-iframe');
                 const chatContent = this.container.querySelector('.lumi-chat-content');
 
-                // Restore pointer-events so windows can be clicked
-                if (landingWindow) {
-                    landingWindow.style.setProperty('pointer-events', 'auto', 'important');
-                }
+                if (landingWindow) landingWindow.style.setProperty('pointer-events', 'auto', 'important');
                 if (chatWindow) {
                     chatWindow.style.setProperty('pointer-events', 'auto', 'important');
+                    chatWindow.style.setProperty('z-index', '999999', 'important');
                 }
-                if (polygon) {
-                    polygon.style.setProperty('pointer-events', 'auto', 'important');
-                }
-                // CRITICAL: Also restore pointer-events for avatar elements so iframe buttons work
+                if (polygon) polygon.style.setProperty('pointer-events', 'auto', 'important');
                 if (avatarContainer) {
                     avatarContainer.style.setProperty('pointer-events', 'auto', 'important');
-                    // Ensure container has high z-index to be above cookie banner overlay
                     avatarContainer.style.setProperty('z-index', '999999', 'important');
                 }
                 if (avatarWrapper) {
@@ -3127,32 +3070,14 @@
                 }
                 if (avatarIframe) {
                     avatarIframe.style.setProperty('pointer-events', 'auto', 'important');
-                    // Ensure iframe has very high z-index to be above cookie banner overlay
                     avatarIframe.style.setProperty('z-index', '999999', 'important');
                 }
-                if (chatContent) {
-                    chatContent.style.setProperty('pointer-events', 'auto', 'important');
-                }
-                // Ensure chat window also has high z-index
-                if (chatWindow) {
-                    chatWindow.style.setProperty('z-index', '999999', 'important');
-                }
+                if (chatContent) chatContent.style.setProperty('pointer-events', 'auto', 'important');
 
                 this.debugLog('Restored pointer-events for LuMi windows and avatar iframe due to user override');
-                
-                // Debug: Check cookie banner overlay z-index and pointer-events
-                const cookieOverlay = this.findCookieOverlay();
-                if (cookieOverlay) {
-                    const overlayStyle = window.getComputedStyle(cookieOverlay);
-                    this.debugLog('Cookie banner overlay styles:', {
-                        zIndex: overlayStyle.zIndex,
-                        pointerEvents: overlayStyle.pointerEvents,
-                        position: overlayStyle.position,
-                        display: overlayStyle.display
-                    });
-                }
             };
 
+            // 2. Define evaluateCookieBannerState BEFORE any observers/handlers reference it
             const evaluateCookieBannerState = () => {
                 const banner = this.findCookieBanner();
                 const overlay = this.findCookieOverlay();
@@ -3160,43 +3085,32 @@
                 const isActive = this.isCookieBannerActive(banner, overlay);
 
                 if (!isMobile) {
-                    // On desktop, don't hide windows but update positions when cookie banner state changes
                     const wasActive = this.cookieBannerState.active;
                     if (wasActive !== isActive) {
                         this.debugLog('Desktop: Cookie banner state changed:', { wasActive, isActive });
-                        // Update positions when cookie banner appears or disappears
-                        // Use setTimeout to ensure DOM has updated after cookie banner state change
                         setTimeout(() => {
                             this.updatePopupPosition();
                             this.debugLog('Desktop: Updated popup positions after cookie banner state change');
                         }, 100);
                     }
-                    // Update state tracking
                     this.cookieBannerState.active = isActive;
                     return;
                 }
 
-                // On mobile, check user override before hiding windows
                 if (isActive) {
                     if (!this.cookieBannerState.active) {
-                        // Only hide if user hasn't overridden
                         if (!this.cookieBannerUserOverride) {
                             hideWindowsForCookieBanner();
                         }
-                    } else {
-                        // Banner is active and state is already active
-                        // If user override is set, ensure pointer-events are restored
-                        if (this.cookieBannerUserOverride) {
-                            if (typeof this.restoreWindowsForUserOverride === 'function') {
-                                this.restoreWindowsForUserOverride();
-                            }
-                        }
+                    } else if (this.cookieBannerUserOverride) {
+                        this.restoreWindowsForUserOverride();
                     }
                 } else if (this.cookieBannerState.active) {
                     restoreWindowsAfterCookieBanner();
                 }
             };
 
+            // 3. Define observer setup
             const startCookieBannerPolling = () => {
                 if (this.cookieBannerPollingInterval) {
                     clearInterval(this.cookieBannerPollingInterval);
@@ -3206,10 +3120,45 @@
                 }, 300);
             };
 
-            // Start polling immediately
+            const observeCookieBanner = () => {
+                const banner = this.findCookieBanner();
+                const overlay = this.findCookieOverlay();
+                if (!banner) {
+                    const retryCount = observeCookieBanner.retryCount || 0;
+                    if (retryCount < 10) {
+                        observeCookieBanner.retryCount = retryCount + 1;
+                        setTimeout(observeCookieBanner, 500);
+                    } else {
+                        startCookieBannerPolling();
+                    }
+                    return;
+                }
+
+                if (this.cookieBannerMutationObserver) this.cookieBannerMutationObserver.disconnect();
+                this.cookieBannerMutationObserver = new MutationObserver(() => evaluateCookieBannerState());
+                this.cookieBannerMutationObserver.observe(banner, {
+                    attributes: true,
+                    attributeFilter: ['class', 'style', 'aria-hidden']
+                });
+
+                if (overlay) {
+                    if (this.cookieBannerOverlayObserver) this.cookieBannerOverlayObserver.disconnect();
+                    this.cookieBannerOverlayObserver = new MutationObserver(() => evaluateCookieBannerState());
+                    this.cookieBannerOverlayObserver.observe(overlay, {
+                        attributes: true,
+                        attributeFilter: ['class', 'style', 'aria-hidden']
+                    });
+                }
+                evaluateCookieBannerState();
+            };
+
+            // 4. Attach resize handler and start observing
+            if (!this.cookieBannerResizeHandler) {
+                this.cookieBannerResizeHandler = () => evaluateCookieBannerState();
+                window.addEventListener('resize', this.cookieBannerResizeHandler, { passive: true });
+            }
+
             startCookieBannerPolling();
-            
-            // Also set up mutation observer for cookie banner
             observeCookieBanner();
         }
 
