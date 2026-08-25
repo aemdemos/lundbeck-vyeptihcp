@@ -29,6 +29,7 @@
   --columns-teal-button-padding: 16px 60px; /* source CTA ≈ 345×56px */
   --columns-quote-dose-gap: 30px;
   --columns-quote-dose-img-width: 300px;
+  --columns-quote-dose-small-text-padding: 12px 0 0;
 }
 
 /* ────────────────────────────────────────────────────────────────
@@ -157,11 +158,16 @@ main .section.quote-dose .columns.center-mobile img {
   width: var(--columns-quote-dose-img-width);
 }
 
+main .section.quote-dose .columns-wrapper p span.small-text {
+  padding: var(--columns-quote-dose-small-text-padding);
+}
+
 
 /* Tablet+ : two columns side by side */
 @media (width >= 768px) {
   :root {
     --columns-quote-dose-gap: 30px;
+    --columns-quote-dose-small-text-padding: 12px 0 10px;
   }
 
   main .columns.teaser-cta > div {
@@ -176,6 +182,7 @@ main .section.quote-dose .columns.center-mobile img {
 @media (width >= 992px) {
   :root {
     --columns-quote-dose-gap: 70px;
+    --columns-quite-doese-small-text-padding: 12px 0 25px;
   }
 
   main .columns.resource-list > div {
