@@ -35,7 +35,7 @@ function createFilterDescription(form, inputField, inputFieldLabel) {
   }
 
   const labelWrapper = document.createElement('div');
-  labelWrapper.className = 'labelWraper';
+  labelWrapper.className = 'label-wraper';
 
   const label = document.createElement('label');
   label.htmlFor = 'form-networkonly';
@@ -50,14 +50,14 @@ function createFilterDescription(form, inputField, inputFieldLabel) {
   }
 
   const filterDescriptionOne = document.createElement('div');
-  filterDescriptionOne.className = 'filterDescpOne';
+  filterDescriptionOne.className = 'filter-descp-one';
   // eslint-disable-next-line browser-security/no-innerhtml
   filterDescriptionOne.innerHTML = renderDescription(
     descriptionOne.textContent.trim(),
   );
 
   const filterDescriptionTwo = document.createElement('div');
-  filterDescriptionTwo.className = 'filterDescpTwo selectHide';
+  filterDescriptionTwo.className = 'filter-descp-two select-hide';
   // eslint-disable-next-line browser-security/no-innerhtml
   filterDescriptionTwo.innerHTML = renderDescription(
     descriptionTwo.textContent.trim(),
@@ -82,7 +82,7 @@ function createFilterDescription(form, inputField, inputFieldLabel) {
 function createErrorMessage() {
   const error = document.createElement('p');
 
-  error.className = 'error selectHide';
+  error.className = 'error select-hide';
   error.textContent = 'Please enter a valid city, state, or ZIP code, and try again.';
 
   return error;
