@@ -385,7 +385,7 @@ export default async function decorate(block) {
   // Local serves the nav fragment under /content; DA/EDS production serves it at /nav.
   const candidates = [];
   if (navMeta) candidates.push(new URL(navMeta, window.location).pathname);
-  candidates.push('/content/nav', '/nav');
+  candidates.push('/nav');
   let fragment = null;
   for (let i = 0; i < candidates.length && !fragment; i += 1) {
 
