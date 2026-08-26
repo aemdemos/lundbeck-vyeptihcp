@@ -2,24 +2,7 @@ import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 import '../../scripts/lumiChat.js';
 
-const HCP_BAR_DISMISSED_KEY = 'vyepti-hcp-ui-state';
-
-function isHcpBarDismissed() {
-  try {
-    /* eslint-disable-next-line secure-coding/no-insecure-comparison */
-    return window.sessionStorage?.getItem(HCP_BAR_DISMISSED_KEY) === 'dismissed';
-  } catch {
-    return false;
-  }
-}
-
-function dismissHcpBar() {
-  try {
-    window.sessionStorage?.setItem(HCP_BAR_DISMISSED_KEY, 'dismissed');
-  } catch {
-    // Graceful fallback if storage is restricted
-  }
-}
+const SESSION_HCP_DISMISSED = 'vyepti-hcp-bar-dismissed';
 
 function markNewTab(link) {
   link.setAttribute('target', '_blank');
@@ -101,7 +84,7 @@ function buildDropdownItem(sourceLi) {
 
 function decorateHcpBar(section) {
   if (!section) return null;
-  if (isHcpBarDismissed()) return null;
+  if (sessionStorage.getItem(SESSION_HCP_DISMISSED) === 'true') return null;
 
   const bar = document.createElement('div');
   bar.className = 'nav-hcp-bar';
@@ -128,7 +111,7 @@ function decorateHcpBar(section) {
       btn.className = 'nav-hcp-continue';
       btn.textContent = label;
       btn.addEventListener('click', () => {
-        dismissHcpBar();
+        sessionStorage.setItem(SESSION_HCP_DISMISSED, 'true');
         bar.remove();
       });
       actions.append(btn);
@@ -321,8 +304,6 @@ function buildLumi(section) {
     actions.append(btn);
   });
 
-  const close = () => trigger.setAttribute('aria-expanded', 'false');
-
   const startChat = actions.querySelector('.nav-lumi-popup-btn');
   if (startChat) {
     startChat.addEventListener('click', async (e) => {
@@ -342,11 +323,13 @@ function buildLumi(section) {
   popup.append(header, actions);
   wrapper.append(popup);
 
+  const close = () => trigger.setAttribute('aria-expanded', 'false');
+
   trigger.addEventListener('click', async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
-    await initializeLumi();
+    const lumi = await initializeLumi();
     const open = trigger.getAttribute('aria-expanded') === 'true';
     trigger.setAttribute('aria-expanded', open ? 'false' : 'true');
   });
