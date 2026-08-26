@@ -19,18 +19,18 @@
       "plugins": {
         "da": {
           "rows": 1,
-          "columns": 9,
+          "columns": 4,
           "fields": [
             { "name": "image", "selector": "div:nth-child(1)>picture>img[src]" },
             { "name": "imageAlt", "selector": "div:nth-child(1)>picture>img[alt]" },
-            { "name": "name", "selector": "div:nth-child(2)" },
-            { "name": "age", "selector": "div:nth-child(3)" },
-            { "name": "description", "selector": "div:nth-child(4)" },
-            { "name": "caseStudy", "selector": "div:nth-child(5)" },
-            { "name": "experienceHeading", "selector": "div:nth-child(6)" },
-            { "name": "experienceContent", "selector": "div:nth-child(7)" },
-            { "name": "goalsHeading", "selector": "div:nth-child(8)" },
-            { "name": "goals", "selector": "div:nth-child(9)" }
+            { "name": "name", "selector": "div:nth-child(1)>*:nth-child(2)" },
+            { "name": "age", "selector": "div:nth-child(1)>*:nth-child(3)" },
+            { "name": "description", "selector": "div:nth-child(1)>*:nth-child(4)" },
+            { "name": "caseStudy", "selector": "div:nth-child(2)" },
+            { "name": "experienceHeading", "selector": "div:nth-child(3)>:nth-child(1)" },
+            { "name": "experienceContent", "selector": "div:nth-child(3)>:nth-child(n+3)" },
+            { "name": "goalsHeading", "selector": "div:nth-child(4)>:nth-child(1)" },
+            { "name": "goals", "selector": "div:nth-child(4)>:nth-child(n+3)" }
           ]
         }
       }
