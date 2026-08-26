@@ -6,7 +6,6 @@
   --isi-paragraph-margin-top: 8px; /* overrides the global 0.8em (12.8px) default */
   --isi-list-line-height: 1.7; /* @boilerplate */
   --isi-list-item-margin-bottom: 10px; /* @boilerplate */
-  --isi-inline-padding-bottom: 64px; /* @boilerplate */
   --isi-list-item-padding-y: 0px; /* @boilerplate */
   --isi-heading-color: var(--brand-primary-dark); /* @boilerplate */
   --isi-heading-font-size: 18px; /* @boilerplate */

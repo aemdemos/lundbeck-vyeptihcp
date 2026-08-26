@@ -1,14 +1,8 @@
 @import url('./isi-tokens.css');
 
-/* ── In-page ISI section (matches vyepti.com full-width divider) ─ */
-main .section.isi-container { /* @boilerplate */
-  border-top: var(--isi-section-border-width) solid var(--isi-section-border-color); /* @boilerplate */
-}
-
 /* ── In-page inline content (Row 2) ───────────────────────────── */
 main .isi .isi-inline { /* @boilerplate */
   display: block; /* @boilerplate */
-  padding-bottom: var(--isi-inline-padding-bottom); /* @boilerplate */
 }
 
 main .isi .isi-inline > div { /* @boilerplate */
