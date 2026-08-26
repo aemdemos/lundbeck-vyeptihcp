@@ -8,3 +8,4 @@ export { default as initLinkTracking } from './linktracking.js';
 export { default as pushPageViewEvent } from './pageview.js';
 export * from './utils.js';
 export { default as initModalTracking } from './modaltracking.js';
+export { default as initInfusionTracking } from './infusiontracking.js';
