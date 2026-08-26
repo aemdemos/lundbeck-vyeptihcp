@@ -27,6 +27,9 @@
   --columns-teal-img-width: 195px;
   --columns-teal-text-max-width: 570px; /* source text column ≈ 567px */
   --columns-teal-button-padding: 16px 60px; /* source CTA ≈ 345×56px */
+  --columns-quote-dose-gap: 30px;
+  --columns-quote-dose-img-width: 300px;
+  --columns-quote-dose-small-text-padding: 12px 0 0;
 }
 
 /* ────────────────────────────────────────────────────────────────
@@ -145,6 +148,31 @@ main .columns.resource-list img {
   flex-shrink: 0;
 }
 
+main .section.quote-dose .columns.center-mobile {
+  padding: 50px 0 10px;
+}
+
+main .section.quote-dose .columns.center-mobile > div {
+  gap: var(--columns-quote-dose-gap);
+}
+
+main .section.quote-dose .columns.center-mobile .columns-img-col {
+  width: auto;
+}
+
+main .section.quote-dose .columns.center-mobile > div > div {
+  flex: initial;
+}
+
+main .section.quote-dose .columns.center-mobile img {
+  max-width: unset;
+  width: var(--columns-quote-dose-img-width);
+}
+
+main .section.quote-dose .columns-wrapper p span.small-text {
+  padding: var(--columns-quote-dose-small-text-padding);
+}
+
 /* ────────────────────────────────────────────────────────────────
  * trial-links variant - keeps links inline and not wrap until <=992px. At <=768px they text doesn't wrap, but stacks vertically instead of horizontally and doesn't wrap. The heading is always on the left, and the links are always on the right.
  * ──────────────────────────────────────────────────────────────── */
@@ -208,6 +236,11 @@ main .columns.trial-links a .icon {
 
 /* Tablet+ : two columns side by side */
 @media (width >= 768px) {
+  :root {
+    --columns-quote-dose-gap: 30px;
+    --columns-quote-dose-small-text-padding: 12px 0 10px;
+  }
+
   main .columns.teaser-cta > div {
     gap: 2.5rem;
   }
@@ -218,6 +251,11 @@ main .columns.trial-links a .icon {
 }
 
 @media (width >= 992px) {
+  :root {
+    --columns-quote-dose-gap: 70px;
+    --columns-quite-doese-small-text-padding: 12px 0 25px;
+  }
+
   main .columns.resource-list > div {
     gap: 60px;
   }
