@@ -22,8 +22,7 @@ function isAllowedLumiOrigin(originString) {
     const host = new URL(originString).hostname;
 
     return ALLOWED_LUMI_ORIGIN_PATTERNS.some((pattern) => pattern.test(host));
-  } catch (error) {
-    console.error('Invalid Lumi origin:', error);
+  } catch {
     return false;
   }
 }
@@ -75,19 +74,16 @@ function normalizeFieldValue(value) {
 }
 
 function normalizeWidgetInfo(widgetInfo) {
-  const result = Object.create(null);
+  if (!widgetInfo || typeof widgetInfo !== 'object') {
+    return Object.create(null);
+  }
 
-  Object.keys(widgetInfo).forEach((key) => {
-    if (
-      key !== '__proto__'
-      && key !== 'prototype'
-      && key !== 'constructor'
-    ) {
-      result[key] = normalizeFieldValue(widgetInfo[key]);
-    }
-  });
+  const normalizedEntries = Object.entries(widgetInfo).map(([key, value]) => [
+    key,
+    normalizeFieldValue(value),
+  ]);
 
-  return result;
+  return Object.fromEntries(normalizedEntries);
 }
 
 function pushChatEventToDataLayer(widgetEvent) {
