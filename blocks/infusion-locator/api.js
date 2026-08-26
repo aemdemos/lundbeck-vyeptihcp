@@ -44,7 +44,6 @@ export async function loadLocations(
     });
 
     const apiUrl = `${apiInfo.apiEndpoint}?${params.toString()}`;
-  
 
     const response = await fetch(
         apiUrl,
@@ -68,10 +67,11 @@ export async function loadLocations(
       || []
     );
   } catch (error) {
-    console.error(
-      'Failed to load locator records:',
-      error,
-    );
+    // Log error in development only (avoid console output in production)
+    if (typeof window !== 'undefined' && window.location && window.location.hostname === 'localhost') {
+      /* eslint-disable-next-line no-console */
+      console.error('Failed to load locator records:', error);
+    }
 
     return [];
   }

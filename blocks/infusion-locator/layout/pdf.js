@@ -4,49 +4,49 @@ let pdfMakePromise;
  * Load pdfMake without installing an npm package.
  */
 export function loadPdfMake() {
-    if (window.pdfMake) {
-        return Promise.resolve(window.pdfMake);
-    }
+  if (window.pdfMake) {
+    return Promise.resolve(window.pdfMake);
+  }
 
-    if (pdfMakePromise) {
-        return pdfMakePromise;
-    }
-
-    pdfMakePromise = new Promise((resolve, reject) => {
-        const pdfScript = document.createElement('script');
-
-        pdfScript.src =
-            'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.23/pdfmake.min.js';
-
-        pdfScript.onload = () => {
-            const fontsScript = document.createElement('script');
-
-            fontsScript.src =
-                'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.23/vfs_fonts.min.js';
-
-            fontsScript.onload = () => {
-                resolve(window.pdfMake);
-            };
-
-            fontsScript.onerror = () => {
-                reject(
-                    new Error('Unable to load pdfMake fonts.'),
-                );
-            };
-
-            document.head.appendChild(fontsScript);
-        };
-
-        pdfScript.onerror = () => {
-            reject(
-                new Error('Unable to load pdfMake.'),
-            );
-        };
-
-        document.head.appendChild(pdfScript);
-    });
-
+  if (pdfMakePromise) {
     return pdfMakePromise;
+  }
+
+  pdfMakePromise = new Promise((resolve, reject) => {
+    const pdfScript = document.createElement('script');
+
+    pdfScript.src =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.23/pdfmake.min.js';
+
+    pdfScript.onload = () => {
+      const fontsScript = document.createElement('script');
+
+      fontsScript.src =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.23/vfs_fonts.min.js';
+
+      fontsScript.onload = () => {
+        resolve(window.pdfMake);
+      };
+
+      fontsScript.onerror = () => {
+        reject(
+          new Error('Unable to load pdfMake fonts.'),
+        );
+      };
+
+      document.head.appendChild(fontsScript);
+    };
+
+    pdfScript.onerror = () => {
+      reject(
+        new Error('Unable to load pdfMake.'),
+      );
+    };
+
+    document.head.appendChild(pdfScript);
+  });
+
+  return pdfMakePromise;
 }
 
 /**
@@ -202,7 +202,10 @@ export async function downloadResultsPdf(
     results,
     options = {},
 ) {
+    await loadPdfMake();
+     
     if (!Array.isArray(results) || results.length === 0) {
+        /* eslint-disable-next-line no-console */
         console.warn(
             'No results available for PDF.',
         );
@@ -574,6 +577,7 @@ export async function downloadResultsPdf(
                 'vyepti-infusion-locator-results.pdf',
             );
     } catch (error) {
+         /* eslint-disable-next-line no-console */
         console.error(
             'Failed to generate PDF:',
             error,
