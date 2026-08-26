@@ -313,6 +313,24 @@ main .columns.icon-feature.callout > div > div:last-child p {
    .emboss variants remain — still used on safety, infusion, and dosing. */
 
 /* ────────────────────────────────────────────────────────────────
+ * Un-classed row — dosing-and-administration "top feature" section: an <h2>
+ * followed by repeating [icon-pair picture, h4, p] groups, beside a plain
+ * patient photo. This content has no author variant, so it's matched
+ * structurally (image-only sibling column + an <h2> starting the text
+ * column) rather than a class, keeping it scoped away from other icon+h4
+ * rows — e.g. why-iv-infusion's icon-feature.emboss has no <h2> in that
+ * column and must stay teal.
+ * ──────────────────────────────────────────────────────────────── */
+main .columns > div:has(> .columns-img-col) > div:not(.columns-img-col):has(> h2) picture img {
+  width: 120px;
+  height: auto;
+}
+
+main .columns > div:has(> .columns-img-col) > div:not(.columns-img-col):has(> h2) h4 {
+  color: var(--text-color);
+}
+
+/* ────────────────────────────────────────────────────────────────
  * logo-grid variant — bordered grid of logo + download-link ITEMS, each
  * authored as its own ROW (2 cells: logo, link); each row is one bordered
  * grid cell, internally stacked (logo above link).
