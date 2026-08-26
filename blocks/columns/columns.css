@@ -49,7 +49,8 @@ main .columns.arrow-nav > div > div {
   text-align: right;
 }
 
-main .columns.arrow-nav > div > div p {
+main .columns.arrow-nav > div > div p,
+main .columns.arrow-nav > div > div h3 {
   margin: 0;
   color: #fff;
   font-family: var(--body-font-family);
