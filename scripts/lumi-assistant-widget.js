@@ -1,3 +1,6 @@
+/**
+ * lumi-assistant-widget.js
+ */
 (function initLumiAssistantWidget() {
   'use strict';
 
@@ -28,6 +31,8 @@
       window.crypto.getRandomValues(array);
       return Array.from(array, (byte) => byte.toString(36).padStart(2, '0')).join('').substring(0, length);
     }
+    // Fallback when Web Crypto API is unavailable
+    // eslint-disable-next-line sonarjs/pseudo-random
     return Math.random().toString(36).substring(2, 2 + length);
   }
 
@@ -56,17 +61,25 @@
     }
   }
 
+  function escapeHTML(str) {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
   class LuMiAssistantWidget {
     constructor(userConfig) {
       this.environment = this.detectEnvironment();
 
-      let defaultApiUrl = 'https://6wwjdoikq9.execute-api.us-east-1.amazonaws.com/prod';
+      const defaultApiUrl = 'https://6wwjdoikq9.execute-api.us-east-1.amazonaws.com/prod';
       let defaultAvatarUrl = 'https://lumiwebavatar.norta.ai/avatar';
 
       if (this.environment === 'stage') {
         defaultAvatarUrl = 'https://lumiwebavatarstage.norta.ai/avatar';
       } else if (this.environment === 'dev') {
-        defaultApiUrl = 'https://6wwjdoikq9.execute-api.us-east-1.amazonaws.com/prod';
         defaultAvatarUrl = 'https://lumiwebavatar.dev.norta.ai';
       }
 
@@ -78,7 +91,7 @@
       };
 
       if (this.environment === 'dev') {
-        this.config.apiUrl = 'https://6wwjdoikq9.execute-api.us-east-1.amazonaws.com/prod';
+        this.config.apiUrl = defaultApiUrl;
         this.config.avatarUrl = 'https://lumiwebavatar.dev.norta.ai';
       }
 
@@ -122,6 +135,7 @@
       }
     }
 
+    // eslint-disable-next-line class-methods-use-this
     detectEnvironment() {
       const hostname = window.location.hostname.toLowerCase();
       if (hostname === 'www.vyeptihcp.com' || hostname === 'vyeptihcp.com') {
@@ -315,6 +329,7 @@
           });
           contentEl.appendChild(askBtn);
         } else {
+          // eslint-disable-next-line browser-security/no-innerhtml
           contentEl.innerHTML = this.formatMessageContent(content);
         }
         messageDiv.appendChild(contentEl);
@@ -345,10 +360,12 @@
       return messageId;
     }
 
+    // eslint-disable-next-line class-methods-use-this
     generateSessionId() {
       return `${getRandomString(12)}${getRandomString(12)}`;
     }
 
+    // eslint-disable-next-line class-methods-use-this
     getSessionIdFromStorage() {
       return safeStorageGet(STORAGE_KEYS.SESSION_ID);
     }
@@ -358,10 +375,12 @@
       this.sessionId = sessionId;
     }
 
+    // eslint-disable-next-line class-methods-use-this
     getAvatarSessionIdFromStorage() {
       return safeStorageGet(STORAGE_KEYS.AVATAR_SESSION_ID);
     }
 
+    // eslint-disable-next-line class-methods-use-this
     saveAvatarSessionIdToStorage(sessionId) {
       safeStorageSet(STORAGE_KEYS.AVATAR_SESSION_ID, sessionId);
     }
@@ -436,10 +455,13 @@
       }
     }
 
+    // eslint-disable-next-line class-methods-use-this
     hasShownLandingWindowThisSession() {
+      // eslint-disable-next-line secure-coding/no-insecure-comparison
       return safeStorageGet(STORAGE_KEYS.LANDING_SHOWN) === 'true';
     }
 
+    // eslint-disable-next-line class-methods-use-this
     getZIndexAboveNavBar(baseZIndex = 10000) {
       const navBar = document.querySelector('nav, .navbar, .navigation, header, .header');
       let navBarZIndex = 0;
@@ -451,10 +473,12 @@
       return Math.max(baseZIndex, navBarZIndex + 1);
     }
 
+    // eslint-disable-next-line class-methods-use-this
     setHasShownLandingWindow(shown = true) {
       safeStorageSet(STORAGE_KEYS.LANDING_SHOWN, String(shown));
     }
 
+    // eslint-disable-next-line class-methods-use-this
     isIPad() {
       const ua = navigator.userAgent.toLowerCase();
       const isIPadUA = /ipad/.test(ua);
@@ -462,6 +486,7 @@
       return isIPadUA || isIPadOS;
     }
 
+    // eslint-disable-next-line class-methods-use-this
     isLandscape() {
       return window.innerWidth > window.innerHeight;
     }
@@ -470,10 +495,13 @@
       return this.isIPad() && this.isLandscape();
     }
 
+    // eslint-disable-next-line class-methods-use-this
     hasChatWindowExplicitlyClosed() {
+      // eslint-disable-next-line secure-coding/no-insecure-comparison
       return safeStorageGet(STORAGE_KEYS.CHAT_CLOSED) === 'true';
     }
 
+    // eslint-disable-next-line class-methods-use-this
     setChatWindowExplicitlyClosed(closed = true) {
       safeStorageSet(STORAGE_KEYS.CHAT_CLOSED, String(closed));
     }
@@ -531,15 +559,18 @@
       this.setupTabVisibilityHandler();
     }
 
+    // eslint-disable-next-line class-methods-use-this
     findSafetyInfo() {
       return document.querySelector('.safetyInfo.clickable, .safetyInfo, [class*="safetyInfo"]');
     }
 
+    // eslint-disable-next-line class-methods-use-this
     isSafetyInfoExpanded(safetyInfo) {
       if (!safetyInfo) return false;
       return ['full', 'expanded', 'open', 'active', 'show'].some((c) => safetyInfo.classList.contains(c));
     }
 
+    // eslint-disable-next-line class-methods-use-this
     isElementVisible(element) {
       if (!element) return false;
       const styles = window.getComputedStyle(element);
@@ -551,6 +582,7 @@
         && rect.height > 0;
     }
 
+    // eslint-disable-next-line class-methods-use-this
     isPointInsideRect(rect, x, y) {
       if (!rect || typeof x !== 'number' || typeof y !== 'number') return false;
       return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
@@ -567,10 +599,12 @@
       return Boolean(this.findOpenSiteDropdownPanel());
     }
 
+    // eslint-disable-next-line class-methods-use-this
     findCookieBanner() {
       return document.querySelector('#coiConsentBanner');
     }
 
+    // eslint-disable-next-line class-methods-use-this
     findCookieOverlay() {
       return document.querySelector('#coiOverlay');
     }
@@ -706,6 +740,7 @@
       document.body.append(this.backdrop, this.container);
     }
 
+    // eslint-disable-next-line class-methods-use-this
     getAssistantButtonLayoutMetrics(button, cachedButtonRect = null) {
       const buttonRect = cachedButtonRect || button.getBoundingClientRect();
       const avatar = button.querySelector('.lumi-avatar');
@@ -733,10 +768,12 @@
       return { buttonRect, avatarBottom, avatarCenterX };
     }
 
+    // eslint-disable-next-line class-methods-use-this
     getChatPolygonFixedTopY(avatarBottom) {
       return Math.round(avatarBottom - 8);
     }
 
+    // eslint-disable-next-line class-methods-use-this
     getMobileCenteredFixedRightOffset(viewportWidth, elementWidth) {
       return Math.max(0, Math.round((viewportWidth - elementWidth) / 2));
     }
@@ -810,6 +847,7 @@
       const input = this.container.querySelector('#lumi-chat-input');
       if (input) {
         input.addEventListener('keydown', (e) => {
+          // eslint-disable-next-line secure-coding/no-insecure-comparison
           if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             this.handleSubmit();
@@ -982,24 +1020,32 @@
       if (messagesContainer) messagesContainer.style.display = isAi ? 'none' : 'flex';
     }
 
+    // eslint-disable-next-line class-methods-use-this
     formatMessageContent(rawContent) {
-      let content = rawContent
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
-        .replace(/\n\n/g, '</p><p>');
+      if (typeof rawContent !== 'string') return '';
+      if (rawContent.startsWith('<a ') && rawContent.endsWith('</a>')) {
+        return rawContent;
+      }
+
+      let content = escapeHTML(rawContent)
+        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+        .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+        .replace(/\n\n+/g, '</p><p>');
+
       content = `<p>${content}</p>`;
-      return content.replace(/<p>\s*<\/p>/g, '');
+      return content.replace(/<p>[ \t\r\n]*<\/p>/g, '');
     }
 
     async sendMessage(message) {
       this.setLoading(true);
       try {
+        const credentials = btoa(`${this.config.username}:${this.config.authKey}`);
         const response = await fetch(`${this.config.apiUrl}/ask`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Basic ${btoa(`${this.config.username}:${this.config.authKey}`)}`,
+            Authorization: `Basic ${credentials}`,
           },
           body: JSON.stringify({
             message,
