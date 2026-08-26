@@ -156,10 +156,6 @@ main .section.trial-data blockquote .size-h1 {
   line-height: var(--tabs-blockquote-stat-line-height);
 }
 
-main .section.trial-data sup {
-  font-size: .6em;
-}
-
 /* footnote reference marks (¹,², *) are tiny — but NOT a % that's part of a stat */
 main .section.trial-data blockquote sup {
   font-size: var(--tabs-blockquote-sup-font-size);
