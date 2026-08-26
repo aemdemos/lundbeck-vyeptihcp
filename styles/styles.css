@@ -577,6 +577,8 @@ main img { /* @libs */
 /* explicit disc marker at every list depth — browser default demotes nested lists to circle/square */
 main ul {
   list-style-type: disc;
+  padding-left: 20px;
+  padding-bottom: 16px;
 }
 
 /* icon bullet lists — :has() prevents FOUC before JS adds .icon-bullets */
