@@ -6,9 +6,7 @@ import {
   centerMapOnMarker
 } from './map.js';
 
-// import { searchLocations } from './api.js';
-
-import  getMiles  from './distance.js';
+import getMiles from './distance.js';
 
 import renderResults from './template.js';
 
@@ -106,29 +104,54 @@ function addPrintResults(filteredResults) {
   }
 
   printTag.addEventListener(
-    'click',
-    async (event) => {
-      event.preventDefault();
+      'click',
+      async (event) => {
+        event.preventDefault();
 
-      await downloadResultsPdf(
-        filteredResults,
-        {
-          pdfTitle:
-            'Infusion Service Providers in your area',
+        await downloadResultsPdf(
+          filteredResults,
+          {
+            pdfTitle:
+              'Infusion Service Providers in your area',
 
-          // Keep your existing disclaimerText
-          // copyrightText etc. here.
-        },
-      );
-    },
-  );
+            disclaimerText:
+              'The VYEPTI Infusion Locator is provided for informational purposes only. '
+              + 'This database includes infusion service providers compiled by Lundbeck '
+              + 'that are known to have experience with VYEPTI. '
+              + 'The results shown may not be inclusive of all providers who may have '
+              + 'experience with VYEPTI in your area. Lundbeck does not guarantee the '
+              + 'accuracy or completeness of any information provided herein. '
+              + 'Users should contact providers directly with all medication, insurance '
+              + 'coverage, facility, and other site-specific inquiries. '
+              + 'No fees or other remuneration have been or will be exchanged for an '
+              + 'infusion service provider\'s inclusion in this database. '
+              + 'Unless otherwise stated, Lundbeck is not affiliated with, and inclusion '
+              + 'in this list does not represent an endorsement of or referral to the '
+              + 'providers contained in this database; nor does it represent an '
+              + 'endorsement of any Lundbeck product by any provider listed. '
+              + 'Users are responsible for compliance with state and federal laws '
+              + 'regulating physician referrals, including state professional practice '
+              + 'restrictions. '
+              + 'Lundbeck and its affiliates hereby disclaim any liability arising from '
+              + 'your use of and/or reliance on the information contained in this '
+              + 'VYEPTI Infusion Locator.',
+
+            copyrightText:
+              '© 2023 Lundbeck. All rights reserved. '
+              + 'VYEPTI and VYEPTI GO are registered trademarks, '
+              + 'and VYEPTI CONNECT and Migraine Victors Program '
+              + 'are trademarks of Lundbeck Seattle BioPharmaceuticals, Inc. '
+              + 'EPT-B-100298v8',
+          },
+        );
+      },
+    );
 }
 
 export default async function handleSearch({
   block,
   ui,
   settings,
-  apiInfo,
   allLocations,
 }) {
   const {
@@ -142,14 +165,14 @@ export default async function handleSearch({
 
   if (!zip) {
     ui.errorLabel.classList.remove(
-      'selectHide',
+      'select-hide',
     );
 
     return;
   }
 
   ui.errorLabel.classList.add(
-    'selectHide',
+    'select-hide',
   );
 
   searchBtn.textContent = 'SEARCHING...';
@@ -162,8 +185,6 @@ export default async function handleSearch({
   const radius = Number(
     mileBlock.dataset.value || 25,
   );
-
-
 
   try {
     /*
@@ -260,6 +281,7 @@ export default async function handleSearch({
       filteredResults,
     );
   } catch (error) {
+    /* eslint-disable-next-line no-console */
     console.error(
       'Search failed:',
       error,
