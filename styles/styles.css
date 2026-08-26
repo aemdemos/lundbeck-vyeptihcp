@@ -99,7 +99,7 @@
   /* layout */
   --max-width-site: 1140px; /* @libs */
   --section-padding-vertical: 30px; /* @libs */
-  --icon-size: 24px; /* @libs */
+  --icon-size: 32px; /* @libs */
   --h1-max-width: 80%;
 
   /* nav heights */
@@ -619,8 +619,8 @@ main p:has(> .icon) {
 }
 
 /* Resource-link icons (download / pdf / connect / play) render at 32px to match
-   the source glyph size. Scoped to these icon names so the global --icon-size
-   (search, social, etc.) is unaffected. */
+   the source glyph size. Pinned explicitly (matches the current global --icon-size)
+   so these stay correct even if the global default changes again later. */
 main :is(.icon-download, .icon-pdf, .icon-connect, .icon-play) {
   width: 32px;
   height: 32px;
