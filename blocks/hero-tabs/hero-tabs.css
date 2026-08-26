@@ -156,7 +156,7 @@ background-image: linear-gradient(180deg, #c02b58, #962244);
   margin: 0 0 24px;
 }
 
-@media (width >= 567px) {
+@media (width >= 576px) {
   .hero-tabs .tabs-list button.tabs-tab {
     padding-right: calc((100% - var(--max-width-site)) / 2);
     padding-left: calc((100% - var(--max-width-site)) / 2);
