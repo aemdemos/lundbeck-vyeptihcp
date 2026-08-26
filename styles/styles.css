@@ -234,6 +234,10 @@ body.appear { /* @libs */
   color: var(--text-color) !important;
 }
 
+.grey, .gray {
+  color: var(--text-color-light);
+}
+
 /* single-purpose text utility; !important so it reliably wins over
    block-level paragraph rules (e.g. columns' 22px line-height) wherever
    an author or block explicitly opts in. */
