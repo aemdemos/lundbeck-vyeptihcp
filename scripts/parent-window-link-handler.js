@@ -30,7 +30,7 @@
       const parsedUrl = new URL(url);
       return Boolean(parsedUrl);
     } catch (error) {
-      console.error('Invalid URL:', error);
+      console.error('Invalid URL:', error.message);
       return false;
     }
   }
@@ -69,7 +69,7 @@
       } catch (error) {
         console.warn(
           'Failed to remove temporary link element:',
-          error,
+          error.message,
         );
       }
     }, 100);
@@ -81,7 +81,7 @@
     } catch (middleClickError) {
       console.warn(
         'Background tab click failed. Falling back to Ctrl+Click.',
-        middleClickError,
+        middleClickError.message,
       );
 
       try {
@@ -89,7 +89,7 @@
       } catch (ctrlClickError) {
         console.warn(
           'Ctrl+Click failed. Falling back to standard click.',
-          ctrlClickError,
+          ctrlClickError.message,
         );
 
         link.click();
@@ -121,7 +121,7 @@
     } catch (fallbackError) {
       console.error(
         'Fallback window.open failed:',
-        fallbackError,
+        fallbackError.message,
       );
     }
   }
@@ -132,7 +132,7 @@
     } catch (error) {
       console.warn(
         'Anchor-based link opening failed. Using fallback.',
-        error,
+        error.message,
       );
 
       fallbackOpenLink(url);
