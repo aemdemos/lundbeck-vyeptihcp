@@ -111,6 +111,7 @@ function decorateHcpBar(section) {
       btn.className = 'nav-hcp-continue';
       btn.textContent = label;
       btn.addEventListener('click', () => {
+        // eslint-disable-next-line browser-security/no-sensitive-localstorage
         sessionStorage.setItem(SESSION_HCP_DISMISSED, 'true');
         bar.remove();
       });
@@ -304,6 +305,8 @@ function buildLumi(section) {
     actions.append(btn);
   });
 
+  const close = () => trigger.setAttribute('aria-expanded', 'false');
+
   const startChat = actions.querySelector('.nav-lumi-popup-btn');
   if (startChat) {
     startChat.addEventListener('click', async (e) => {
@@ -323,13 +326,11 @@ function buildLumi(section) {
   popup.append(header, actions);
   wrapper.append(popup);
 
-  const close = () => trigger.setAttribute('aria-expanded', 'false');
-
   trigger.addEventListener('click', async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
-    const lumi = await initializeLumi();
+    await initializeLumi();
     const open = trigger.getAttribute('aria-expanded') === 'true';
     trigger.setAttribute('aria-expanded', open ? 'false' : 'true');
   });
