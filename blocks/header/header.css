@@ -327,7 +327,8 @@ header nav .nav-dropdown-trigger {
 
 header nav .nav-links-list > li > a:hover,
 header nav .nav-dropdown-trigger:hover {
-  text-decoration: underline;
+  color: var(--link-hover-color);
+  text-decoration: none;
 }
 
 /* Accordion chevron (mobile): source's 24x24 teal V, no rotate. Desktop swaps to a rotated caret. */
@@ -958,6 +959,9 @@ header nav.nav-mobile-open .nav-hamburger-icon::after {
   /* Restore the primary-nav submenu card (absolute overlay, rounded, shadow). */
   header nav .nav-links-list .nav-dropdown-menu {
     position: absolute;
+
+    /* Cancel the trigger's bottom padding so the menu sits just below the label (source gap). */
+    top: calc(100% - var(--header-nav-link-padding-block) + var(--header-dropdown-gap));
     min-width: var(--header-dropdown-min-width);
     box-shadow: var(--header-navmenu-shadow);
     border-radius: var(--header-navmenu-radius);
