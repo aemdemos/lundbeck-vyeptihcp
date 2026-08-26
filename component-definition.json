@@ -212,7 +212,7 @@
           "plugins": {
             "da": {
               "rows": 1,
-              "columns": 9,
+              "columns": 4,
               "fields": [
                 {
                   "name": "image",
@@ -224,35 +224,35 @@
                 },
                 {
                   "name": "name",
-                  "selector": "div:nth-child(2)"
+                  "selector": "div:nth-child(1)>*:nth-child(2)"
                 },
                 {
                   "name": "age",
-                  "selector": "div:nth-child(3)"
+                  "selector": "div:nth-child(1)>*:nth-child(3)"
                 },
                 {
                   "name": "description",
-                  "selector": "div:nth-child(4)"
+                  "selector": "div:nth-child(1)>*:nth-child(4)"
                 },
                 {
                   "name": "caseStudy",
-                  "selector": "div:nth-child(5)"
+                  "selector": "div:nth-child(2)"
                 },
                 {
                   "name": "experienceHeading",
-                  "selector": "div:nth-child(6)"
+                  "selector": "div:nth-child(3)>:nth-child(1)"
                 },
                 {
                   "name": "experienceContent",
-                  "selector": "div:nth-child(7)"
+                  "selector": "div:nth-child(3)>:nth-child(n+3)"
                 },
                 {
                   "name": "goalsHeading",
-                  "selector": "div:nth-child(8)"
+                  "selector": "div:nth-child(4)>:nth-child(1)"
                 },
                 {
                   "name": "goals",
-                  "selector": "div:nth-child(9)"
+                  "selector": "div:nth-child(4)>:nth-child(n+3)"
                 }
               ]
             }
