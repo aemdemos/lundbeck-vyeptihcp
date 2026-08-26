@@ -352,6 +352,10 @@ b {
   font-weight: var(--font-weight-bold);
 }
 
+sup {
+  font-size: .5em;
+}
+
 p,
 dl,
 ol,
