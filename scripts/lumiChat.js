@@ -4,157 +4,225 @@ function isLumiWidgetEvent(envelope) {
   return Boolean(envelope) && envelope.type === 'lumi-widget-event';
 }
 
-var ALLOWED_LUMI_ORIGIN_PATTERNS = [
+const ALLOWED_LUMI_ORIGIN_PATTERNS = [
   /(^|\.)lumi-virtual-ai-asst\.com$/,
   /(^|\.)norta\.ai$/,
 ];
 
 function isAllowedLumiOrigin(originString) {
-  if (!originString) return false;
-  if (originString === window.location.origin) return true;
+  if (!originString) {
+    return false;
+  }
+
+  if (originString === window.location.origin) {
+    return true;
+  }
+
   try {
-    var host = new URL(originString).hostname;
-    return ALLOWED_LUMI_ORIGIN_PATTERNS.some(function (pattern) {
-      return pattern.test(host);
-    });
-  } catch (e) {
+    const host = new URL(originString).hostname;
+
+    return ALLOWED_LUMI_ORIGIN_PATTERNS.some((pattern) => pattern.test(host));
+  } catch (error) {
+    console.error('Invalid Lumi origin:', error);
     return false;
   }
 }
 
 function getCurrentPageName() {
-  var fromAttr = document && document.body && document.body.getAttribute('data-page-name');
+  const fromAttr = document?.body?.getAttribute('data-page-name');
+
   if (fromAttr && fromAttr.trim() !== '') {
     return fromAttr.trim();
   }
+
   return document.title || null;
 }
 
 function formatChatMode(mode) {
-  if (typeof mode !== 'string') return mode;
-  var lower = mode.toLowerCase();
+  if (typeof mode !== 'string') {
+    return mode;
+  }
+
+  const lower = mode.toLowerCase();
+
   return lower === 'ai' ? 'AI' : lower;
 }
 
 function yesNo(value) {
-  if (value === true) return 'Yes';
-  if (value === false) return 'No';
+  if (value === true) {
+    return 'Yes';
+  }
+
+  if (value === false) {
+    return 'No';
+  }
+
   return value;
 }
 
 function normalizeFieldValue(value) {
-  if (value === undefined || value === null) return null;
+  if (value === undefined || value === null) {
+    return null;
+  }
+
   if (typeof value === 'string') {
-    var trimmed = value.trim();
+    const trimmed = value.trim();
+
     return trimmed === '' ? null : trimmed;
   }
+
   return value;
 }
 
 function normalizeWidgetInfo(widgetInfo) {
-  var result = {};
-  Object.keys(widgetInfo).forEach(function (key) {
-    result[key] = normalizeFieldValue(widgetInfo[key]);
+  const result = Object.create(null);
+
+  Object.keys(widgetInfo).forEach((key) => {
+    if (
+      key !== '__proto__'
+      && key !== 'prototype'
+      && key !== 'constructor'
+    ) {
+      result[key] = normalizeFieldValue(widgetInfo[key]);
+    }
   });
+
   return result;
 }
 
 function pushChatEventToDataLayer(widgetEvent) {
-  if (!widgetEvent || !widgetEvent.eventType) return;
+  if (!widgetEvent || !widgetEvent.eventType) {
+    return;
+  }
 
-  var data = widgetEvent.data || {};
-  var meta = {
-    timeStamp: new Date(widgetEvent.timestamp || Date.now()).toISOString(),
+  const data = widgetEvent.data || {};
+
+  const meta = {
+    timeStamp: new Date(
+      widgetEvent.timestamp || Date.now(),
+    ).toISOString(),
   };
-  var chatEvents = DATA_LAYER_CONFIG.chatEvents;
-  var chatMeta = DATA_LAYER_CONFIG.chatMeta;
-  var lumiSessionId = window.sessionStorage.getItem('lumiSessionId');
-  var payload;
+
+  const { chatEvents, chatMeta } = DATA_LAYER_CONFIG;
+
+  const lumiSessionId = window.sessionStorage.getItem('lumiSessionId');
+
+  let payload;
 
   switch (widgetEvent.eventType) {
     case 'assistant-button-clicked': {
-      var pageName = getCurrentPageName();
-      var assistantEventName = pageName
-        ? chatMeta.eventNameAssistantClicked + ' on ' + pageName
+      const pageName = getCurrentPageName();
+
+      const assistantEventName = pageName
+        ? `${chatMeta.eventNameAssistantClicked} on ${pageName}`
         : chatMeta.eventNameAssistantClicked;
+
       payload = {
         event: chatEvents.CHAT_ASSISTANT_CLICKED,
-        eventInfo: { eventName: assistantEventName },
+        eventInfo: {
+          eventName: assistantEventName,
+        },
         widgetInfo: {
           action: data.action,
           buttonId: data.buttonId,
           source: data.source,
         },
-        meta: meta,
+        meta,
       };
       break;
     }
+
     case 'start-chatting':
       payload = {
         event: chatEvents.CHAT_START,
-        eventInfo: { eventName: chatMeta.eventNameStart },
+        eventInfo: {
+          eventName: chatMeta.eventNameStart,
+        },
         widgetInfo: {
           buttonId: data.buttonId,
           source: data.source,
         },
-        meta: meta,
+        meta,
       };
       break;
+
     case 'try-later':
       payload = {
         event: chatEvents.CHAT_DEFERRED,
-        eventInfo: { eventName: chatMeta.eventNameDeferred },
+        eventInfo: {
+          eventName: chatMeta.eventNameDeferred,
+        },
         widgetInfo: {
           buttonId: data.buttonId,
           source: data.source,
         },
-        meta: meta,
+        meta,
       };
       break;
+
     case 'mode-switch': {
-      var newMode = formatChatMode(data.mode);
-      var prevMode = formatChatMode(data.previousMode);
-      var modeSwitchEventName = prevMode && newMode
-        ? 'Chat mode switched from ' + prevMode + ' to ' + newMode
+      const newMode = formatChatMode(data.mode);
+      const prevMode = formatChatMode(data.previousMode);
+
+      const modeSwitchEventName = (prevMode && newMode)
+        ? `Chat mode switched from ${prevMode} to ${newMode}`
         : chatMeta.eventNameModeSwitch;
+
       payload = {
         event: chatEvents.CHAT_MODE_SWITCH,
-        eventInfo: { eventName: modeSwitchEventName },
+        eventInfo: {
+          eventName: modeSwitchEventName,
+        },
         widgetInfo: {
           mode: newMode,
           previousMode: prevMode,
           buttonId: data.buttonId,
         },
-        meta: meta,
+        meta,
       };
       break;
     }
-    case 'voice-chat-start':
+
+    case 'voice-chat-start': {
+      const { sessionId, trigger } = data;
+
       payload = {
         event: chatEvents.AI_CHAT_SESSION_START,
-        eventInfo: { eventName: chatMeta.eventNameAiSessionStart },
-        widgetInfo: {
-          sessionId: data.sessionId,
-          trigger: data.trigger,
+        eventInfo: {
+          eventName: chatMeta.eventNameAiSessionStart,
         },
-        meta: meta,
+        widgetInfo: {
+          sessionId,
+          trigger,
+        },
+        meta,
       };
       break;
-    case 'text-chat-start':
+    }
+
+    case 'text-chat-start': {
+      const { sessionId, trigger } = data;
+
       payload = {
         event: chatEvents.TEXT_CHAT_SESSION_START,
-        eventInfo: { eventName: chatMeta.eventNameTextSessionStart },
-        widgetInfo: {
-          sessionId: data.sessionId,
-          trigger: data.trigger,
+        eventInfo: {
+          eventName: chatMeta.eventNameTextSessionStart,
         },
-        meta: meta,
+        widgetInfo: {
+          sessionId,
+          trigger,
+        },
+        meta,
       };
       break;
+    }
+
     case 'resource-link-click':
       payload = {
         event: chatEvents.CHAT_RESOURCE_LINK_CLICKED,
-        eventInfo: { eventName: chatMeta.eventNameResourceLink },
+        eventInfo: {
+          eventName: chatMeta.eventNameResourceLink,
+        },
         widgetInfo: {
           linkUrl: data.url,
           linkText: data.linkText,
@@ -162,30 +230,38 @@ function pushChatEventToDataLayer(widgetEvent) {
           messageType: data.messageType,
           ...(lumiSessionId && { sessionId: lumiSessionId }),
         },
-        meta: meta,
+        meta,
       };
       break;
-    case 'chat-window-close':
+
+    case 'chat-window-close': {
+      const { sessionId } = data;
+
       payload = {
         event: chatEvents.CHAT_CLOSED,
-        eventInfo: { eventName: chatMeta.eventNameClosed },
+        eventInfo: {
+          eventName: chatMeta.eventNameClosed,
+        },
         widgetInfo: {
-          sessionId: data.sessionId,
+          sessionId,
           explicitlyClosed: yesNo(data.explicitlyClosed),
           clearMessages: yesNo(data.clearMessages),
         },
-        meta: meta,
+        meta,
       };
       break;
+    }
+
     default:
       return;
   }
 
   payload.widgetInfo = normalizeWidgetInfo(payload.widgetInfo);
+
   pushToAdobeDataLayer(payload);
 }
 
-window.addEventListener('lumi-widget-event', function (event) {
+window.addEventListener('lumi-widget-event', (event) => {
   if (event && isLumiWidgetEvent(event.detail)) {
     pushChatEventToDataLayer(event.detail);
   }
@@ -193,8 +269,20 @@ window.addEventListener('lumi-widget-event', function (event) {
 
 window.addEventListener(
   'message',
-  function (event) {
-    if (!event || !isAllowedLumiOrigin(event.origin)) return;
+  (event) => {
+    if (!event) {
+      return;
+    }
+
+    const isTrustedOrigin = (
+      event.origin === window.location.origin
+      || isAllowedLumiOrigin(event.origin)
+    );
+
+    if (!isTrustedOrigin) {
+      return;
+    }
+
     if (isLumiWidgetEvent(event.data)) {
       pushChatEventToDataLayer(event.data);
     }
