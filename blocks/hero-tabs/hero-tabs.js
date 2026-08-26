@@ -30,14 +30,14 @@ function activateTab(block, tablist, button) {
     return;
   }
 
-  block.querySelectorAll('[role=tabpanel]').forEach((panel) => {
+  block.querySelectorAll('.tabs-panel').forEach((panel) => {
     panel.setAttribute('aria-hidden', true);
   });
   tablist.querySelectorAll('button.tabs-tab').forEach((btn) => {
-    btn.setAttribute('aria-selected', false);
+    btn.setAttribute('aria-expanded', false);
   });
   tabpanel.setAttribute('aria-hidden', false);
-  button.setAttribute('aria-selected', true);
+  button.setAttribute('aria-expanded', true);
 }
 
 /**
@@ -82,9 +82,9 @@ function ensureTablistClickDelegation(block, tablist) {
 
     const isAccordion = !window.matchMedia(DESKTOP_TABS_QUERY).matches;
     if (isAccordion) {
-      const isOpen = button.getAttribute('aria-selected') === 'true';
+      const isOpen = button.getAttribute('aria-expanded') === 'true';
       tabpanel.setAttribute('aria-hidden', isOpen);
-      button.setAttribute('aria-selected', !isOpen);
+      button.setAttribute('aria-expanded', !isOpen);
       return;
     }
 
@@ -131,7 +131,7 @@ export function resyncTabsBlock(block) {
   const openResource = tablist.querySelector('.tabs-panel[aria-hidden="false"]')
     ?.getAttribute('data-aue-resource');
 
-  const existingPanels = [...tablist.children].filter((c) => c.matches('.tabs-panel[role="tabpanel"]'));
+  const existingPanels = [...tablist.children].filter((c) => c.matches('.tabs-panel'));
   const newRawRows = [...block.children].filter((c) => isTabRowCandidate(c, tablist));
   const rows = [...existingPanels, ...newRawRows];
 
@@ -145,7 +145,6 @@ export function resyncTabsBlock(block) {
   for (let b = buttons.length; b < rows.length; b += 1) {
     const btn = document.createElement('button');
     btn.className = 'tabs-tab';
-    btn.setAttribute('role', 'tab');
     btn.setAttribute('type', 'button');
     buttons.push(btn);
   }
@@ -157,7 +156,7 @@ export function resyncTabsBlock(block) {
     const button = buttons[i];
     let labelText;
 
-    if (!row.matches('.tabs-panel[role="tabpanel"]')) {
+    if (!row.matches('.tabs-panel')) {
       const tabCell = row.firstElementChild;
       if (!tabCell || !tabCell.children.length) {
         return;
@@ -166,7 +165,6 @@ export function resyncTabsBlock(block) {
       tabCell.remove();
 
       row.className = 'tabs-panel';
-      row.setAttribute('role', 'tabpanel');
 
       button.textContent = labelText;
       if (button.firstElementChild) {
@@ -174,7 +172,6 @@ export function resyncTabsBlock(block) {
       }
     } else {
       row.className = 'tabs-panel';
-      row.setAttribute('role', 'tabpanel');
       labelText = button.textContent;
     }
 
@@ -184,7 +181,7 @@ export function resyncTabsBlock(block) {
 
     button.id = buttonId;
     button.setAttribute('aria-controls', id);
-    button.setAttribute('aria-selected', 'false');
+    button.setAttribute('aria-expanded', 'false');
 
     let slug = slugify(labelText) || `tab-${i + 1}`;
     while (usedSlugs.has(slug)) {
@@ -206,7 +203,7 @@ export function resyncTabsBlock(block) {
     row.setAttribute('aria-hidden', String(i !== activeIdx));
   });
   buttons.forEach((btn, i) => {
-    btn.setAttribute('aria-selected', String(i === activeIdx));
+    btn.setAttribute('aria-expanded', String(i === activeIdx));
   });
 
   const fragment = document.createDocumentFragment();
@@ -237,7 +234,7 @@ function activateDeepLinkedTab(block, tablist) {
   const buttons = [...tablist.querySelectorAll(':scope > button.tabs-tab')];
   // eslint-disable-next-line secure-coding/no-insecure-comparison -- matching the public URL hash fragment against a tab slug, not a secret
   const button = buttons.find((btn) => btn.dataset.slug === hashSlug);
-  if (!button || button.getAttribute('aria-selected') === 'true') {
+  if (!button || button.getAttribute('aria-expanded') === 'true') {
     return;
   }
   activateTab(block, tablist, button);
@@ -254,7 +251,6 @@ export default async function decorate(block) {
   if (!tablist) {
     tablist = document.createElement('div');
     tablist.className = 'tabs-list';
-    tablist.setAttribute('role', 'tablist');
     tablist.id = `tablist-${blockId}`;
     block.prepend(tablist);
   }
