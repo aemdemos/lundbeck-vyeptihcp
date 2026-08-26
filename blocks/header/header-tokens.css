@@ -137,7 +137,8 @@
 
   /* Source shrinks the CONTINUE button's padding at the >=1200px tier only. */
   --header-hcp-continue-padding-wide: 3px 20px;
-  --header-nav-link-padding: 24px 0;
+  --header-nav-link-padding-block: 24px;
+  --header-nav-link-padding: var(--header-nav-link-padding-block) 0;
 
   /* Tightened for the narrow 992-1199px tier only; --header-nav-link-gap-wide restores it at 1200px. */
   --header-nav-link-gap: 12px;
