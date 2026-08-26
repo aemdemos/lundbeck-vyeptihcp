@@ -29,8 +29,7 @@
     try {
       const parsedUrl = new URL(url);
       return Boolean(parsedUrl);
-    } catch (error) {
-      console.error('Invalid URL:', error.message);
+    } catch {
       return false;
     }
   }
@@ -66,11 +65,8 @@
         if (link.parentNode) {
           link.parentNode.removeChild(link);
         }
-      } catch (error) {
-        console.warn(
-          'Failed to remove temporary link element:',
-          error.message,
-        );
+      } catch {
+        // Element may already be removed
       }
     }, 100);
   }
@@ -78,20 +74,10 @@
   function dispatchLinkEvents(link) {
     try {
       link.dispatchEvent(createBackgroundTabEvent());
-    } catch (middleClickError) {
-      console.warn(
-        'Background tab click failed. Falling back to Ctrl+Click.',
-        middleClickError.message,
-      );
-
+    } catch {
       try {
         link.dispatchEvent(createCtrlClickEvent());
-      } catch (ctrlClickError) {
-        console.warn(
-          'Ctrl+Click failed. Falling back to standard click.',
-          ctrlClickError.message,
-        );
-
+      } catch {
         link.click();
       }
     }
@@ -118,23 +104,15 @@
         '_blank',
         'noopener,noreferrer',
       );
-    } catch (fallbackError) {
-      console.error(
-        'Fallback window.open failed:',
-        fallbackError.message,
-      );
+    } catch {
+      // Fallback window.open blocked or failed
     }
   }
 
   function openLink(url) {
     try {
       openLinkUsingAnchor(url);
-    } catch (error) {
-      console.warn(
-        'Anchor-based link opening failed. Using fallback.',
-        error.message,
-      );
-
+    } catch {
       fallbackOpenLink(url);
     }
   }
