@@ -1030,11 +1030,11 @@
       let content = escapeHTML(rawContent)
         .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
         .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-        .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+        .replace(/\[([^[\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
         .replace(/\n\n+/g, '</p><p>');
 
       content = `<p>${content}</p>`;
-      return content.replace(/<p>[ \t\r\n]*<\/p>/g, '');
+      return content.replace(/<p>\s*<\/p>/g, '');
     }
 
     async sendMessage(message) {
@@ -1086,7 +1086,18 @@
     .lumi-landing-content { padding: 0 10px; }
     .lumi-landing-buttons-container { display: flex; gap: 10px; }
     .lumi-landing-btn { height: 26px; padding: 0 12px; background: white; border: 1px solid #D9D9D9; border-radius: 20px; color: #006186; cursor: pointer; font-size: 12px; }
-    .lumi-chat-window { position: fixed; width: 385px; height: 470px; background: white; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 10001; display: none; flex-direction: column; overflow: hidden; }
+    .lumi-chat-window {
+      position: fixed;
+      width: 385px;
+      height: 470px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      z-index: 10001;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
     .lumi-chat-header { background: #B5D9DD; color: #006186; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
     .lumi-close-btn { background: none; border: none; color: #006186; font-size: 20px; cursor: pointer; }
     .lumi-chat-content { flex: 1; display: flex; flex-direction: column; padding: 10px; min-height: 0; }
