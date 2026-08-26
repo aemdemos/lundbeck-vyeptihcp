@@ -23,12 +23,12 @@ function pushInfusionSearchEventToDataLayer(data) {
   const infusionInfo = {
     // zipCode: data.zipCode == null || data.zipCode === '' ? null : data.zipCode,
     zipCode: data.zipCode === null || data.zipCode === undefined || data.zipCode === '' ? null : data.zipCode,
-    miles: data.miles != null ? String(data.miles) : null,
+    miles: data.miles !== null && data.miles !== undefined ? String(data.miles) : null,
     networkCheckBox: data.networkCheckBox === 'Yes' ? 'Yes' : 'No',
   };
 
   if (isSuccess) {
-    infusionInfo.searchResultCount = data.searchResultCount != null
+    infusionInfo.searchResultCount = data.searchResultCount !== null && data.searchResultCount !== undefined
       ? String(data.searchResultCount)
       : null;
   }
