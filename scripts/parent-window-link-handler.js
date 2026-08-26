@@ -10,7 +10,7 @@
  * Or copy the code below directly into your parent page's JavaScript.
  */
 
-/* eslint-disable no-console */
+/* eslint-disable*/
 
 (function() {
   'use strict';
