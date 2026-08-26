@@ -18,3 +18,15 @@
   width: 100%;
   min-height: 400px;
 }
+
+@media (width <= 1200px) {
+    .norstella-cf-flexAlignFilterBar {
+        display: block;
+    }
+   
+    .norstella-cf-flexAlignFilterBar > * {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}

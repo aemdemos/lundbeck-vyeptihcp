@@ -11,6 +11,7 @@ export function initializeAutocomplete(inputElement) {
   }
 
   if (!googleMaps?.maps?.places?.Autocomplete) {
+    /* eslint-disable-next-line no-console */
     console.error(
       'Google Places Autocomplete is not available.',
     );
@@ -251,7 +252,6 @@ export function renderMarkers(
  * Geocode ZIP / city / state / address.
  */
 export async function geocodeZip(zip) {
-  console.log('ZIP:', zip);
 
   if (!map) {
     throw new Error(
