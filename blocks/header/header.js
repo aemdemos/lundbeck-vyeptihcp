@@ -6,6 +6,7 @@ const HCP_BAR_DISMISSED_KEY = 'vyepti-hcp-ui-state';
 
 function isHcpBarDismissed() {
   try {
+    /* eslint-disable-next-line secure-coding/no-insecure-comparison */
     return window.sessionStorage?.getItem(HCP_BAR_DISMISSED_KEY) === 'dismissed';
   } catch {
     return false;
