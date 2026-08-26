@@ -15,8 +15,10 @@
   ];
 
   function isOriginAllowed(origin) {
-    return ALLOWED_ORIGINS.includes('*')
-      || ALLOWED_ORIGINS.includes(origin);
+    return (
+      ALLOWED_ORIGINS.includes('*')
+      || ALLOWED_ORIGINS.includes(origin)
+    );
   }
 
   function isValidUrl(url) {
@@ -28,6 +30,7 @@
       const parsedUrl = new URL(url);
       return Boolean(parsedUrl);
     } catch (error) {
+      console.error('Invalid URL:', error);
       return false;
     }
   }
@@ -64,7 +67,10 @@
           link.parentNode.removeChild(link);
         }
       } catch (error) {
-        // Removal failures are non-blocking.
+        console.warn(
+          'Failed to remove temporary link element:',
+          error,
+        );
       }
     }, 100);
   }
@@ -72,12 +78,20 @@
   function dispatchLinkEvents(link) {
     try {
       link.dispatchEvent(createBackgroundTabEvent());
-      return;
     } catch (middleClickError) {
+      console.warn(
+        'Background tab click failed. Falling back to Ctrl+Click.',
+        middleClickError,
+      );
+
       try {
         link.dispatchEvent(createCtrlClickEvent());
-        return;
       } catch (ctrlClickError) {
+        console.warn(
+          'Ctrl+Click failed. Falling back to standard click.',
+          ctrlClickError,
+        );
+
         link.click();
       }
     }
@@ -105,7 +119,10 @@
         'noopener,noreferrer',
       );
     } catch (fallbackError) {
-      // Fallback failed.
+      console.error(
+        'Fallback window.open failed:',
+        fallbackError,
+      );
     }
   }
 
@@ -113,6 +130,11 @@
     try {
       openLinkUsingAnchor(url);
     } catch (error) {
+      console.warn(
+        'Anchor-based link opening failed. Using fallback.',
+        error,
+      );
+
       fallbackOpenLink(url);
     }
   }
