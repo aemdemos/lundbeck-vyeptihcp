@@ -4,6 +4,7 @@ import pushPageViewEvent from './pageview.js';
 import initLinkTracking from './linktracking.js';
 import initScrollDepthTracking from './observers.js';
 import initModalTracking from './modaltracking.js'; 
+import initInfusionTracking from './infusiontracking.js';
 
 // CookieInformation consent management platform (same CMP as www.vyepti.com)
 async function loadConsentManager() {
@@ -28,3 +29,4 @@ initModalTracking();
 pushPageViewEvent();
 initLinkTracking();
 initScrollDepthTracking();
+initInfusionTracking();
