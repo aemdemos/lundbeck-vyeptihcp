@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable*/
 
 import { pushToAdobeDataLayer, DATA_LAYER_CONFIG } from './datalayer.js';
 
