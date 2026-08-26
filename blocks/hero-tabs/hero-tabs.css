@@ -43,7 +43,7 @@
   transform: rotate(90deg);
 }
 
-.hero-tabs .tabs-list button.tabs-tab[aria-selected='true']::after {
+.hero-tabs .tabs-list button.tabs-tab[aria-expanded='true']::after {
   transform: rotate(-90deg);
 }
 
@@ -61,7 +61,7 @@
   background-color: #7fa8b8;
 }
 
-.hero-tabs .tabs-list button.tabs-tab[aria-selected='true'] {
+.hero-tabs .tabs-list button.tabs-tab[aria-expanded='true'] {
   /* dedicated dark navy for the active state — distinct from all three
      unselected tab colors (source: #073348), not the brand-primary teal
      used elsewhere on the site, which is lighter than the unselected
@@ -156,7 +156,7 @@ background-image: linear-gradient(180deg, #c02b58, #962244);
   margin: 0 0 24px;
 }
 
-@media (width >= 567px) {
+@media (width >= 576px) {
   .hero-tabs .tabs-list button.tabs-tab {
     padding-right: calc((100% - var(--max-width-site)) / 2);
     padding-left: calc((100% - var(--max-width-site)) / 2);
@@ -245,7 +245,7 @@ background-image: linear-gradient(180deg, #c02b58, #962244);
   }
  }
 
-  .hero-tabs .tabs-list button.tabs-tab[aria-selected='true'] {
+  .hero-tabs .tabs-list button.tabs-tab[aria-expanded='true'] {
     background-color: var(--link-color); /* rgb(65,116,141) */
     color: #fff;
     cursor: default;
