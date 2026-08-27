@@ -4169,15 +4169,15 @@
                     </div>
                 </div>
                 
-                <div class="lumi-landing-content" style="width: 288px; height: 31px; left: 21.50px; top: 52px; position: absolute; justify-content: flex-start; align-items: center; gap: 7px; display: inline-flex; pointer-events: none;">
+                <div class="lumi-landing-content" style="width: 288px; height: 31px; left: -17.5px; top: 44px; position: absolute; justify-content: flex-start; align-items: center; gap: 7px; display: inline-flex; pointer-events: none;">
                     <div style="flex: 1 1 0; flex-direction: column; justify-content: center; align-items: flex-start; gap: 5px; display: inline-flex; pointer-events: none;">
                         <div style="align-self: stretch; flex-direction: column; justify-content: center; align-items: flex-end; gap: 7px; display: flex; pointer-events: none;">
                             <div style="align-self: stretch; flex-direction: column; justify-content: flex-start; align-items: center; gap: 7px; display: flex; pointer-events: none;">
                                 <div style="align-self: stretch; justify-content: center; align-items: center; gap: 10px; display: inline-flex; pointer-events: none;">
-                                    <button class="lumi-landing-btn" id="lumi-landing-start-btn" style="height: 26px; padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 5px; background: white; border-radius: 20px; outline: 1px #D9D9D9 solid; outline-offset: -1px; justify-content: flex-start; align-items: center; gap: 10px; display: flex; border: none; cursor: pointer; position: relative; z-index: 2147483647; pointer-events: auto;">
+                                    <button class="lumi-landing-btn" id="lumi-landing-start-btn" style="height: 26px; padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 5px; background: white; border-radius: 20px; outline: 1px #D9D9D9 solid; outline-offset: -1px; justify-content: flex-start; align-items: center; gap: 10px; display: flex; border: none; cursor: pointer; position: relative; z-index: 2147483647; pointer-events: auto;text-transform: none;">
                                         <div style="color: #006186; font-size: 14px; font-family: 'Open Sans', sans-serif; font-weight: 600; line-height: 24px; word-wrap: break-word; pointer-events: none;">Start chatting now</div>
                                     </button>
-                                    <button class="lumi-landing-btn" id="lumi-landing-later-btn" style="height: 26px; padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 5px; background: white; border-radius: 20px; outline: 1px #D9D9D9 solid; outline-offset: -1px; justify-content: flex-start; align-items: center; gap: 10px; display: flex; border: none; cursor: pointer; position: relative; z-index: 2147483647; pointer-events: auto;">
+                                    <button class="lumi-landing-btn" id="lumi-landing-later-btn" style="height: 26px; padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 5px; background: white; border-radius: 20px; outline: 1px #D9D9D9 solid; outline-offset: -1px; justify-content: flex-start; align-items: center; gap: 10px; display: flex; border: none; cursor: pointer; position: relative; z-index: 2147483647; pointer-events: auto;text-transform: none;">
                                         <div style="color: #006186; font-size: 14px; font-family: 'Open Sans', sans-serif; font-weight: 600; line-height: 24px; word-wrap: break-word; pointer-events: none;">Try later</div>
                                     </button>
                                 </div>
@@ -8711,7 +8711,7 @@
                 top: var(--widget-window-top) !important;
                 right: var(--widget-window-right) !important;
                 position: fixed !important;
-                z-index: 10003 !important; /* Lower than polygon so polygon appears on top */
+                z-index: 10003 !important;
                 display: flex !important;
                 pointer-events: auto;
             }
