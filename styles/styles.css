@@ -971,6 +971,19 @@ main .section.dark a.button.secondary:focus { /* @libs */
   color: var(--button-on-dark-secondary-hover-color); /* @libs */
 }
 
+main .section.infusion {
+  padding: 16px 16px 0;
+  margin:0;
+
+  > div.columns-wrapper {
+    margin: 0 auto;
+  }
+
+  .columns > div > .columns-img-col {
+    order: 1;
+  }
+}
+
 main > .section.hero-tabs {
   margin: 0;
 
@@ -1230,7 +1243,27 @@ div[class^="width-"], div[class*=" width-"] {
 main .section.page-title h1, .size-h2 {
   max-width: var(--h1-max-width);
 }
+
+main .section.infusion {
+  padding: 24px 24px 0;
+  
+  .columns > div {
+    display: flex;
+    flex-direction: column;
   }
+  
+  .columns > div > .columns-img-col {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: flex-end;
+
+    picture {
+      max-width: 391px;
+    }
+  }
+ }
+}
 
 @media (width >= 992px) {
   :root {
@@ -1279,6 +1312,24 @@ main > .section > div:not(.bg-image) { /* @libs */
     margin-bottom: 8px;
   }
 
+  main .section.infusion {
+        .columns > div {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+        }
+
+        .columns > div > div:first-child {
+            padding-bottom: 36px;
+        }
+        
+        .columns > div > .columns-img-col {
+            picture {
+                max-width: unset;
+            }
+        }
+    }
+
   .section.emboss, .section.emboss-heavy, .section.rounded {
     padding: 24px 36px;
   }
@@ -1326,4 +1377,20 @@ main > .section.page-title {
     font-size: 43px;
   }
  }
+}
+
+@media (width >= 1440px) {
+  main .section.infusion {
+    .columns > div > .columns-img-col {
+      width: 60%;
+      flex: none;
+
+      picture img {
+        max-width: 1081px;
+        width: 100%;
+        min-width: 900px;
+        margin-right: -100px;
+      }
+    }
+  }
 }
