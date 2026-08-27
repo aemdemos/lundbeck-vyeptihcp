@@ -234,4 +234,12 @@
   .table.block table td { /* @libs */
     padding: var(--table-cell-padding-block-desktop) var(--table-cell-padding-inline); /* @libs */
   }
+
+  .table.block.reactions table th {
+    padding: var(--table-reactions-cell-padding-block-desktop) 0;
+  }
+
+  .table.block.reactions table td {
+    padding: var(--table-reactions-cell-padding-block-desktop) 8px;
+  }
 }
