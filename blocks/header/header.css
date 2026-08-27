@@ -414,7 +414,7 @@ header nav .nav-lumi-popup {
 }
 
 header nav .nav-lumi-button[aria-expanded='true'] + .nav-lumi-popup {
-  display: block;
+  display: none;
 }
 
 /* Upward triangle pointing at the avatar; mobile/desktop use different right-offsets. */
