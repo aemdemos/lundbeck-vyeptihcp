@@ -53,7 +53,7 @@ main .columns.arrow-nav > div > div p,
 main .columns.arrow-nav > div > div h3 {
   margin: 0;
   color: #fff;
-  font-family: var(--body-font-family);
+  font-family: var(--heading-font-family);
   font-size: var(--heading-font-size-s); /* 18px @desktop (source) */
   font-weight: 700;
   line-height: 1.22;
@@ -64,7 +64,7 @@ main .columns.arrow-nav a:any-link {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  font-family: var(--body-font-family);
+  font-family: var(--heading-font-family);
   font-size: var(--heading-font-size-xs); /* 16px below 768px (source) */
   font-weight: 700;
   line-height: 22px; /* fixed px in source (not a ratio) — stays 22px at both sizes */
@@ -668,7 +668,7 @@ main .columns.teal a.button {
 
   main .columns.jump-nav.columns-3-cols {
     p {
-      width: 290px;
+      width: 300px;
       padding: 0 40px;
     }
   }

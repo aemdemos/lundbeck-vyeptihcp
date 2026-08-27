@@ -10,7 +10,7 @@ header .nav-wrapper {
 
 header nav {
   display: block;
-  font-family: var(--body-font-family);
+  font-family: var(--heading-font-family);
 }
 
 /* Every header control is a native <button>, which inherits the global .button margin — reset it. */
@@ -60,6 +60,7 @@ header nav .nav-hcp-container {
 header nav .nav-hcp-message {
   margin: 0;
   color: var(--header-text-color);
+  font-family: var(--body-font-family);
 }
 
 header nav .nav-hcp-actions {

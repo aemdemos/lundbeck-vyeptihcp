@@ -73,7 +73,7 @@
   
   /* fonts */
   --body-font-family: 'open sans', open-sans, open-sans-fallback, sans-serif;
-  --heading-font-family: 'open sans', open-sans, open-sans-fallback, sans-serif;
+  --heading-font-family: 'Open Sans Bold', open-sans, open-sans-fallback, sans-serif;
   --page-title-font-family: proxima-nova, proxima-nova-fallback, sans-serif;
   --body-line-height: 1.5;
   --heading-font-weight: 700;
@@ -235,7 +235,7 @@ body.appear { /* @libs */
 }
 
 .grey, .gray {
-  color: var(--text-color-light);
+  color: var(--text-color-light) !important;
 }
 
 /* single-purpose text utility; !important so it reliably wins over
@@ -354,6 +354,7 @@ h6, .size-h6 { /* @libs */
 strong,
 b {
   font-weight: var(--font-weight-bold);
+  font-family: var(--heading-font-family);
 }
 
 sup {
@@ -414,6 +415,7 @@ a { /* @libs */
   color: var(--link-color); /* @libs */
   text-decoration: none; /* @libs */
   font-weight: var(--font-weight-bold); /* @libs */
+  font-family: var(--heading-font-family);
   overflow-wrap: break-word; /* @libs */
 }
 
@@ -450,7 +452,7 @@ button { /* @libs */
   padding: var(--button-padding); /* @libs */
   border: var(--button-border-width) solid transparent; /* @libs */
   border-radius: var(--button-border-radius); /* @libs */
-  font-family: var(--body-font-family); /* @libs */
+  font-family: var(--heading-font-family);
   font-size: var(--button-font-size); /* @libs */
   font-style: normal; /* @libs */
   font-weight: var(--button-font-weight); /* @libs */
@@ -908,7 +910,13 @@ main .section.dark h2:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
 main .section.dark h3:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
 main .section.dark h4:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
 main .section.dark h5:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
-main .section.dark h6:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) {
+main .section.dark h6:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark .size-h1:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark .size-h2:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark .size-h3:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark .size-h4:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark .size-h5:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark .size-h6:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) {
   color: var(--background-color);
 }
 
@@ -1236,6 +1244,14 @@ div[class^="width-"], div[class*=" width-"] {
 
 .width-25 {
   width: 23.5%;
+}
+
+.columns > div:has(> div[class^="width-"],> div[class*=" width-"]) {
+ /* align-items: var(--div-width-align-items); */
+
+  > div[class^="width-"],> div[class*=" width-"] {
+    flex: none;
+  }
 }
 
 /* ==== End widths ==== */
