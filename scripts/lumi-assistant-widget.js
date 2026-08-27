@@ -8734,10 +8734,6 @@
                 z-index: 1000 !important;
             }
             
-            .lumi-landing-mobile .lumi-landing-btn { 
-                margin-top: 0;
-            }
-            
             .lumi-chat-window {
                 width: min(385px, 92vw) !important;
                 max-width: min(385px, 92vw) !important;
