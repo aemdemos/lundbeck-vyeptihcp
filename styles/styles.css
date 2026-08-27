@@ -908,7 +908,13 @@ main .section.dark h2:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
 main .section.dark h3:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
 main .section.dark h4:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
 main .section.dark h5:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
-main .section.dark h6:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) {
+main .section.dark h6:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark .size-h1:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark .size-h2:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark .size-h3:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark .size-h4:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark .size-h5:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark .size-h6:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) {
   color: var(--background-color);
 }
 
