@@ -1,12 +1,9 @@
 import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
+import '../../scripts/lumiChat.js';
 
 const SESSION_HCP_DISMISSED = 'vyepti-hcp-bar-dismissed';
 
-/**
- * Marks a link as opening in a new tab and appends the source's visually-hidden
- * "opens in a new tab" hint (a11y parity with the source header).
- */
 function markNewTab(link) {
   link.setAttribute('target', '_blank');
   link.setAttribute('rel', 'noopener');
@@ -17,19 +14,13 @@ function markNewTab(link) {
 }
 
 function isDesktop() {
-  return window.matchMedia('(min-width: 900px)').matches;
+  return window.matchMedia('(min-width: 992px)').matches;
 }
 
-/**
- * Wires hover (desktop) + click (all) open/close behavior on a dropdown container.
- * @param {HTMLElement} item The <li>/wrapper holding the trigger + menu
- * @param {HTMLElement} menu The dropdown menu element
- */
 function wireDropdown(item, menu) {
   item.setAttribute('aria-expanded', 'false');
   const close = () => item.setAttribute('aria-expanded', 'false');
   const open = () => {
-    // Single-open: collapse any sibling dropdown in the same list before opening.
     if (item.parentElement) {
       item.parentElement.querySelectorAll(':scope > .nav-dropdown[aria-expanded="true"]')
         .forEach((s) => { if (s !== item) s.setAttribute('aria-expanded', 'false'); });
@@ -41,7 +32,6 @@ function wireDropdown(item, menu) {
   const trigger = item.querySelector(':scope > button, :scope > span, :scope > a');
   if (trigger) {
     trigger.addEventListener('click', (e) => {
-      // A dropdown trigger with no real href toggles; a real link navigates.
       const isRealLink = trigger.tagName === 'A' && trigger.getAttribute('href') && trigger.getAttribute('href') !== '#';
       if (isRealLink) return;
       e.preventDefault();
@@ -53,20 +43,11 @@ function wireDropdown(item, menu) {
   menu.setAttribute('role', 'menu');
 }
 
-/**
- * Builds a dropdown from a source <li> that contains a nested <ul>.
- * The li's leading text (before the nested ul) becomes the trigger label.
- * @returns {HTMLElement} decorated <li> dropdown
- */
 function buildDropdownItem(sourceLi) {
   const li = document.createElement('li');
   li.className = 'nav-dropdown';
 
   const subUl = sourceLi.querySelector(':scope > ul');
-  // Trigger label = the li's leading content before the nested <ul>. The DA/EDS
-  // pipeline wraps this in a <p> (`<li><p>Label</p><ul>…`), while the local raw
-  // fragment has bare text — so take the first non-<ul> child's text, falling
-  // back to direct text nodes.
   const labelNode = [...sourceLi.children].find((c) => c.tagName !== 'UL');
   const labelText = labelNode
     ? labelNode.textContent.trim()
@@ -101,11 +82,6 @@ function buildDropdownItem(sourceLi) {
   return li;
 }
 
-/**
- * Decorates the HCP notification bar (row 0). CONTINUE dismisses the bar for the
- * session; GO TO PATIENT SITE navigates out.
- * @returns {HTMLElement|null}
- */
 function decorateHcpBar(section) {
   if (!section) return null;
   if (sessionStorage.getItem(SESSION_HCP_DISMISSED) === 'true') return null;
@@ -135,8 +111,6 @@ function decorateHcpBar(section) {
       btn.className = 'nav-hcp-continue';
       btn.textContent = label;
       btn.addEventListener('click', () => {
-        // Non-sensitive UI flag (a boolean marking the HCP notice as dismissed
-        // for this tab). No tokens or personal data — safe in sessionStorage.
         // eslint-disable-next-line browser-security/no-sensitive-localstorage
         sessionStorage.setItem(SESSION_HCP_DISMISSED, 'true');
         bar.remove();
@@ -156,11 +130,6 @@ function decorateHcpBar(section) {
   return bar;
 }
 
-/**
- * Decorates the utility bar (row 1): indication tagline + PI/Patient Info dropdowns
- * + View patient site.
- * @returns {HTMLElement|null}
- */
 function decorateUtilityBar(section) {
   if (!section) return null;
   const bar = document.createElement('div');
@@ -186,7 +155,6 @@ function decorateUtilityBar(section) {
       if (li.querySelector(':scope > ul')) {
         linksWrap.append(buildDropdownItem(li));
       } else {
-        // Plain link: direct child on local, or wrapped in <p> on published DA.
         const a = li.querySelector(':scope > a, :scope > p > a');
         if (a) {
           const outer = document.createElement('li');
@@ -206,10 +174,6 @@ function decorateUtilityBar(section) {
   return bar;
 }
 
-/**
- * Builds the tools cluster (CTA pills) from the brand section.
- * @returns {HTMLElement} .nav-tools
- */
 function buildTools(section) {
   const tools = document.createElement('div');
   tools.className = 'nav-tools';
@@ -225,10 +189,6 @@ function buildTools(section) {
   return tools;
 }
 
-/**
- * Builds the mobile hamburger toggle (icon + persistent "Menu" label, as source).
- * @returns {HTMLElement} button.nav-hamburger
- */
 function buildHamburger() {
   const hamburger = document.createElement('button');
   hamburger.type = 'button';
@@ -239,10 +199,20 @@ function buildHamburger() {
   return hamburger;
 }
 
-/**
- * Builds the primary nav links list from the nav-links section.
- * @returns {HTMLElement} ul.nav-links-list
- */
+function pagePath(href) {
+  const path = new URL(href, window.location.origin).pathname;
+  return path.length > 1 ? path.replace(/\/$/, '') : path;
+}
+
+function markCurrentPage(list) {
+  const current = pagePath(window.location.href);
+  [...list.children].forEach((li) => {
+    const link = li.querySelector(':scope > a');
+    const isCurrent = link && pagePath(link.href) === current;
+    if (isCurrent) li.classList.add('nav-link-current');
+  });
+}
+
 function buildNavLinksList(section) {
   const list = document.createElement('ul');
   list.className = 'nav-links-list';
@@ -254,7 +224,6 @@ function buildNavLinksList(section) {
       if (li.querySelector(':scope > ul')) {
         list.append(buildDropdownItem(li));
       } else {
-        // Plain link: direct child on local, or wrapped in <p> on published DA.
         const a = li.querySelector(':scope > a, :scope > p > a');
         if (a) {
           const outer = document.createElement('li');
@@ -265,23 +234,33 @@ function buildNavLinksList(section) {
       }
     });
   }
+  markCurrentPage(list);
   return list;
 }
 
-/**
- * Builds the LuMi AI Assistant widget: a circular avatar + label that toggles a
- * small popup ("Let LuMi help you today!" + Start chatting / Try later + close).
- * All copy/media come from the nav fragment's LuMi section (content-first).
- * @param {HTMLElement} section The LuMi fragment section
- * @returns {HTMLElement|null}
- */
+function initializeLumi() {
+  return new Promise((resolve) => {
+    if (window.lumiAssistantWidget) {
+      resolve(window.lumiAssistantWidget);
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = '../../scripts/lumi-assistant-widget.js';
+    script.onload = () => {
+      resolve(window.lumiAssistantWidget);
+    };
+    document.head.appendChild(script);
+  });
+}
+
 function buildLumi(section) {
   if (!section) return null;
   const contentRoot = section.querySelector('.default-content-wrapper') || section;
   const paragraphs = [...contentRoot.querySelectorAll(':scope > p')];
   const avatarImg = contentRoot.querySelector('p img');
   if (!avatarImg) return null;
-  // p[0]=avatar image, p[1]=button label, p[2]=popup title.
+
   const labelText = paragraphs[1] ? paragraphs[1].textContent.trim() : 'LuMi AI Assistant';
   const popupTitle = paragraphs[2] ? paragraphs[2].textContent.trim() : '';
   const popupLinks = [...contentRoot.querySelectorAll(':scope > ul > li > a')];
@@ -291,10 +270,12 @@ function buildLumi(section) {
 
   const trigger = document.createElement('button');
   trigger.type = 'button';
-  trigger.className = 'nav-lumi-button';
+  trigger.className = 'nav-lumi-button lumi-assistant-button';
+  trigger.id = 'lumi-assistant-btn';
   trigger.setAttribute('aria-expanded', 'false');
+
   const avatar = document.createElement('span');
-  avatar.className = 'nav-lumi-avatar';
+  avatar.className = 'lumi-avatar nav-lumi-avatar';
   avatar.append(avatarImg.cloneNode(true));
   const label = document.createElement('span');
   label.className = 'nav-lumi-label';
@@ -315,6 +296,7 @@ function buildLumi(section) {
   closeBtn.className = 'nav-lumi-popup-close';
   closeBtn.setAttribute('aria-label', 'Close');
   header.append(title, closeBtn);
+
   const actions = document.createElement('div');
   actions.className = 'nav-lumi-popup-actions';
   popupLinks.forEach((a) => {
@@ -322,28 +304,67 @@ function buildLumi(section) {
     btn.className = 'nav-lumi-popup-btn';
     actions.append(btn);
   });
+
+  const close = () => trigger.setAttribute('aria-expanded', 'false');
+
+  const startChat = actions.querySelector('.nav-lumi-popup-btn');
+  if (startChat) {
+    startChat.addEventListener('click', async (e) => {
+      e.preventDefault();
+      close();
+      const lumi = await initializeLumi();
+      if (lumi && typeof lumi.notifyParentWindow === 'function') {
+        lumi.notifyParentWindow('start-chatting', {
+          source: 'landing-window',
+          buttonId: 'nav-lumi-start-btn',
+        });
+      }
+      lumi?.startChatting?.();
+    });
+  }
+
   popup.append(header, actions);
   wrapper.append(popup);
 
-  const close = () => trigger.setAttribute('aria-expanded', 'false');
-  trigger.addEventListener('click', (e) => {
+  trigger.addEventListener('click', async (e) => {
     e.preventDefault();
     e.stopPropagation();
+
+    await initializeLumi();
     const open = trigger.getAttribute('aria-expanded') === 'true';
     trigger.setAttribute('aria-expanded', open ? 'false' : 'true');
   });
-  closeBtn.addEventListener('click', (e) => { e.preventDefault(); close(); });
+
+  closeBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    close();
+    const lumi = await initializeLumi();
+    if (lumi && typeof lumi.notifyParentWindow === 'function') {
+      lumi.notifyParentWindow('landing-close', {
+        source: 'landing-window',
+        buttonId: 'nav-lumi-popup-close',
+      });
+    }
+  });
+
   const tryLater = actions.querySelector('a[href="#lumi-later"]');
-  if (tryLater) tryLater.addEventListener('click', (e) => { e.preventDefault(); close(); });
+  if (tryLater) {
+    tryLater.addEventListener('click', async (e) => {
+      e.preventDefault();
+      close();
+      const lumi = await initializeLumi();
+      if (lumi && typeof lumi.notifyParentWindow === 'function') {
+        lumi.notifyParentWindow('try-later', {
+          source: 'landing-window',
+          buttonId: 'nav-lumi-try-later',
+        });
+      }
+    });
+  }
 
   return wrapper;
 }
 
-/**
- * Builds the teal brand band as it appears on source: the logo sits on the left
- * and spans two stacked right-hand rows — tool CTAs on top, primary nav below.
- * @returns {HTMLElement|null}
- */
 function decorateBrandBand(brandSection, navLinksSection, lumiSection) {
   if (!brandSection && !navLinksSection) return null;
   const band = document.createElement('div');
@@ -358,13 +379,6 @@ function decorateBrandBand(brandSection, navLinksSection, lumiSection) {
       const brand = document.createElement('div');
       brand.className = 'nav-brand';
       const link = logoLink.cloneNode(true);
-      // Source swaps logos by breakpoint: white logo on the teal desktop band,
-      // full-colour logo on the white mobile band. Keep the authored (white) img
-      // for desktop and add a colour variant shown on mobile. The mobile <img>
-      // must live OUTSIDE the authored <picture> — inside it the picture's
-      // <source srcset> (the white PNG) would override the img's src. The SVG is
-      // served from /icons/ (the only asset dir served on both local and EDS;
-      // /content/images is not served on published EDS).
       const desktopImg = link.querySelector('img');
       if (desktopImg) {
         desktopImg.classList.add('nav-brand-logo-desktop');
@@ -395,35 +409,24 @@ function decorateBrandBand(brandSection, navLinksSection, lumiSection) {
     const linksRow = document.createElement('div');
     linksRow.className = 'nav-links-row';
     linksRow.append(buildNavLinksList(navLinksSection));
-    // LuMi AI Assistant sits to the right of the primary nav links (as on source).
     const lumi = buildLumi(lumiSection);
     if (lumi) linksRow.append(lumi);
     right.append(linksRow);
   }
 
   container.append(right);
-  // Hamburger lives on the top bar (beside the logo) on mobile; the right column
-  // (CTAs + nav links) becomes the collapsible menu it toggles.
   container.append(buildHamburger());
   band.append(container);
   return band;
 }
 
-/**
- * loads and decorates the header
- * @param {Element} block The header block element
- */
 export default async function decorate(block) {
   const navMeta = getMetadata('nav');
-  // Local (aem up) serves the nav fragment under /content; DA/EDS production serves
-  // it at /nav. Try the metadata-provided path first, then /content/nav (local),
-  // then /nav (production) — first one that loads wins.
   const candidates = [];
   if (navMeta) candidates.push(new URL(navMeta, window.location).pathname);
   candidates.push('/content/nav', '/nav');
   let fragment = null;
   for (let i = 0; i < candidates.length && !fragment; i += 1) {
-     
     fragment = await loadFragment(candidates[i]);
   }
 
@@ -433,20 +436,15 @@ export default async function decorate(block) {
   nav.setAttribute('aria-label', 'Main navigation');
 
   const sections = [...fragment.children];
-  // Fragment order: [0] HCP bar, [1] utility bar, [2] brand+tools, [3] primary nav,
-  // [4] LuMi AI Assistant. Brand + primary nav combine into one teal band.
   const [hcpSection, utilitySection, brandSection, navLinksSection, lumiSection] = sections;
 
   const hcpBar = decorateHcpBar(hcpSection);
   if (hcpBar) nav.append(hcpBar);
   const utilityBar = decorateUtilityBar(utilitySection);
   if (utilityBar) nav.append(utilityBar);
-  // Source renders the teal band as ONE row: logo on the left spanning two
-  // stacked right-hand rows (tool CTAs over primary nav links + LuMi widget).
   const brandBand = decorateBrandBand(brandSection, navLinksSection, lumiSection);
   if (brandBand) nav.append(brandBand);
 
-  // Hamburger toggles the mobile nav-links drawer.
   const hamburger = nav.querySelector('.nav-hamburger');
   if (hamburger) {
     hamburger.addEventListener('click', () => {
@@ -456,19 +454,15 @@ export default async function decorate(block) {
     });
   }
 
-  // Close dropdowns on Escape / outside click.
   const closeAll = () => nav.querySelectorAll('[aria-expanded="true"]').forEach((el) => {
     if (el.classList.contains('nav-dropdown')) el.setAttribute('aria-expanded', 'false');
   });
   window.addEventListener('keydown', (e) => { if (e.code === 'Escape') closeAll(); });
   document.addEventListener('click', (e) => { if (!nav.contains(e.target)) closeAll(); });
 
-  // LuMi lives in the primary-nav row on desktop; on mobile that row collapses
-  // into the hamburger drawer, so move the LuMi avatar onto the top bar (just
-  // left of the hamburger) as the source does. Keep a marker of its desktop home.
   const lumi = nav.querySelector('.nav-lumi');
   const lumiDesktopHome = lumi ? lumi.parentElement : null;
-  const desktopMq = window.matchMedia('(min-width: 900px)');
+  const desktopMq = window.matchMedia('(min-width: 992px)');
   const placeLumi = (atDesktop) => {
     if (!lumi) return;
     if (atDesktop) {
@@ -479,7 +473,6 @@ export default async function decorate(block) {
   };
   placeLumi(desktopMq.matches);
 
-  // Reset mobile state when resizing up to desktop.
   desktopMq.addEventListener('change', (mq) => {
     placeLumi(mq.matches);
     if (mq.matches) {

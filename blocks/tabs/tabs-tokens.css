@@ -4,4 +4,30 @@
   --tabs-border-width: var(--border-width-s); /* @boilerplate */
   --tabs-border-color: var(--border-color); /* @boilerplate */
   --tabs-transition-duration: var(--transition-duration); /* @boilerplate */
+
+  /* trial-data blockquote callout */
+  --tabs-blockquote-bg: #e5f2f5;
+  --tabs-blockquote-color: var(--link-color);
+  --tabs-blockquote-padding: 4px;
+  --tabs-blockquote-font-size: 16px;
+  --tabs-blockquote-line-height: 20px;
+  --tabs-blockquote-stat-font-size: 34px;
+  --tabs-blockquote-stat-line-height: 34px;
+
+  /* per-tab stat sizes (tab 1 uses the base above) */
+  --tabs-blockquote-stat-font-size-tab2: 40px;
+  --tabs-blockquote-stat-font-size-tab3: 21px;
+  --tabs-blockquote-stat-font-size-tab4: 38px;
+  --tabs-blockquote-stat-font-size-tab4-h2: 32px;
+  --tabs-blockquote-sup-font-size: 8px;
+  --tabs-blockquote-sup-line-height: 4px;
+  --tabs-blockquote-width: 230px;
+  --tabs-blockquote-mark-size: 76px;
+  --tabs-blockquote-mark-gutter: 56px;
+
+  /* mobile: mark overhangs the box's left edge by half its width (blue starts at the mark's midline) */
+  --tabs-blockquote-mark-overhang: 38px;
+
+  /* mobile: left inset for text = clears the mark's in-box portion; kept tight so the intro stays on one line */
+  --tabs-blockquote-text-inset: 40px;
 }

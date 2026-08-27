@@ -8,6 +8,7 @@ import { ensureDOMPurify } from '../../scripts/scripts.js';
 import { DOMPURIFY } from '../../scripts/aem.js';
 import {
   getYoutubeEmbedHtml, getVimeoEmbedHtml, getBrightcoveIds, getBrightcoveScriptTag,
+  createBrightcovePlayer,
 } from '../../scripts/utils.js';
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -24,24 +25,6 @@ async function htmlToElement(html) {
   const temp = document.createElement('div');
   temp.innerHTML = window.DOMPurify.sanitize(html, IFRAME_DOMPURIFY);
   return temp.firstElementChild;
-}
-
-function getBrightcoveElement(accountId, playerId, videoId, autoplay, background) {
-  const player = document.createElement('video-js');
-  player.className = 'video-js';
-  player.setAttribute('playsinline', '');
-  player.setAttribute('data-account', accountId);
-  player.setAttribute('data-player', playerId);
-  player.setAttribute('data-video-id', videoId);
-  player.setAttribute('data-embed', 'default');
-  if (autoplay) player.setAttribute('autoplay', '');
-  if (background) {
-    player.setAttribute('loop', '');
-    player.setAttribute('muted', '');
-  } else {
-    player.setAttribute('controls', '');
-  }
-  return player;
 }
 
 function getVideoElement(source, autoplay, background) {
@@ -91,13 +74,13 @@ const loadVideoEmbed = async (block, link, autoplay, background) => {
       block.dataset.embedLoaded = true;
     });
   } else if (brightcoveIds) {
-    const { accountId, playerId, videoId } = brightcoveIds;
-    const playerEl = getBrightcoveElement(accountId, playerId, videoId, autoplay, background);
+    const { accountId, playerId } = brightcoveIds;
+    const playerEl = createBrightcovePlayer(brightcoveIds, { autoplay, playsinline: true, background });
     block.append(playerEl);
     playerEl.addEventListener('canplay', () => {
       block.dataset.embedLoaded = true;
     });
-    getBrightcoveScriptTag(accountId, playerId);
+    getBrightcoveScriptTag(accountId, playerId, playerEl);
   } else {
     const videoEl = getVideoElement(link, autoplay, background);
     block.append(videoEl);

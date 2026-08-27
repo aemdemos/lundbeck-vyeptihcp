@@ -38,10 +38,10 @@
   cursor: pointer;
   background-color: transparent;
   border-color: transparent;
-  opacity: 0.85;
+  background-image: url('/icons/back-to-top-hover.svg');
 }
 
-@media (width >= 768px) {
+@media (width >= 992px) {
   .back-to-top.block button {
     right: var(--back-to-top-desktop-offset-right);
     bottom: var(--back-to-top-desktop-bottom);
@@ -49,4 +49,12 @@
     height: var(--back-to-top-desktop-height);
     background-image: url('/icons/back-to-top-desktop.svg');
   }
+
+.back-to-top.block button:hover,
+.back-to-top.block button:focus {
+  cursor: pointer;
+  background-color: transparent;
+  border-color: transparent;
+  background-image: url('/icons/back-to-top-desktop-hover.svg');
+}
 }
