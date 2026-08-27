@@ -568,6 +568,11 @@ main img { /* @libs */
   width: var(--icon-size); /* @libs */
 }
 
+.icon.icon-external-link {
+  height: 24px;
+  width: 24px;
+}
+
 .icon img { /* @libs */
   height: 100%; /* @libs */
   width: 100%; /* @libs */
