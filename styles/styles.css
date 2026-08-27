@@ -451,7 +451,7 @@ button { /* @libs */
   padding: var(--button-padding); /* @libs */
   border: var(--button-border-width) solid transparent; /* @libs */
   border-radius: var(--button-border-radius); /* @libs */
-  font-family: var(--body-font-family); /* @libs */
+  font-family: var(--heading-font-family);
   font-size: var(--button-font-size); /* @libs */
   font-style: normal; /* @libs */
   font-weight: var(--button-font-weight); /* @libs */
