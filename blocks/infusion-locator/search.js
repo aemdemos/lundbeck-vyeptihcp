@@ -255,6 +255,21 @@ export default async function handleSearch({
     );
 
     /*
+     * 8b. Analytics: notify the datalayer bridge (scripts/infusiontracking.js).
+     */
+    window.dispatchEvent(new CustomEvent('vyepti:infusion-search', {
+      detail: {
+        eventType: filteredResults.length > 0
+          ? 'infusionSearchSuccess'
+          : 'infusionSearchFailure',
+        zipCode: zip,
+        miles: radius,
+        networkCheckBox: filters.networkOnly ? 'Yes' : 'No',
+        searchResultCount: filteredResults.length,
+      },
+    }));
+
+    /*
      * 9. Card → map marker.
      */
     resultsContainer.addEventListener(
@@ -286,6 +301,15 @@ export default async function handleSearch({
       'Search failed:',
       error,
     );
+    window.dispatchEvent(new CustomEvent('vyepti:infusion-search', {
+    detail: {
+      eventType: 'infusionSearchFailure',
+      zipCode: zip,
+      miles: radius,
+      networkCheckBox: filters.networkOnly ? 'Yes' : 'No',
+      searchResultCount: 0,
+    },
+  }));
   } finally {
     /*
      * Always re-enable Search.
@@ -294,4 +318,3 @@ export default async function handleSearch({
     searchBtn.disabled = false;
   }
 }
-
