@@ -7891,7 +7891,6 @@
             pointer-events: auto;
             transition: all 0.2s ease;
             text-transform: none;
-            margin-top: 0px;
         }
 
         .lumi-landing-btn:hover {
@@ -8733,6 +8732,10 @@
             .lumi-landing-mobile .lumi-landing-btn {
                 pointer-events: auto !important;
                 z-index: 1000 !important;
+            }
+            
+            .lumi-landing-mobile .lumi-landing-btn { 
+                margin-top: 0;
             }
             
             .lumi-chat-window {
