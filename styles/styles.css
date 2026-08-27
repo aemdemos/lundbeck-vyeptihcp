@@ -415,6 +415,7 @@ a { /* @libs */
   color: var(--link-color); /* @libs */
   text-decoration: none; /* @libs */
   font-weight: var(--font-weight-bold); /* @libs */
+  font-family: var(--heading-font-family);
   overflow-wrap: break-word; /* @libs */
 }
 
