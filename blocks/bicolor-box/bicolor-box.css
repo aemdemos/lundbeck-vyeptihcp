@@ -23,7 +23,7 @@ main .bicolor-box.emboss,
 main .bicolor-box.emboss-heavy {
   background: transparent;
   padding: 0;
-  max-width: 485px; /* hardcode match to customer site */
+  max-width: 513px; /* hardcode match to customer site */
 }
 
 main .bicolor-box.emboss::after,
@@ -161,6 +161,12 @@ main .bicolor-box.stat-box .bicolor-box-body {
 }
 
 @media (width >= 768px) {
+  main .bicolor-box.stat-box .bicolor-box-header {
+    flex-flow: row wrap;
+    align-items: center;
+    gap: 20px;
+  }
+
   main .bicolor-box-body {
     padding: 14px 32px 32px;
   }
@@ -173,15 +179,6 @@ main .bicolor-box.stat-box .bicolor-box-body {
     flex-direction: row;
     gap: 40px;
   }
-}
-
-@media (width >= 992px) {
-  main .bicolor-box.stat-box .bicolor-box-header {
-    flex-flow: row wrap;
-    align-items: center;
-    gap: 20px;
-    padding: 16px 24px;
-  }
 
   main .bicolor-box-stat-value {
     font-size: var(--bicolor-box-stat-value-font-size-desktop);
@@ -192,8 +189,14 @@ main .bicolor-box.stat-box .bicolor-box-body {
     margin: 0;
     flex: 1 1 200px;
   }
+}
 
+@media (width >= 992px) {
   main .bicolor-box.stat-box .bicolor-box-body {
     padding: 6px 32px 10px;
+  }
+
+  main .bicolor-box.emboss {
+    max-width: 480px; /* hardcode match to customer site */
   }
 }

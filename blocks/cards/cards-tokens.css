@@ -122,6 +122,8 @@ main .cards.promo .cards-card-body a:hover {
 main .cards.icon-feature {
   container-type: inline-size;
   container-name: cards-icon-feature;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 /* Neutralise the auto-added cards-N-cols sizing (cards.js adds cards-2-cols /
@@ -133,7 +135,7 @@ main .cards.icon-feature > ul,
 main .hero-tabs .cards.icon-feature > ul {
   grid-template-columns: 1fr;
   justify-items: stretch;
-  gap: 2rem;
+  gap: 24px;
 }
 
 main .cards.icon-feature.cards-2-cols > ul > li,

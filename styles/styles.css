@@ -67,7 +67,7 @@
   --section-divider-width: 1px; /* @libs */
   --section-divider-color: var(--link-hover-color); /* @libs */
   --section-padding: 24px;
-  --flex-group-gap: 24px;
+  --flex-group-gap: 16px;
   --div-width-margin: auto;
   --div-width-align-items: flex-start;
   
@@ -791,10 +791,7 @@ flex-direction: column;
 gap: var(--flex-group-gap);
 max-width: var(--max-width-site);
 margin: auto;
-}
-
-main .flex-group > .section.flex {
-margin: 24px 16px;
+padding: 16px;
 }
 
 main > .section.page-title {
