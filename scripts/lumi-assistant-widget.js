@@ -7810,7 +7810,7 @@
 
         .lumi-landing-desktop .lumi-landing-content {
             position: absolute;
-            top: 40px;
+            top: 46px;
             left: 21.50px;
             width: 288px;
             height: 31px;
