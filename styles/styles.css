@@ -235,7 +235,7 @@ body.appear { /* @libs */
 }
 
 .grey, .gray {
-  color: var(--text-color-light);
+  color: var(--text-color-light) !important;
 }
 
 /* single-purpose text utility; !important so it reliably wins over
