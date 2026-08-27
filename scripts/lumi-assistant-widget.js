@@ -4134,58 +4134,51 @@
                 </div>
                 
                 <!-- Landing Div - Desktop Version -->
-            <div class="lumi-landing-window lumi-landing-desktop" id="lumi-landing-window-desktop" style="background: transparent;">
-                <!-- White background rounded rectangle (per Figma design) -->
-                <div style="position: absolute; background: white; border-radius: 10px; left: 0px; right: 0px; top: 4.96%;bottom: 0px;"></div>
-                <div class="lumi-landing-header">
-                    <div class="lumi-landing-header-content">
-                        <div class="lumi-landing-title">Let LuMi help you today!</div>
-                        <div class="lumi-landing-close-wrapper">
-                            <button class="lumi-landing-close-btn" id="lumi-landing-close-btn-desktop">
-                                <img src="https://lumichat.norta.ai/assets/global-icon-icon-close-hover.png" alt="Close" />
+                <div class="lumi-landing-window lumi-landing-desktop" id="lumi-landing-window-desktop" style="background: transparent;">
+                    <div style="position: absolute; background: white; border-radius: 10px; left: 0px; right: 0px; top: 4.96%; bottom: 0px;"></div>
+                    <div class="lumi-landing-header">
+                        <div class="lumi-landing-header-content">
+                            <div class="lumi-landing-title">Let LuMi help you today!</div>
+                            <div class="lumi-landing-close-wrapper">
+                                <button class="lumi-landing-close-btn" id="lumi-landing-close-btn-desktop">
+                                    <img src="https://lumichat.norta.ai/assets/global-icon-icon-close-hover.png" alt="Close" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lumi-landing-content">
+                        <div class="lumi-landing-buttons-container">
+                            <button class="lumi-landing-btn" id="lumi-landing-start-btn-desktop">Start chatting now</button>
+                            <button class="lumi-landing-btn" id="lumi-landing-later-btn-desktop">Try later</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Landing Div - Mobile Version -->
+                <div class="lumi-landing-window lumi-landing-mobile" id="lumi-landing-window" style="width: 335px; height: 91px; position: relative; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.10);">
+                    <div style="width: 335px; height: 85px; left: 0px; top: 6px; position: absolute; background: white; border-radius: 10px; pointer-events: none;"></div>
+                    
+                    <div class="lumi-landing-header" style="width: 335px; height: 38px; padding: 10px; left: 0px; top: 6px; position: absolute; background: #B5D9DD; border-top-left-radius: 10px; border-top-right-radius: 10px; flex-direction: column; justify-content: center; align-items: flex-start; gap: 10px; display: inline-flex; pointer-events: none;">
+                        <div style="align-self: stretch; justify-content: flex-start; align-items: center; gap: 34px; display: inline-flex; pointer-events: none;">
+                            <div style="flex: 1 1 0; justify-content: center; display: flex; flex-direction: column; color: #006186; font-size: 18px; font-family: 'Open Sans', sans-serif; font-weight: 700; line-height: 24px; word-wrap: break-word;">Let LuMi help you today!</div>
+                            <button class="lumi-landing-close-btn" id="lumi-landing-close-btn" style="width: 24px; height: 24px; position: relative; background: transparent; border: none; cursor: pointer; padding: 0; margin: 0; display: flex; align-items: center; justify-content: center; z-index: 2147483647; pointer-events: auto;">
+                                <div style="width: 24px; height: 24px; left: 0px; top: 0px; position: absolute; border-radius: 9999px; border: 2px solid white; pointer-events: none;"></div>
+                                <div style="position: absolute; color: white; font-size: 14px; font-weight: 700; line-height: 1; pointer-events: none; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">×</div>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="lumi-landing-content" style="width: 288px; height: 31px; left: 23px; top: 50px; position: absolute; justify-content: flex-end; align-items: center; gap: 7px; display: inline-flex; pointer-events: none;">
+                        <div style="align-self: stretch; justify-content: center; align-items: center; gap: 10px; display: inline-flex; pointer-events: none;">
+                            <button class="lumi-landing-btn" id="lumi-landing-start-btn" style="height: 26px; padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 5px; background: white; border-radius: 20px; outline: 1px #D9D9D9 solid; outline-offset: -1px; justify-content: flex-start; align-items: center; gap: 10px; display: flex; border: none; cursor: pointer; position: relative; z-index: 2147483647; pointer-events: auto; text-transform: none;">
+                                <div style="color: #006186; font-size: 14px; font-family: 'Open Sans', sans-serif; font-weight: 600; line-height: 24px; word-wrap: break-word; pointer-events: none;">Start chatting now</div>
+                            </button>
+                            <button class="lumi-landing-btn" id="lumi-landing-later-btn" style="height: 26px; padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 5px; background: white; border-radius: 20px; outline: 1px #D9D9D9 solid; outline-offset: -1px; justify-content: flex-start; align-items: center; gap: 10px; display: flex; border: none; cursor: pointer; position: relative; z-index: 2147483647; pointer-events: auto; text-transform: none;">
+                                <div style="color: #006186; font-size: 14px; font-family: 'Open Sans', sans-serif; font-weight: 600; line-height: 24px; word-wrap: break-word; pointer-events: none;">Try later</div>
                             </button>
                         </div>
                     </div>
                 </div>
-                <div class="lumi-landing-content">
-                    <div class="lumi-landing-buttons-container">
-                        <button class="lumi-landing-btn" id="lumi-landing-start-btn-desktop">Start chatting now</button>
-                        <button class="lumi-landing-btn" id="lumi-landing-later-btn-desktop">Try later</button>
-                    </div>
-                </div>
-            </div>
-                
-                <!-- Landing Div - Mobile Version -->
-            <div class="lumi-landing-window lumi-landing-mobile" id="lumi-landing-window" style="width: 335px; height: 91px; position: relative; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.10);">
-                <div style="width: 335px; height: 85px; left: 0px; top: 6px; position: absolute; background: white; border-radius: 10px; pointer-events: none;"></div>
-                
-                <div class="lumi-landing-header" style="width: 335px; height: 38px; padding: 10px; left: 0px; position: absolute; background: #B5D9DD; border-top-left-radius: 10px; border-top-right-radius: 10px; flex-direction: column; justify-content: center; align-items: flex-start; gap: 10px; display: inline-flex; pointer-events: none;">
-                    <div style="align-self: stretch; justify-content: flex-start; align-items: center; gap: 34px; display: inline-flex; pointer-events: none;">
-                        <div style="flex: 1 1 0; justify-content: center; display: flex; flex-direction: column; color: #006186; font-size: 18px; font-family: 'Open Sans', sans-serif; font-weight: 700; line-height: 24px; word-wrap: break-word;">Let LuMi help you today!</div>
-                        <button class="lumi-landing-close-btn" id="lumi-landing-close-btn" style="width: 24px; height: 24px; position: relative; background: transparent; border: none; cursor: pointer; padding: 0; margin: 0; display: flex; align-items: center; justify-content: center; z-index: 2147483647; pointer-events: auto;">
-                            <div style="width: 24px; height: 24px; left: 0px; top: 0px; position: absolute; border-radius: 9999px; border: 2px var(--Headlines-body-secondary, white) solid; pointer-events: none;"></div>
-                            <div style="position: absolute; color: white; font-size: 14px; font-weight: 700; line-height: 1; pointer-events: none; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">×</div>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="lumi-landing-content" style="width: 288px; height: 31px; left: -17.5px; top: 44px; position: absolute; justify-content: flex-start; align-items: center; gap: 7px; display: inline-flex; pointer-events: none;">
-                    <div style="flex: 1 1 0; flex-direction: column; justify-content: center; align-items: flex-start; gap: 5px; display: inline-flex; pointer-events: none;">
-                        <div style="align-self: stretch; flex-direction: column; justify-content: center; align-items: flex-end; gap: 7px; display: flex; pointer-events: none;">
-                            <div style="align-self: stretch; flex-direction: column; justify-content: flex-start; align-items: center; gap: 7px; display: flex; pointer-events: none;">
-                                <div style="align-self: stretch; justify-content: center; align-items: center; gap: 10px; display: inline-flex; pointer-events: none;">
-                                    <button class="lumi-landing-btn" id="lumi-landing-start-btn" style="height: 26px; padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 5px; background: white; border-radius: 20px; outline: 1px #D9D9D9 solid; outline-offset: -1px; justify-content: flex-start; align-items: center; gap: 10px; display: flex; border: none; cursor: pointer; position: relative; z-index: 2147483647; pointer-events: auto;text-transform: none;">
-                                        <div style="color: #006186; font-size: 14px; font-family: 'Open Sans', sans-serif; font-weight: 600; line-height: 24px; word-wrap: break-word; pointer-events: none;">Start chatting now</div>
-                                    </button>
-                                    <button class="lumi-landing-btn" id="lumi-landing-later-btn" style="height: 26px; padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 5px; background: white; border-radius: 20px; outline: 1px #D9D9D9 solid; outline-offset: -1px; justify-content: flex-start; align-items: center; gap: 10px; display: flex; border: none; cursor: pointer; position: relative; z-index: 2147483647; pointer-events: auto;text-transform: none;">
-                                        <div style="color: #006186; font-size: 14px; font-family: 'Open Sans', sans-serif; font-weight: 600; line-height: 24px; word-wrap: break-word; pointer-events: none;">Try later</div>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
                 
                 <div class="lumi-chat-window" id="lumi-chat-window">
                     <div class="lumi-chat-header">
@@ -4213,8 +4206,7 @@
                                 <div class="lumi-avatar-controls">
                                     <button class="lumi-avatar-stop-btn" id="lumi-avatar-stop-btn" style="display: none;">Stop Session</button>
                                 </div>
-                                <div class="lumi-avatar-status" id="lumi-avatar-status">
-                                </div>
+                                <div class="lumi-avatar-status" id="lumi-avatar-status"></div>
                             </div>
                         </div>
                         
@@ -4244,7 +4236,6 @@
                             </div>
                         </div>
                         
-                        <!-- Mode buttons moved outside input container so they're always visible -->
                         ${this.config.enableAvatar ? `
                         <div class="lumi-chat-mode-buttons">
                             <button class="lumi-mode-btn lumi-ai-btn" id="lumi-ai-btn">
