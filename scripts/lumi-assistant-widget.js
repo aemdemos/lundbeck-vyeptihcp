@@ -7810,7 +7810,7 @@
 
         .lumi-landing-desktop .lumi-landing-content {
             position: absolute;
-            top: 46px;
+            top: 40px;
             left: 21.50px;
             width: 288px;
             height: 31px;
@@ -7860,6 +7860,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0;
         }
 
         .lumi-landing-close-btn img {
@@ -7889,6 +7890,8 @@
             z-index: 100001;
             pointer-events: auto;
             transition: all 0.2s ease;
+            text-transform: none;
+            margin-top: 0px;
         }
 
         .lumi-landing-btn:hover {
