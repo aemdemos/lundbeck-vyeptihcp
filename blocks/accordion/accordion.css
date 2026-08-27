@@ -41,6 +41,11 @@
   border-bottom: none;
 }
 
+/* borderless variant — drops the grey divider rule between rows */
+.accordion.borderless .accordion-item {
+  border-bottom: none;
+}
+
 /* clickable header row — teal title, chevron pushed to the right edge
    (source button: flex, space-between, teal #41748d, 700, 22px/28px, left-aligned) */
 .accordion .accordion-item-label {
