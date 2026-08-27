@@ -262,8 +262,6 @@ function buildLumi(section) {
   if (!avatarImg) return null;
 
   const labelText = paragraphs[1] ? paragraphs[1].textContent.trim() : 'LuMi AI Assistant';
-  const popupTitle = paragraphs[2] ? paragraphs[2].textContent.trim() : '';
-  const popupLinks = [...contentRoot.querySelectorAll(':scope > ul > li > a')];
 
   const wrapper = document.createElement('div');
   wrapper.className = 'nav-lumi';
@@ -277,90 +275,25 @@ function buildLumi(section) {
   const avatar = document.createElement('span');
   avatar.className = 'lumi-avatar nav-lumi-avatar';
   avatar.append(avatarImg.cloneNode(true));
+
   const label = document.createElement('span');
   label.className = 'nav-lumi-label';
   label.textContent = labelText;
+
   trigger.append(avatar, label);
   wrapper.append(trigger);
 
-  const popup = document.createElement('div');
-  popup.className = 'nav-lumi-popup';
-  popup.setAttribute('role', 'dialog');
-  const header = document.createElement('div');
-  header.className = 'nav-lumi-popup-header';
-  const title = document.createElement('span');
-  title.className = 'nav-lumi-popup-title';
-  title.textContent = popupTitle;
-  const closeBtn = document.createElement('button');
-  closeBtn.type = 'button';
-  closeBtn.className = 'nav-lumi-popup-close';
-  closeBtn.setAttribute('aria-label', 'Close');
-  header.append(title, closeBtn);
+  // Pre-load the assistant widget so it binds to the button immediately
+  initializeLumi();
 
-  const actions = document.createElement('div');
-  actions.className = 'nav-lumi-popup-actions';
-  popupLinks.forEach((a) => {
-    const btn = a.cloneNode(true);
-    btn.className = 'nav-lumi-popup-btn';
-    actions.append(btn);
-  });
-
-  const close = () => trigger.setAttribute('aria-expanded', 'false');
-
-  const startChat = actions.querySelector('.nav-lumi-popup-btn');
-  if (startChat) {
-    startChat.addEventListener('click', async (e) => {
-      e.preventDefault();
-      close();
-      const lumi = await initializeLumi();
-      if (lumi && typeof lumi.notifyParentWindow === 'function') {
-        lumi.notifyParentWindow('start-chatting', {
-          source: 'landing-window',
-          buttonId: 'nav-lumi-start-btn',
-        });
-      }
-      lumi?.startChatting?.();
-    });
-  }
-
-  popup.append(header, actions);
-  wrapper.append(popup);
-
+  // Let lumi-assistant-widget.js handle the toggle
   trigger.addEventListener('click', async (e) => {
     e.preventDefault();
-    e.stopPropagation();
-
-    await initializeLumi();
-    const open = trigger.getAttribute('aria-expanded') === 'true';
-    trigger.setAttribute('aria-expanded', open ? 'false' : 'true');
-  });
-
-  closeBtn.addEventListener('click', async (e) => {
-    e.preventDefault();
-    close();
     const lumi = await initializeLumi();
-    if (lumi && typeof lumi.notifyParentWindow === 'function') {
-      lumi.notifyParentWindow('landing-close', {
-        source: 'landing-window',
-        buttonId: 'nav-lumi-popup-close',
-      });
+    if (lumi && typeof lumi.toggleChat === 'function') {
+      lumi.toggleChat();
     }
   });
-
-  const tryLater = actions.querySelector('a[href="#lumi-later"]');
-  if (tryLater) {
-    tryLater.addEventListener('click', async (e) => {
-      e.preventDefault();
-      close();
-      const lumi = await initializeLumi();
-      if (lumi && typeof lumi.notifyParentWindow === 'function') {
-        lumi.notifyParentWindow('try-later', {
-          source: 'landing-window',
-          buttonId: 'nav-lumi-try-later',
-        });
-      }
-    });
-  }
 
   return wrapper;
 }

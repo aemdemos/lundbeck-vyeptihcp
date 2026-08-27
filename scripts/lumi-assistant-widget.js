@@ -7860,6 +7860,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0;
         }
 
         .lumi-landing-close-btn img {
@@ -7889,6 +7890,7 @@
             z-index: 100001;
             pointer-events: auto;
             transition: all 0.2s ease;
+            text-transform: none;
         }
 
         .lumi-landing-btn:hover {
