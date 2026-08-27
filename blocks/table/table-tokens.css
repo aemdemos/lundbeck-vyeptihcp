@@ -16,6 +16,7 @@
   --table-cell-padding-block-desktop: 21px; /* @libs */
   --table-reactions-col-gap: 10px;
   --table-reactions-col-gap-desktop: 30px;
+  --table-reactions-cell-padding-block-desktop: 16px;
   --table-reactions-font-weight: 400;
   --table-reactions-data1-background: #a0b9c6;
   --table-reactions-data2-background: var(--brand-teal-muted);

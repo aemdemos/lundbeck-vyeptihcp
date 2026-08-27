@@ -3,6 +3,7 @@
 .table.block { /* @libs */
   width: 100%; /* @libs */
   overflow-x: auto; /* @libs */
+  margin: 16px 0;
 }
 
 .table.block table { /* @libs */
@@ -45,11 +46,11 @@
 }
 
 /* inset vertical divider between body cells (small gap top/bottom) */
-.table.block table tbody td + td {
+.table.block:not(.reactions) table tbody td + td {
   position: relative;
 }
 
-.table.block table tbody td + td::before {
+.table.block:not(.reactions) table tbody td + td::before {
   content: '';
   position: absolute;
   inset: var(--table-divider-inset) auto var(--table-divider-inset) 0;
@@ -147,6 +148,8 @@
 .table.block.reactions table {
   border-collapse: collapse;
   table-layout: fixed;
+  border-radius: 0;
+  border: 0;
 }
 
 .table.block.reactions table thead tr {
@@ -189,7 +192,7 @@
 /* label column for both reactions tables */
 .table.block.reactions table tbody tr td:first-child {
   border-top: var(--table-row-border-width) solid #41748d;
-  color: var(--text-reactions-label-color);
+  color: var(--table-reactions-label-color);
   font-size: var(--table-reactions-label-font-size);
   text-align: left;
 }
@@ -230,5 +233,13 @@
 
   .table.block table td { /* @libs */
     padding: var(--table-cell-padding-block-desktop) var(--table-cell-padding-inline); /* @libs */
+  }
+
+  .table.block.reactions table th {
+    padding: var(--table-reactions-cell-padding-block-desktop) 0;
+  }
+
+  .table.block.reactions table td {
+    padding: var(--table-reactions-cell-padding-block-desktop) 8px;
   }
 }
