@@ -1,5 +1,6 @@
 import { initFormValidation } from "../../scripts/form-validator.js";
 import { getFormData, submitForm } from "./form-submission.js";
+import { pushFormSubmitAttempt } from '../../scripts/datalayer.js';
 
 export const showError = (el, msg) => {
   let err = el.parentNode.querySelector('.form-error');
@@ -126,6 +127,7 @@ export async function initValidationListeners(config) {
     });
     document.getElementById("form-submitbtn").addEventListener("click", (event) => {
         event.preventDefault();
+        pushFormSubmitAttempt("signupForm");
         const formVlidated=validator.validateForm();
         const captchaCleared=isCaptchaCleared();
         const checkboxChedked=isAtLeastOneChecked("form-requestrep","form-registerforupdates");

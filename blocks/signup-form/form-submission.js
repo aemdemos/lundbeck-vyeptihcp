@@ -1,7 +1,9 @@
+import { pushFormSubmit, pushFormSubmitError } from '../../scripts/datalayer.js';
+
 export function getFormData(config) {
   const stateSelect = document.getElementById('form-state');
   const specialitySelect = document.getElementById('form-speciality');
-
+  
   const formData = {
     "vyeptihcp-code": config.vyeptiHCPCode,
     rtm: true,
@@ -54,6 +56,16 @@ export const showError = (el, msg) => {
   err.textContent = msg;
 };
 
+function collectCheckedLabels(ids) {
+  return ids
+    .map((id) => document.getElementById(id))
+    .filter((el) => el && el.checked)
+    .map((el) => {
+      const lbl = document.querySelector(`label[for="${el.id}"]`);
+      return (lbl ? lbl.textContent : el.name).trim();
+    });
+}
+
 export async function submitForm(formData,config){
   let apiBody = new URLSearchParams();
   Object.entries(formData).forEach(([key, value]) => {
@@ -62,13 +74,17 @@ export async function submitForm(formData,config){
   apiBody=apiBody.toString();
 
   // Send the POST request
-  const response = await fetch(config.apiEndPoint, {
-      method: 'POST',
-      body: apiBody 
-  });
+  let response;
+  try {
+    response = await fetch(config.apiEndPoint, { method: 'POST', body: apiBody });
+  } catch (err) {
+    pushFormSubmitError('signupForm', null, err && err.message);   // network failure
+    throw err;
+  }
 
   if (!response.ok) {
-      throw new Error(`HTTP Resuest error! Status: ${response.status}`);
+    pushFormSubmitError('signupForm', response.status, response.statusText);   // server error
+    throw new Error(`HTTP Resuest error! Status: ${response.status}`);
   }
 
   // Parse the server response
@@ -80,6 +96,14 @@ export async function submitForm(formData,config){
     Array.from(input.parentElement.children)
     .find(child => child !== input && child.classList.contains('form-error')).style.display="";
   }else{
+    // Server-confirmed success → fire formSubmit with selected interests
+    pushFormSubmit('signupForm', {
+      formRequiredFieldL1: collectCheckedLabels(['form-requestrep', 'form-registerforupdates']),
+      formRequiredFieldL2: collectCheckedLabels([
+        'form-produinfo', 'form-vconnect', 'form-patientresources',
+        'form-infusionlocator', 'form-howtopurchase', 'form-other',
+      ]),
+    });
     window.location.href = config.thankYouPageUrl;          
   }
  

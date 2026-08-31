@@ -6,7 +6,6 @@
  * EDS differences vs AMS:
  *  - No `data-page-name` attribute → sourced from getMetadata()/og:title.
  *  - Not fired on DOMContentLoaded → call pushPageViewEvent() from a load phase.
- *  - error.js is optional (guarded dynamic import) until it's ported.
  */
 
 import { getMetadata } from './aem.js';
@@ -94,5 +93,10 @@ export default function pushPageViewEvent() {
     },
     campaignInfo: getCampaignFromSession(),
   });
+
+  // Optional: fire 404 tracking right after pageView (guarded; no-op on non-404 pages).
+  import('./error.js')
+    .then((m) => m.maybePushPageNotFoundError?.())
+    .catch(() => { /* error.js not present — ignore */ });
 
 }
