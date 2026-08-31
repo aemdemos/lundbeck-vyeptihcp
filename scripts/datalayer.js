@@ -199,29 +199,19 @@ export function pushTabInteractionEventToDataLayer(data) {
   });
 }
 
-/** Pushes formStart once per session per form. */
-export function pushFormStart(formKey) {
-  const meta = DATA_LAYER_CONFIG.formMeta[formKey];
-  if (!meta) return;
-  const sessionKey = `formStartFired-${formKey}`;
-  if (sessionStorage.getItem(sessionKey)) return;
-  sessionStorage.setItem(sessionKey, 'true');
-  pushToAdobeDataLayer({
-    event: DATA_LAYER_CONFIG.formEvents.FORM_START,
-    eventInfo: { eventName: meta.eventNameStart },
-    formInfo: { formName: meta.formName, formType: meta.formType },
-  });
-}
-
-/** Pushes formSubmitAttempt on every submit click, regardless of validation. */
-export function pushFormSubmitAttempt(formKey) {
-  const meta = DATA_LAYER_CONFIG.formMeta[formKey];
-  if (!meta) return;
-  pushToAdobeDataLayer({
-    event: DATA_LAYER_CONFIG.formEvents.FORM_SUBMIT_ATTEMPT,
-    eventInfo: { eventName: meta.eventNameSubmitAttempt },
-    formInfo: { formName: meta.formName, formType: meta.formType },
-  });
+/**
+ * Safely resolves form metadata for a known form key.
+ * formKey is always an internal literal (e.g. 'signupForm'), never user input,
+ * so the computed lookup is not an injection vector.
+ * @param {string} formKey
+ * @returns {Object|null}
+ */
+function getFormMeta(formKey) {
+  if (!Object.prototype.hasOwnProperty.call(DATA_LAYER_CONFIG.formMeta, formKey)) {
+    return null;
+  }
+  // eslint-disable-next-line secure-coding/detect-object-injection -- formKey is a trusted internal literal, guarded by hasOwnProperty above
+  return DATA_LAYER_CONFIG.formMeta[formKey];
 }
 
 /** Joins selected label text into the semicolon-separated L1/L2 contract. */
@@ -233,9 +223,35 @@ function joinSelections(value) {
   return value ? String(value) : null;
 }
 
+/** Pushes formStart once per session per form. */
+export function pushFormStart(formKey) {
+  const meta = getFormMeta(formKey);
+  if (!meta) return;
+  const sessionFlag = `formStartFired-${formKey}`;
+  if (sessionStorage.getItem(sessionFlag)) return;
+  // eslint-disable-next-line browser-security/no-sensitive-localstorage -- non-sensitive once-per-session guard flag ('true'); no tokens or PII
+  sessionStorage.setItem(sessionFlag, 'true');
+  pushToAdobeDataLayer({
+    event: DATA_LAYER_CONFIG.formEvents.FORM_START,
+    eventInfo: { eventName: meta.eventNameStart },
+    formInfo: { formName: meta.formName, formType: meta.formType },
+  });
+}
+
+/** Pushes formSubmitAttempt on every submit click, regardless of validation. */
+export function pushFormSubmitAttempt(formKey) {
+  const meta = getFormMeta(formKey);
+  if (!meta) return;
+  pushToAdobeDataLayer({
+    event: DATA_LAYER_CONFIG.formEvents.FORM_SUBMIT_ATTEMPT,
+    eventInfo: { eventName: meta.eventNameSubmitAttempt },
+    formInfo: { formName: meta.formName, formType: meta.formType },
+  });
+}
+
 /** Pushes formSubmit after a server-confirmed success. */
 export function pushFormSubmit(formKey, params = {}) {
-  const meta = DATA_LAYER_CONFIG.formMeta[formKey];
+  const meta = getFormMeta(formKey);
   if (!meta) return;
   pushToAdobeDataLayer({
     event: DATA_LAYER_CONFIG.formEvents.FORM_SUBMIT,
@@ -251,14 +267,14 @@ export function pushFormSubmit(formKey, params = {}) {
 
 /** Pushes a global error event when the form submission fails. */
 export function pushFormSubmitError(formKey, status, statusText) {
-  if (!DATA_LAYER_CONFIG.formMeta[formKey]) return;
+  if (!getFormMeta(formKey)) return;
   const errorCfg = DATA_LAYER_CONFIG.errorMeta.globalError;
   if (!errorCfg) return;
   pushToAdobeDataLayer({
     event: DATA_LAYER_CONFIG.errorEvents.ERROR,
     eventInfo: { eventName: errorCfg.eventName },
     errorInfo: {
-      validationErrorCode: status || null,
+      validationErrorCode: status !== null && status !== undefined ? String(status) : null,
       errorMessage: statusText || null,
     },
   });
