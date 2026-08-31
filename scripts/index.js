@@ -1,5 +1,4 @@
 export { default as EVENTS } from './events.js';
-
 export * from './datalayer.js';
 export { default as buildPagePayload } from './payloadBuilder.js';
 export { default as getPageMetadata } from './metadata.js';
@@ -9,3 +8,4 @@ export { default as pushPageViewEvent } from './pageview.js';
 export * from './utils.js';
 export { default as initModalTracking } from './modaltracking.js';
 export { default as initInfusionTracking } from './infusiontracking.js';
+export * from './error.js';

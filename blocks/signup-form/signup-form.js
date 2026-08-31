@@ -1,4 +1,5 @@
 import { initValidationListeners } from "./validations.js";
+import { pushFormStart } from "../../scripts/datalayer.js";
 
 const config={};
 
@@ -205,6 +206,13 @@ export default async function decorate(block) {
   const module = await import("../form/form.js");
   if (typeof module.default === 'function') {
     await module.default(block);
+    // Analytics: formStart on first interaction (session-guarded in datalayer)
+    const formEl = block.querySelector('form');
+    if (formEl) {
+      const onFirstInteraction = () => pushFormStart('signupForm');
+      formEl.addEventListener('focusin', onFirstInteraction);
+      formEl.addEventListener('change', onFirstInteraction);
+    }
     selectLabel("form-speciality");
     selectLabel("form-state");
     fixMarkdownText();
