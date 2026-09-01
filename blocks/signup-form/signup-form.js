@@ -1,5 +1,7 @@
 import { initValidationListeners } from "./validations.js";
 import { pushFormStart } from "../../scripts/datalayer.js";
+import { loadScript } from '../../scripts/aem.js';
+
 
 const config={};
 
@@ -121,7 +123,7 @@ document.querySelectorAll('.field-wrapper label').forEach((label) => {
 }
 
 // Fuction to load the js files necessary
-function loadScript(src) {
+/*function loadScript(src) {
   return new Promise((resolve, reject) => {
     const existing = document.querySelector(`script[src="${src}"]`);
     if (existing) {
@@ -146,7 +148,7 @@ function loadScript(src) {
 
     document.head.appendChild(script);
   });
-}
+}*/
 
 async function renderCaptcha(){
   document.getElementById('form-captcha-placeholder').remove();
@@ -162,10 +164,7 @@ async function renderCaptcha(){
 /* global google */
 
 async function autoPopulateAddress() {
-  if (!window.google?.maps?.places) {
-    return;
-  }
-
+     await loadScript(`https://maps.googleapis.com/maps/api/js?key=${config.googleMapKey}&libraries=places`);
   const input = document.getElementById('form-address');
 
   if (!input) {
