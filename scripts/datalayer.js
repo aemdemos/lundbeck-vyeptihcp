@@ -57,6 +57,8 @@ export const DATA_LAYER_CONFIG = {
   pageMeta: { eventName: 'Global Page Load' },
   tabEvents: { TAB_INTERACTION: 'tabInteraction' },
   tabMeta: { eventNamePrefix: 'Viewing tab ' },
+  accordionEvents: { ACCORDION_EXPANSION: 'accordionExpansion' },
+  accordionMeta: { eventNameSuffix: ' accordion expanded' },
   modalEvents: { MODAL_CLICK: 'modalClick' },
   modalMeta: { eventName: 'Interacted with Modal Viewed' },
   infusionEvents: {
@@ -276,6 +278,19 @@ export function pushFormSubmitError(formKey, status, statusText) {
     errorInfo: {
       validationErrorCode: status !== null && status !== undefined ? String(status) : null,
       errorMessage: statusText || null,
+    },
+  });
+}
+
+/** Accordion expanded (fires on expand only, not collapse). */
+export function pushAccordionExpansionEventToDataLayer(data) {
+  const { clickedAccordionName, parentAccordionName } = data;
+  pushToAdobeDataLayer({
+    event: DATA_LAYER_CONFIG.accordionEvents.ACCORDION_EXPANSION,
+    eventInfo: { eventName: `${clickedAccordionName}${DATA_LAYER_CONFIG.accordionMeta.eventNameSuffix}` },
+    accordionInfo: {
+      parentAccordionName: parentAccordionName || null,
+      clickedAccordionName: clickedAccordionName || null,
     },
   });
 }
