@@ -76,7 +76,7 @@ export async function submitForm(formData,config){
   // Send the POST request
   let response;
   try {
-    response = await fetch(config.apiEndPoint, { method: 'POST', body: apiBody });
+    response = await fetch(config.apiEndPoint, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }, body: apiBody });
   } catch (err) {
     pushFormSubmitError('signupForm', null, err && err.message);   // network failure
     throw err;
