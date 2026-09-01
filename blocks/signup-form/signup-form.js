@@ -162,9 +162,9 @@ async function renderCaptcha(){
 /* global google */
 
 async function autoPopulateAddress() {
-  await loadScript(
-    `https://maps.googleapis.com/maps/api/js?key=${config.googleMapKey}&libraries=places`
-  );
+  if (!window.google?.maps?.places) {
+    return;
+  }
 
   const input = document.getElementById('form-address');
 
