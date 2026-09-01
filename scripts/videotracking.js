@@ -47,10 +47,11 @@ function instrumentPlayer(player, el) {
   let videoPlayFired = false;
   let hasSeeked = false;
   let videoEnded = false;
-  const milestonesFired = {};
+
+  const milestonesFired = new Set();
 
   const resetMilestones = () => {
-    DATA_LAYER_CONFIG.videoMeta.milestones.forEach((m) => { milestonesFired[m] = false; });
+    milestonesFired.clear();
   };
   resetMilestones();
 
@@ -92,8 +93,8 @@ function instrumentPlayer(player, el) {
     if (!duration) return;
     const percentage = (player.currentTime() / duration) * 100;
     DATA_LAYER_CONFIG.videoMeta.milestones.forEach((milestone) => {
-      if (!milestonesFired[milestone] && percentage >= milestone) {
-        milestonesFired[milestone] = true;
+      if (!milestonesFired.has(milestone) && percentage >= milestone) {
+        milestonesFired.add(milestone);
         pushVideoEventToDataLayer({
           eventType: DATA_LAYER_CONFIG.videoEvents.VIDEO_PROGRESS,
           videoId,
