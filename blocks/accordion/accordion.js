@@ -1,7 +1,20 @@
 import { moveInstrumentation } from '../../scripts/scripts.js';
+import { pushAccordionExpansionEventToDataLayer } from '../../scripts/datalayer.js';
 
 function isEmpty(cell) {
   return !cell || (!cell.firstElementChild && !cell.textContent.trim());
+}
+
+/** Reads the label text of an accordion item. */
+function getAccordionName(li) {
+  const label = li.querySelector(':scope > .accordion-item-label');
+  return label ? label.textContent.trim() : '';
+}
+
+/** Nearest enclosing accordion item's name, or null if not nested. */
+function getParentAccordionName(li) {
+  const parentItem = li.parentElement && li.parentElement.closest('.accordion-item');
+  return parentItem ? getAccordionName(parentItem) : null;
 }
 
 function buildAccordionItem(row, label, body) {
@@ -37,6 +50,13 @@ function buildAccordionItem(row, label, body) {
   li.addEventListener('click', (e) => {
     if (body && body.contains(e.target)) return;
     li.classList.toggle('active');
+    // Analytics: fire only when the item was just expanded (matches AMS aria-expanded guard).
+    if (li.classList.contains('active')) {
+      pushAccordionExpansionEventToDataLayer({
+        clickedAccordionName: getAccordionName(li),
+        parentAccordionName: getParentAccordionName(li),
+      });
+    }
   });
 
   return li;
