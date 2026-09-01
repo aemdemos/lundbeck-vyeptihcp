@@ -159,33 +159,48 @@ async function renderCaptcha(){
   await loadScript("https://www.google.com/recaptcha/api.js");
 }
 
-async function autoPopulateAddress() {
-  await loadScript(`https://maps.googleapis.com/maps/api/js?key=${config.googleMapKey}=&libraries=places`);
+/* global google */
 
-  const input = document.getElementById("form-address");
-    if (!input || !window.google?.maps?.places) {
+async function autoPopulateAddress() {
+  await loadScript(
+    `https://maps.googleapis.com/maps/api/js?key=${config.googleMapKey}&libraries=places`
+  );
+
+  const input = document.getElementById('form-address');
+
+  if (!input) {
+    return null;
+  }
+
+  if (!window.google?.maps?.places?.Autocomplete) {
+    // eslint-disable-next-line no-console
+    console.error('Google Places Autocomplete is not available.');
+    return null;
+  }
+
+  const autocomplete = new google.maps.places.Autocomplete(input, {
+    types: ['geocode'],
+    componentRestrictions: {
+      country: 'us',
+    },
+    fields: [
+      'geometry',
+      'formatted_address',
+      'address_components',
+    ],
+  });
+
+  autocomplete.addListener('place_changed', () => {
+    const place = autocomplete.getPlace();
+
+    if (!place?.geometry) {
       return;
     }
 
-    /* global google */
-    const autocomplete = new google.maps.places.Autocomplete(input, {
-        types: ["address"],
-        fields: [
-            "formatted_address",
-            "address_components",
-            "geometry"
-        ]
-    });
+    input.dataset.selectedAddress = place.formatted_address || '';
+  });
 
-    autocomplete.addListener("place_changed", () => {
-      const place = autocomplete.getPlace();
-
-      if (!place.geometry) {
-        return;
-      }
-
-      input.dataset.selectedAddress = place.formatted_address;
-    });
+  return autocomplete;
 }
 
 function selectLabel(id){
