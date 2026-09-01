@@ -64,6 +64,7 @@ export async function submitForm(formData,config){
   // Send the POST request
   const response = await fetch(config.apiEndPoint, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
       body: apiBody 
   });
 
