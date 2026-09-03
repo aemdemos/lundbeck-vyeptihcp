@@ -1,5 +1,6 @@
 import { moveInstrumentation } from '../../scripts/scripts.js';
 import { pushAccordionExpansionEventToDataLayer } from '../../scripts/datalayer.js';
+import { buildPictureContentFromImageCell } from '../../scripts/utils.js';
 
 function isEmpty(cell) {
   return !cell || (!cell.firstElementChild && !cell.textContent.trim());
@@ -43,7 +44,11 @@ function buildAccordionItem(row, label, body) {
       if (detail.textContent.trim()) labelText.append(detail);
     }
   }
-  if (body) body.className = 'accordion-item-body';
+  if (body) {
+    body.className = 'accordion-item-body';
+    // merges adjacent-image runs into art-direction pictures; other content stays put
+    if (body.querySelector('picture')) body.replaceChildren(buildPictureContentFromImageCell(body));
+  }
 
   // The whole card toggles the item; clicks inside the open body are ignored
   // so links stay clickable and body text stays selectable.
@@ -78,6 +83,7 @@ export default function decorate(block) {
     const depth = cells.findIndex((cell) => !isEmpty(cell));
     if (depth === -1) return;
 
+    // eslint-disable-next-line secure-coding/detect-object-injection -- `depth` is a bounded array index from findIndex(), not an untrusted string key; no prototype pollution risk
     const li = buildAccordionItem(row, cells[depth], cells[depth + 1]);
     const parentItem = depth > 0 ? lastItemAtDepth.get(depth - 1) : null;
     const parentBody = parentItem?.querySelector(':scope > .accordion-item-body');

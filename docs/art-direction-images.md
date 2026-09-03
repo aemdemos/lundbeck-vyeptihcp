@@ -1,72 +1,44 @@
-# Cell Class
+# Art-Direction Images
 
-Lets authors apply one or more CSS classes to a block cell `div` by placing a `[classname]` (or `[classname-1,classname-2]`) code snippet as the first element of that cell. The snippet is consumed during decoration and does not appear in the rendered page.
-
-This is a separate system from the span-tags `[[double-bracket]]` syntax. Single brackets formatted as **inline code** via the DA toolbar target the parent cell div; double brackets authored as plain text target inline text spans within a paragraph or heading.
+Lets authors provide **multiple images in the same cell** so each screen breakpoint shows a different, purpose-cropped image ("art direction") instead of one image simply scaled up or down. Implemented once in `scripts/utils.js` and reused by any block that opts in (currently `hero` and `columns`).
 
 ---
 
 ## 1. Authoring
 
-### 1.1 Syntax
+### 1.1 Basic idea
 
-In DA, type the class name wrapped in square brackets as the very first line of the cell — before any other content. Then select the full text including the brackets and click the **Toggle inline code** (`<>`) button in the DA toolbar:
+Normally an image cell contains a single picture, and it is shown at every breakpoint (just resized). To art-direct instead, place **2 to 5 images in the same cell**, in order from the smallest breakpoint to the largest. Each image is shown only at its own breakpoint and up, so you can crop or choose a different asset per screen size.
 
-1. Type `[color-primary]` as the first line of the cell
-2. Select the full text `[color-primary]`
-3. Click the **`<>`** (Toggle inline code) button in the DA toolbar
+### 1.2 How many images
 
-Place it before any other content in the cell. The `[color-primary]` line is removed during decoration. The rendered result is:
+| Images in the cell | Result |
+|---|---|
+| 0 | Cell content is left exactly as authored — no picture is built. |
+| 1 | Standard single responsive image, shown at every breakpoint. |
+| 2–5 | Art-direction: each image activates at its own breakpoint (see below). |
+| More than 5 | Only the first 5 (in document order) are used — remove extra images if you need fewer breakpoints. |
 
-```html
-<div class="color-primary">
-  <p>Symptoms are typically first seen in the first week of treatment.</p>
-</div>
-```
+### 1.3 Order = breakpoint (mobile → widescreen)
 
-### 1.2 Multiple classes
+Images are read in the order they appear in the cell. The first image is the mobile/base image; each image after it takes over at a larger minimum width:
 
-Separate class names with a comma (no spaces) to apply more than one class to the same cell:
+| Order authored | Applies from | Suggested use |
+|---|---|---|
+| 1st | base (no minimum — mobile default) | phone |
+| 2nd | 768px and up | tablet |
+| 3rd | 992px and up | small desktop |
+| 4th | 1200px and up | desktop |
+| 5th | 1600px and up | wide desktop |
 
-1. Type `[width-50,bg-grey]` as the first line of the cell
-2. Select the full text `[width-50,bg-grey]`
-3. Click the **`<>`** (Toggle inline code) button in the DA toolbar
+### 1.4 Linking the image(s)
 
-```html
-<div class="width-50 bg-grey">
-  <p>Symptoms are typically first seen in the first week of treatment.</p>
-</div>
-```
+If the **first** image is wrapped in a link (select the image and add a hyperlink), that same link wraps the whole combined picture, so it stays clickable at every breakpoint. Links on the 2nd–5th images, if present, are ignored — only the first image's link is used.
 
-### 1.3 Width utility classes
+### 1.5 Where this is available
 
-`width-75`, `width-66`, `width-50`, `width-33`, and `width-25` set a cell's width to that approximate percentage (defined in `styles/styles.css`). Apply one to an individual column cell to size it within its row, or combine it with another class using the comma syntax above:
-
-```
-[width-33]
-[width-66,color-secondary]
-```
-
-### 1.4 Position requirement
-
-The code snippet must be the **first element** in the cell. A code snippet elsewhere in the cell is not matched and the cell is left unchanged.
-
-✅ First line of the cell — matched and removed: the inline code `[color-primary]` appears before any other content in the cell.
-
-❌ Not the first element — ignored: any other content appears before the inline code `[color-primary]`.
-
-### 1.5 Class name rules
-
-Only letters, digits, hyphens, underscores, and commas (as a separator between multiple class names) are accepted. Invalid names are silently ignored and the cell is left unchanged.
-
-✅ `[color-primary]` — letters and hyphens  
-✅ `[hide-mobile]` — letters and hyphens  
-✅ `[stats_callout]` — underscore allowed  
-✅ `[width-50,bg-grey]` — comma-separated, multiple classes  
-❌ `[color primary]` — space not allowed  
-❌ `[color@primary]` — special character not allowed  
-❌ `[width-50, bg-grey]` — space after comma not allowed  
-❌ `[]` — empty name not matched
+- **Hero**: any image cell (single-panel or dual-panel).
+- **Columns**: a column that contains 2–5 images. A column with a single image keeps its normal appearance unchanged.
 
 ---
 
@@ -74,44 +46,58 @@ Only letters, digits, hyphens, underscores, and commas (as a separator between m
 
 ### 2.1 Where the code lives
 
-`decorateCellClass(block)` is exported from `scripts/utils.js`.
+Exported from `scripts/utils.js`:
+
+| Export | Purpose |
+|--------|---------|
+| `buildPictureContentFromImageCell(cell, options)` | Main entry point — returns a `DocumentFragment` to replace a cell's contents |
+| `collectBlockCellImageSources(cell)` | Walks a cell and collects up to 5 `{ src, alt, link }` entries in document order |
+| `createArtDirectionPicture(sources, eager)` | Builds one `<picture>` with a `<source media="...">` per breakpoint |
+| `DEFAULT_BLOCK_SINGLE_PICTURE_BREAKPOINTS` | Breakpoints used for the single-image case |
+
+Already consumed beyond `hero` and `columns`:
+
+- **Carousel** (`blocks/carousel/carousel.js`) — calls `buildPictureContentFromImageCell` on each slide's image column, same as `hero`/`columns`.
+- **Section Backgrounds** (`applySectionBackgroundDecorations` in `scripts/scripts.js`) — a section-metadata field (`background-image` … `background-image-5`) supplies up to 5 image URLs directly (no cell DOM to walk), so it calls `createOptimizedPicture`/`createArtDirectionPicture` directly instead of going through `collectBlockCellImageSources`.
 
 ### 2.2 How it works
 
-The function iterates every cell `div` (each direct child of each row) inside the block. For each cell it checks whether:
+`collectBlockCellImageSources` recursively walks the cell's descendants in document order and collects up to `MAX_BLOCK_CELL_IMAGES` (5) images, matching either a `<picture>` (using its `<img>`) or a bare `<img>` not already inside a `<picture>`. For the **first** matched image only, it also walks up the ancestor chain (stopping at the cell) looking for a wrapping `<a href>`; links wrapping any later image are not recorded.
 
-1. The first element child is a `<p>`
-2. That `<p>` contains exactly one child element, and it is a `<code>`
-3. The `<code>` text content matches `/^\[([a-zA-Z0-9_,-]+)\]$/`
+`buildPictureContentFromImageCell` then branches on the number of sources found:
 
-When all three conditions are met, the matched text is split on commas and each resulting class name is added to the cell `div`; the `<p>` is removed. Cells that do not match are left completely unchanged.
+- **0** — the cell's original child nodes are returned unchanged.
+- **1** — `createOptimizedPicture` builds a standard responsive picture using `DEFAULT_BLOCK_SINGLE_PICTURE_BREAKPOINTS` (`(min-width: 600px)` → width 2000, else width 750).
+- **2–5** — `createArtDirectionPicture` builds one `<picture>` with a `<source media="...">` per image (largest breakpoint first, so the browser picks the first matching source), plus a fallback `<img>` for the first/base image.
+
+If the first source has a captured link, the resulting `<picture>` is wrapped in a clone of that `<a>` (preserving attributes like `target`/`rel`), so a single `<a>` surrounds the whole responsive image.
+
+Breakpoint/width mapping used by `createArtDirectionPicture` (see `getArtDirectionSourceMeta`):
+
+| Image order | `media` | CDN `width` |
+|---|---|---|
+| 1st | *(none — fallback `<img>`)* | 750 |
+| 2nd | `(min-width: 768px)` | 992 |
+| 3rd | `(min-width: 992px)` | 1200 |
+| 4th | `(min-width: 1200px)` | 2000 |
+| 5th | `(min-width: 1600px)` | 2560 |
 
 ### 2.3 How to use it in a block
 
-Import from `scripts/utils.js` and call it as the first line of `decorate(block)`, before any other DOM manipulation:
-
 ```javascript
-import { decorateCellClass } from '../../scripts/utils.js';
+import { buildPictureContentFromImageCell } from '../../scripts/utils.js';
 
-export default function decorate(block) {
-  decorateCellClass(block);
-
-  // existing decoration logic follows unchanged...
-}
+const built = buildPictureContentFromImageCell(cell);
+cell.replaceChildren(built);
 ```
 
-Reference implementation: `blocks/columns/columns.js`.
+`options` (all optional): `eagerSingle` (default `true`), `eagerArtDirection` (default `true`), `singlePictureBreakpoints` (default `DEFAULT_BLOCK_SINGLE_PICTURE_BREAKPOINTS`).
 
-### 2.4 Compatibility
+### 2.4 Reference implementations
 
-`decorateCellClass` works with any block that uses the standard EDS cell structure:
+- `blocks/hero/hero.js` — calls it unconditionally on each image cell (single-panel and dual-panel), so 0–5 images are all handled.
+- `blocks/columns/columns.js` — only calls it when a column contains a `<picture>` and has between 2 and 5 direct children; a single-image column is left as authored and just gets the `columns-img-col` styling class.
 
-```
-.block
-  └── div  (row)
-        └── div  (cell)  ← class is added here
-              ├── p > code  ← consumed and removed
-              └── ...remaining cell content unchanged
-```
+### 2.5 Compatibility
 
-It makes no assumptions about the number of rows or columns, and is safe to call on blocks with no matching cells.
+Works with any cell whose images are nested arbitrarily deep (bare `<picture>`/`<img>`, or wrapped in `<p>`, `<a>`, etc.) — `collectBlockCellImageSources` walks the full subtree. It makes no assumptions about surrounding text content and is safe to call on cells with no images.

@@ -10,7 +10,7 @@ header .nav-wrapper {
 
 header nav {
   display: block;
-  font-family: var(--body-font-family);
+  font-family: var(--heading-font-family);
 }
 
 /* Every header control is a native <button>, which inherits the global .button margin — reset it. */
@@ -60,6 +60,7 @@ header nav .nav-hcp-container {
 header nav .nav-hcp-message {
   margin: 0;
   color: var(--header-text-color);
+  font-family: var(--body-font-family);
 }
 
 header nav .nav-hcp-actions {
@@ -327,7 +328,8 @@ header nav .nav-dropdown-trigger {
 
 header nav .nav-links-list > li > a:hover,
 header nav .nav-dropdown-trigger:hover {
-  text-decoration: underline;
+  color: var(--link-hover-color);
+  text-decoration: none;
 }
 
 /* Accordion chevron (mobile): source's 24x24 teal V, no rotate. Desktop swaps to a rotated caret. */
@@ -698,7 +700,7 @@ header nav .nav-hamburger-icon::after {
 }
 
 header nav .nav-hamburger-label {
-  font-size: var(--header-font-size-xs);
+  font-size: 12px;
   font-weight: var(--header-font-weight-medium);
   line-height: var(--header-hamburger-label-line-height);
   color: var(--header-mobile-hamburger-label-color);
@@ -749,7 +751,7 @@ header nav.nav-mobile-open .nav-hamburger-icon::after {
 /* Bootstrap's own md container (720px, centered) governs source's HCP/utility/brand row insets
    from 768px up until the 992px desktop tier takes over with its own wider container. */
 @media (width >= 768px) {
-  header nav .nav-hcp-container, header nav .nav-utility-container, header nav .nav-brand-container, header nav .nav-links-container {
+  header nav .nav-hcp-container, header nav .nav-brand-container, header nav .nav-links-container {
     max-width: 720px;
   }
 
@@ -757,14 +759,7 @@ header nav.nav-mobile-open .nav-hamburger-icon::after {
   header nav .nav-hcp-actions {
     gap: 177px;
   }
-
-  /* The light-blue PI/Patient Info strip must bleed full-bleed past the 720px container, unlike its content. */
-  header nav .nav-utility-links {
-    position: relative;
-    left: 50%;
-    width: 100vw;
-    margin-left: -50vw;
-  }
+  
 }
 
 /* DESKTOP (>=992px): teal brand band, single-row utility bar, horizontal CTAs + nav, hamburger hidden. */
@@ -965,6 +960,9 @@ header nav.nav-mobile-open .nav-hamburger-icon::after {
   /* Restore the primary-nav submenu card (absolute overlay, rounded, shadow). */
   header nav .nav-links-list .nav-dropdown-menu {
     position: absolute;
+
+    /* Cancel the trigger's bottom padding so the menu sits just below the label (source gap). */
+    top: calc(100% - var(--header-nav-link-padding-block) + var(--header-dropdown-gap));
     min-width: var(--header-dropdown-min-width);
     box-shadow: var(--header-navmenu-shadow);
     border-radius: var(--header-navmenu-radius);

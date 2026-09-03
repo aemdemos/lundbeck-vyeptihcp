@@ -1,14 +1,8 @@
 @import url('./isi-tokens.css');
 
-/* ── In-page ISI section (matches vyepti.com full-width divider) ─ */
-main .section.isi-container { /* @boilerplate */
-  border-top: var(--isi-section-border-width) solid var(--isi-section-border-color); /* @boilerplate */
-}
-
 /* ── In-page inline content (Row 2) ───────────────────────────── */
 main .isi .isi-inline { /* @boilerplate */
   display: block; /* @boilerplate */
-  padding-bottom: var(--isi-inline-padding-bottom); /* @boilerplate */
 }
 
 main .isi .isi-inline > div { /* @boilerplate */
@@ -61,6 +55,10 @@ main .isi a:hover { /* @boilerplate */
   text-decoration: underline; /* @boilerplate */
 }
 
+.isi-bar-content { /* @boilerplate */
+  flex-direction: column; /* @boilerplate */
+}
+
 /* ── Fixed bottom bar (abbreviated content – Row 1) ──────────── */
 .isi-bar { /* @boilerplate */
   position: fixed; /* @boilerplate */
@@ -91,20 +89,6 @@ main .isi a:hover { /* @boilerplate */
   cursor: default; /* @boilerplate */
 }
 
-/* Inner content wrapper – two-column on desktop */
-.isi-bar-content { /* @boilerplate */
-  max-width: var(--isi-content-max-width); /* @boilerplate */
-  margin: 0 auto; /* @boilerplate */
-  display: flex; /* @boilerplate */
-  flex-wrap: wrap; /* @boilerplate */
-  gap: var(--isi-bar-content-gap); /* @boilerplate */
-}
-
-.isi-bar-col { /* @boilerplate */
-  flex: 1 1 var(--isi-bar-col-flex-basis); /* @boilerplate */
-  min-width: 0; /* @boilerplate */
-}
-
 /* Same treatment, scoped to the bar (moved outside <main> once decorated,
    so main .isi h5/h4 above don't reach it). Title + "Indication" are h4;
    regular sub-headings are h5. */
@@ -131,6 +115,7 @@ main .isi a:hover { /* @boilerplate */
    it's the only other h4. */
 .isi-bar-col h4:first-of-type {
   padding-bottom: var(--isi-bar-title-padding-bottom);
+  width: 80%;
 }
 
 /* A heading right after a paragraph needs a bigger gap than one after
@@ -260,20 +245,9 @@ main .isi a:hover { /* @boilerplate */
 }
 
 /* ── Mobile ≤ 768px ──────────────────────────────────────────── */
-@media (width <= 768px) { /* @boilerplate */
-  .isi-bar-content { /* @boilerplate */
-    flex-direction: column; /* @boilerplate */
-    padding: 0 var(--isi-bar-content-padding-x-mobile); /* @boilerplate */
-  }
-
-  .isi-bar-col { /* @boilerplate */
-    flex: 1 1 100%; /* @boilerplate */
-  }
-}
-
-/* ── Desktop ≥ 900px ─────────────────────────────────────────── */
-@media (width >= 992px) { /* @boilerplate */
-  .isi-bar-content { /* @boilerplate */
-    padding: 0 var(--isi-bar-content-padding-x-desktop); /* @boilerplate */
+@media (width >= 768px) { /* @boilerplate */
+  .isi-bar {
+    padding-left: calc((100% - var(--isi-content-max-width)) / 2);
+    padding-right: calc((100% - var(--isi-content-max-width)) / 2);
   }
 }

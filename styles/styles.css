@@ -67,13 +67,13 @@
   --section-divider-width: 1px; /* @libs */
   --section-divider-color: var(--link-hover-color); /* @libs */
   --section-padding: 24px;
-  --flex-group-gap: 24px;
+  --flex-group-gap: 16px;
   --div-width-margin: auto;
   --div-width-align-items: flex-start;
   
   /* fonts */
   --body-font-family: 'open sans', open-sans, open-sans-fallback, sans-serif;
-  --heading-font-family: 'open sans', open-sans, open-sans-fallback, sans-serif;
+  --heading-font-family: 'Open Sans Bold', open-sans, open-sans-fallback, sans-serif;
   --page-title-font-family: proxima-nova, proxima-nova-fallback, sans-serif;
   --body-line-height: 1.5;
   --heading-font-weight: 700;
@@ -99,7 +99,7 @@
   /* layout */
   --max-width-site: 1140px; /* @libs */
   --section-padding-vertical: 30px; /* @libs */
-  --icon-size: 24px; /* @libs */
+  --icon-size: 32px; /* @libs */
   --h1-max-width: 80%;
 
   /* nav heights */
@@ -234,6 +234,10 @@ body.appear { /* @libs */
   color: var(--text-color) !important;
 }
 
+.grey, .gray {
+  color: var(--text-color-light) !important;
+}
+
 /* single-purpose text utility; !important so it reliably wins over
    block-level paragraph rules (e.g. columns' 22px line-height) wherever
    an author or block explicitly opts in. */
@@ -241,6 +245,10 @@ body.appear { /* @libs */
   display: block;
   font-size: var(--body-font-size-xs) !important;
   line-height: 1.3 !important;
+}
+
+p:has(> .small-text) {
+  margin: 4px;
 }
 
 /* generic "emboss" style, applicable to any block by adding the class;
@@ -308,6 +316,9 @@ h1, .size-h1 {
   line-height: 1.21;
   color: var(--brand-primary-dark);
   margin-top: 0;
+}
+
+h1 {
   font-family: var(--page-title-font-family);
 }
 
@@ -343,6 +354,11 @@ h6, .size-h6 { /* @libs */
 strong,
 b {
   font-weight: var(--font-weight-bold);
+  font-family: var(--heading-font-family);
+}
+
+sup {
+  font-size: .5em;
 }
 
 p,
@@ -357,6 +373,10 @@ blockquote,
   font-size: var(--body-font-size-s); /* @libs */
 }
 
+li > p {
+  margin: 0;
+}
+
 code,
 pre { /* @libs */
   font-family: var(--fixed-font-family); /* @libs */
@@ -369,6 +389,14 @@ pre { /* @libs */
   background-color: var(--light-color); /* @libs */
   overflow-x: auto; /* @libs */
   white-space: pre; /* @libs */
+}
+
+blockquote {
+  background-color: var(--light-color);
+  padding: 10px 24px;
+  border-radius: 20px;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 main > div { /* @libs */
@@ -387,6 +415,7 @@ a { /* @libs */
   color: var(--link-color); /* @libs */
   text-decoration: none; /* @libs */
   font-weight: var(--font-weight-bold); /* @libs */
+  font-family: var(--heading-font-family);
   overflow-wrap: break-word; /* @libs */
 }
 
@@ -401,6 +430,11 @@ a:hover { /* @libs */
 main p a:not(.button),
 main li a:not(.button) {
   text-decoration: underline;
+
+  > .icon {
+    margin-left: 8px;
+    vertical-align: bottom;
+  }
 }
 
 main p a:not(.button):hover,
@@ -418,7 +452,7 @@ button { /* @libs */
   padding: var(--button-padding); /* @libs */
   border: var(--button-border-width) solid transparent; /* @libs */
   border-radius: var(--button-border-radius); /* @libs */
-  font-family: var(--body-font-family); /* @libs */
+  font-family: var(--heading-font-family);
   font-size: var(--button-font-size); /* @libs */
   font-style: normal; /* @libs */
   font-weight: var(--button-font-weight); /* @libs */
@@ -536,6 +570,11 @@ main img { /* @libs */
   width: var(--icon-size); /* @libs */
 }
 
+.icon.icon-external-link {
+  height: 24px;
+  width: 24px;
+}
+
 .icon img { /* @libs */
   height: 100%; /* @libs */
   width: 100%; /* @libs */
@@ -545,6 +584,8 @@ main img { /* @libs */
 /* explicit disc marker at every list depth — browser default demotes nested lists to circle/square */
 main ul {
   list-style-type: disc;
+  padding-left: 20px;
+  padding-bottom: 16px;
 }
 
 /* icon bullet lists — :has() prevents FOUC before JS adds .icon-bullets */
@@ -556,7 +597,8 @@ main ul:has(> li > .icon, > li > :is(strong, em, a) > .icon, > li > h6 > .icon) 
 
 /* enough specificity for legend variant to override standard icon bullet list spacing handling */
 main ul.legend:has(> li > span.icon) {
-  padding: 0 0 16px;
+  padding: 0 0 8px;
+  margin: 16px 0 8px;
 }
 
 main ul.icon-bullets > li,
@@ -586,8 +628,8 @@ main p:has(> .icon) {
 }
 
 /* Resource-link icons (download / pdf / connect / play) render at 32px to match
-   the source glyph size. Scoped to these icon names so the global --icon-size
-   (search, social, etc.) is unaffected. */
+   the source glyph size. Pinned explicitly (matches the current global --icon-size)
+   so these stay correct even if the global default changes again later. */
 main :is(.icon-download, .icon-pdf, .icon-connect, .icon-play) {
   width: 32px;
   height: 32px;
@@ -615,8 +657,7 @@ main ul.legend {
   display: flex;
   flex-direction: column;
   width: fit-content;
-  gap: 12px;
-  padding-bottom: 16px;
+  gap: 8px;
   border-bottom: 1px solid #a4a4a4;
 }
 
@@ -757,10 +798,7 @@ flex-direction: column;
 gap: var(--flex-group-gap);
 max-width: var(--max-width-site);
 margin: auto;
-}
-
-main .flex-group > .section.flex {
-margin: 24px 16px;
+padding: 16px;
 }
 
 main > .section.page-title {
@@ -877,7 +915,13 @@ main .section.dark h2:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
 main .section.dark h3:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
 main .section.dark h4:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
 main .section.dark h5:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
-main .section.dark h6:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) {
+main .section.dark h6:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark .size-h1:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark .size-h2:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark .size-h3:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark .size-h4:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark .size-h5:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *),
+main .section.dark .size-h6:not(.emboss, .emboss *, .emboss-heavy, .emboss-heavy *) {
   color: var(--background-color);
 }
 
@@ -938,6 +982,19 @@ main .section.dark a.button.secondary:focus { /* @libs */
   background-color: var(--button-on-dark-secondary-hover-background); /* @libs */
   border-color: var(--button-on-dark-secondary-hover-border-color); /* @libs */
   color: var(--button-on-dark-secondary-hover-color); /* @libs */
+}
+
+main .section.infusion {
+  padding: 16px 16px 0;
+  margin:0;
+
+  > div.columns-wrapper {
+    margin: 0 auto;
+  }
+
+  .columns > div > .columns-img-col {
+    order: 1;
+  }
 }
 
 main > .section.hero-tabs {
@@ -1077,14 +1134,6 @@ main .section.banner > div:not(.bg-image) {
   }
 }
 
-/* 600px (not 576/768, matching header.css's own tablet breakpoint where the
-   tool CTAs go 2-up and shrink the reserved header height) */
-@media (width >= 600px) {
-  header {
-    min-height: var(--header-reserve-height-tablet);
-  }
-}
-
 @media (width >= 768px) {
   :root {
     /* heading sizes scale up on desktop — source: typography.json responsive.desktopSizes */
@@ -1203,7 +1252,7 @@ div[class^="width-"], div[class*=" width-"] {
 }
 
 .columns > div:has(> div[class^="width-"],> div[class*=" width-"]) {
-  align-items: var(--div-width-align-items);
+ /* align-items: var(--div-width-align-items); */
 
   > div[class^="width-"],> div[class*=" width-"] {
     flex: none;
@@ -1215,7 +1264,27 @@ div[class^="width-"], div[class*=" width-"] {
 main .section.page-title h1, .size-h2 {
   max-width: var(--h1-max-width);
 }
+
+main .section.infusion {
+  padding: 24px 24px 0;
+  
+  .columns > div {
+    display: flex;
+    flex-direction: column;
   }
+  
+  .columns > div > .columns-img-col {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: flex-end;
+
+    picture {
+      max-width: 391px;
+    }
+  }
+ }
+}
 
 @media (width >= 992px) {
   :root {
@@ -1225,8 +1294,8 @@ main .section.page-title h1, .size-h2 {
   }
 
   main ul.legend {
-    flex-flow: row wrap;
-    gap: 16px;
+    flex-flow: row;
+    gap: 12px;
   }
 
   body[data-breadcrumbs] { /* @libs */
@@ -1263,6 +1332,24 @@ main > .section > div:not(.bg-image) { /* @libs */
   main .section.references li {
     margin-bottom: 8px;
   }
+
+  main .section.infusion {
+        .columns > div {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+        }
+
+        .columns > div > div:first-child {
+            padding-bottom: 36px;
+        }
+        
+        .columns > div > .columns-img-col {
+            picture {
+                max-width: unset;
+            }
+        }
+    }
 
   .section.emboss, .section.emboss-heavy, .section.rounded {
     padding: 24px 36px;
@@ -1311,4 +1398,20 @@ main > .section.page-title {
     font-size: 43px;
   }
  }
+}
+
+@media (width >= 1440px) {
+  main .section.infusion {
+    .columns > div > .columns-img-col {
+      width: 60%;
+      flex: none;
+
+      picture img {
+        max-width: 1081px;
+        width: 100%;
+        min-width: 900px;
+        margin-right: -100px;
+      }
+    }
+  }
 }

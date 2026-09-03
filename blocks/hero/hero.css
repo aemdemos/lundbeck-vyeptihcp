@@ -461,10 +461,11 @@ main .section.single-dark .hero p {
 }
 
 
-@media (width >= 567px) {
+@media (width >= 576px) {
   .section.single-light .hero > div:last-of-type, .section.single-dark .hero > div:last-of-type {
     justify-content: center;
     top: 50%;
+    left: 32px;
  }
  
 .section.single-dark .hero {
@@ -546,7 +547,6 @@ main .section.single-dark .hero p {
 }
 
 @media (width >= 992px) {
-
    .section.single-light .hero,
   .section.single-dark .hero {
     height: 266px;
@@ -568,6 +568,7 @@ max-width: unset;
 .section.single-dark .hero > div:last-of-type {
  left: 18%;
 }
+
   .section.page-title .hero,
   .section.page-title .hero > div:last-of-type {
     min-height: var(--hero-page-title-min-height-desktop);
@@ -596,6 +597,7 @@ max-width: unset;
   .section.single-light .hero, .section.single-dark .hero {
      height: 336px;
   }
+  
   /* Source sits at left: 25% (measured stable at 1600/1920/2560px) vs our 18%
      (set at >=992px, line 486) — shift the content block right to match, plus
      a further 10px nudge per direct request. */

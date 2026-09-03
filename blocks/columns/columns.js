@@ -25,4 +25,13 @@ export default function decorate(block) {
       }
     });
   });
+
+  // resource-list: flag links whose icon trails the label so CSS can push it to
+  // the right edge (a text-node label makes :last-child unreliable in CSS)
+  if (block.classList.contains('resource-list')) {
+    block.querySelectorAll('a').forEach((link) => {
+      const icon = link.querySelector('.icon');
+      if (icon && link.lastChild === icon) link.classList.add('icon-trailing');
+    });
+  }
 }

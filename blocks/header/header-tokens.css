@@ -14,7 +14,9 @@
   --header-mobile-hamburger-color: var(--brand-primary-dark);
   --header-mobile-hamburger-label-color: rgb(77 77 77);
   --header-mobile-logo-height: 70px;
-  --header-accent-color: var(--brand-primary-dark);
+
+  /* Slightly darker than --brand-primary-dark (#41748d) to pass WCAG contrast at small text sizes. */
+  --header-accent-color: #3d6d84;
   --header-hcp-bg: var(--background-color);
   --header-hcp-font-size: var(--header-font-size-s);
   --header-hcp-actions-gap: 12px;
@@ -135,7 +137,8 @@
 
   /* Source shrinks the CONTINUE button's padding at the >=1200px tier only. */
   --header-hcp-continue-padding-wide: 3px 20px;
-  --header-nav-link-padding: 24px 0;
+  --header-nav-link-padding-block: 24px;
+  --header-nav-link-padding: var(--header-nav-link-padding-block) 0;
 
   /* Tightened for the narrow 992-1199px tier only; --header-nav-link-gap-wide restores it at 1200px. */
   --header-nav-link-gap: 12px;
